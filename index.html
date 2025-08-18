@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نوار ناوبری مدرن</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 80px;
+        }
+
+        /* نوار پیام قطاری */
+        .marquee-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, rgba(46, 204, 113, 0.8), rgba(52, 152, 219, 0.8));
+            color: white;
+            padding: 10px 0;
+            overflow: hidden;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding-right: 100%; /* ایجاد فضای خالی برای حرکت */
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .nav-container {
+            background: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 400px;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            text-decoration: none;
+            color: black;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .nav-btn:hover:before {
+            transform: translateX(100%);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.1));
+            border-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover .icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+        }
+
+        .label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* رنگ‌بندی مخصوص هر دکمه */
+        .health {
+            background: linear-gradient(145deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.05));
+        }
+
+        .health:hover {
+            background: linear-gradient(145deg, rgba(46, 204, 113, 0.15), rgba(39, 174, 96, 0.1));
+        }
+
+        .humor {
+            background: linear-gradient(145deg, rgba(241, 196, 15, 0.1), rgba(243, 156, 18, 0.05));
+        }
+
+        .humor:hover {
+            background: linear-gradient(145deg, rgba(241, 196, 15, 0.15), rgba(243, 156, 18, 0.1));
+        }
+
+        .fortune {
+            background: linear-gradient(145deg, rgba(155, 89, 182, 0.1), rgba(142, 68, 173, 0.05));
+        }
+
+        .fortune:hover {
+            background: linear-gradient(145deg, rgba(155, 89, 182, 0.15), rgba(142, 68, 173, 0.1));
+        }
+
+        .story {
+            background: linear-gradient(145deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.05));
+        }
+
+        .story:hover {
+            background: linear-gradient(145deg, rgba(52, 152, 219, 0.15), rgba(41, 128, 185, 0.1));
+        }
+
+        /* استایل زنگوله */
+        .bell-btn {
+            position: fixed;
+            top: 60px; /* تغییر موقعیت به پایین‌تر به دلیل نوار پیام */
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: black;
+            font-size: 1.5rem;
+            z-index: 1000;
+        }
+        
+        .bell-btn:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* نوار ناوبری پایین */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .bottom-nav-buttons {
+            display: flex;
+            gap: 15px;
+            max-width: 800px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .bottom-nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-decoration: none;
+            color: black;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .bottom-nav-btn:hover {
+            background: rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .bottom-nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .bottom-nav-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* دکمه‌های جدید */
+        .signal {
+            background: linear-gradient(145deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.05));
+        }
+
+        .signal:hover {
+            background: linear-gradient(145deg, rgba(231, 76, 60, 0.15), rgba(192, 57, 43, 0.1));
+        }
+
+        .exchange {
+            background: linear-gradient(145deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.05));
+        }
+
+        .exchange:hover {
+            background: linear-gradient(145deg, rgba(52, 152, 219, 0.15), rgba(41, 128, 185, 0.1));
+        }
+
+        .support {
+            background: linear-gradient(145deg, rgba(155, 89, 182, 0.1), rgba(142, 68, 173, 0.05));
+        }
+
+        .support:hover {
+            background: linear-gradient(145deg, rgba(155, 89, 182, 0.15), rgba(142, 68, 173, 0.1));
+        }
+
+        @media (max-width: 480px) {
+            .marquee {
+                font-size: 0.9rem;
+                animation: marquee 20s linear infinite;
+            }
+
+            .nav-buttons {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+            }
+            
+            .nav-btn {
+                min-height: 100px;
+                padding: 15px;
+            }
+            
+            .icon {
+                font-size: 2rem;
+            }
+            
+            .label {
+                font-size: 1rem;
+            }
+
+            .bottom-nav-buttons {
+                gap: 8px;
+            }
+
+            .bottom-nav-btn {
+                min-width: 80px;
+                padding: 8px 10px;
+            }
+
+            .bottom-nav-icon {
+                font-size: 1.2rem;
+            }
+
+            .bottom-nav-label {
+                font-size: 0.7rem;
+            }
+
+            .bell-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                top: 50px; /* تغییر موقعیت به پایین‌تر به دلیل نوار پیام */
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- نوار پیام قطاری -->
+    <div class="marquee-container">
+        <div class="marquee">
+            به پلتفرم کسب درآمد ترید آنلاین، سلامت، فال‌گیری روزانه، داستان‌های جذاب و پندهای زندگی و آموزنده خوش آمدید. داستان‌ها و پندها در ماه دوبار جدید گذاشته می‌شود. از سیگنال ترید نهایت استفاده را ببرید.
+        </div>
+    </div>
+
+    <!-- زنگوله که مستقیماً به MB.html لینک دارد -->
+    <a href="MB.html" class="bell-btn">🔔</a>
+
+    <div class="nav-container">
+        <div class="nav-buttons">
+            <a href="s.html" class="nav-btn health">
+                <div class="icon">🏥</div>
+                <div class="label">سلامت</div>
+            </a>
+            
+            <a href="t.html" class="nav-btn humor">
+                <div class="icon">📿</div>
+                <div class="label">پند</div>
+            </a>
+            
+            <a href="m.html" class="nav-btn fortune">
+                <div class="icon">🔮</div>
+                <div class="label">فال</div>
+            </a>
+            
+            <a href="d.html" class="nav-btn story">
+                <div class="icon">📚</div>
+                <div class="label">داستان</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- نوار ناوبری پایین -->
+    <div class="bottom-nav">
+        <div class="bottom-nav-buttons">
+            <a href="fe.html" class="bottom-nav-btn signal">
+                <div class="bottom-nav-icon">📈</div>
+                <div class="bottom-nav-label">سیگنال فیوچرز</div>
+            </a>
+            
+            <a href="https://www.bitunix.com/register?inviteCode=m6exgk" class="bottom-nav-btn exchange" target="_blank">
+                <div class="bottom-nav-icon">💱</div>
+                <div class="bottom-nav-label">بهترین صرافی</div>
+            </a>
+            
+            <a href="mailto:milad.yari1377m@gmail.com" class="bottom-nav-btn support">
+                <div class="bottom-nav-icon">📧</div>
+                <div class="bottom-nav-label">پشتیبانی</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // هیچ اسکریپت خاصی نیاز نیست
+    </script>
+</body>
+</html>
