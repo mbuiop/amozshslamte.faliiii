@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>راهکارهای خانگی سلامتی</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content {
+            padding: 25px 20px;
+        }
+
+        .menu-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .menu-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            font-weight: 600;
+            color: #495057;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .menu-button:hover::before {
+            opacity: 1;
+        }
+
+        .menu-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .menu-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .menu-button.active::before {
+            opacity: 1;
+        }
+
+        .menu-icon {
+            font-size: 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        .welcome-screen h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #343a40;
+            font-weight: 600;
+        }
+
+        .welcome-screen .welcome-icon {
+            font-size: 4em;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .remedy-section {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .remedy-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .remedy-header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .remedy-header h2 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .remedy-header p {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .current-remedy {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .remedy-title {
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remedy-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+
+        .remedy-text {
+            font-size: 0.95em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .timer-display {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            min-width: 100px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff, #6610f2);
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 18px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 0.95em;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hidden-remedies {
+            opacity: 0.3;
+            font-size: 0.8em;
+            color: #6c757d;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        /* موبایل طراحی بهتر */
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                border-radius: 25px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .menu-buttons {
+                gap: 12px;
+            }
+            
+            .menu-button {
+                padding: 18px 12px;
+                font-size: 13px;
+            }
+            
+            .menu-icon {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 راهکارهای سلامتی</h1>
+            <p>روش‌های طبیعی و تأثیرگذار</p>
+        </div>
+
+        <div class="main-content">
+            <div class="menu-buttons">
+                <button class="menu-button" data-target="fatty-liver">
+                    <div class="menu-icon">🫀</div>
+                    <div class="menu-text">کبد چرب</div>
+                </button>
+                <button class="menu-button" data-target="blood-pressure">
+                    <div class="menu-icon">💓</div>
+                    <div class="menu-text">فشار خون</div>
+                </button>
+                <button class="menu-button" data-target="blood-sugar">
+                    <div class="menu-icon">🩸</div>
+                    <div class="menu-text">قند خون</div>
+                </button>
+                <button class="menu-button" data-target="obesity">
+                    <div class="menu-icon">⚖️</div>
+                    <div class="menu-text">چاقی</div>
+                </button>
+            </div>
+
+            <div class="welcome-screen active">
+                <h2>روش‌های خانگی مؤثر</h2>
+                <p>یکی از موضوعات بالا را انتخاب کنید</p>
+                <div class="welcome-icon">🌱</div>
+            </div>
+
+            <!-- کبد چرب -->
+            <div class="remedy-section" id="fatty-liver">
+                <div class="remedy-header">
+                    <h2>🫀 درمان کبد چرب</h2>
+                    <p>روش‌های طبیعی پاکسازی کبد</p>
+                </div>
+                <div class="current-remedy">
+                    <div class="remedy-title">
+                        <span class="remedy-number">1</span>
+                        <span>روش اول - شما اینجا هستید</span>
+                    </div>
+                    <div class="remedy-text" id="fatty-liver-text">برای شروع، دکمه زیر را بزنید</div>
+                    <div class="timer-display" id="fatty-liver-timer" style="display: none;">⏰ زمان باقی‌مانده: <span></span></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="startTreatment('fattyLiver')">شروع روش ۱</button>
+                        <button class="btn btn-success" onclick="reportSuccess('fattyLiver')" style="display: none;">خوب شدم ✓</button>
+                        <button class="btn btn-warning" onclick="nextRemedy('fattyLiver')" style="display: none;">روش بعدی</button>
+                    </div>
+                    <div id="fatty-liver-success" style="display: none;"></div>
+                </div>
+                <div class="hidden-remedies" id="fatty-liver-hidden">
+                    🔒 ۹ روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود
+                </div>
+            </div>
+
+            <!-- فشار خون -->
+            <div class="remedy-section" id="blood-pressure">
+                <div class="remedy-header">
+                    <h2>💓 تنظیم فشار خون</h2>
+                    <p>روش‌های طبیعی کنترل فشار</p>
+                </div>
+                <div class="current-remedy">
+                    <div class="remedy-title">
+                        <span class="remedy-number">1</span>
+                        <span>روش اول - شما اینجا هستید</span>
+                    </div>
+                    <div class="remedy-text" id="blood-pressure-text">برای شروع، دکمه زیر را بزنید</div>
+                    <div class="timer-display" id="blood-pressure-timer" style="display: none;">⏰ زمان باقی‌مانده: <span></span></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="startTreatment('bloodPressure')">شروع روش ۱</button>
+                        <button class="btn btn-success" onclick="reportSuccess('bloodPressure')" style="display: none;">خوب شدم ✓</button>
+                        <button class="btn btn-warning" onclick="nextRemedy('bloodPressure')" style="display: none;">روش بعدی</button>
+                    </div>
+                    <div id="blood-pressure-success" style="display: none;"></div>
+                </div>
+                <div class="hidden-remedies" id="blood-pressure-hidden">
+                    🔒 ۹ روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود
+                </div>
+            </div>
+
+            <!-- قند خون -->
+            <div class="remedy-section" id="blood-sugar">
+                <div class="remedy-header">
+                    <h2>🩸 کنترل قند خون</h2>
+                    <p>روش‌های طبیعی تنظیم قند</p>
+                </div>
+                <div class="current-remedy">
+                    <div class="remedy-title">
+                        <span class="remedy-number">1</span>
+                        <span>روش اول - شما اینجا هستید</span>
+                    </div>
+                    <div class="remedy-text" id="blood-sugar-text">برای شروع، دکمه زیر را بزنید</div>
+                    <div class="timer-display" id="blood-sugar-timer" style="display: none;">⏰ زمان باقی‌مانده: <span></span></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="startTreatment('bloodSugar')">شروع روش ۱</button>
+                        <button class="btn btn-success" onclick="reportSuccess('bloodSugar')" style="display: none;">خوب شدم ✓</button>
+                        <button class="btn btn-warning" onclick="nextRemedy('bloodSugar')" style="display: none;">روش بعدی</button>
+                    </div>
+                    <div id="blood-sugar-success" style="display: none;"></div>
+                </div>
+                <div class="hidden-remedies" id="blood-sugar-hidden">
+                    🔒 ۹ روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود
+                </div>
+            </div>
+
+            <!-- چاقی -->
+            <div class="remedy-section" id="obesity">
+                <div class="remedy-header">
+                    <h2>⚖️ کاهش وزن</h2>
+                    <p>روش‌های طبیعی لاغری</p>
+                </div>
+                <div class="current-remedy">
+                    <div class="remedy-title">
+                        <span class="remedy-number">1</span>
+                        <span>روش اول - شما اینجا هستید</span>
+                    </div>
+                    <div class="remedy-text" id="obesity-text">برای شروع، دکمه زیر را بزنید</div>
+                    <div class="timer-display" id="obesity-timer" style="display: none;">⏰ زمان باقی‌مانده: <span></span></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="startTreatment('obesity')">شروع روش ۱</button>
+                        <button class="btn btn-success" onclick="reportSuccess('obesity')" style="display: none;">خوب شدم ✓</button>
+                        <button class="btn btn-warning" onclick="nextRemedy('obesity')" style="display: none;">روش بعدی</button>
+                    </div>
+                    <div id="obesity-success" style="display: none;"></div>
+                </div>
+                <div class="hidden-remedies" id="obesity-hidden">
+                    🔒 ۹ روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const remedies = {
+            fattyLiver: [
+                "🍋 **معجون لیمو و زردچوبه**: هر صبح ناشتا آب لیمو + یک قاشق چایخوری زردچوبه + کمی عسل در یک لیوان آب ولرم میل کنید. این ترکیب کبد را پاکسازی می‌کند.",
+                "🫖 **دمنوش کاسنی**: هر شب قبل از خواب، یک لیوان دمنوش کاسنی + گل گاوزبان بنوشید. چربی کبد را کاهش می‌دهد.",
+                "🌿 **عصاره برگ زیتون**: روزانه ۲ قطره عصاره برگ زیتون در نصف لیوان آب، سه بار در روز قبل از غذا میل کنید.",
+                "🧄 **سیر و زنجبیل**: هر صبح یک حبه سیر خام + یک تکه کوچک زنجبیل را جویده و با آب بلعید.",
+                "🍵 **چای سبز با نعنا**: روزانه ۳ فنجان چای سبز + برگ نعنا تازه بنوشید. متابولیسم چربی را تسریع می‌کند.",
+                "🥒 **آب خیار و نعنا**: روزانه ۲ لیوان آب خیار + برگ نعنا + کمی لیمو بنوشید.",
+                "🌰 **روغن کتان**: روزانه یک قاشق غذاخوری روغن کتان سرد در صبح ناشتا میل کنید.",
+                "🍎 **سرکه سیب**: روزانه یک قاشق غذاخوری سرکه سیب در یک لیوان آب، قبل از غذا میل کنید.",
+                "🌾 **آب جو**: روزانه ۲ لیوان آب جو (جو را بجوشانید و آبش را بنوشید) میل کنید.",
+                "🥕 **عصاره هویج و چغندر**: روزانه یک لیوان عصاره هویج + چغندر + سیب در صبح میل کنید."
+            ],
+            bloodPressure: [
+                "🧄 **سیر و عسل**: هر صبح ناشتا ۲ حبه سیر خام + یک قاشق چایخوری عسل میل کنید. فشار خون را طبیعی نگه می‌دارد.",
+                "🍌 **موز و دارچین**: روزانه یک موز + یک قاشق چایخوری پودر دارچین میل کنید. پتاسیم بالا دارد.",
+                "🌿 **دمنوش زعفران**: شب‌ها یک لیوان دمنوش زعفران + گل گاوزبان بنوشید. استرس را کم می‌کند.",
+                "🥒 **آب کرفس**: روزانه ۲ لیوان آب کرفس (کرفس را آب‌گیری کنید) میل کنید. سدیم را متعادل می‌کند.",
+                "💚 **چای سبز با نعنا**: روزانه ۳ فنجان چای سبز + نعنا + لیمو بنوشید. عروق را گشاد می‌کند.",
+                "🫒 **روغن زیتون و لیمو**: هر صبح یک قاشق غذاخوری روغن زیتون + آب لیمو میل کنید.",
+                "🌰 **مغز گردو و بادام**: روزانه ۵ عدد گردو + ۷ عدد بادام خیس‌شده میل کنید. منیزیم بالا دارد.",
+                "🍇 **عصاره انگور قرمز**: روزانه یک لیوان عصاره انگور قرمز طبیعی میل کنید. آنتی اکسیدان قلبی است.",
+                "🫖 **دمنوش زرشک**: روزانه ۲ فنجان دمنوش زرشک میل کنید. التهاب عروق را کاهش می‌دهد.",
+                "💧 **آب طالبی**: روزانه ۲ لیوان آب طالبی میل کنید. دیورتیک طبیعی است و فشار را کم می‌کند."
+            ],
+            bloodSugar: [
+                "🌿 **دمنوش برگ توت**: روزانه ۳ فنجان دمنوش برگ توت میل کنید. قند خون را به طور طبیعی کنترل می‌کند.",
+                "🌾 **دارچین و زردچوبه**: روزانه یک قاشق چایخوری دارچین + زردچوبه در یک لیوان شیر گرم میل کنید.",
+                "🥒 **آب کاهو و خیار**: روزانه ۲ لیوان آب کاهو + خیار میل کنید. فیبر بالا دارد و قند را کنترل می‌کند.",
+                "🌱 **تخم چیا**: شب‌ها یک قاشق غذاخوری تخم چیا را در آب خیس کنید و صبح میل کنید.",
+                "🍋 **آب لیمو و نعنا**: روزانه ۲ لیوان آب لیمو + نعنا تازه بدون شکر میل کنید.",
+                "🫒 **روغن زیتون و سرکه**: قبل از غذا یک قاشق غذاخوری روغن زیتون + سرکه سیب میل کنید.",
+                "🥬 **عصاره کلم و هویج**: روزانه یک لیوان عصاره کلم + هویج + سیب میل کنید.",
+                "🌿 **دمنوش استویا**: به جای شکر از برگ استویا استفاده کنید و دمنوشش را بنوشید.",
+                "🥜 **مغز خرما و گردو**: روزانه ۳ عدد خرما + ۵ عدد گردو میل کنید (بیش از این نه).",
+                "🫖 **چای کوهی**: روزانه ۲ فنجان چای کوهی میل کنید. گیاه دارویی برای کنترل دیابت است."
+            ],
+            obesity: [
+                "🍋 **آب لیمو و زنجبیل**: هر صبح ناشتا یک لیوان آب گرم + لیمو + زنجبیل + کمی عسل میل کنید.",
+                "🫖 **چای سبز و نعنا**: روزانه ۴ فنجان چای سبز + نعنا بنوشید. چربی‌سوزی را افزایش می‌دهد.",
+                "🥒 **آب خیار و کرفس**: روزانه ۲ لیوان آب خیار + کرفس + لیمو بنوشید. کم کالری و پرآب است.",
+                "🌿 **دمنوش بابونه**: شب‌ها یک لیوان دمنوش بابونه + کمی زعفران بنوشید. کیفیت خواب را بهبود می‌بخشد.",
+                "🍎 **سرکه سیب**: ۳۰ دقیقه قبل از هر وعده غذایی، یک قاشق غذاخوری سرکه سیب در آب میل کنید.",
+                "🌱 **تخم شربتی**: شب‌ها یک قاشق غذاخوری تخم شربتی را در آب خیس کنید و صبح میل کنید.",
+                "💚 **عصاره سبزیجات**: روزانه یک لیوان عصاره اسفناج + کاهو + کرفس + لیمو میل کنید.",
+                "🫖 **دمنوش زیره سبز**: روزانه ۲ فنجان دمنوش زیره سبز میل کنید. گوارش را بهبود می‌بخشد.",
+                "🥜 **مغز بادام و گردو**: روزانه ۱۰ عدد بادام + ۵ عدد گردو میل کنید. پروتئین سالم دارد.",
+                "💧 **آب گرم و عسل**: هر شب قبل از خواب یک لیوان آب گرم + یک قاشق چایخوری عسل میل کنید."
+            ]
+        };
+
+        let currentStates = {
+            fattyLiver: { currentIndex: 0, timer: null, endTime: null, isActive: false },
+            bloodPressure: { currentIndex: 0, timer: null, endTime: null, isActive: false },
+            bloodSugar: { currentIndex: 0, timer: null, endTime: null, isActive: false },
+            obesity: { currentIndex: 0, timer: null, endTime: null, isActive: false }
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeMenus();
+            loadSavedData();
+        });
+
+        function initializeMenus() {
+            const buttons = document.querySelectorAll('.menu-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and sections
+                    document.querySelectorAll('.menu-button').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.remedy-section').forEach(s => s.classList.remove('active'));
+                    document.querySelector('.welcome-screen').classList.remove('active');
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const target = this.getAttribute('data-target');
+                    document.getElementById(target).classList.add('active');
+                });
+            });
+        }
+
+        function loadSavedData() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('healthAppData') || '{}');
+                Object.keys(currentStates).forEach(key => {
+                    if (saved[key]) {
+                        currentStates[key] = { ...currentStates[key], ...saved[key] };
+                        if (currentStates[key].endTime && new Date().getTime() < currentStates[key].endTime) {
+                            restoreActiveState(key);
+                        }
+                    }
+                });
+            } catch (e) {
+                console.log('No saved data found');
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('healthAppData', JSON.stringify(currentStates));
+        }
+
+        function startTreatment(category) {
+            // بدست آوردن عنصرهای UI
+            const sectionId = category.replace(/([A-Z])/g, '-$1').toLowerCase();
+            const timerDisplay = document.getElementById(sectionId + '-timer');
+            const startBtn = document.querySelector(`#${sectionId} .btn-primary`);
+            const successBtn = document.querySelector(`#${sectionId} .btn-success`);
+            const nextBtn = document.querySelector(`#${sectionId} .btn-warning`);
+            const remedyText = document.getElementById(sectionId + '-text');
+            const remedyTitle = document.querySelector(`#${sectionId} .remedy-title span:last-child`);
+            
+            // تنظیم تایمر 2 هفته‌ای
+            const twoWeeks = 14 * 24 * 60 * 60 * 1000;
+            currentStates[category].endTime = new Date().getTime() + twoWeeks;
+            currentStates[category].isActive = true;
+            
+            // نمایش روش فعلی
+            const currentRemedyIndex = currentStates[category].currentIndex;
+            const currentRemedy = remedies[category][currentRemedyIndex];
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - در حال استفاده (${currentRemedyIndex + 1}/10)`;
+            
+            // تنظیم UI
+            timerDisplay.style.display = 'block';
+            startBtn.style.display = 'none';
+            successBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'inline-block';
+            
+            // شروع تایمر
+            updateTimer(category);
+            
+            saveData();
+        }
+
+        function restoreActiveState(category) {
+            const sectionId = category.replace(/([A-Z])/g, '-$1').toLowerCase();
+            const timerDisplay = document.getElementById(sectionId + '-timer');
+            const startBtn = document.querySelector(`#${sectionId} .btn-primary`);
+            const successBtn = document.querySelector(`#${sectionId} .btn-success`);
+            const nextBtn = document.querySelector(`#${sectionId} .btn-warning`);
+            const remedyText = document.getElementById(sectionId + '-text');
+            const remedyTitle = document.querySelector(`#${sectionId} .remedy-title span:last-child`);
+            
+            // نمایش روش فعلی
+            const currentRemedyIndex = currentStates[category].currentIndex;
+            const currentRemedy = remedies[category][currentRemedyIndex];
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - در حال استفاده (${currentRemedyIndex + 1}/10)`;
+            
+            // تنظیم UI
+            timerDisplay.style.display = 'block';
+            startBtn.style.display = 'none';
+            successBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'inline-block';
+            
+            // شروع تایمر
+            updateTimer(category);
+        }
+
+        function updateTimer(category) {
+            const sectionId = category.replace(/([A-Z])/g, '-$1').toLowerCase();
+            const timerSpan = document.querySelector(`#${sectionId}-timer span`);
+            
+            if (currentStates[category].timer) {
+                clearInterval(currentStates[category].timer);
+            }
+            
+            currentStates[category].timer = setInterval(() => {
+                const now = new Date().getTime();
+                const timeLeft = currentStates[category].endTime - now;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(currentStates[category].timer);
+                    timerSpan.textContent = 'زمان تمام شد! اکنون می‌توانید نتیجه را گزارش دهید.';
+                    currentStates[category].timer = null;
+                    currentStates[category].endTime = null;
+                    saveData();
+                    return;
+                }
+                
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                
+                timerSpan.textContent = `${days} روز، ${hours} ساعت و ${minutes} دقیقه`;
+            }, 60000); // هر دقیقه یک بار آپدیت
+            
+            // آپدیت اولیه
+            const now = new Date().getTime();
+            const timeLeft = currentStates[category].endTime - now;
+            if (timeLeft > 0) {
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                timerSpan.textContent = `${days} روز، ${hours} ساعت و ${minutes} دقیقه`;
+            }
+        }
+
+        function reportSuccess(category) {
+            // پاک کردن تایمر
+            if (currentStates[category].timer) {
+                clearInterval(currentStates[category].timer);
+                currentStates[category].timer = null;
+                currentStates[category].endTime = null;
+            }
+            
+            currentStates[category].isActive = false;
+            
+            const sectionId = category.replace(/([A-Z])/g, '-$1').toLowerCase();
+            const successDiv = document.getElementById(sectionId + '-success');
+            const timerDisplay = document.getElementById(sectionId + '-timer');
+            const startBtn = document.querySelector(`#${sectionId} .btn-primary`);
+            const successBtn = document.querySelector(`#${sectionId} .btn-success`);
+            const nextBtn = document.querySelector(`#${sectionId} .btn-warning`);
+            
+            // نمایش پیام موفقیت
+            successDiv.innerHTML = `
+                <div class="success-message">
+                    🎉 تبریک! شما با موفقیت بهبود یافتید!<br>
+                    برای حفظ سلامتی، رژیم غذایی سالم و ورزش منظم داشته باشید.<br>
+                    <strong>اگر مشکل دوباره برگشت، می‌توانید دوباره همین روش را استفاده کنید.</strong>
+                </div>
+            `;
+            successDiv.style.display = 'block';
+            
+            // مخفی کردن تایمر و دکمه‌ها
+            timerDisplay.style.display = 'none';
+            startBtn.style.display = 'inline-block';
+            successBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            
+            // تنظیم مجدد متن
+            const remedyText = document.getElementById(sectionId + '-text');
+            const remedyTitle = document.querySelector(`#${sectionId} .remedy-title span:last-child`);
+            remedyText.textContent = 'برای شروع مجدد، دکمه زیر را بزنید';
+            remedyTitle.textContent = `روش ${currentStates[category].currentIndex + 1} - آماده برای استفاده مجدد`;
+            
+            saveData();
+        }
+
+        function nextRemedy(category) {
+            // پاک کردن تایمر فعلی
+            if (currentStates[category].timer) {
+                clearInterval(currentStates[category].timer);
+                currentStates[category].timer = null;
+                currentStates[category].endTime = null;
+            }
+            
+            // رفتن به روش بعدی
+            currentStates[category].currentIndex++;
+            
+            const sectionId = category.replace(/([A-Z])/g, '-$1').toLowerCase();
+            const hiddenDiv = document.getElementById(sectionId + '-hidden');
+            const successDiv = document.getElementById(sectionId + '-success');
+            
+            // چک کردن اینکه همه روش‌ها تمام شده یا نه
+            if (currentStates[category].currentIndex >= remedies[category].length) {
+                // همه روش‌ها تمام شده
+                successDiv.innerHTML = `
+                    <div class="success-message">
+                        🏆 شما تمام ۱۰ روش را امتحان کردید!<br>
+                        اگر هیچ‌کدام مؤثر نبود، حتماً با پزشک مشورت کنید.<br>
+                        <strong>همچنین می‌توانید از روش‌های قبلی دوباره استفاده کنید.</strong>
+                    </div>
+                `;
+                successDiv.style.display = 'block';
+                
+                // ریست کردن برای شروع مجدد
+                currentStates[category].currentIndex = 0;
+                const remedyText = document.getElementById(sectionId + '-text');
+                const remedyTitle = document.querySelector(`#${sectionId} .remedy-title span:last-child`);
+                remedyText.textContent = 'برای شروع دوباره از روش ۱، دکمه زیر را بزنید';
+                remedyTitle.textContent = 'روش ۱ - آماده برای شروع مجدد';
+                
+                // نمایش دوباره دکمه شروع
+                const startBtn = document.querySelector(`#${sectionId} .btn-primary`);
+                const successBtn = document.querySelector(`#${sectionId} .btn-success`);
+                const nextBtn = document.querySelector(`#${sectionId} .btn-warning`);
+                const timerDisplay = document.getElementById(sectionId + '-timer');
+                
+                startBtn.style.display = 'inline-block';
+                successBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                timerDisplay.style.display = 'none';
+                
+            } else {
+                // شروع روش بعدی
+                successDiv.style.display = 'none';
+                
+                // به‌روزرسانی متن و عنوان
+                const remedyText = document.getElementById(sectionId + '-text');
+                const remedyTitle = document.querySelector(`#${sectionId} .remedy-title span:last-child`);
+                const remedyNumber = document.querySelector(`#${sectionId} .remedy-number`);
+                
+                const currentRemedyIndex = currentStates[category].currentIndex;
+                remedyNumber.textContent = currentRemedyIndex + 1;
+                remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - شما اینجا هستید (${currentRemedyIndex + 1}/10)`;
+                remedyText.innerHTML = remedies[category][currentRemedyIndex];
+                
+                // بلافاصله شروع روش بعدی
+                const twoWeeks = 14 * 24 * 60 * 60 * 1000;
+                currentStates[category].endTime = new Date().getTime() + twoWeeks;
+                currentStates[category].isActive = true;
+                
+                // شروع تایمر
+                const timerDisplay = document.getElementById(sectionId + '-timer');
+                timerDisplay.style.display = 'block';
+                updateTimer(category);
+                
+                // اگر روش آخر نباشد، روش‌های باقی‌مانده را نشان بده
+                const remainingCount = remedies[category].length - currentRemedyIndex - 1;
+                if (remainingCount > 0) {
+                    hiddenDiv.textContent = `🔒 ${remainingCount} روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود`;
+                } else {
+                    hiddenDiv.textContent = `✨ این آخرین روش است!`;
+                }
+            }
+            
+            saveData();
+        }
+    </script>
+</body>
+</html>

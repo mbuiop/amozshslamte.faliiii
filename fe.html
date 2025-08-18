@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قالب سیگنال ترید</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .signals-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        
+        .signal-box {
+            width: calc(33.33% - 15px);
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .signal-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .signal-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .signal-content {
+            padding: 15px;
+        }
+        
+        .signal-item {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signal-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .signal-value {
+            color: #333;
+        }
+        
+        .entry {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .take-profit {
+            color: #28a745;
+        }
+        
+        .stop-loss {
+            color: #dc3545;
+        }
+        
+        .leverage {
+            color: #007bff;
+        }
+        
+        .notes {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .notes-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .notes-content {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+            min-height: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .signal-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>سیگنال‌های معاملاتی</h1>
+        </div>
+        
+        <div class="signals-container">
+            <!-- سیگنال 1 -->
+            <div class="signal-box">
+                <div class="signal-header">سیگنال 1</div>
+                <div class="signal-content">
+                    <div class="signal-item">
+                        <span class="signal-label">جهت:</span>
+                        <span class="signal-value">فروش/لانگ</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">ورود:</span>
+                        <span class="signal-value entry">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">حد سود:</span>
+                        <span class="signal-value take-profit">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">حد ضرر:</span>
+                        <span class="signal-value stop-loss">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">اهرم:</span>
+                        <span class="signal-value leverage">10</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- سیگنال 2 -->
+            <div class="signal-box">
+                <div class="signal-header">سیگنال 2</div>
+                <div class="signal-content">
+                    <div class="signal-item">
+                        <span class="signal-label">جهت:</span>
+                        <span class="signal-value">فروش/لانگ</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">ورود:</span>
+                        <span class="signal-value entry">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">حد سود:</span>
+                        <span class="signal-value take-profit">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">حد ضرر:</span>
+                        <span class="signal-value stop-loss">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">اهرم:</span>
+                        <span class="signal-value leverage">10</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- سیگنال 3 -->
+            <div class="signal-box">
+                <div class="signal-header">سیگنال 3</div>
+                <div class="signal-content">
+                    <div class="signal-item">
+                        <span class="signal-label">جهت:</span>
+                        <span class="signal-value">فروش/لانگ</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">ورود:</span>
+                        <span class="signal-value entry">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">حد سود:</span>
+                        <span class="signal-value take-profit">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">حد ضرر:</span>
+                        <span class="signal-value stop-loss">---</span>
+                    </div>
+                    <div class="signal-item">
+                        <span class="signal-label">اهرم:</span>
+                        <span class="signal-value leverage">10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="notes">
+            <div class="notes-title">توضیحات و تحلیل:</div>
+            <div class="notes-content" contenteditable="true">
+                <!-- این قسمت قابل ویرایش است و می‌توانید محتوای خود را اینجا وارد کنید -->
+                متن تحلیل و توضیحات شما اینجا نمایش داده می‌شود...
+            </div>
+        </div>
+    </div>
+</body>
+</html>
