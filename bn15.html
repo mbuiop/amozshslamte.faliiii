@@ -30,6 +30,26 @@
             margin-bottom: 40px;
             padding-bottom: 20px;
             border-bottom: 2px solid #eee;
+            position: relative;
+        }
+        .back-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
         }
         h1 {
             color: #2c3e50;
@@ -236,12 +256,20 @@
             h1 {
                 font-size: 2rem;
             }
+            .back-button {
+                position: relative;
+                margin-bottom: 15px;
+                display: inline-block;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <a href="index.html" class="back-button">
+                <span>بازگشت به صفحه اصلی</span>
+            </a>
             <h1>گالری ویدیوها</h1>
             <p class="description">در این صفحه می‌توانید ویدیوهای مختلف را مشاهده، پخش و دانلود کنید. برای مشاهده هر ویدیو روی دکمه پخش کلیک کنید.</p>
         </header>
@@ -291,7 +319,7 @@
                 duration: "10:23"
             },
             { 
-                title: "فیلم چهارم - تکنولوژی", 
+                title: "فیلم четверم - تکنولوژی", 
                 filename: "film4.mp4",
                 size: "55 مگابایت",
                 duration: "6:54"
@@ -316,6 +344,12 @@
         const closePlayer = document.getElementById('closePlayer');
         const playerTitle = document.getElementById('playerTitle');
         const searchInput = document.getElementById('searchInput');
+
+        // مدیریت وضعیت صفحه
+        let pageState = {
+            isPlayerOpen: false,
+            searchTerm: ''
+        };
 
         // ایجاد کارت برای هر ویدیو
         function renderVideos(videosToRender) {
@@ -355,12 +389,34 @@
                 element.addEventListener('click', function() {
                     const videoFile = this.getAttribute('data-video');
                     const title = this.getAttribute('data-title');
-                    mainPlayer.src = videoFile;
-                    playerTitle.textContent = title;
-                    playerContainer.style.display = 'flex';
-                    mainPlayer.play();
+                    openVideoPlayer(videoFile, title);
                 });
             });
+        }
+
+        // باز کردن پخش کننده ویدیو
+        function openVideoPlayer(videoFile, title) {
+            mainPlayer.src = videoFile;
+            playerTitle.textContent = title;
+            playerContainer.style.display = 'flex';
+            mainPlayer.play();
+            pageState.isPlayerOpen = true;
+            
+            // اضافه کردن وضعیت به تاریخچه مرورگر
+            window.history.pushState({ playerOpen: true, video: videoFile, title: title }, '', `#player`);
+        }
+
+        // بستن پخش کننده ویدیو
+        function closeVideoPlayer() {
+            playerContainer.style.display = 'none';
+            mainPlayer.pause();
+            mainPlayer.src = '';
+            pageState.isPlayerOpen = false;
+            
+            // اگر از state تاریخچه استفاده شده بود، یک قدم به عقب برگرد
+            if (window.location.hash === '#player') {
+                window.history.back();
+            }
         }
 
         // اول رندر کردن ویدیوها
@@ -369,6 +425,7 @@
         // افزودن قابلیت جستجو
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
+            pageState.searchTerm = searchTerm;
             const filteredVideos = videos.filter(video => 
                 video.title.toLowerCase().includes(searchTerm)
             );
@@ -376,25 +433,42 @@
         });
 
         // بستن پخش کننده ویدیو
-        closePlayer.addEventListener('click', function() {
-            playerContainer.style.display = 'none';
-            mainPlayer.pause();
-        });
+        closePlayer.addEventListener('click', closeVideoPlayer);
 
         // بستن پخش کننده با کلیک خارج از آن
         playerContainer.addEventListener('click', function(e) {
             if (e.target === playerContainer) {
-                playerContainer.style.display = 'none';
-                mainPlayer.pause();
+                closeVideoPlayer();
             }
         });
 
         // بستن پخش کننده با کلید ESC
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                playerContainer.style.display = 'none';
-                mainPlayer.pause();
+            if (e.key === 'Escape' && pageState.isPlayerOpen) {
+                closeVideoPlayer();
             }
+        });
+
+        // مدیریت دکمه بازگشت مرورگر/گوشی
+        window.addEventListener('popstate', function(event) {
+            if (pageState.isPlayerOpen) {
+                closeVideoPlayer();
+            }
+            
+            // اگر state قبلی شامل جستجو بود، آن را بازیابی کنید
+            if (event.state && event.state.searchTerm) {
+                searchInput.value = event.state.searchTerm;
+                const filteredVideos = videos.filter(video => 
+                    video.title.toLowerCase().includes(event.state.searchTerm)
+                );
+                renderVideos(filteredVideos);
+            }
+        });
+
+        // ذخیره وضعیت جستجو در تاریخچه هنگام تایپ
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            window.history.replaceState({ searchTerm: searchTerm }, '', window.location.pathname);
         });
     </script>
 </body>
