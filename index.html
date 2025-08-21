@@ -3,545 +3,854 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طراحی پیشرفته موبایل</title>
+    <title>پلتفرم پیشرفته موبایل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #3b82f6;
+            --primary-purple: #8b5cf6;
+            --primary-pink: #ec4899;
+            --primary-green: #10b981;
+            --primary-orange: #f97316;
+            --primary-cyan: #06b6d4;
+            --primary-red: #ef4444;
+            --primary-yellow: #f59e0b;
+            
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --shadow-glow: 0 0 50px;
         }
         
         body {
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            color: #fff;
+            background: #000000;
+            color: var(--text-primary);
             min-height: 100vh;
-            padding-bottom: 80px;
             overflow-x: hidden;
+            position: relative;
         }
         
+        /* نور پردازی مدرن پس زمینه */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 40% 60%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
+            z-index: -1;
+            animation: ambient-glow 15s ease-in-out infinite alternate;
+        }
+        
+        @keyframes ambient-glow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+        
+        /* شریط بالا */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            animation: pulse-dot 2s infinite;
+        }
+        
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+        
+        /* پیام قطاری متحرک */
         .marquee-container {
-            background: linear-gradient(90deg, #8A2387, #E94057, #F27121);
-            padding: 12px 0;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--primary-pink), var(--primary-blue));
             overflow: hidden;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            margin-bottom: 20px;
-            will-change: transform;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         
         .marquee {
             white-space: nowrap;
-            animation: marquee 25s linear infinite;
-            font-weight: bold;
+            animation: marquee 20s linear infinite;
+            font-weight: 600;
             font-size: 16px;
-            padding: 0 10px;
-            will-change: transform;
+            padding: 0 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            transform: translateZ(0);
         }
         
         .marquee i {
-            margin-left: 10px;
-            color: #ffeb3b;
+            margin-left: 12px;
+            color: #ffd700;
+            font-size: 18px;
         }
         
         @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
         }
         
-        .container {
-            max-width: 100%;
-            padding: 15px;
+        /* محتوای اصلی */
+        .main-content {
+            padding: 140px 0 120px;
         }
         
+        /* عنوان بخش */
         .section-title {
             text-align: center;
-            margin: 25px 0 15px;
-            font-size: 20px;
-            color: #e6e6e6;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-            position: relative;
-            padding-bottom: 10px;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 30px 0;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-purple), var(--primary-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 30%;
-            right: 30%;
-            height: 3px;
-            background: linear-gradient(90deg, #8A2387, #E94057, #F27121);
-            border-radius: 3px;
-        }
-        
+        /* کنتینر اسکرول افقی */
         .horizontal-scroll-container {
             display: flex;
             overflow-x: auto;
-            gap: 20px;
-            padding: 10px 5px;
-            scrollbar-width: thin;
-            scrollbar-color: #4e54c8 #1a1a2e;
-            margin-bottom: 30px;
-            -webkit-overflow-scrolling: touch;
+            gap: 25px;
+            padding: 20px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
         }
         
         .horizontal-scroll-container::-webkit-scrollbar {
-            height: 8px;
+            display: none;
         }
         
-        .horizontal-scroll-container::-webkit-scrollbar-track {
-            background: #1a1a2e;
-            border-radius: 10px;
+        /* کارت دسته‌بندی */
+        .category-card {
+            flex: 0 0 280px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            min-height: 380px;
         }
         
-        .horizontal-scroll-container::-webkit-scrollbar-thumb {
-            background: #4e54c8;
-            border-radius: 10px;
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--card-gradient, linear-gradient(90deg, var(--primary-blue), var(--primary-purple)));
+            border-radius: 24px 24px 0 0;
         }
         
-        .square-card {
-            flex: 0 0 auto;
-            width: 280px;
-            height: 280px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            will-change: transform;
-        }
-        
-        .square-card:hover {
+        .category-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         
-        .card-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #ff7b25;
-            text-align: center;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        /* رنگ‌بندی کارت‌ها */
+        .category-card:nth-child(1) { --card-gradient: linear-gradient(90deg, var(--primary-blue), var(--primary-cyan)); }
+        .category-card:nth-child(2) { --card-gradient: linear-gradient(90deg, var(--primary-purple), var(--primary-pink)); }
+        .category-card:nth-child(3) { --card-gradient: linear-gradient(90deg, var(--primary-green), var(--primary-cyan)); }
+        .category-card:nth-child(4) { --card-gradient: linear-gradient(90deg, var(--primary-orange), var(--primary-red)); }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .category-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            background: var(--card-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-left: 12px;
+            font-size: 20px;
+            color: white;
+            box-shadow: var(--shadow-glow) rgba(59, 130, 246, 0.3);
         }
         
-        .card-title i {
-            margin-left: 10px;
+        .category-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
         }
         
-        .vertical-button-grid {
+        /* شبکه دکمه‌ها - اندازه کوچکتر */
+        .buttons-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 10px;
-            height: calc(100% - 40px);
+            gap: 12px;
         }
         
-        .modern-button {
+        .modern-btn {
+            background: var(--btn-bg, linear-gradient(135deg, var(--primary-blue), var(--primary-purple)));
+            border: none;
+            border-radius: 16px;
+            padding: 15px 12px;
+            color: white;
+            text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 10px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
+            font-size: 11px;
+            font-weight: 600;
             position: relative;
             overflow: hidden;
-            text-decoration: none;
-            aspect-ratio: 1/1;
-            background: #000;
-            will-change: transform;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            aspect-ratio: 1;
+            box-shadow: var(--shadow-glow) var(--btn-shadow, rgba(59, 130, 246, 0.2));
         }
         
-        .modern-button:after {
+        /* رنگ‌بندی دکمه‌ها */
+        .modern-btn:nth-child(1) { 
+            --btn-bg: linear-gradient(135deg, var(--primary-red), var(--primary-pink));
+            --btn-shadow: rgba(239, 68, 68, 0.3);
+        }
+        .modern-btn:nth-child(2) { 
+            --btn-bg: linear-gradient(135deg, var(--primary-blue), var(--primary-cyan));
+            --btn-shadow: rgba(59, 130, 246, 0.3);
+        }
+        .modern-btn:nth-child(3) { 
+            --btn-bg: linear-gradient(135deg, var(--primary-green), var(--primary-cyan));
+            --btn-shadow: rgba(16, 185, 129, 0.3);
+        }
+        .modern-btn:nth-child(4) { 
+            --btn-bg: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+            --btn-shadow: rgba(139, 92, 246, 0.3);
+        }
+        
+        .modern-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 16px;
+        }
+        
+        .modern-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .modern-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-glow) var(--btn-shadow);
+        }
+        
+        .modern-btn i {
+            font-size: 22px;
+            margin-bottom: 8px;
+            position: relative;
             z-index: 1;
         }
         
-        .modern-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-            background: #222;
+        .modern-btn span {
+            position: relative;
+            z-index: 1;
+            line-height: 1.2;
         }
         
-        .modern-button i {
-            font-size: 20px;
-            margin-bottom: 8px;
-            transition: transform 0.3s ease;
-            color: #fff;
-        }
-        
-        .modern-button:hover i {
-            transform: scale(1.2);
-        }
-        
-        .modern-button.loading {
+        /* افکت لودینگ */
+        .modern-btn.loading {
             pointer-events: none;
+            opacity: 0.7;
         }
         
-        .modern-button.loading:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2;
-            border-radius: 12px;
-        }
-        
-        .modern-button.loading:after {
+        .modern-btn.loading::after {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 25px;
-            height: 25px;
-            margin: -12.5px 0 0 -12.5px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
             border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 0.8s infinite linear;
-            z-index: 3;
+            transform: translate(-50%, -50%);
+            animation: spin 0.8s linear infinite;
+            z-index: 2;
         }
         
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
-        .bottom-nav {
+        /* نوار پایینی */
+        .floating-dock {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(15, 12, 41, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 15px 20px;
             display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.4);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            gap: 15px;
             z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
         
-        .nav-button {
+        .dock-button {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #b8b8b8;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: var(--dock-bg, linear-gradient(135deg, var(--primary-blue), var(--primary-purple)));
+            color: white;
             text-decoration: none;
-            font-size: 13px;
-            transition: all 0.4s ease;
-            padding: 8px 15px;
-            border-radius: 15px;
             position: relative;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             overflow: hidden;
-            will-change: transform;
+            font-size: 10px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+            box-shadow: var(--shadow-glow) var(--dock-shadow, rgba(59, 130, 246, 0.3));
         }
         
-        .nav-button:before {
+        /* رنگ‌بندی دکمه‌های dock */
+        .dock-button:nth-child(1) { 
+            --dock-bg: linear-gradient(135deg, var(--primary-orange), var(--primary-red));
+            --dock-shadow: rgba(249, 115, 22, 0.4);
+        }
+        .dock-button:nth-child(2) { 
+            --dock-bg: linear-gradient(135deg, var(--primary-yellow), var(--primary-orange));
+            --dock-shadow: rgba(245, 158, 11, 0.4);
+        }
+        .dock-button:nth-child(3) { 
+            --dock-bg: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            --dock-shadow: rgba(139, 92, 246, 0.4);
+        }
+        
+        .dock-button::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
             opacity: 0;
             transition: opacity 0.3s ease;
+            border-radius: 20px;
         }
         
-        .nav-button.active, .nav-button:hover {
-            color: #8f94fb;
-            transform: translateY(-8px);
-            background: rgba(78, 84, 200, 0.2);
-        }
-        
-        .nav-button.active:before, .nav-button:hover:before {
+        .dock-button:hover::before,
+        .dock-button.active::before {
             opacity: 1;
         }
         
-        .nav-button i {
-            font-size: 22px;
-            margin-bottom: 6px;
-            transition: transform 0.3s ease;
+        .dock-button:hover,
+        .dock-button.active {
+            transform: translateY(-8px) scale(1.1);
         }
         
-        .nav-button:hover i {
-            transform: scale(1.2);
+        .dock-button i {
+            font-size: 20px;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
         }
         
-        .pulse {
-            display: block;
+        .dock-button span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* نشانگر اعلان */
+        .notification-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
             width: 12px;
             height: 12px;
+            background: var(--primary-red);
             border-radius: 50%;
-            background: #E94057;
+            animation: notification-pulse 2s infinite;
+            border: 2px solid rgba(0, 0, 0, 0.8);
+        }
+        
+        @keyframes notification-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.2); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        
+        /* افکت ویژه */
+        .special-glow {
+            position: relative;
+        }
+        
+        .special-glow::after {
+            content: '';
             position: absolute;
-            top: 5px;
-            right: 5px;
-            animation: pulse 2s infinite;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: inherit;
+            background: var(--btn-bg);
+            opacity: 0;
+            filter: blur(20px);
+            z-index: -1;
+            animation: special-glow-pulse 3s ease-in-out infinite alternate;
         }
         
-        @keyframes pulse {
-            0% {
-                transform: scale(0.9);
-                box-shadow: 0 0 0 0 rgba(233, 64, 87, 0.7);
+        @keyframes special-glow-pulse {
+            0% { opacity: 0.2; transform: scale(0.9); }
+            100% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
+        /* تنظیمات موبایل */
+        @media (max-width: 768px) {
+            .category-card {
+                flex: 0 0 260px;
+                min-height: 360px;
+                padding: 18px;
             }
             
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 10px rgba(233, 64, 87, 0);
+            .floating-dock {
+                bottom: 15px;
+                padding: 12px 15px;
+                gap: 12px;
             }
             
-            100% {
-                transform: scale(0.9);
-                box-shadow: 0 0 0 0 rgba(233, 64, 87, 0);
+            .dock-button {
+                width: 60px;
+                height: 60px;
+                font-size: 9px;
+            }
+            
+            .dock-button i {
+                font-size: 18px;
+            }
+            
+            .modern-btn {
+                padding: 12px 8px;
+                font-size: 10px;
+            }
+            
+            .modern-btn i {
+                font-size: 20px;
+                margin-bottom: 6px;
             }
         }
         
-        .glow {
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 10px -10px #f2709c;
-            }
-            to {
-                box-shadow: 0 0 20px 10px #f2709c;
-            }
-        }
-
-        /* بهبود عملکرد در دستگاه‌های لمسی */
-        @media (hover: none) {
-            .square-card:hover {
-                transform: none;
+        @media (max-width: 480px) {
+            .buttons-grid {
+                grid-template-columns: 1fr;
             }
             
-            .modern-button:hover {
-                transform: none;
-                background: #000;
+            .modern-btn {
+                aspect-ratio: auto;
+                padding: 18px 15px;
             }
             
-            .modern-button:hover i {
-                transform: none;
+            .horizontal-scroll-container {
+                padding: 20px 15px;
+                gap: 20px;
             }
             
-            .nav-button:hover, .nav-button.active {
-                transform: none;
-            }
-            
-            .nav-button:hover i {
-                transform: none;
+            .category-card {
+                flex: 0 0 240px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- نوار پیام متحرک -->
+    <!-- شریط بالا -->
+    <div class="top-bar">
+        <div class="logo">پلتفرم پیشرفته</div>
+        <div class="status-indicator">
+            <div class="pulse-dot"></div>
+            آنلاین
+        </div>
+    </div>
+    
+    <!-- پیام قطاری متحرک -->
     <div class="marquee-container">
         <div class="marquee">
             <i class="fas fa-train"></i>
-            به پیشرفته ترین پلتفرم خوش آمدید! این پیام به صورت متحرک در حال نمایش است
+            به پلتفرم پیشرفته خوش آمدید! این پیام به صورت قطاری در حال حرکت است - بهترین خدمات در اختیار شما
+            <i class="fas fa-star"></i>
+            امکانات ویژه و منحصر به فرد
+            <i class="fas fa-rocket"></i>
+            تجربه کاربری بی‌نظیر
         </div>
     </div>
     
-    <div class="container">
-        <h2 class="section-title">دکمه های میانبر پیشرفته</h2>
+    <!-- محتوای اصلی -->
+    <div class="main-content">
+        <h2 class="section-title">دسته‌بندی های کاربردی</h2>
         
-        <!-- اسکرول افقی برای گروه‌ها -->
+        <!-- اسکرول افقی دسته‌بندی‌ها -->
         <div class="horizontal-scroll-container">
-            <!-- گروه یک -->
-            <div class="square-card">
-                <h3 class="card-title"><i class="fas fa-star"></i> گروه یک</h3>
-                <div class="vertical-button-grid">
-                    <a href="bn1.html" class="modern-button">
+            <!-- دسته اول: سلامت و زندگی -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="category-title">سلامت و زندگی</div>
+                </div>
+                <div class="buttons-grid">
+                    <a href="bn1.html" class="modern-btn">
                         <i class="fas fa-heartbeat"></i>
-                        سلامت تندرستی
+                        <span>سلامت تندرستی</span>
                     </a>
-                    <a href="bn2.html" class="modern-button">
+                    <a href="bn2.html" class="modern-btn">
                         <i class="fas fa-hands-helping"></i>
-                        حمایت مالی
+                        <span>حمایت مالی</span>
                     </a>
-                    <a href="bn3.html" class="modern-button">
+                    <a href="bn3.html" class="modern-btn">
                         <i class="fas fa-book-open"></i>
-                        داستان های شنیدنی
+                        <span>داستان های شنیدنی</span>
                     </a>
-                    <a href="bn4.html" class="modern-button">
+                    <a href="bn4.html" class="modern-btn">
                         <i class="fas fa-code"></i>
-                        خرید کد برنامه نویسی
+                        <span>خرید کد برنامه نویسی</span>
                     </a>
                 </div>
             </div>
             
-            <!-- گروه دو -->
-            <div class="square-card">
-                <h3 class="card-title"><i class="fas fa-star"></i> گروه دو</h3>
-                <div class="vertical-button-grid">
-                    <a href="bn5.html" class="modern-button">
+            <!-- دسته دوم: فناوری -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="category-title">فناوری پیشرفته</div>
+                </div>
+                <div class="buttons-grid">
+                    <a href="bn5.html" class="modern-btn">
                         <i class="fas fa-robot"></i>
-                        هوش مصنوعی
+                        <span>هوش مصنوعی</span>
                     </a>
-                    <a href="bn6.html" class="modern-button">
+                    <a href="bn6.html" class="modern-btn">
                         <i class="fas fa-palette"></i>
-                        بهترین سایت طراح
+                        <span>بهترین سایت طراح</span>
                     </a>
-                    <a href="bn7.html" class="modern-button">
+                    <a href="bn7.html" class="modern-btn">
                         <i class="fas fa-mobile-alt"></i>
-                        اپلیکیشن ساز
+                        <span>اپلیکیشن ساز</span>
                     </a>
-                    <a href="bn8.html" class="modern-button">
+                    <a href="bn8.html" class="modern-btn">
                         <i class="fas fa-tools"></i>
-                        ساخت اپلیکیشن سفارشی
+                        <span>ساخت اپلیکیشن سفارشی</span>
                     </a>
                 </div>
             </div>
             
-            <!-- گروه سه -->
-            <div class="square-card">
-                <h3 class="card-title"><i class="fas fa-star"></i> گروه سه</h3>
-                <div class="vertical-button-grid">
-                    <a href="bn9.html" class="modern-button">
+            <!-- دسته سوم: تجارت -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="category-title">فروشگاه و تجارت</div>
+                </div>
+                <div class="buttons-grid">
+                    <a href="bn9.html" class="modern-btn">
                         <i class="fas fa-tshirt"></i>
-                        فروشگاه لباس
+                        <span>فروشگاه لباس</span>
                     </a>
-                    <a href="bn10.html" class="modern-button">
+                    <a href="bn10.html" class="modern-btn">
                         <i class="fas fa-cut"></i>
-                        فروشگاه پارچه
+                        <span>فروشگاه پارچه</span>
                     </a>
-                    <a href="bn11.html" class="modern-button">
+                    <a href="bn11.html" class="modern-btn">
                         <i class="fas fa-car"></i>
-                        خرید فروش ماشین
+                        <span>خرید فروش ماشین</span>
                     </a>
-                    <a href="bn12.html" class="modern-button">
+                    <a href="bn12.html" class="modern-btn">
                         <i class="fas fa-newspaper"></i>
-                        اخبار ها
+                        <span>اخبار ها</span>
                     </a>
                 </div>
             </div>
             
-            <!-- گروه چهار -->
-            <div class="square-card">
-                <h3 class="card-title"><i class="fas fa-star"></i> گروه چهار</h3>
-                <div class="vertical-button-grid">
-                    <a href="bn13.html" class="modern-button">
+            <!-- دسته چهارم: سرگرمی -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="category-title">سرگرمی و رسانه</div>
+                </div>
+                <div class="buttons-grid">
+                    <a href="bn13.html" class="modern-btn">
                         <i class="fas fa-info-circle"></i>
-                        درباره پلتфорم
+                        <span>درباره پلتفرم</span>
                     </a>
-                    <a href="bn14.html" class="modern-button">
+                    <a href="bn14.html" class="modern-btn">
                         <i class="fas fa-music"></i>
-                        دانلود آهنگ
+                        <span>دانلود آهنگ</span>
                     </a>
-                    <a href="bn15.html" class="modern-button">
+                    <a href="bn15.html" class="modern-btn">
                         <i class="fas fa-video"></i>
-                        دانلود فیلم برای اینستاگرام
+                        <span>دانلود فیلم برای اینستاگرام</span>
                     </a>
-                    <a href="bn16.html" class="modern-button glow">
+                    <a href="bn16.html" class="modern-btn special-glow">
                         <i class="fas fa-briefcase"></i>
-                        کار یابی
+                        <span>کار یابی</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- نوار پایینی با سه دکمه -->
-    <div class="bottom-nav">
-        <a href="bn17.html" class="nav-button">
+    <!-- نوار پایینی -->
+    <div class="floating-dock">
+        <a href="bn17.html" class="dock-button">
             <i class="fas fa-chart-line"></i>
-            سیگنال فیوچرز
-            <span class="pulse"></span>
+            <span>سیگنال</span>
+            <div class="notification-badge"></div>
         </a>
-        <a href="bn18.html" class="nav-button active">
+        <a href="bn18.html" class="dock-button active">
             <i class="fas fa-coins"></i>
-            بهترین صرافی
+            <span>صرافی</span>
         </a>
-        <a href="bn19.html" class="nav-button">
+        <a href="bn19.html" class="dock-button">
             <i class="fas fa-analytics"></i>
-            تحلیل اندیکاتور
+            <span>تحلیل اندیکاتور</span>
         </a>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // افزودن افکت لودینگ به دکمه‌ها
-            const buttons = document.querySelectorAll('.modern-button, .nav-button');
+        class AdvancedInterface {
+            constructor() {
+                this.init();
+            }
             
-            buttons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    // فقط برای دکمه‌های اصلی (نه منوی پایین)
-                    if(this.classList.contains('modern-button')) {
+            init() {
+                this.setupButtons();
+                this.setupDock();
+                this.setupScrollEffects();
+                this.optimizePerformance();
+            }
+            
+            setupButtons() {
+                const buttons = document.querySelectorAll('.modern-btn');
+                
+                buttons.forEach(button => {
+                    button.addEventListener('click', (e) => {
                         e.preventDefault();
-                        this.classList.add('loading');
+                        this.animateButton(button);
                         
-                        // شبیه‌سازی تأخیر در لودینگ
-                        const href = this.getAttribute('href');
                         setTimeout(() => {
-                            window.location.href = href;
-                        }, 1500);
+                            window.location.href = button.getAttribute('href');
+                        }, 800);
+                    });
+                });
+            }
+            
+            animateButton(button) {
+                button.classList.add('loading');
+                
+                // ریپل افکت
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.6);
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                    top: 50%;
+                    left: 50%;
+                    width: 80px;
+                    height: 80px;
+                    margin-top: -40px;
+                    margin-left: -40px;
+                `;
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    if (ripple.parentNode) {
+                        ripple.remove();
                     }
-                });
-            });
-            
-            // ایجاد افکت برای دکمه‌های منوی پایین
-            const navButtons = document.querySelectorAll('.nav-button');
-            
-            navButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    navButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-
-            // بهینه‌سازی عملکرد برای دستگاه‌های لمسی
-            if (window.matchMedia("(hover: none)").matches) {
-                // غیرفعال کردن افکت‌های hover در دستگاه‌های لمسی
-                document.querySelectorAll('.square-card, .modern-button, .nav-button').forEach(el => {
-                    el.style.willChange = 'auto';
-                });
-            }
-        });
-
-        // بهینه‌سازی اسکرول با استفاده از requestAnimationFrame
-        (function() {
-            let ticking = false;
-            
-            function updateAnimation() {
-                ticking = false;
+                }, 600);
             }
             
-            function requestTick() {
-                if (!ticking) {
-                    requestAnimationFrame(updateAnimation);
-                    ticking = true;
+            setupDock() {
+                const dockButtons = document.querySelectorAll('.dock-button');
+                
+                dockButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        dockButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        
+                        this.createWaveEffect(button);
+                    });
+                });
+            }
+            
+            createWaveEffect(button) {
+                const wave = document.createElement('div');
+                wave.style.cssText = `
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 10px;
+                    height: 10px;
+                    border: 2px solid rgba(255, 255, 255, 0.6);
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                    animation: wave-expand 1s ease-out;
+                    pointer-events: none;
+                `;
+                
+                button.appendChild(wave);
+                
+                setTimeout(() => {
+                    if (wave.parentNode) {
+                        wave.remove();
+                    }
+                }, 1000);
+            }
+            
+            setupScrollEffects() {
+                const scrollContainer = document.querySelector('.horizontal-scroll-container');
+                
+                // اسکرول smooth
+                scrollContainer.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    scrollContainer.scrollLeft += e.deltaY;
+                }, { passive: false });
+            }
+            
+            optimizePerformance() {
+                // بهینه‌سازی برای تاچ
+                if (window.matchMedia("(hover: none)").matches) {
+                    document.body.classList.add('touch-device');
+                }
+                
+                // ثروتلینگ اسکرول
+                let ticking = false;
+                const updateScroll = () => {
+                    ticking = false;
+                };
+                
+                const requestTick = () => {
+                    if (!ticking) {
+                        requestAnimationFrame(updateScroll);
+                        ticking = true;
+                    }
+                };
+                
+                window.addEventListener('scroll', requestTick, { passive: true });
+            }
+        }
+        
+        // استایل‌های اضافی
+        const additionalStyles = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
                 }
             }
             
-            // افزودن event listener بهینه‌شده برای اسکرول
-            window.addEventListener('scroll', requestTick, { passive: true });
-        })();
+            @keyframes wave-expand {
+                to {
+                    width: 80px;
+                    height: 80px;
+                    opacity: 0;
+                }
+            }
+            
+            .touch-device .modern-btn:hover,
+            .touch-device .dock-button:hover {
+                transform: none;
+            }
+        `;
+        
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = additionalStyles;
+        document.head.appendChild(styleSheet);
+        
+        // راه‌اندازی
+        document.addEventListener('DOMContentLoaded', () => {
+            new AdvancedInterface();
+        });
     </script>
 </body>
 </html>
