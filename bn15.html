@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گالری ویدیوها</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .video-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .video-item {
+            width: 300px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .video-item:hover {
+            transform: translateY(-5px);
+        }
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .play-icon {
+            position: absolute;
+            font-size: 50px;
+            color: white;
+            opacity: 0.8;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .video-info {
+            padding: 15px;
+        }
+        .video-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .video-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn-play {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-play:hover {
+            background-color: #2980b9;
+        }
+        .btn-download {
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-download:hover {
+            background-color: #27ae60;
+        }
+        .video-player-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .video-player {
+            width: 80%;
+            max-width: 800px;
+            background-color: black;
+            position: relative;
+        }
+        .close-player {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        video {
+            width: 100%;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .video-item {
+                width: 100%;
+            }
+            .video-player {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>گالری ویدیوها</h1>
+        
+        <div class="video-list" id="videoList">
+            <!-- ویدیوها به صورت داینامیک اضافه خواهند شد -->
+        </div>
+    </div>
+
+    <div class="video-player-container" id="playerContainer">
+        <div class="video-player">
+            <span class="close-player" id="closePlayer">×</span>
+            <video controls id="mainPlayer">
+                مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // لیست ویدیوها - اینجا می‌توانید ویدیوهای خود را اضافه کنید
+        const videos = [
+            { 
+                title: "فیلم اول", 
+                filename: "film1.mp4",
+                thumbnail: "thumb1.jpg" // اختیاری - اگر نمی‌خواهید از تصویر پیش‌فرض استفاده کنید
+            },
+            { 
+                title: "فیلم دوم", 
+                filename: "film2.mp4" 
+            },
+            { 
+                title: "فیلم سوم", 
+                filename: "film3.webm" 
+            },
+            { 
+                title: "فیلم چهارم", 
+                filename: "film4.mp4" 
+            }
+            // می‌توانید ویدیوهای بیشتری اینجا اضافه کنید
+        ];
+
+        const videoList = document.getElementById('videoList');
+        const playerContainer = document.getElementById('playerContainer');
+        const mainPlayer = document.getElementById('mainPlayer');
+        const closePlayer = document.getElementById('closePlayer');
+
+        // ایجاد کارت برای هر ویدیو
+        videos.forEach(video => {
+            const videoItem = document.createElement('div');
+            videoItem.className = 'video-item';
+            
+            videoItem.innerHTML = `
+                <div class="video-thumbnail" data-video="${video.filename}">
+                    <div class="play-icon">▶</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">${video.title}</div>
+                    <div class="video-actions">
+                        <button class="btn btn-play" data-video="${video.filename}">پخش ویدیو</button>
+                        <a href="${video.filename}" class="btn btn-download" download>دانلود</a>
+                    </div>
+                </div>
+            `;
+            
+            videoList.appendChild(videoItem);
+        });
+
+        // اضافه کردن event listener برای دکمه‌های پخش
+        document.querySelectorAll('.btn-play, .video-thumbnail').forEach(element => {
+            element.addEventListener('click', function() {
+                const videoFile = this.getAttribute('data-video');
+                mainPlayer.src = videoFile;
+                playerContainer.style.display = 'flex';
+                mainPlayer.play();
+            });
+        });
+
+        // بستن پخش کننده ویدیو
+        closePlayer.addEventListener('click', function() {
+            playerContainer.style.display = 'none';
+            mainPlayer.pause();
+        });
+
+        // بستن پخش کننده با کلیک خارج از آن
+        playerContainer.addEventListener('click', function(e) {
+            if (e.target === playerContainer) {
+                playerContainer.style.display = 'none';
+                mainPlayer.pause();
+            }
+        });
+    </script>
+</body>
+</html>
