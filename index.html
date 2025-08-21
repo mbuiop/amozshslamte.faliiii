@@ -3,715 +3,513 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پلتفرم پیشرفته سبک زندگی و ترید</title>
+    <title>طراحی پیشرفته موبایل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #2e2b8f;
-            --secondary: #8a2be2;
-            --accent: #00b4d8;
-            --health: #2ecc71;
-            --humor: #f1c40f;
-            --fortune: #9b59b6;
-            --story: #3498db;
-            --signal: #e74c3c;
-            --exchange: #1abc9c;
-            --support: #ff6b6b;
-            --dark: #1a1a2e;
-            --light: #ffffff;
-            --glow: 0 0 15px rgba(0, 180, 216, 0.6);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #fff;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            color: var(--light);
+            padding-bottom: 80px;
             overflow-x: hidden;
-            position: relative;
         }
-
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(46, 43, 143, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.3) 0%, transparent 50%);
-            z-index: -1;
-        }
-
-        /* نوار پیام قطاری پیشرفته */
+        
         .marquee-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(90deg, 
-                rgba(46, 43, 143, 0.9) 0%, 
-                rgba(138, 43, 226, 0.9) 50%, 
-                rgba(46, 43, 143, 0.9) 100%);
-            color: white;
+            background: linear-gradient(90deg, #8A2387, #E94057, #F27121);
             padding: 12px 0;
             overflow: hidden;
-            z-index: 1000;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-            border-bottom: 2px solid var(--accent);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
         }
-
+        
         .marquee {
-            display: inline-block;
             white-space: nowrap;
             animation: marquee 25s linear infinite;
-            font-weight: 700;
-            font-size: 1.2rem;
-            padding-right: 100%;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            font-weight: bold;
+            font-size: 16px;
+            padding: 0 10px;
         }
-
+        
+        .marquee i {
+            margin-left: 10px;
+            color: #ffeb3b;
+        }
+        
         @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(100%);
-            }
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
-
-        /* کانتینر اصلی */
-        .main-container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            margin-top: 60px;
-            margin-bottom: 100px;
+        
+        .container {
+            max-width: 100%;
+            padding: 15px;
         }
-
-        /* هدر با افکت شیشه‌ای */
-        .header {
-            background: rgba(26, 26, 46, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            padding: 25px;
-            width: 100%;
+        
+        .section-title {
             text-align: center;
-            box-shadow: 
-                0 10px 35px rgba(0, 0, 0, 0.5),
-                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            margin: 25px 0 15px;
+            font-size: 20px;
+            color: #e6e6e6;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
             position: relative;
-            overflow: hidden;
+            padding-bottom: 10px;
         }
-
-        .header::before {
+        
+        .section-title:after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(255, 255, 255, 0.1),
-                transparent
-            );
-            transform: rotate(45deg);
-            animation: shine 6s infinite;
-            pointer-events: none;
+            bottom: 0;
+            left: 30%;
+            right: 30%;
+            height: 3px;
+            background: linear-gradient(90deg, #8A2387, #E94057, #F27121);
+            border-radius: 3px;
         }
-
-        @keyframes shine {
-            0% {
-                transform: translateX(-100%) rotate(45deg);
-            }
-            100% {
-                transform: translateX(100%) rotate(45deg);
-            }
-        }
-
-        .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 10px rgba(0, 180, 216, 0.3);
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.8;
-        }
-
-        /* شبکه دکمه‌های اصلی */
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-            width: 100%;
-        }
-
-        /* استایل دکمه‌ها */
-        .nav-btn {
-            position: relative;
+        
+        .horizontal-scroll-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 20px;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 10px 5px;
+            scrollbar-width: thin;
+            scrollbar-color: #4e54c8 #1a1a2e;
+            margin-bottom: 30px;
+        }
+        
+        .horizontal-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .horizontal-scroll-container::-webkit-scrollbar-track {
+            background: #1a1a2e;
+            border-radius: 10px;
+        }
+        
+        .horizontal-scroll-container::-webkit-scrollbar-thumb {
+            background: #4e54c8;
+            border-radius: 10px;
+        }
+        
+        .square-card {
+            flex: 0 0 auto;
+            width: 280px;
+            height: 280px;
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            text-decoration: none;
-            color: var(--light);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            min-height: 180px;
-            cursor: pointer;
-            overflow: hidden;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transform-style: preserve-3d;
             perspective: 1000px;
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.5),
-                inset 0 3px 10px rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.5s, box-shadow 0.5s;
         }
-
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.1) 0%,
-                rgba(255, 255, 255, 0.05) 45%,
-                rgba(255, 255, 255, 0.025) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+        
+        .square-card:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
-
-        .nav-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transform: rotate(45deg) translate(-20%, -20%);
-            transition: all 0.6s ease;
-            pointer-events: none;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-10px) rotateX(5deg) rotateY(-5deg) scale(1.03);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.7),
-                0 0 30px var(--glow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .nav-btn:hover::before {
-            opacity: 1;
-        }
-
-        .nav-btn:hover::after {
-            transform: rotate(45deg) translate(20%, 20%);
-        }
-
-        .icon {
-            font-size: 3.5rem;
+        
+        .card-title {
+            font-size: 18px;
             margin-bottom: 15px;
-            transition: all 0.4s ease;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
-            position: relative;
-            z-index: 2;
-        }
-
-        .nav-btn:hover .icon {
-            transform: scale(1.2) translateY(-5px);
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
-        }
-
-        .label {
-            font-size: 1.3rem;
-            font-weight: 700;
+            color: #ff7b25;
             text-align: center;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 2;
-        }
-
-        .badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 5px 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            z-index: 3;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* رنگ‌بندی مخصوص هر دکمه */
-        .health {
-            background: linear-gradient(135deg, 
-                rgba(46, 204, 113, 0.2) 0%,
-                rgba(39, 174, 96, 0.1) 100%);
-            border: 1px solid rgba(46, 204, 113, 0.3);
-        }
-
-        .health:hover {
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(46, 204, 113, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .humor {
-            background: linear-gradient(135deg, 
-                rgba(241, 196, 15, 0.2) 0%,
-                rgba(243, 156, 18, 0.1) 100%);
-            border: 1px solid rgba(241, 196, 15, 0.3);
-        }
-
-        .humor:hover {
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(241, 196, 15, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .fortune {
-            background: linear-gradient(135deg, 
-                rgba(155, 89, 182, 0.2) 0%,
-                rgba(142, 68, 173, 0.1) 100%);
-            border: 1px solid rgba(155, 89, 182, 0.3);
-        }
-
-        .fortune:hover {
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(155, 89, 182, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .story {
-            background: linear-gradient(135deg, 
-                rgba(52, 152, 219, 0.2) 0%,
-                rgba(41, 128, 185, 0.1) 100%);
-            border: 1px solid rgba(52, 152, 219, 0.3);
-        }
-
-        .story:hover {
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(52, 152, 219, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .support {
-            background: linear-gradient(135deg, 
-                rgba(255, 107, 107, 0.2) 0%,
-                rgba(255, 71, 87, 0.1) 100%);
-            border: 1px solid rgba(255, 107, 107, 0.3);
-        }
-
-        .support:hover {
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(255, 107, 107, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        /* دکمه زنگوله */
-        .bell-btn {
-            position: fixed;
-            top: 70px;
-            left: 25px;
-            width: 60px;
-            height: 60px;
-            background: rgba(26, 26, 46, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 50%;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.4),
-                0 0 15px rgba(0, 180, 216, 0.5);
-            text-decoration: none;
-            color: var(--light);
-            font-size: 1.8rem;
-            z-index: 1000;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transform-style: preserve-3d;
-            perspective: 500px;
         }
-
-        .bell-btn::before {
+        
+        .card-title i {
+            margin-left: 10px;
+        }
+        
+        .vertical-button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+            height: calc(100% - 40px);
+        }
+        
+        .modern-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff; /* تغییر رنگ متن به سفید */
+            border: none;
+            border-radius: 12px;
+            padding: 12px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+            text-decoration: none;
+            aspect-ratio: 1/1; /* ایجاد نسبت مربع */
+            background: #000; /* پس زمینه مشکی برای تمام دکمه‌ها */
+        }
+        
+        .modern-button:after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+            z-index: 1;
+        }
+        
+        .modern-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            background: #222; /* تغییر پس زمینه در هاور */
+        }
+        
+        .modern-button i {
+            font-size: 20px;
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+            color: #fff; /* تغییر رنگ آیکون به سفید */
+        }
+        
+        .modern-button:hover i {
+            transform: scale(1.2);
+        }
+        
+        .modern-button.loading {
+            pointer-events: none;
+        }
+        
+        .modern-button.loading:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            border-radius: 12px;
+        }
+        
+        .modern-button.loading:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            margin: -12.5px 0 0 -12.5px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.1) 0%,
-                transparent 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            border-top-color: #fff;
+            animation: spin 0.8s infinite linear;
+            z-index: 3;
         }
-
-        .bell-btn:hover {
-            transform: translateY(-5px) rotate(10deg) scale(1.1);
-            box-shadow: 
-                0 15px 30px rgba(0, 0, 0, 0.5),
-                0 0 25px rgba(0, 180, 216, 0.7);
-            color: var(--accent);
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-
-        .bell-btn:hover::before {
-            opacity: 1;
-        }
-
-        /* نوار ناوبری پایین */
+        
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
-            right: 0;
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(15px);
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            z-index: 100;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        .bottom-nav-buttons {
-            display: flex;
-            gap: 20px;
-            max-width: 900px;
             width: 100%;
-            justify-content: center;
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 1000;
         }
-
-        .bottom-nav-btn {
+        
+        .nav-button {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+            color: #b8b8b8;
             text-decoration: none;
-            color: var(--light);
+            font-size: 13px;
             transition: all 0.4s ease;
-            min-width: 180px;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transform-style: preserve-3d;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
         }
-
-        .bottom-nav-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+        
+        .nav-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-button.active, .nav-button:hover {
+            color: #8f94fb;
             transform: translateY(-8px);
-            box-shadow: 
-                0 15px 30px rgba(0, 0, 0, 0.5),
-                0 0 20px rgba(0, 180, 216, 0.4);
+            background: rgba(78, 84, 200, 0.2);
         }
-
-        .bottom-nav-icon {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            transition: all 0.3s ease;
+        
+        .nav-button.active:before, .nav-button:hover:before {
+            opacity: 1;
         }
-
-        .bottom-nav-btn:hover .bottom-nav-icon {
+        
+        .nav-button i {
+            font-size: 22px;
+            margin-bottom: 6px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-button:hover i {
             transform: scale(1.2);
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
         }
-
-        .bottom-nav-label {
-            font-size: 1rem;
-            font-weight: 600;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
-
-        /* استایل‌های دکمه‌های پایین */
-        .signal {
-            background: linear-gradient(135deg, 
-                rgba(231, 76, 60, 0.15) 0%,
-                rgba(192, 57, 43, 0.1) 100%);
-        }
-
-        .signal:hover {
-            box-shadow: 
-                0 15px 30px rgba(0, 0, 0, 0.5),
-                0 0 20px rgba(231, 76, 60, 0.5);
-        }
-
-        .exchange {
-            background: linear-gradient(135deg, 
-                rgba(26, 188, 156, 0.15) 0%,
-                rgba(22, 160, 133, 0.1) 100%);
-        }
-
-        .exchange:hover {
-            box-shadow: 
-                0 15px 30px rgba(0, 0, 0, 0.5),
-                0 0 20px rgba(26, 188, 156, 0.5);
-        }
-
-        /* افکت‌های نور پس‌زمینه */
-        .bg-light {
-            position: fixed;
+        
+        .pulse {
+            display: block;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            filter: blur(80px);
-            z-index: -2;
+            background: #E94057;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            animation: pulse 2s infinite;
         }
-
-        .light-1 {
-            width: 400px;
-            height: 400px;
-            background: rgba(46, 43, 143, 0.4);
-            top: -200px;
-            right: -200px;
-        }
-
-        .light-2 {
-            width: 500px;
-            height: 500px;
-            background: rgba(138, 43, 226, 0.4);
-            bottom: -250px;
-            left: -250px;
-        }
-
-        .light-3 {
-            width: 300px;
-            height: 300px;
-            background: rgba(0, 180, 216, 0.4);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* رسپانسیو */
-        @media (max-width: 1024px) {
-            .nav-grid {
-                grid-template-columns: repeat(2, 1fr);
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+                box-shadow: 0 0 0 0 rgba(233, 64, 87, 0.7);
+            }
+            
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(233, 64, 87, 0);
+            }
+            
+            100% {
+                transform: scale(0.9);
+                box-shadow: 0 0 0 0 rgba(233, 64, 87, 0);
             }
         }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .nav-btn {
-                min-height: 150px;
-                padding: 20px 15px;
-            }
-            
-            .icon {
-                font-size: 2.8rem;
-            }
-            
-            .label {
-                font-size: 1.1rem;
-            }
-            
-            .bottom-nav-buttons {
-                flex-wrap: wrap;
-            }
-            
-            .bottom-nav-btn {
-                min-width: 140px;
-            }
+        
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
         }
-
-        @media (max-width: 480px) {
-            .marquee {
-                font-size: 0.9rem;
-                animation: marquee 20s linear infinite;
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px -10px #f2709c;
             }
-
-            .nav-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .nav-btn {
-                min-height: 130px;
-                padding: 15px;
-            }
-            
-            .icon {
-                font-size: 2.5rem;
-            }
-            
-            .label {
-                font-size: 1rem;
-            }
-
-            .bottom-nav-buttons {
-                gap: 10px;
-            }
-
-            .bottom-nav-btn {
-                min-width: calc(50% - 10px);
-                padding: 12px 10px;
-            }
-
-            .bottom-nav-icon {
-                font-size: 1.5rem;
-            }
-
-            .bottom-nav-label {
-                font-size: 0.8rem;
-            }
-
-            .bell-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-                top: 60px;
-                left: 15px;
-            }
-            
-            .header {
-                padding: 20px 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .header p {
-                font-size: 0.9rem;
+            to {
+                box-shadow: 0 0 20px 10px #f2709c;
             }
         }
     </style>
 </head>
 <body>
-    <!-- افکت‌های نور پس‌زمینه -->
-    <div class="bg-light light-1"></div>
-    <div class="bg-light light-2"></div>
-    <div class="bg-light light-3"></div>
-
-    <!-- نوار پیام قطاری -->
+    <!-- نوار پیام متحرک -->
     <div class="marquee-container">
         <div class="marquee">
-            به پلتفرم کسب درآمد ترید آنلاین، سلامت، فال‌گیری روزانه، داستان‌های جذاب و پندهای زندگی و آموزنده خوش آمدید. داستان‌ها و پندها در ماه دوبار جدید گذاشته می‌شود. از سیگنال ترید نهایت استفاده را ببرید.
+            <i class="fas fa-train"></i>
+            به پیشرفته ترین پلتفرم خوش آمدید! این پیام به صورت متحرک در حال نمایش است
         </div>
     </div>
-
-    <!-- زنگوله که مستقیماً به MB.html لینک دارد -->
-    <a href="MB.html" class="bell-btn">🔔</a>
-
-    <div class="main-container">
-        <div class="header">
-            <h1>پلتفرم جامع سبک زندگی و ترید</h1>
-            <p>با بهترین خدمات برای بهبود زندگی و کسب درآمد</p>
-        </div>
-
-        <div class="nav-grid">
-            <a href="s.html" class="nav-btn health">
-                <div class="icon">🏥</div>
-                <div class="label">سلامت و تندرستی</div>
-                <div class="badge">جدید</div>
-            </a>
+    
+    <div class="container">
+        <h2 class="section-title">دکمه های میانبر پیشرفته</h2>
+        
+        <!-- اسکرول افقی برای گروه‌ها -->
+        <div class="horizontal-scroll-container">
+            <!-- گروه یک -->
+            <div class="square-card">
+                <h3 class="card-title"><i class="fas fa-star"></i> گروه یک</h3>
+                <div class="vertical-button-grid">
+                    <a href="bn1.html" class="modern-button">
+                        <i class="fas fa-heartbeat"></i>
+                        سلامت تندرستی
+                    </a>
+                    <a href="bn2.html" class="modern-button">
+                        <i class="fas fa-hands-helping"></i>
+                        حمایت مالی
+                    </a>
+                    <a href="bn3.html" class="modern-button">
+                        <i class="fas fa-book-open"></i>
+                        داستان های شنیدنی
+                    </a>
+                    <a href="bn4.html" class="modern-button">
+                        <i class="fas fa-code"></i>
+                        خرید کد برنامه نویسی
+                    </a>
+                </div>
+            </div>
             
-            <a href="t.html" class="nav-btn humor">
-                <div class="icon">📿</div>
-                <div class="label">پندهای زندگی</div>
-            </a>
+            <!-- گروه دو -->
+            <div class="square-card">
+                <h3 class="card-title"><i class="fas fa-star"></i> گروه دو</h3>
+                <div class="vertical-button-grid">
+                    <a href="bn5.html" class="modern-button">
+                        <i class="fas fa-robot"></i>
+                        هوش مصنوعی
+                    </a>
+                    <a href="bn6.html" class="modern-button">
+                        <i class="fas fa-palette"></i>
+                        بهترین سایت طراح
+                    </a>
+                    <a href="bn7.html" class="modern-button">
+                        <i class="fas fa-mobile-alt"></i>
+                        اپلیکیشن ساز
+                    </a>
+                    <a href="bn8.html" class="modern-button">
+                        <i class="fas fa-tools"></i>
+                        ساخت اپلیکیشن سفارشی
+                    </a>
+                </div>
+            </div>
             
-            <a href="m.html" class="nav-btn fortune">
-                <div class="icon">🔮</div>
-                <div class="label">فال و طالع بینی</div>
-                <div class="badge">روزانه</div>
-            </a>
+            <!-- گروه سه -->
+            <div class="square-card">
+                <h3 class="card-title"><i class="fas fa-star"></i> گروه سه</h3>
+                <div class="vertical-button-grid">
+                    <a href="bn9.html" class="modern-button">
+                        <i class="fas fa-tshirt"></i>
+                        فروشگاه لباس
+                    </a>
+                    <a href="bn10.html" class="modern-button">
+                        <i class="fas fa-cut"></i>
+                        فروشگاه پارچه
+                    </a>
+                    <a href="bn11.html" class="modern-button">
+                        <i class="fas fa-car"></i>
+                        خرید فروش ماشین
+                    </a>
+                    <a href="bn12.html" class="modern-button">
+                        <i class="fas fa-newspaper"></i>
+                        اخبار ها
+                    </a>
+                </div>
+            </div>
             
-            <a href="d.html" class="nav-btn story">
-                <div class="icon">📚</div>
-                <div class="label">داستان‌های آموزنده</div>
-            </a>
-            
-            <a href="cv.html" class="nav-btn support">
-                <div class="icon">❤️</div>
-                <div class="label">حمایت مالی</div>
-                <div class="badge">قدردانی</div>
-            </a>
+            <!-- گروه چهار -->
+            <div class="square-card">
+                <h3 class="card-title"><i class="fas fa-star"></i> گروه چهار</h3>
+                <div class="vertical-button-grid">
+                    <a href="bn13.html" class="modern-button">
+                        <i class="fas fa-info-circle"></i>
+                        درباره پلتфорم
+                    </a>
+                    <a href="bn14.html" class="modern-button">
+                        <i class="fas fa-music"></i>
+                        دانلود آهنگ
+                    </a>
+                    <a href="bn15.html" class="modern-button">
+                        <i class="fas fa-video"></i>
+                        دانلود فیلم برای اینستاگرام
+                    </a>
+                    <a href="bn16.html" class="modern-button glow">
+                        <i class="fas fa-briefcase"></i>
+                        کار یابی
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- نوار ناوبری پایین -->
+    
+    <!-- نوار پایینی با سه دکمه -->
     <div class="bottom-nav">
-        <div class="bottom-nav-buttons">
-            <a href="fe.html" class="bottom-nav-btn signal">
-                <div class="bottom-nav-icon">📈</div>
-                <div class="bottom-nav-label">سیگنال فیوچرز</div>
-            </a>
-            
-            <a href="https://www.bitunix.com/register?inviteCode=m6exgk" class="bottom-nav-btn exchange" target="_blank">
-                <div class="bottom-nav-icon">💱</div>
-                <div class="bottom-nav-label">بهترین صرافی</div>
-            </a>
-        </div>
+        <a href="bn17.html" class="nav-button">
+            <i class="fas fa-chart-line"></i>
+            سیگنال فیوچرز
+            <span class="pulse"></span>
+        </a>
+        <a href="bn18.html" class="nav-button active">
+            <i class="fas fa-coins"></i>
+            بهترین صرافی
+        </a>
+        <a href="bn19.html" class="nav-button">
+            <i class="fas fa-analytics"></i>
+            تحلیل اندیکاتور
+        </a>
     </div>
 
     <script>
-        // افکت پارالکس برای نورهای پس‌زمینه
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
+        document.addEventListener('DOMContentLoaded', function() {
+            // افزودن افکت لودینگ به دکمه‌ها
+            const buttons = document.querySelectorAll('.modern-button, .nav-button');
             
-            document.querySelector('.light-1').style.transform = `translate(${x * 30}px, ${y * 30}px)`;
-            document.querySelector('.light-2').style.transform = `translate(${-x * 40}px, ${-y * 40}px)`;
-        });
-        
-        // افکت ویبره برای دکمه‌ها
-        document.querySelectorAll('.nav-btn, .bottom-nav-btn, .bell-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // فقط برای دکمه‌های اصلی (نه منوی پایین)
+                    if(this.classList.contains('modern-button')) {
+                        e.preventDefault();
+                        this.classList.add('loading');
+                        
+                        // شبیه‌سازی تأخیر در لودینگ
+                        const href = this.getAttribute('href');
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 1500);
+                    }
+                });
+            });
+            
+            // ایجاد افکت سه بعدی برای کارت‌ها با حرکت موس
+            const cards = document.querySelectorAll('.square-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    if (window.innerWidth < 768) return;
+                    
+                    const x = e.offsetX;
+                    const y = e.offsetY;
+                    const centerX = this.offsetWidth / 2;
+                    const centerY = this.offsetHeight / 2;
+                    
+                    const rotateY = (x - centerX) / 25;
+                    const rotateX = (centerY - y) / 25;
+                    
+                    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+                });
+            });
+            
+            // ایجاد افکت برای دکمه‌های منوی پایین
+            const navButtons = document.querySelectorAll('.nav-button');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
         });
     </script>
