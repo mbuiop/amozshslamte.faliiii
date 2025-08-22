@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سایت مشاغل</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 90px;
+            padding-top: 10px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin: 10px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .main-content {
+            padding: 20px 10px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .job-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+            margin: 0 5px;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .job-card h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .job-details {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .job-details div {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 8px;
+            border-right: 4px solid #667eea;
+        }
+
+        .job-details .description-box {
+            background: rgba(102, 126, 234, 0.08);
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            line-height: 1.7;
+            min-height: 80px;
+        }
+
+        .job-details strong {
+            color: #333;
+            display: inline-block;
+            min-width: 80px;
+            font-weight: 600;
+        }
+
+        .phone-button {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .phone-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        /* نوار پایین ثابت */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 5px;
+            box-shadow: 0 -3px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            flex: 1;
+            max-width: 70px;
+        }
+
+        .nav-button:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.05);
+        }
+
+        .nav-button.active {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .no-jobs {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (min-width: 768px) {
+            .job-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .job-card {
+                margin: 0;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .job-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌟 سایت مشاغل</h1>
+        <p>بهترین فرصت‌های شغلی را پیدا کنید</p>
+    </div>
+
+    <div class="main-content">
+        <div class="job-grid" id="jobGrid">
+            <!-- محتوا به صورت دینامیک از جاوااسکریپت بارگذاری می‌شود -->
+        </div>
+        
+        <div class="no-jobs" id="noJobsMessage" style="display: none;">
+            هنوز شغلی برای این دسته اضافه نشده است
+        </div>
+    </div>
+
+    <!-- نوار پایین ثابت -->
+    <div class="bottom-nav">
+        <button class="nav-button active" data-category="tailor" onclick="showCategory('tailor')">
+            <div class="nav-icon">✂️</div>
+            <div class="nav-text">خیاط</div>
+        </button>
+        
+        <button class="nav-button" data-category="worker" onclick="showCategory('worker')">
+            <div class="nav-icon">🔧</div>
+            <div class="nav-text">کارگر ساده</div>
+        </button>
+        
+        <button class="nav-button" data-category="restaurant" onclick="showCategory('restaurant')">
+            <div class="nav-icon">🍽️</div>
+            <div class="nav-text">کار در رستوران</div>
+        </button>
+        
+        <button class="nav-button" data-category="seller" onclick="showCategory('seller')">
+            <div class="nav-icon">🛍️</div>
+            <div class="nav-text">فروشنده</div>
+        </button>
+        
+        <button class="nav-button" data-category="delivery" onclick="showCategory('delivery')">
+            <div class="nav-icon">🏍️</div>
+            <div class="nav-text">پیک</div>
+        </button>
+    </div>
+
+    <script>
+        // اطلاعات مشاغل
+        const jobsData = {
+            // دسته خیاط - 5 قالب
+            tailor: [
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                }
+            ],
+            
+            // دسته کارگر ساده - 5 قالب
+            worker: [
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                }
+            ],
+            
+            // دسته رستوران - 5 قالب
+            restaurant: [
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                }
+            ],
+            
+            // دسته فروشنده - 5 قالب
+            seller: [
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                }
+            ],
+            
+            // دسته پیک - 5 قالب
+            delivery: [
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                },
+                {
+                    title: "", // اینجا عنوان شغل بنویسید
+                    company: "", // اینجا نام شرکت بنویسید
+                    salary: "", // اینجا حقوق بنویسید
+                    location: "", // اینجا آدرس بنویسید
+                    description: "", // اینجا توضیحات بنویسید
+                    phone: "" // اینجا شماره تلفن بنویسید
+                }
+            ]
+        };
+
+        // تابع برای نمایش مشاغل
+        function displayJobs(jobs) {
+            const jobGrid = document.getElementById('jobGrid');
+            const noJobsMessage = document.getElementById('noJobsMessage');
+            
+            // فیلتر کردن مشاغل پر شده (فقط اونهایی که title دارند)
+            const filledJobs = jobs.filter(job => job.title && job.title.trim() !== '');
+            
+            if (filledJobs.length === 0) {
+                jobGrid.style.display = 'none';
+                noJobsMessage.style.display = 'block';
+                return;
+            }
+            
+            jobGrid.style.display = 'grid';
+            noJobsMessage.style.display = 'none';
+            
+            jobGrid.innerHTML = filledJobs.map(job => `
+                <div class="job-card">
+                    <h3>${job.title}</h3>
+                    <div class="job-details">
+                        <div><strong>شرکت:</strong> ${job.company}</div>
+                        <div><strong>حقوق:</strong> ${job.salary}</div>
+                        <div><strong>موقعیت:</strong> ${job.location}</div>
+                        <div class="description-box">
+                            <strong>توضیحات:</strong><br>
+                            ${job.description}
+                        </div>
+                    </div>
+                    <a href="tel:${job.phone}" class="phone-button">
+                        📞 تماس: ${job.phone}
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        // تابع برای نمایش دسته‌بندی مشاغل
+        function showCategory(category) {
+            // حذف کلاس active از همه دکمه‌ها
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // اضافه کردن کلاس active به دکمه انتخاب شده
+            document.querySelector(`[data-category="${category}"]`).classList.add('active');
+            
+            // نمایش مشاغل دسته انتخاب شده
+            displayJobs(jobsData[category] || []);
+        }
+
+        // بارگذاری اولیه صفحه
+        document.addEventListener('DOMContentLoaded', function() {
+            showCategory('tailor');
+        });
+    </script>
+</body>
+</html>
