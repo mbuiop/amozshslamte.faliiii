@@ -1,562 +1,0 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گردونه فال - دنیای اسرار</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-        }
-
-        .fortune-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .title {
-            color: white;
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-
-        .wheel-container {
-            position: relative;
-            margin: 20px auto;
-            width: 350px;
-            height: 350px;
-        }
-
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            position: relative;
-            box-shadow: 0 0 30px rgba(155, 89, 182, 0.5);
-            transition: transform 4s cubic-bezier(0.23, 1, 0.320, 1);
-            background: conic-gradient(
-                from 0deg,
-                #FF6B6B 0deg 36deg,
-                #4ECDC4 36deg 72deg,
-                #45B7D1 72deg 108deg,
-                #96CEB4 108deg 144deg,
-                #FFEAA7 144deg 180deg,
-                #DDA0DD 180deg 216deg,
-                #98D8C8 216deg 252deg,
-                #F7DC6F 252deg 288deg,
-                #BB8FCE 288deg 324deg,
-                #85C1E9 324deg 360deg
-            );
-        }
-
-        .wheel-numbers {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-
-        .number {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #333;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            transform-origin: center;
-        }
-
-        .pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 30px solid #FF4757;
-            z-index: 10;
-            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
-        }
-
-        .center-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(145deg, rgba(155, 89, 182, 0.9), rgba(142, 68, 173, 1));
-            border: 3px solid white;
-            border-radius: 50%;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .center-button:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.5);
-        }
-
-        .center-button:disabled {
-            background: rgba(100, 100, 100, 0.7);
-            cursor: not-allowed;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .fortune-result {
-            display: none;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 30px;
-            color: white;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .winning-number {
-            font-size: 2rem;
-            color: #FFD700;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .fortune-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        .fortune-signature {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-style: italic;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 10px;
-        }
-
-        .countdown-timer {
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 20px;
-            color: #FFB3B3;
-        }
-
-        .timer-text {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .timer-display {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #FF6B6B;
-        }
-
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            border-radius: 25px;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 480px) {
-            .fortune-container {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            .wheel-container {
-                width: 280px;
-                height: 280px;
-            }
-            
-            .center-button {
-                width: 60px;
-                height: 60px;
-                font-size: 0.9rem;
-            }
-            
-            .title {
-                font-size: 1.8rem;
-            }
-            
-            .fortune-text {
-                font-size: 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="fortune-container">
-        <a href="index.html" class="back-btn">بازگشت</a>
-        
-        <div class="stars" id="stars"></div>
-        
-        <h1 class="title">🎰 گردونه فال 🎰</h1>
-        <p class="subtitle">یک بار در روز شانس خود را امتحان کنید</p>
-        
-        <div class="wheel-container">
-            <div class="pointer"></div>
-            <div class="wheel" id="wheel">
-                <div class="wheel-numbers" id="wheelNumbers"></div>
-            </div>
-            <button class="center-button" id="spinBtn">بچرخان!</button>
-        </div>
-        
-        <div class="countdown-timer" id="countdown" style="display: none;">
-            <div class="timer-text">تا استفاده بعدی باقی مانده:</div>
-            <div class="timer-display" id="timerDisplay">--:--:--</div>
-        </div>
-        
-        <div class="fortune-result" id="fortuneResult">
-            <div class="winning-number" id="winningNumber"></div>
-            <div class="fortune-text" id="fortuneText"></div>
-            <div class="fortune-signature">🌟 فال شما برای امروز 🌟</div>
-        </div>
-    </div>
-
-    <script>
-        // اعداد گردونه (10 عدد)
-        const wheelNumbers = [10, 15, 23, 31, 7, 42, 18, 29, 35, 4];
-        
-        // فال‌ها برای هر عدد (50 فال - 5 فال برای هر عدد)
-        const fortunes = {
-            10: [
-                "عشق واقعی در راه است و قلب شما به زودی آرام خواهد گرفت. کسی که منتظرش بوده‌اید خودش را نشان خواهد داد و زندگی شما معنای تازه‌ای پیدا خواهد کرد.",
-                "موفقیت بزرگی در کار منتظر شماست. پروژه‌ای که روی آن کار می‌کنید نتایج فوق‌العاده‌ای خواهد داشت و شهرت و ثروت برایتان به ارمغان خواهد آورد.",
-                "سفر مهمی پیش روی شماست که سرنوشت زندگی‌تان را تغییر خواهد داد. در این سفر افرادی را خواهید شناخت که تا آخر عمر دوست شما باقی خواهند ماند.",
-                "خبر خوشی از خانواده دریافت خواهید کرد که باعث شادی همه می‌شود. شاید ازدواج، تولد فرزند یا موفقیت یکی از عزیزان شما باشد.",
-                "استعداد مخفی شما کشف خواهد شد و راه جدیدی برای کسب درآمد پیدا خواهید کرد. این استعداد شما را به شهرت خواهد رساند و زندگی‌تان را دگرگون خواهد کرد."
-            ],
-            15: [
-                "دوستی قدیمی به زندگی‌تان بازخواهد گشت و خاطرات شیرین زیادی زنده خواهد شد. این بازگشت باعث شادی و آرامش روحی شما خواهد بود.",
-                "فرصت طلایی برای سرمایه‌گذاری پیش خواهد آمد که سود بسیار خوبی خواهد داشت. در امور مالی محتاط باشید ولی از این فرصت غافل نشوید.",
-                "سلامتی شما رو به بهبود خواهد رفت و مشکلی که مدت‌هاست شما را آزار می‌داد برطرف خواهد شد. انرژی مضاعفی پیدا خواهید کرد.",
-                "خلاقیت شما در اوج خواهد بود و کاری خواهید انجام داد که همه را متعجب کند. این خلاقیت راه‌های جدیدی برای موفقیت پیش روی شما باز خواهد کرد.",
-                "مشکل خانوادگی‌ای که مدت‌هاست وجود داشت حل خواهد شد و آشتی و صلح در خانه برقرار خواهد شد. این آشتی باعث آرامش همه اعضای خانواده خواهد بود."
-            ],
-            23: [
-                "عشق جدیدی وارد زندگی شما خواهد شد که تمام دنیای شما را تغییر خواهد داد. این عشق پاک و واقعی خواهد بود و تا آخر عمر ادامه خواهد داشت.",
-                "شغل رویایی شما در دسترس قرار خواهد گرفت. کاری که همیشه آرزویش را داشته‌اید به زودی پیشنهاد خواهد شد و زندگی حرفه‌ای شما شکوفا خواهد شد.",
-                "میراث یا پول غیرمنتظره‌ای به دست خواهد آمد که وضعیت مالی شما را بهبود خواهد بخشید. این پول راه حل مشکلات مالی شما خواهد بود.",
-                "دانش و تحصیلات شما به مرحله جدیدی خواهد رسید. فرصتی برای ادامه تحصیل یا یادگیری مهارت جدید پیش خواهد آمد که آینده شما را تضمین خواهد کرد.",
-                "آشتی با کسی که مدت‌هاست با او قهر بوده‌اید برقرار خواهد شد. این آشتی باعث آرامش روحی شما و پاک شدن دل‌تان از کینه خواهد شد."
-            ],
-            31: [
-                "خانه جدیدی پیدا خواهید کرد که همیشه آرزویش را داشته‌اید. این خانه محل آرامش و خوشبختی شما و خانواده‌تان خواهد بود.",
-                "فرزندی که آرزویش را داشته‌اید به زودی راهی به زندگی شما پیدا خواهد کرد. این فرزند نور چشم شما خواهد بود و باعث کمال خوشبختی‌تان خواهد شد.",
-                "کسب‌وکار جدیدی راه‌اندازی خواهید کرد که بسیار پررونق و سودآور خواهد بود. این کسب‌وکار آینده مالی شما را تضمین خواهد کرد.",
-                "سفر مقدسی در انتظار شماست که روح و جان‌تان را پاک خواهد کرد. این سفر نقطه عطفی در زندگی معنوی شما خواهد بود.",
-                "دشمنی که نگران آن بودید به دوستی تبدیل خواهد شد. کسی که فکر می‌کردید مخالف شماست دست دوستی به سمت شما دراز خواهد کرد."
-            ],
-            7: [
-                "شانس بی‌نظیری در بازی‌ها و قرعه‌کشی‌ها خواهید داشت. عددهای شانس شما فعال خواهند شد و برنده‌ای بزرگ خواهید بود.",
-                "رمز و راز مهمی کشف خواهید کرد که تاثیر بزرگی روی زندگی‌تان خواهد داشت. این کشف راه‌های جدیدی پیش روی شما باز خواهد کرد.",
-                "قدرت درونی شما بیدار خواهد شد و توانایی‌هایی پیدا خواهید کرد که خودتان هم از آن متعجب خواهید شد. این قدرت شما را به موفقیت‌های بزرگ خواهد رساند.",
-                "پیغام مهمی از آسمان دریافت خواهید کرد که راه زندگی شما را مشخص خواهد کرد. این پیغام از طریق رویا یا نشانه‌های طبیعت خواهد آمد.",
-                "حکمت و خرد شما به مرحله جدیدی خواهد رسید و مشاور و راهنمای دیگران خواهید شد. مردم برای گرفتن نصیحت نزد شما خواهند آمد."
-            ],
-            42: [
-                "ازدواج رویایی در انتظار شماست که با تمام تشریفات و شکوه انجام خواهد شد. همسری پیدا خواهید کرد که همه آرزوهای شما را برآورده کند.",
-                "ثروت بزرگی راه خود را به سمت شما پیدا خواهد کرد. کسب‌وکاری که شروع می‌کنید یا سرمایه‌گذاری که انجام می‌دهید سود فراوان خواهد داشت.",
-                "مقام و منصب بالایی به دست خواهد آمد که باعث افتخار شما و خانواده‌تان خواهد شد. این مقام با تلاش و شایستگی شما به دست خواهد آمد.",
-                "معجزه‌ای در زندگی شما رخ خواهد داد که همه را شگفت‌زده خواهد کرد. چیزی که غیرممکن به نظر می‌رسید با کمال آسانی محقق خواهد شد.",
-                "هدیه گرانبهایی دریافت خواهید کرد که ارزش عاطفی و مادی زیادی خواهد داشت. این هدیه از طرف کسی خواهد بود که واقعاً دوست‌تان دارد."
-            ],
-            18: [
-                "تحولی بزرگ در زندگی شما آغاز خواهد شد که همه چیز را به نفع شما تغییر خواهد داد. این تحول باعث رشد و پیشرفت شما در همه زمینه‌ها خواهد شد.",
-                "استعداد هنری شما شکوفا خواهد شد و اثری خواهید آفرید که مورد تحسین همه قرار گیرد. این اثر نام شما را جاودانه خواهد کرد.",
-                "درمان مشکل سلامتی که مدت‌هاست نگران آن بودید پیدا خواهد شد. طبیب یا درمان جدیدی راه شفای شما را خواهد یافت.",
-                "دوست‌یابی جدیدی خواهید داشت که این دوست مثل خواهر یا برادر واقعی‌تان خواهد بود. این دوستی تا آخر عمر پایدار خواهد ماند.",
-                "کتاب یا نوشته‌ای خواهید نوشت که تأثیر زیادی روی مردم خواهد گذاشت. این اثر شما را در زمره نویسندگان مشهور قرار خواهد داد."
-            ],
-            29: [
-                "راه حل مشکل بزرگی که سال‌هاست با آن دست‌وپنجه نرم می‌کردید پیدا خواهد شد. این راه حل از جایی که انتظار نداشتید خواهد آمد.",
-                "عشق کودکی شما دوباره وارد زندگی‌تان خواهد شد و این بار برای همیشه خواهد ماند. احساسات قدیمی زنده خواهد شد ولی قوی‌تر از قبل.",
-                "موقعیت شغلی فوق‌العاده‌ای پیش خواهد آمد که تمام آرزوهای حرفه‌ای شما را برآورده خواهد کرد. این شغل هم پردرآمد خواهد بود هم لذت‌بخش.",
-                "خانواده بزرگ‌تر خواهید شد و عضو جدیدی اعم از فرزند یا عروس و داماد به خانواده اضافه خواهد شد. این اضافه‌شدن باعث شادی همه خواهد بود.",
-                "پیروزی بزرگی در دادگاه یا امور قانونی کسب خواهید کرد که حق شما ثابت خواهد شد. عدالت سرانجام اجرا خواهد شد و حق‌تان را خواهید گرفت."
-            ],
-            35: [
-                "خلاقیت شما در اوج خواهد بود و ایده‌ای خواهید داشت که انقلابی در زندگی‌تان به وجود خواهد آورد. این ایده بسیار سودآور و موفقیت‌آمیز خواهد بود.",
-                "بازگشت کسی که سال‌هاست منتظرش بودید. این شخص با خبرهای خوش و هدایای زیبا به نزد شما خواهد آمد و دل‌تان را شاد خواهد کرد.",
-                "سلامت روحی و جسمی شما به بهترین حالت خود خواهد رسید. انرژی مثبت سراسر وجودتان را فرا خواهد گرفت و شادابی جوانی به شما برخواهد گشت.",
-                "کشف گنجی که مدت‌هاست در جستجویش بودید. این گنج ممکن است مادی باشد یا معنوی ولی در هر صورت ثروت بزرگی برای شما به حساب خواهد آمد.",
-                "آشنایی با شخصیت مهم و تأثیرگذاری که زندگی شما را تغییر خواهد داد. این شخص مثل فرشته راهنمای شما خواهد بود و راه موفقیت را نشان‌تان خواهد داد."
-            ],
-            4: [
-                "ثبات و آرامش کامل در همه ابعاد زندگی شما برقرار خواهد شد. پس از مدت‌ها نگرانی و استرس، دوران آرامش و صلح آغاز خواهد شد.",
-                "بنیان خانواده محکم‌تر خواهد شد و وحدت و همبستگی در خانه بیشتر خواهد شد. اعضای خانواده بیشتر به هم نزدیک خواهند شد و محبت افزایش خواهد یافت.",
-                "پایه‌گذاری کسب‌وکار یا پروژه‌ای که آینده‌ای درخشان خواهد داشت. این شروع آغاز دورانی طولانی از موفقیت و ثروت‌اندوزی خواهد بود.",
-                "امنیت مالی کامل به دست خواهد آمد و دیگر نگرانی درباره آینده مالی نخواهید داشت. درآمد ثابت و قابل اعتمادی پیدا خواهید کرد.",
-                "دوستی‌هایی پیدا خواهید کرد که مثل کوه استوار و پایدار خواهند بود. این دوستان در سختی‌ها کنار شما خواهند ایستاد و هیچ‌وقت تنها‌تان نخواهند گذاشت."
-            ]
-        };
-
-        let isSpinning = false;
-        let lastSpinDate = localStorage.getItem('lastSpinDate');
-        let timerInterval;
-
-        // تولید اعداد روی گردونه
-        function generateWheelNumbers() {
-            const wheelNumbers = document.getElementById('wheelNumbers');
-            const angleStep = 360 / 10; // 10 عدد
-            
-            for (let i = 0; i < 10; i++) {
-                const number = document.createElement('div');
-                number.className = 'number';
-                number.textContent = wheelNumbers[i];
-                
-                const angle = i * angleStep;
-                const radius = 135; // فاصله از مرکز
-                const x = radius * Math.cos((angle - 90) * Math.PI / 180);
-                const y = radius * Math.sin((angle - 90) * Math.PI / 180);
-                
-                number.style.left = `calc(50% + ${x}px - 20px)`;
-                number.style.top = `calc(50% + ${y}px - 20px)`;
-                
-                wheelNumbers.appendChild(number);
-            }
-        }
-
-        // بررسی آخرین استفاده
-        function checkLastUse() {
-            const now = new Date();
-            const today = now.toDateString();
-            
-            if (lastSpinDate === today) {
-                // امروز قبلاً استفاده کرده
-                document.getElementById('spinBtn').disabled = true;
-                document.getElementById('spinBtn').textContent = 'تمام شد!';
-                showCountdown();
-                return false;
-            }
-            return true;
-        }
-
-        // نمایش شمارش معکوس
-        function showCountdown() {
-            const countdownDiv = document.getElementById('countdown');
-            countdownDiv.style.display = 'block';
-            
-            timerInterval = setInterval(() => {
-                const now = new Date();
-                const tomorrow = new Date(now);
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(0, 0, 0, 0);
-                
-                const timeLeft = tomorrow - now;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    resetWheel();
-                    return;
-                }
-                
-                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-                
-                document.getElementById('timerDisplay').textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }, 1000);
-        }
-
-        // ریست کردن گردونه برای روز جدید
-        function resetWheel() {
-            document.getElementById('spinBtn').disabled = false;
-            document.getElementById('spinBtn').textContent = 'بچرخان!';
-            document.getElementById('countdown').style.display = 'none';
-            document.getElementById('fortuneResult').style.display = 'none';
-            localStorage.removeItem('lastSpinDate');
-            lastSpinDate = null;
-        }
-
-        // چرخاندن گردونه
-        function spinWheel() {
-            if (isSpinning || !checkLastUse()) return;
-            
-            isSpinning = true;
-            const spinBtn = document.getElementById('spinBtn');
-            const wheel = document.getElementById('wheel');
-            
-            spinBtn.disabled = true;
-            spinBtn.textContent = 'در حال چرخش...';
-            
-            // تولید زاویه تصادفی
-            const spins = 5 + Math.random() * 5; // 5 تا 10 دور
-            const finalAngle = Math.random() * 360;
-            const totalRotation = spins * 360 + finalAngle;
-            
-            wheel.style.transform = `rotate(${totalRotation}deg)`;
-            
-            // محاسبه عدد برنده
-            setTimeout(() => {
-                const normalizedAngle = (360 - (finalAngle % 360)) % 360;
-                const segmentSize = 360 / 10;
-                const winningIndex = Math.floor(normalizedAngle / segmentSize);
-                const winningNumber = wheelNumbers[winningIndex];
-                
-                showFortune(winningNumber);
-                
-                // ذخیره تاریخ استفاده
-                const now = new Date();
-                localStorage.setItem('lastSpinDate', now.toDateString());
-                lastSpinDate = now.toDateString();
-                
-                isSpinning = false;
-                spinBtn.disabled = true;
-                spinBtn.textContent = 'تمام شد!';
-                showCountdown();
-                
-            }, 4000); // 4 ثانیه انتظار برای تمام شدن انیمیشن
-        }
-
-        // نمایش فال
-        function showFortune(number) {
-            const fortuneArray = fortunes[number];
-            const randomFortune = fortuneArray[Math.floor(Math.random() * fortuneArray.length)];
-            
-            document.getElementById('winningNumber').textContent = `🎯 عدد برنده: ${number}`;
-            document.getElementById('fortuneText').textContent = randomFortune;
-            document.getElementById('fortuneResult').style.display = 'block';
-            
-            // اسکرول به نتیجه
-            setTimeout(() => {
-                document.getElementById('fortuneResult').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
-                });
-            }, 500);
-        }
-
-        // تولید ستاره‌های متحرک
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 15; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = (Math.random() * 3 + 1) + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDelay = Math.random() * 2 + 's';
-                star.style.animationDuration = (Math.random() * 2 + 1) + 's';
-                starsContainer.appendChild(star);
-            }
-        }
-
-        // اجرای اولیه
-        window.onload = function() {
-            generateWheelNumbers();
-            createStars();
-            checkLastUse();
-            
-            document.getElementById('spinBtn').addEventListener('click', spinWheel);
-        };
-    </script>
-</body>
-</html>
