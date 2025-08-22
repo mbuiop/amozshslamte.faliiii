@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه ماشین</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .car-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .car-details {
+            padding: 15px;
+        }
+        .car-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .car-specs {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+        .spec-label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+        .spec-value {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        .car-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8fff9;
+            border-radius: 8px;
+            border: 1px dashed #27ae60;
+        }
+        .car-description {
+            color: #5a6c7d;
+            line-height: 1.6;
+            margin: 15px 0;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            color: #6c757d;
+        }
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>فروشگاه ماشین</h1>
+        </header>
+
+        <div class="gallery" id="carGallery">
+            <!-- ماشین ها به صورت خودکار اینجا نمایش داده می شوند -->
+        </div>
+
+        <footer>
+            <p>© ۲۰۲۴ فروشگاه ماشین</p>
+        </footer>
+    </div>
+
+    <script>
+        // اطلاعات ماشین ها - اینجا اطلاعات خود را قرار دهید
+        const cars = [
+            {
+                title: "نام ماشین",
+                image: "مسیر عکس", // مثال: "images/car1.jpg"
+                model: "مدل ماشین",
+                brand: "برند ماشین",
+                year: "سال ساخت",
+                price: "قیمت",
+                mileage: "کارکرد",
+                fuel: "نوع سوخت",
+                transmission: "نوع گیربکس",
+                color: "رنگ",
+                description: "توضیحات درباره ماشین",
+                phone: "شماره تماس"
+            },
+            {
+                title: "نام ماشین",
+                image: "مسیر عکس",
+                model: "مدل ماشین",
+                brand: "برند ماشین",
+                year: "سال ساخت",
+                price: "قیمت",
+                mileage: "کارکرد",
+                fuel: "نوع سوخت",
+                transmission: "نوع گیربکس",
+                color: "رنگ",
+                description: "توضیحات درباره ماشین",
+                phone: "شماره تماس"
+            },
+            {
+                title: "نام ماشین",
+                image: "مسیر عکس",
+                model: "مدل ماشین",
+                brand: "برند ماشین",
+                year: "سال ساخت",
+                price: "قیمت",
+                mileage: "کارکرد",
+                fuel: "نوع سوخت",
+                transmission: "نوع گیربکس",
+                color: "رنگ",
+                description: "توضیحات درباره ماشین",
+                phone: "شماره تماس"
+            },
+            {
+                title: "نام ماشین",
+                image: "مسیر عکس",
+                model: "مدل ماشین",
+                brand: "برند ماشین",
+                year: "سال ساخت",
+                price: "قیمت",
+                mileage: "کارکرد",
+                fuel: "نوع سوخت",
+                transmission: "نوع گیربکس",
+                color: "رنگ",
+                description: "توضیحات درباره ماشین",
+                phone: "شماره تماس"
+            },
+            {
+                title: "نام ماشین",
+                image: "مسیر عکس",
+                model: "مدل ماشین",
+                brand: "برند ماشین",
+                year: "سال ساخت",
+                price: "قیمت",
+                mileage: "کارکرد",
+                fuel: "نوع سوخت",
+                transmission: "نوع گیربکس",
+                color: "رنگ",
+                description: "توضیحات درباره ماشین",
+                phone: "شماره تماس"
+            }
+        ];
+
+        const carGallery = document.getElementById('carGallery');
+
+        // ایجاد کارت برای هر ماشین
+        function renderCars() {
+            carGallery.innerHTML = '';
+            
+            cars.forEach(car => {
+                const carCard = document.createElement('div');
+                carCard.className = 'car-card';
+                
+                carCard.innerHTML = `
+                    <img src="${car.image}" alt="${car.title}" class="car-image">
+                    <div class="car-details">
+                        <h3 class="car-title">${car.title}</h3>
+                        
+                        <div class="car-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">مدل:</span>
+                                <span class="spec-value">${car.model}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">برند:</span>
+                                <span class="spec-value">${car.brand}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">سال:</span>
+                                <span class="spec-value">${car.year}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">کارکرد:</span>
+                                <span class="spec-value">${car.mileage}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">سوخت:</span>
+                                <span class="spec-value">${car.fuel}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">گیربکس:</span>
+                                <span class="spec-value">${car.transmission}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">رنگ:</span>
+                                <span class="spec-value">${car.color}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">تماس:</span>
+                                <span class="spec-value">${car.phone}</span>
+                            </div>
+                        </div>
+
+                        <div class="car-price">${car.price}</div>
+                        
+                        <div class="car-description">
+                            ${car.description}
+                        </div>
+                    </div>
+                `;
+                
+                carGallery.appendChild(carCard);
+            });
+        }
+
+        // نمایش ماشین ها
+        renderCars();
+    </script>
+</body>
+</html>
