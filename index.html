@@ -189,7 +189,7 @@
             position: relative;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            min-height: 380px;
+            min-height: 350px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
@@ -247,7 +247,7 @@
         /* شبکه دکمه‌ها - اندازه کوچکتر */
         .buttons-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 12px;
         }
         
@@ -288,11 +288,6 @@
             --btn-bg: linear-gradient(135deg, var(--primary-green), var(--primary-cyan));
             --btn-shadow: rgba(16, 185, 129, 0.3);
             background-image: url('https://picsum.photos/300/300?random=3');
-        }
-        .modern-btn:nth-child(4) { 
-            --btn-bg: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            --btn-shadow: rgba(139, 92, 246, 0.3);
-            background-image: url('https://picsum.photos/300/300?random=4');
         }
         
         .modern-btn::before {
@@ -493,7 +488,7 @@
         @media (max-width: 768px) {
             .category-card {
                 flex: 0 0 260px;
-                min-height: 360px;
+                min-height: 330px;
                 padding: 18px;
             }
             
@@ -579,7 +574,7 @@
     <div class="marquee-container">
         <div class="marquee">
             <i class="fas fa-train"></i>
-            به پلتفرم پیشرفته خوش آمدید! اینجا آموزش ساخت اپلیکیشن، ساخت اپلیکیشن و سایت سفارشی انجام می‌شود. کافی است فرم‌ها را پر کنید تا در اسرع وقت به شما پاسخ داده شود. از جمله آنلاین سلامت و ویژگی‌های خاص دیگر در این پلتفرم ارائه می‌شود. پشتیبانی ۲۴ ساعته نیازهای شما را برطرف می‌کند و بهترین صرافی برای ایرانی‌ها گذاشته شده. لطفا داخل پلتفرم ما ثبت‌نام در صرافی را انجام دهید و خود اپلیکیشن صرافی را از گوگل پلی بعد ثبت‌نام دانلود و نصب کنید تا از ویژگی‌های بونوس و غیره استفاده کنید.
+            به پلتفرم پیشرفته خوش آمدید! اینجا آموزش ساخت اپلیکیشن، ساخت اپلیکیشن و سایت سفارشی انجام می‌شود. کافی است فرم‌ها را پر کنید تا در اسرع وقت به شما پاسخ داده شود. از جمله آنلاین سلامت و ویژگی‌های خاص دیگر در این پلتفرم ارائه می‌شود. پشتیبانی ۲۴ ساعته نیازهای شما را برطرف می‌کند و بهترین صرافی برای ایرانی‌ها گذاشته شده. لطفا داخل پلتфорم ما ثبت‌نام در صرافی را انجام دهید و خود اپلیکیشن صرافی را از گوگل پلی بعد ثبت‌نام دانلود و نصب کنید تا از ویژگی‌های بونوس و غیره استفاده کنید.
             <i class="fas fa-star"></i>
             امکانات ویژه و منحصر به فرد
             <i class="fas fa-rocket"></i>
@@ -614,10 +609,6 @@
                         <i class="fas fa-book-open"></i>
                         <span>داستان های شنیدنی</span>
                     </a>
-                    <a href="bn4.html" class="modern-btn">
-                        <i class="fas fa-code"></i>
-                        <span>خرید کد برنامه نویسی</span>
-                    </a>
                 </div>
             </div>
             
@@ -642,10 +633,6 @@
                         <i class="fas fa-mobile-alt"></i>
                         <span>اپلیکیشن ساز</span>
                     </a>
-                    <a href="bn50.html" class="modern-btn">
-                        <i class="fas fa-tools"></i>
-                        <span>ساخت اپلیکیشن سفارشی</span>
-                    </a>
                 </div>
             </div>
             
@@ -655,20 +642,16 @@
                     <div class="category-icon">
                         <i class="fas fa-store"></i>
                     </div>
-                    <div class="category-title">فروشگاه و تجارت</div>
+                    <div class="category-title">تجارت و رسانه</div>
                 </div>
                 <div class="buttons-grid">
-                    <a href="bn9.html" class="modern-btn">
-                        <i class="fas fa-tshirt"></i>
-                        <span>فروشگاه لباس</span>
+                    <a href="bn4.html" class="modern-btn">
+                        <i class="fas fa-code"></i>
+                        <span>خرید کد برنامه نویسی</span>
                     </a>
-                    <a href="bn10.html" class="modern-btn">
-                        <i class="fas fa-cut"></i>
-                        <span>فروشگاه پارچه</span>
-                    </a>
-                    <a href="bn11.html" class="modern-btn">
-                        <i class="fas fa-car"></i>
-                        <span>خرید فروش ماشین</span>
+                    <a href="bn50.html" class="modern-btn">
+                        <i class="fas fa-tools"></i>
+                        <span>ساخت اپلیکیشن سفارشی</span>
                     </a>
                     <a href="https://cryptobaz.io/" class="modern-btn">
                         <i class="fas fa-newspaper"></i>
@@ -677,7 +660,7 @@
                 </div>
             </div>
             
-            <!-- دسته четверم: سرگرمی -->
+            <!-- دسته چهارم: سرگرمی -->
             <div class="category-card">
                 <div class="category-header">
                     <div class="category-icon">
@@ -697,10 +680,6 @@
                     <a href="https://igram.world/" class="modern-btn">
                         <i class="fas fa-video"></i>
                         <span>دانلود فیلم برای اینستاگرام</span>
-                    </a>
-                    <a href="bn16.html" class="modern-btn special-glow">
-                        <i class="fas fa-briefcase"></i>
-                        <span>کار یابی</span>
                     </a>
                 </div>
             </div>
