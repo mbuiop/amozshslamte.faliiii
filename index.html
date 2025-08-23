@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پلتفرم کسب درامد و کارپسند</title>
+    <title>پلتفرم کسب درآمد آنلاین</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -59,10 +59,24 @@
             100% { opacity: 0.7; }
         }
         
+        /* عنوان جدید */
+        .platform-title {
+            position: fixed;
+            top: 15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-purple);
+            z-index: 1001;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
         /* شریط بالا */
         .top-bar {
             position: fixed;
-            top: 0;
+            top: 50px;
             left: 0;
             right: 0;
             height: 70px;
@@ -108,10 +122,10 @@
             50% { opacity: 0.5; transform: scale(1.3); }
         }
         
-        /* پیام قطاری متحرک - شروع از چپ */
+        /* پیام قطاری متحرک - شروع از چپ - سرعت کاهش یافته */
         .marquee-container {
             position: fixed;
-            top: 70px;
+            top: 120px;
             left: 0;
             right: 0;
             height: 50px;
@@ -148,7 +162,7 @@
         
         /* محتوای اصلی */
         .main-content {
-            padding: 140px 0 120px;
+            padding: 190px 0 120px;
         }
         
         /* عنوان بخش */
@@ -163,7 +177,7 @@
             background-clip: text;
         }
         
-        /* کنتینر اسکرول افقی */
+        /* کنتینر اسکرول افقی - بهینه‌سازی شده */
         .horizontal-scroll-container {
             display: flex;
             overflow-x: auto;
@@ -172,6 +186,8 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            will-change: transform;
         }
         
         .horizontal-scroll-container::-webkit-scrollbar {
@@ -191,6 +207,7 @@
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             min-height: 350px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            will-change: transform;
         }
         
         .category-card::before {
@@ -271,6 +288,7 @@
             box-shadow: var(--shadow-glow) var(--btn-shadow, rgba(59, 130, 246, 0.2));
             background-size: cover;
             background-position: center;
+            will-change: transform;
         }
         
         /* رنگ‌بندی دکمه‌ها */
@@ -459,31 +477,6 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
         
-        /* افکت ویژه */
-        .special-glow {
-            position: relative;
-        }
-        
-        .special-glow::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: inherit;
-            background: var(--btn-bg);
-            opacity: 0;
-            filter: blur(20px);
-            z-index: -1;
-            animation: special-glow-pulse 3s ease-in-out infinite alternate;
-        }
-        
-        @keyframes special-glow-pulse {
-            0% { opacity: 0.2; transform: scale(0.9); }
-            100% { opacity: 0.6; transform: scale(1.1); }
-        }
-        
         /* تنظیمات موبایل */
         @media (max-width: 768px) {
             .category-card {
@@ -516,6 +509,11 @@
             .modern-btn i {
                 font-size: 20px;
                 margin-bottom: 6px;
+            }
+
+            .platform-title {
+                font-size: 18px;
+                top: 10px;
             }
         }
         
@@ -557,10 +555,18 @@
                 margin-bottom: 4px;
                 margin-left: 0;
             }
+
+            .platform-title {
+                font-size: 16px;
+                top: 8px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- عنوان جدید -->
+    <div class="platform-title">پلتفرم کسب درآمد آنلاین</div>
+    
     <!-- شریط بالا -->
     <div class="top-bar">
         <div class="logo">پلتفرم پیشرفته</div>
@@ -570,11 +576,11 @@
         </div>
     </div>
     
-    <!-- پیام قطاری متحرک - شروع از چپ -->
+    <!-- پیام قطاری متحرک - شروع از چپ - سرعت کاهش یافته -->
     <div class="marquee-container">
         <div class="marquee">
             <i class="fas fa-train"></i>
-            به پلتفرم پیشرفته خوش آمدید! اینجا آموزش ساخت اپلیکیشن، ساخت اپلیکیشن و سایت سفارشی انجام می‌شود. کافی است فرم‌ها را پر کنید تا در اسرع وقت به شما پاسخ داده شود. از جمله آنلاین سلامت و ویژگی‌های خاص دیگر در این پلتفرم ارائه می‌شود. پشتیبانی ۲۴ ساعته نیازهای شما را برطرف می‌کند و بهترین صرافی برای ایرانی‌ها گذاشته شده. لطفا داخل پلتфорم ما ثبت‌نام در صرافی را انجام دهید و خود اپلیکیشن صرافی را از گوگل پلی بعد ثبت‌نام دانلود و نصب کنید تا از ویژگی‌های بونوس و غیره استفاده کنید.
+            به پلتفرم پیشرفته خوش آمدید! اینجا آموزش ساخت اپلیکیشن، ساخت اپلیکیشن و سایت سفارشی انجام می‌شود. کافی است فرم‌ها را پر کنید تا در اسرع وقت به شما پاسخ داده شود. از جمله آنلاین سلامت و ویژگی‌های خاص دیگر در این پلتفرم ارائه می‌شود. پشتیبانی ۲۴ ساعته نیازهای شما را برطرف می‌کند و بهترین صرافی برای ایرانی‌ها گذاشته شده. لطفا داخل پلتفرم ما ثبت‌نام در صرافی را انجام دهید و خود اپلیکیشن صرافی را از گوگل پلی بعد ثبت‌نام دانلود و نصب کنید تا از ویژگی‌های بونوس و غیره استفاده کنید.
             <i class="fas fa-star"></i>
             امکانات ویژه و منحصر به فرد
             <i class="fas fa-rocket"></i>
@@ -584,7 +590,7 @@
     
     <!-- محتوای اصلی -->
     <div class="main-content">
-        <h2 class="section-title">کسب درامد انلاین</h2>
+        <h2 class="section-title">دسته‌بندی های کاربردی</h2>
         
         <!-- اسکرول افقی دسته‌بندی‌ها -->
         <div class="horizontal-scroll-container">
@@ -801,10 +807,15 @@
             setupScrollEffects() {
                 const scrollContainer = document.querySelector('.horizontal-scroll-container');
                 
-                // اسکرول smooth
+                // اسکرول smooth - بهینه‌سازی شده
+                let isScrolling = false;
                 scrollContainer.addEventListener('wheel', (e) => {
                     e.preventDefault();
-                    scrollContainer.scrollLeft += e.deltaY;
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        scrollContainer.scrollLeft += e.deltaY;
+                        setTimeout(() => { isScrolling = false; }, 50);
+                    }
                 }, { passive: false });
                 
                 // ذخیره موقعیت اسکرول
