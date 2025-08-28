@@ -198,6 +198,152 @@
             z-index: 1000;
         }
         
+        /* Support Button Styles */
+        .support-button {
+            background: linear-gradient(145deg, #ff6b6b, #ff4757);
+            border: none;
+            padding: 15px 25px;
+            border-radius: 15px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 
+                0 8px 20px rgba(255, 107, 107, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: translateZ(0);
+            margin-top: 20px;
+        }
+        
+        .support-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .support-button:hover::before {
+            left: 100%;
+        }
+        
+        .support-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 12px 30px rgba(255, 107, 107, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        .support-button:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Wallet Address Styles */
+        .wallet-address {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 500px;
+            font-family: monospace;
+            font-size: 14px;
+            word-break: break-all;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .wallet-address:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .wallet-address.copied {
+            background: rgba(76, 175, 80, 0.2);
+            border-color: rgba(76, 175, 80, 0.5);
+        }
+        
+        .wallet-address::after {
+            content: 'برای کپی کلیک کنید';
+            position: absolute;
+            bottom: -25px;
+            right: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .wallet-address:hover::after {
+            opacity: 1;
+        }
+        
+        /* Support Section */
+        .support-section {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 700px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .support-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #fff;
+            text-align: center;
+        }
+        
+        .support-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: right;
+        }
+        
+        .trc20-notice {
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .navbar {
@@ -213,6 +359,11 @@
                 font-size: 16px;
             }
             
+            .support-button {
+                width: 100%;
+                justify-content: center;
+            }
+            
             .content h1 {
                 font-size: 2em;
             }
@@ -220,6 +371,16 @@
             .modal-content {
                 margin: 20px;
                 padding: 30px 20px;
+            }
+            
+            .support-section {
+                margin: 20px;
+                padding: 20px;
+            }
+            
+            .wallet-address::after {
+                bottom: -20px;
+                font-size: 10px;
             }
         }
         
@@ -242,11 +403,18 @@
         .content {
             animation: slideUp 1s ease-out 0.2s both;
         }
+        
+        .support-section {
+            animation: slideUp 1s ease-out 0.4s both;
+        }
     </style>
 </head>
 <body>
     <!-- Hidden trigger area -->
     <div class="hidden-trigger" onclick="showHiddenContent()"></div>
+    
+    <!-- Toast notification -->
+    <div class="toast" id="toast">آدرس کیف پول با موفقیت کپی شد!</div>
     
     <!-- Hidden Modal -->
     <div class="hidden-modal" id="hiddenModal">
@@ -262,17 +430,17 @@
         <nav class="navbar">
             <button class="nav-button" onclick="navigateToPage('m1.html')">
                 <span class="nav-icon">📊</span>
-                <span>تحلیل اندیکاتور ۱و۲</span>
+                <span>تحلیل تایم فرم ۱ساعته</span>
             </button>
             
             <button class="nav-button" onclick="navigateToPage('m2.html')">
                 <span class="nav-icon">📈</span>
-                <span>تحلیل اندیکاتور ۳و۴</span>
+                <span>تحلیل تایم فرم ۲ساعته</span>
             </button>
             
             <button class="nav-button" onclick="navigateToPage('m3.html')">
                 <span class="nav-icon">📉</span>
-                <span>تحلیل اندیکاتور ۵و۶</span>
+                <span>تحلیل تایم فرم ۴ساعته</span>
             </button>
         </nav>
     </div>
@@ -285,8 +453,32 @@
         </p>
     </div>
     
+    <div class="support-section">
+        <h2 class="support-title">حمایت مالی از پروژه</h2>
+        <p class="support-description">
+            این سامانه با هدف ارائه تحلیل‌های حرفه‌ای و رایگان به جامعه معامله‌گران ایجاد شده است.
+            حمایت‌های مالی شما به ما کمک می‌کند تا به توسعه و بهبود مستمر این پلتفرم ادامه دهیم،
+            قابلیت‌های جدید اضافه کنیم و خدمات بهتری ارائه نماییم. هر مقدار حمایت، چه کوچک و چه بزرگ،
+            قدردانی شده و در جهت پیشبرد اهداف آموزشی پروژه استفاده خواهد شد.
+        </p>
+        
+        <div class="trc20-notice">
+            ⚠️ توجه: این آدرس بر بستر TRC20 (شبکه ترون) است. لطفا هنگام ارسال حتما مطمئن شوید که از شبکه TRC20 استفاده می‌کنید تا دارایی شما از دست نرود.
+        </div>
+        
+        <div class="wallet-address" id="walletAddress" onclick="copyWalletAddress()">
+            TV61aTh98MGqmteYzda5AaBzdXgGqreG6A
+        </div>
+        
+        <button class="support-button" onclick="copyWalletAddress()">
+            <span class="nav-icon">❤️</span>
+            <span>کپی آدرس کیف پول برای حمایت</span>
+        </button>
+    </div>
+    
     <script>
         let hasShownHidden = false;
+        let hasClosedModal = localStorage.getItem('modalClosed') === 'true';
         
         function navigateToPage(url) {
             // Add loading animation
@@ -299,7 +491,7 @@
         }
         
         async function showHiddenContent() {
-            if (hasShownHidden) return;
+            if (hasShownHidden && hasClosedModal) return;
             
             hasShownHidden = true;
             const modal = document.getElementById('hiddenModal');
@@ -336,6 +528,47 @@
         function closeHiddenContent() {
             const modal = document.getElementById('hiddenModal');
             modal.classList.remove('active');
+            localStorage.setItem('modalClosed', 'true');
+            hasClosedModal = true;
+        }
+        
+        function copyWalletAddress() {
+            const walletAddress = "TV61aTh98MGqmteYzda5AaBzdXgGqreG6A";
+            
+            // Create a temporary textarea element
+            const textArea = document.createElement("textarea");
+            textArea.value = walletAddress;
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                // Execute copy command
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    // Show success feedback
+                    const walletElement = document.getElementById('walletAddress');
+                    walletElement.classList.add('copied');
+                    
+                    // Show toast notification
+                    const toast = document.getElementById('toast');
+                    toast.classList.add('show');
+                    
+                    setTimeout(() => {
+                        walletElement.classList.remove('copied');
+                        toast.classList.remove('show');
+                    }, 2000);
+                } else {
+                    alert('خطا در کپی کردن آدرس. لطفا manually آن را کپی کنید: ' + walletAddress);
+                }
+            } catch (err) {
+                alert('خطا در کپی کردن آدرس. لطفا manually آن را کپی کنید: ' + walletAddress);
+            }
+            
+            // Remove temporary element
+            document.body.removeChild(textArea);
         }
         
         // Close modal when clicking outside
@@ -359,6 +592,35 @@
             const y = (e.clientY / window.innerHeight) * 10;
             
             navbar.style.transform = `translateX(${x}px) translateY(${y}px)`;
+        });
+        
+        // Check if m.txt has been updated and show modal if it's a new version
+        async function checkForUpdates() {
+            try {
+                const response = await fetch('m.txt?v=' + new Date().getTime());
+                if (response.ok) {
+                    const content = await response.text();
+                    const lastContent = localStorage.getItem('lastContent');
+                    
+                    if (lastContent !== content) {
+                        localStorage.setItem('lastContent', content);
+                        if (!hasClosedModal) {
+                            showHiddenContent();
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking for updates:', error);
+            }
+        }
+        
+        // Check for updates on page load
+        window.addEventListener('load', function() {
+            if (!hasClosedModal) {
+                setTimeout(() => {
+                    checkForUpdates();
+                }, 1000);
+            }
         });
     </script>
 </body>
