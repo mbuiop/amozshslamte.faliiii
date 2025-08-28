@@ -18,11 +18,41 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 25px;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         
         .navbar {
@@ -258,6 +288,16 @@
         }
         
         @media (max-width: 768px) {
+            .back-button {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 20px;
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            
             .navbar {
                 flex-direction: column;
                 gap: 15px;
@@ -274,6 +314,10 @@
     </style>
 </head>
 <body>
+    <a href="index.html" class="back-button">
+        ← بازگشت به صفحه اصلی
+    </a>
+    
     <div class="container">
         <nav class="navbar">
             <button class="nav-button active" onclick="switchPanel(1)">
@@ -324,7 +368,7 @@
                     </div>
                 </div>
                 <div class="weight-info">
-                    <strong>وزن‌دهی گروه اول:</strong> EMA20 (25%) + EMA50 (25%) + MACD (25%) + ADX (25%)
+                    <strong>وزن‌دهیグループ اول:</strong> EMA20 (25%) + EMA50 (25%) + MACD (25%) + ADX (25%)
                 </div>
             </div>
             
@@ -447,7 +491,7 @@
                 
                 displayResults(analysis, 2);
             } else {
-                alert('لطفاً تمام فیلدها را با مقادیر صحیح پر کنید');
+                alert('لطفاً تمام فildها را با مقادیر صحیح پر کنید');
             }
         }
         

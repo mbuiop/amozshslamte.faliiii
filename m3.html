@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سیستم تحلیل اندیکاتور ۶و۵</title>
+    <title>سیستم تحلیل اندیکاتور حرفه‌ای - گروه 6 و 7</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
         
@@ -18,11 +18,41 @@
             background: linear-gradient(135deg, #6b6bff 0%, #4ecdc4 50%, #45b7d1 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 25px;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         
         .analysis-panel {
@@ -33,6 +63,7 @@
             padding: 40px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
             animation: slideUp 0.6s ease-out;
+            position: relative;
         }
         
         .panel-title {
@@ -261,6 +292,16 @@
         }
         
         @media (max-width: 768px) {
+            .back-button {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 20px;
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            
             .navbar {
                 flex-direction: column;
                 gap: 15px;
@@ -283,6 +324,10 @@
     </style>
 </head>
 <body>
+    <a href="index.html" class="back-button">
+        ← بازگشت به صفحه اصلی
+    </a>
+    
     <div class="container">
         <div class="analysis-panel">
             <h2 class="panel-title">سیستم تحلیل اندیکاتور پیشرفته - گروه 6 و 7</h2>
@@ -542,7 +587,7 @@
                     bearishScore += weights.Chaikin_Volatility * 0.7;
                     signals.push(`نوسان‌گر چایکین: منفی (${data.chaikin_volatility.toFixed(5)}) - کاهش نوسان و حجم`);
                 } else {
-                    signals.push(`نوسان‌گر چایکین: خنثی (${data.chaikin_volatility.toFixed(5)}) - ثبات در نوسان`);
+                    signals.push(`نoscان‌گر چایکین: خنثی (${data.chaikin_volatility.toFixed(5)}) - ثبات در نوسان`);
                 }
                 
                 // Keltner Channel Analysis
