@@ -3,624 +3,646 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحلیل تایم فرم حرفه‌ای</title>
+    <title>پلتفرم سیگنال‌های بازار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
-        
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Vazirmatn', sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        /* Hidden Modal Styles */
-        .hidden-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .hidden-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background: linear-gradient(145deg, #2d2d30, #1a1a1d);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 90%;
-            position: relative;
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-        }
-        
-        .hidden-modal.active .modal-content {
-            transform: scale(1);
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 30px;
-            color: #ff4757;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .close-btn:hover {
-            background: rgba(255, 71, 87, 0.1);
-            transform: rotate(90deg);
-        }
-        
-        .modal-text {
+            background: #000000;
             color: #fff;
-            line-height: 1.8;
-            font-size: 16px;
-            text-align: right;
-        }
-        
-        /* Navigation Styles */
-        .navbar-container {
+            min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
-        }
-        
-        .navbar {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 15px 30px;
-            display: flex;
-            gap: 20px;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-        
-        .nav-button {
-            background: linear-gradient(145deg, #4a90e2, #357abd);
-            border: none;
-            padding: 15px 25px;
-            border-radius: 15px;
-            color: white;
-            font-family: 'Vazirmatn', sans-serif;
-            font-weight: 500;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 
-                0 8px 20px rgba(74, 144, 226, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            transform: translateZ(0);
-        }
-        
-        .nav-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .nav-button:hover::before {
-            left: 100%;
-        }
-        
-        .nav-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                0 12px 30px rgba(74, 144, 226, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-        
-        .nav-button:active {
-            transform: translateY(-1px);
-        }
-        
-        .nav-icon {
-            font-size: 18px;
-        }
-        
-        /* Content Area */
-        .content {
-            text-align: center;
-            padding: 50px 20px;
-            color: white;
-        }
-        
-        .content h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .content p {
-            font-size: 1.2em;
-            opacity: 0.8;
-            max-width: 600px;
-            margin: 0 auto;
             line-height: 1.6;
         }
         
-        /* Hidden trigger styles */
-        .hidden-trigger {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            width: 20px;
-            height: 20px;
-            background: transparent;
-            cursor: pointer;
-            z-index: 1000;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
         
-        /* Support Button Styles */
-        .support-button {
-            background: linear-gradient(145deg, #ff6b6b, #ff4757);
-            border: none;
-            padding: 15px 25px;
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
-            color: white;
-            font-family: 'Vazirmatn', sans-serif;
-            font-weight: 500;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .notification {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-right: 4px solid #fdbb2d;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+            perspective: 1000px;
+        }
+        
+        .card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 20px;
+            padding: 35px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 15px 35px rgba(255, 255, 255, 0.1),
+                0 5px 15px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform-style: preserve-3d;
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 
-                0 8px 20px rgba(255, 107, 107, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            transform: translateZ(0);
-            margin-top: 20px;
+            color: #333;
         }
         
-        .support-button::before {
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .support-button:hover::before {
-            left: 100%;
-        }
-        
-        .support-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                0 12px 30px rgba(255, 107, 107, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-        
-        .support-button:active {
-            transform: translateY(-1px);
-        }
-        
-        /* Wallet Address Styles */
-        .wallet-address {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px auto;
-            max-width: 500px;
-            font-family: monospace;
-            font-size: 14px;
-            word-break: break-all;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
-        
-        .wallet-address:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
-        .wallet-address.copied {
-            background: rgba(76, 175, 80, 0.2);
-            border-color: rgba(76, 175, 80, 0.5);
-        }
-        
-        .wallet-address::after {
-            content: 'برای کپی کلیک کنید';
-            position: absolute;
-            bottom: -25px;
+            left: 0;
             right: 0;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            height: 3px;
+            background: linear-gradient(90deg, #007bff, #28a745, #17a2b8, #007bff);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
         }
         
-        .wallet-address:hover::after {
-            opacity: 1;
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
         
-        /* Support Section */
+        .card:hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 
+                0 25px 50px rgba(255, 255, 255, 0.15),
+                0 10px 25px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .card:nth-child(odd):hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(-5deg);
+        }
+        
+        .card-title {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #007bff;
+            border-bottom: 2px solid rgba(0, 123, 255, 0.2);
+            padding-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            font-weight: 600;
+        }
+        
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #007bff, #28a745);
+            transition: width 0.3s ease;
+        }
+        
+        .card:hover .card-title::after {
+            width: 100%;
+        }
+        
+        .card-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .loading::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-top: 2px solid #007bff;
+            border-radius: 50%;
+            margin-left: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-right: 3px solid #ff6b6b;
+        }
+        
+        .success {
+            color: #51cf66;
+        }
+        
+        .json-content {
+            background: rgba(248, 249, 250, 0.8);
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-height: 220px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+        
+        .json-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .json-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+        
+        .json-content::-webkit-scrollbar-thumb {
+            background: #007bff;
+            border-radius: 4px;
+        }
+        
+        .json-key {
+            color: #007bff;
+            font-weight: bold;
+        }
+        
+        .json-value {
+            color: #333;
+            margin-right: 10px;
+        }
+        
         .support-section {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.3);
             padding: 30px;
-            margin: 40px auto;
-            max-width: 700px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
         
         .support-title {
-            font-size: 1.5em;
+            font-size: 1.8rem;
             margin-bottom: 20px;
-            color: #fff;
+            color: #fdbb2d;
             text-align: center;
         }
         
-        .support-description {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            margin-bottom: 25px;
-            text-align: right;
-        }
-        
-        .trc20-notice {
-            background: rgba(255, 193, 7, 0.15);
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            border-radius: 10px;
+        .wallet-address {
+            background: rgba(255, 255, 255, 0.1);
             padding: 15px;
-            margin: 20px 0;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        /* Toast notification */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(76, 175, 80, 0.9);
-            color: white;
-            padding: 15px 25px;
             border-radius: 10px;
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(100px);
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+            font-family: monospace;
+            word-break: break-all;
+            position: relative;
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
+        .address-text {
+            flex: 1;
+            padding-left: 15px;
         }
         
-        /* Responsive */
+        .copy-btn {
+            background: #fdbb2d;
+            color: #1a2a6c;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .copy-btn:hover {
+            background: #ffcc44;
+            transform: scale(1.05);
+        }
+        
+        .support-text {
+            margin: 15px 0;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+        
+        .highlight {
+            color: #fdbb2d;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
-                padding: 20px;
-                margin: 0 10px;
+                margin-bottom: 30px;
             }
             
-            .nav-button {
-                justify-content: center;
-                padding: 18px 20px;
-                font-size: 16px;
+            .card {
+                min-height: 250px;
+                padding: 25px;
+                border-radius: 15px;
             }
             
-            .support-button {
-                width: 100%;
-                justify-content: center;
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
             }
             
-            .content h1 {
-                font-size: 2em;
+            .json-content {
+                padding: 12px;
+                font-size: 0.75rem;
+                max-height: 140px;
             }
             
-            .modal-content {
-                margin: 20px;
-                padding: 30px 20px;
+            .loading {
+                font-size: 0.85rem;
+            }
+            
+            .loading::before {
+                width: 16px;
+                height: 16px;
+                margin-left: 8px;
+            }
+            
+            .error {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .wallet-address {
+                flex-direction: column;
+                gap: 10px;
+                padding: 12px;
+            }
+            
+            .address-text {
+                padding-left: 0;
+                text-align: center;
+                font-size: 0.85rem;
+            }
+            
+            .copy-btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
             }
             
             .support-section {
-                margin: 20px;
                 padding: 20px;
             }
             
-            .wallet-address::after {
-                bottom: -20px;
-                font-size: 10px;
+            .support-title {
+                font-size: 1.4rem;
+            }
+            
+            .support-text {
+                font-size: 0.95rem;
             }
         }
         
-        /* Animation for page load */
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+        @media (max-width: 480px) {
+            .cards-container {
+                gap: 12px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .card {
+                min-height: 220px;
+                padding: 18px;
+            }
+            
+            .card-title {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            
+            .json-content {
+                font-size: 0.7rem;
+                max-height: 100px;
+                padding: 8px;
+            }
+            
+            .json-key {
+                display: inline-block;
+                margin-bottom: 2px;
+            }
+            
+            .json-value {
+                margin-right: 5px;
             }
         }
         
-        .navbar-container {
-            animation: slideUp 0.8s ease-out;
-        }
-        
-        .content {
-            animation: slideUp 1s ease-out 0.2s both;
-        }
-        
-        .support-section {
-            animation: slideUp 1s ease-out 0.4s both;
+        @media (max-width: 360px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .cards-container {
+                gap: 10px;
+            }
+            
+            .card {
+                min-height: 200px;
+                padding: 15px;
+            }
+            
+            .card-title {
+                font-size: 0.9rem;
+                margin-bottom: 8px;
+            }
+            
+            .json-content {
+                font-size: 0.65rem;
+                max-height: 80px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Hidden trigger area -->
-    <div class="hidden-trigger" onclick="showHiddenContent()"></div>
-    
-    <!-- Toast notification -->
-    <div class="toast" id="toast">آدرس کیف پول با موفقیت کپی شد!</div>
-    
-    <!-- Hidden Modal -->
-    <div class="hidden-modal" id="hiddenModal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeHiddenContent()">&times;</button>
-            <div class="modal-text" id="modalText">
-                در حال بارگذاری محتوا...
+    <div class="container">
+        <header>
+            <h1>کاربر گرامی وارد پلتفرم شدید</h1>
+            <div class="notification">
+                <p>پلتفرم را یک بار رفرش (لودینگ مجدد) کنید تا سیگنال اشتباه دریافت نکنید</p>
+            </div>
+        </header>
+        
+        <div class="cards-container">
+            <div class="card">
+                <h2 class="card-title">قالب اول</h2>
+                <div class="card-content" id="m1-content">
+                    <div class="loading">در حال بارگذاری...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">قالب دوم</h2>
+                <div class="card-content" id="m2-content">
+                    <div class="loading">در حال بارگذاری...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">قالب سوم</h2>
+                <div class="card-content" id="m3-content">
+                    <div class="loading">در حال بارگذاری...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">قالب چهارم</h2>
+                <div class="card-content" id="m4-content">
+                    <div class="loading">در حال بارگذاری...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">قالب پنجم</h2>
+                <div class="card-content" id="m5-content">
+                    <div class="loading">در حال بارگذاری...</div>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="navbar-container">
-        <nav class="navbar">
-            <button class="nav-button" onclick="navigateToPage('m1.html')">
-                <span class="nav-icon">📊</span>
-                <span>تحلیل تایم فرم ۱ساعته</span>
-            </button>
-            
-            <button class="nav-button" onclick="navigateToPage('m2.html')">
-                <span class="nav-icon">📈</span>
-                <span>تحلیل تایم فرم ۲ساعته</span>
-            </button>
-            
-            <button class="nav-button" onclick="navigateToPage('m3.html')">
-                <span class="nav-icon">📉</span>
-                <span>تحلیل تایم فرم ۴ساعته</span>
-            </button>
-        </nav>
-    </div>
-    
-    <div class="content">
-        <h1>سامانه تحلیل تایم فرم حرفه‌ای</h1>
-        <p>
-            با استفاده از ابزارهای تحلیل پیشرفته، بازارهای مالی را در تایم فرم‌های مختلف مورد بررسی قرار دهید.
-            هر دکمه شما را به صفحه تحلیل مربوطه هدایت می‌کند.
-        </p>
-    </div>
-    
-    <div class="support-section">
-        <h2 class="support-title">حمایت مالی از پروژه</h2>
-        <p class="support-description">
-            این سامانه با هدف ارائه تحلیل‌های حرفه‌ای و رایگان به جامعه معامله‌گران ایجاد شده است.
-            حمایت‌های مالی شما به ما کمک می‌کند تا به توسعه و بهبود مستمر این پلتفرم ادامه دهیم،
-            قابلیت‌های جدید اضافه کنیم و خدمات بهتری ارائه نماییم. هر مقدار حمایت، چه کوچک و چه بزرگ،
-            قدردانی شده و در جهت پیشبرد اهداف آموزشی پروژه استفاده خواهد شد.
-        </p>
         
-        <div class="trc20-notice">
-            ⚠️ توجه: این آدرس بر بستر TRC20 (شبکه ترون) است. لطفا هنگام ارسال حتما مطمئن شوید که از شبکه TRC20 استفاده می‌کنید تا دارایی شما از دست نرود.
+        <div class="support-section">
+            <h2 class="support-title">حمایت مالی داوطلبانه</h2>
+            
+            <p class="support-text">
+                این حمایت مالی کاملاً <span class="highlight">داوطلبانه</span> است. هرکس تمایل داشت می‌تواند کمک مالی خود را واریز نماید و هرکس که تمایلی ندارد، با کمال میل پذیرای حضور او در پلتفرم هستیم.
+            </p>
+            
+            <p class="support-text">
+                کمک‌های مالی شما صرف <span class="highlight">پیشرفت سرورهای سیگنال فیوچر</span> و <span class="highlight">تحلیل‌های بازار</span> خواهد شد. این کمک‌ها به ما امکان می‌دهد تا خدمات بهتری ارائه داده و همواره به روز باشیم.
+            </p>
+            
+            <p class="support-text">
+                لطفاً در صورت تمایل به واریز، مبلغی معادل <span class="highlight">حداقل ۱ دلار</span> یا بیشتر واریز کنید، زیرا مقادیر کمتر از ۱ دلار از نظر کارمزدهای انتقال مقرون به صرفه نیستند.
+            </p>
+            
+            <div class="wallet-address">
+                <div class="address-text">TV61aTh98MGqmteYzda5AaBzdXgGqreG6A</div>
+                <button class="copy-btn" onclick="copyAddress()">
+                    <i class="far fa-copy"></i> کپی آدرس
+                </button>
+            </div>
+            
+            <p class="support-text">
+                از اعتماد و حمایت شما سپاسگزاریم. با کمک‌های شما می‌توانیم به توسعه و ارتقاء پلتفرم ادامه دهیم و خدمات ارزشمندی را به جامعه معامله‌گران ارائه کنیم.
+            </p>
         </div>
         
-        <div class="wallet-address" id="walletAddress" onclick="copyWalletAddress()">
-            TV61aTh98MGqmteYzda5AaBzdXgGqreG6A
+        <div class="footer">
+            <p>پلتفرم تحلیل بازار و سیگنال‌های معاملاتی © 2023</p>
         </div>
-        
-        <button class="support-button" onclick="copyWalletAddress()">
-            <span class="nav-icon">❤️</span>
-            <span>کپی آدرس کیف پول برای حمایت</span>
-        </button>
     </div>
-    
+
     <script>
-        let hasShownHidden = false;
-        let hasClosedModal = localStorage.getItem('modalClosed') === 'true';
-        
-        function navigateToPage(url) {
-            // Add loading animation
-            const clickedButton = event.target.closest('.nav-button');
-            clickedButton.style.transform = 'scale(0.95)';
-            
-            setTimeout(() => {
-                window.location.href = url;
-            }, 200);
+        // تابع برای کپی کردن آدرس کیف پول
+        function copyAddress() {
+            const address = "TV61aTh98MGqmteYzda5AaBzdXgGqreG6A";
+            navigator.clipboard.writeText(address).then(() => {
+                alert('آدرس کیف پول با موفقیت کپی شد!');
+            }).catch(err => {
+                console.error('خطا در کپی کردن آدرس: ', err);
+                // روش جایگزین برای مرورگرهای قدیمی
+                const textArea = document.createElement("textarea");
+                textArea.value = address;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+                alert('آدرس کیف پول کپی شد!');
+            });
         }
         
-        async function showHiddenContent() {
-            if (hasShownHidden && hasClosedModal) return;
-            
-            hasShownHidden = true;
-            const modal = document.getElementById('hiddenModal');
-            const modalText = document.getElementById('modalText');
+        // تابع پیشرفته برای لود کردن فایل‌های JSON با مدیریت خطا
+        async function loadJSON(file, elementId) {
+            const container = document.getElementById(elementId);
             
             try {
-                // Try to read the m.txt file
-                const response = await fetch('m.txt');
-                if (response.ok) {
-                    const content = await response.text();
-                    modalText.innerHTML = content.replace(/\n/g, '<br>');
-                } else {
-                    modalText.innerHTML = `
-                        <h3 style="color: #ff6b6b; margin-bottom: 20px;">🔐 محتوای محرمانه</h3>
-                        <p>این بخش مخفی سایت است. فایل m.txt یافت نشد.</p>
-                        <p style="margin-top: 15px; font-size: 14px; opacity: 0.7;">
-                            برای نمایش محتوا، فایل m.txt را در مسیر اصلی پروژه قرار دهید.
-                        </p>
-                    `;
+                // نمایش لودینگ
+                container.innerHTML = '<div class="loading">در حال بارگذاری...</div>';
+                
+                const response = await fetch(file);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
+                
+                const data = await response.json();
+                displayContent(data, elementId);
+                
             } catch (error) {
-                modalText.innerHTML = `
-                    <h3 style="color: #ff6b6b; margin-bottom: 20px;">🔐 دسترسی محدود</h3>
-                    <p>محتوای مخفی در دسترس نیست.</p>
-                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.7;">
-                        خطا: ${error.message}
-                    </p>
+                console.error(`خطا در بارگذاری ${file}:`, error);
+                
+                let errorMessage = 'خطای ناشناخته';
+                
+                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                    errorMessage = 'فایل یافت نشد یا مشکل در اتصال';
+                } else if (error.name === 'SyntaxError') {
+                    errorMessage = 'فرمت JSON نامعتبر است';
+                } else if (error.message.includes('HTTP 404')) {
+                    errorMessage = 'فایل موجود نیست';
+                } else if (error.message.includes('HTTP 500')) {
+                    errorMessage = 'خطای سرور';
+                } else {
+                    errorMessage = error.message;
+                }
+                
+                container.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>خطا در بارگذاری:</strong><br>
+                        ${errorMessage}
+                    </div>
                 `;
             }
-            
-            modal.classList.add('active');
         }
         
-        function closeHiddenContent() {
-            const modal = document.getElementById('hiddenModal');
-            modal.classList.remove('active');
-            localStorage.setItem('modalClosed', 'true');
-            hasClosedModal = true;
-        }
-        
-        function copyWalletAddress() {
-            const walletAddress = "TV61aTh98MGqmteYzda5AaBzdXgGqreG6A";
+        // تابع پیشرفته برای نمایش محتوا
+        function displayContent(data, elementId) {
+            const container = document.getElementById(elementId);
             
-            // Create a temporary textarea element
-            const textArea = document.createElement("textarea");
-            textArea.value = walletAddress;
-            textArea.style.position = "fixed";
-            textArea.style.opacity = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
+            if (!data) {
+                container.innerHTML = '<div class="error">داده‌ای یافت نشد</div>';
+                return;
+            }
             
-            try {
-                // Execute copy command
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    // Show success feedback
-                    const walletElement = document.getElementById('walletAddress');
-                    walletElement.classList.add('copied');
-                    
-                    // Show toast notification
-                    const toast = document.getElementById('toast');
-                    toast.classList.add('show');
-                    
-                    setTimeout(() => {
-                        walletElement.classList.remove('copied');
-                        toast.classList.remove('show');
-                    }, 2000);
+            let html = '<div class="success"><i class="fas fa-check-circle"></i> داده‌ها با موفقیت لود شدند</div>';
+            
+            if (typeof data === 'object' && data !== null) {
+                html += '<div class="json-content">';
+                
+                if (Array.isArray(data)) {
+                    data.forEach((item, index) => {
+                        html += `<div><span class="json-key">[${index}]:</span> `;
+                        if (typeof item === 'object') {
+                            html += '<br>';
+                            for (const key in item) {
+                                if (item.hasOwnProperty(key)) {
+                                    html += `&nbsp;&nbsp;<span class="json-key">${key}:</span> <span class="json-value">${item[key]}</span><br>`;
+                                }
+                            }
+                        } else {
+                            html += `<span class="json-value">${item}</span>`;
+                        }
+                        html += '</div><br>';
+                    });
                 } else {
-                    alert('خطا در کپی کردن آدرس. لطفا manually آن را کپی کنید: ' + walletAddress);
-                }
-            } catch (err) {
-                alert('خطا در کپی کردن آدرس. لطفا manually آن را کپی کنید: ' + walletAddress);
-            }
-            
-            // Remove temporary element
-            document.body.removeChild(textArea);
-        }
-        
-        // Close modal when clicking outside
-        document.getElementById('hiddenModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeHiddenContent();
-            }
-        });
-        
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeHiddenContent();
-            }
-        });
-        
-        // Add subtle parallax effect
-        document.addEventListener('mousemove', function(e) {
-            const navbar = document.querySelector('.navbar');
-            const x = (e.clientX / window.innerWidth) * 10;
-            const y = (e.clientY / window.innerHeight) * 10;
-            
-            navbar.style.transform = `translateX(${x}px) translateY(${y}px)`;
-        });
-        
-        // Check if m.txt has been updated and show modal if it's a new version
-        async function checkForUpdates() {
-            try {
-                const response = await fetch('m.txt?v=' + new Date().getTime());
-                if (response.ok) {
-                    const content = await response.text();
-                    const lastContent = localStorage.getItem('lastContent');
-                    
-                    if (lastContent !== content) {
-                        localStorage.setItem('lastContent', content);
-                        if (!hasClosedModal) {
-                            showHiddenContent();
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            const value = data[key];
+                            html += `<div><span class="json-key">${key}:</span> `;
+                            
+                            if (typeof value === 'object' && value !== null) {
+                                html += '<br>';
+                                if (Array.isArray(value)) {
+                                    value.forEach((item, index) => {
+                                        html += `&nbsp;&nbsp;<span class="json-key">[${index}]:</span> <span class="json-value">${item}</span><br>`;
+                                    });
+                                } else {
+                                    for (const subKey in value) {
+                                        if (value.hasOwnProperty(subKey)) {
+                                            html += `&nbsp;&nbsp;<span class="json-key">${subKey}:</span> <span class="json-value">${value[subKey]}</span><br>`;
+                                        }
+                                    }
+                                }
+                            } else {
+                                html += `<span class="json-value">${value}</span>`;
+                            }
+                            html += '</div><br>';
                         }
                     }
                 }
-            } catch (error) {
-                console.error('Error checking for updates:', error);
+                
+                html += '</div>';
+            } else {
+                html += `<div class="json-content"><span class="json-value">${data}</span></div>`;
             }
+            
+            container.innerHTML = html;
         }
         
-        // Check for updates on page load
-        window.addEventListener('load', function() {
-            if (!hasClosedModal) {
-                setTimeout(() => {
-                    checkForUpdates();
-                }, 1000);
-            }
+        // بارگذاری خودکار فایل‌های JSON وقتی صفحه لود شد
+        document.addEventListener('DOMContentLoaded', () => {
+            // تاخیر کوتاه برای بهتر دیده شدن انیمیشن لودینگ
+            setTimeout(() => {
+                loadJSON('m1.json', 'm1-content');
+                loadJSON('m2.json', 'm2-content');
+                loadJSON('m3.json', 'm3-content');
+                loadJSON('m4.json', 'm4-content');
+                loadJSON('m5.json', 'm5-content');
+            }, 500);
         });
     </script>
 </body>
