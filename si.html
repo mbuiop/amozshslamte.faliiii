@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم سیگنال‌دهی پیشرفته</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d72b4 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 3D Background Effects */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-cube {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 6px;
+            animation: float 25s infinite ease-in-out;
+            opacity: 0.3;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
+            25% { transform: translateY(-120px) rotateX(90deg) rotateY(45deg); }
+            50% { transform: translateY(-240px) rotateX(180deg) rotateY(90deg); }
+            75% { transform: translateY(-120px) rotateX(270deg) rotateY(135deg); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: #f0f8ff;
+        }
+
+        /* Template Selection */
+        .template-section {
+            margin-bottom: 25px;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .template-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .template-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .template-card.active {
+            background: rgba(255, 255, 255, 1);
+            border-color: #2a5298;
+            box-shadow: 0 8px 25px rgba(42, 82, 152, 0.3);
+        }
+
+        .template-card h3 {
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .template-weights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .weight-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .weight-value {
+            color: #2a5298;
+            font-weight: 600;
+        }
+
+        /* Input Form */
+        .input-form {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #333;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 15px rgba(42, 82, 152, 0.3);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        /* Generate Button */
+        .generate-btn {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.4);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ff6b7a, #ff4757);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 150px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        /* Signal Result */
+        .signal-result {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .signal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .signal-direction {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .buy-strong { color: #00ff88; text-shadow: 0 0 15px rgba(0, 255, 136, 0.5); }
+        .buy-medium { color: #66ff99; }
+        .sell-strong { color: #ff4757; text-shadow: 0 0 15px rgba(255, 71, 87, 0.5); }
+        .sell-medium { color: #ff6b7a; }
+        .neutral { color: #ffd700; }
+
+        .signal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .signal-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .signal-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .signal-item h3 {
+            color: #f0f8ff;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+        }
+
+        .signal-item .value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .indicator-analysis {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .indicator-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #ffffff;
+        }
+
+        .indicator-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+
+        .indicator-details {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            line-height: 1.4;
+            color: #f0f8ff;
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffffff, #f0f8ff);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* History Section */
+        .history-section {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header p {
+                font-size: 0.8rem;
+            }
+            
+            .signal-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .template-card {
+                padding: 12px;
+            }
+            
+            .input-form {
+                padding: 15px 10px;
+            }
+            
+            .signal-result {
+                padding: 15px 10px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top: 3px solid #ffffff;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Glow Effects */
+        .glow {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Background Animation -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 سیستم سیگنال‌دهی پیشرفته</h1>
+            <p>تحلیل هوشمند بازار با الگوریتم‌های پیشرفته و وزن‌دهی دقیق</p>
+        </div>
+
+        <!-- Template Selection -->
+        <div class="template-section">
+            <h2 class="section-title">🎯 انتخاب قالب تحلیل</h2>
+            <div class="template-grid" id="templateGrid">
+                <!-- Templates will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Input Form -->
+        <div class="input-form" id="inputForm" style="display: none;">
+            <h2 class="section-title">📊 ورود اطلاعات تکنیکال</h2>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>💰 نماد ارز (Symbol)</label>
+                    <input type="text" id="symbol" placeholder="BTCUSDT" style="text-transform: uppercase;">
+                </div>
+                <div class="input-group">
+                    <label>💵 قیمت فعلی (Current Price)</label>
+                    <input type="number" id="currentPrice" step="0.000001" placeholder="47500">
+                </div>
+                <div class="input-group">
+                    <label>📈 مقاومت (Resistance)</label>
+                    <input type="number" id="resistance" step="0.000001" placeholder="50000">
+                </div>
+                <div class="input-group">
+                    <label>📉 حمایت (Support)</label>
+                    <input type="number" id="support" step="0.000001" placeholder="45000">
+                </div>
+                <div class="input-group">
+                    <label>📊 RSI (0-100)</label>
+                    <input type="number" id="rsi" min="0" max="100" placeholder="45">
+                </div>
+                <div class="input-group">
+                    <label>📈 EMA20</label>
+                    <input type="number" id="ema20" step="0.000001" placeholder="47000">
+                </div>
+                <div class="input-group">
+                    <label>📈 EMA50</label>
+                    <input type="number" id="ema50" step="0.000001" placeholder="46000">
+                </div>
+                <div class="input-group">
+                    <label>🔵 Upper Band</label>
+                    <input type="number" id="upper" step="0.000001" placeholder="52000">
+                </div>
+                <div class="input-group">
+                    <label>⚡ MACD</label>
+                    <input type="number" id="macd" step="0.000001" placeholder="150">
+                </div>
+            </div>
+            <button class="generate-btn" onclick="generateSignal()">
+                🎯 تولید سیگنال
+            </button>
+            <button class="reset-btn" onclick="resetForm()">
+                🔄 شروع مجدد
+            </button>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; font-size: 0.9rem;">در حال تحلیل...</p>
+        </div>
+
+        <!-- Signal Result -->
+        <div class="signal-result" id="signalResult" style="display: none;">
+            <!-- Signal content will be generated by JavaScript -->
+        </div>
+
+        <!-- History -->
+        <div class="history-section">
+            <h2 class="section-title">📈 تاریخچه سیگنال‌ها</h2>
+            <div id="historyContainer">
+                <p style="text-align: center; opacity: 0.7; font-size: 0.9rem;">هنوز سیگنالی تولید نشده است</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Advanced Trading Bot Class
+        class AdvancedTradingBot {
+            constructor() {
+                this.templates = {
+                    "قالب یک": {"rsi": 25, "ema20": 20, "ema50": 18, "upper": 15, "macd": 22},
+                    "قالب دو": {"rsi": 30, "ema20": 25, "ema50": 20, "upper": 12, "macd": 13},
+                    "قالب سه": {"rsi": 22, "ema20": 28, "ema50": 25, "upper": 10, "macd": 15},
+                    "قالب چهار": {"rsi": 35, "ema20": 15, "ema50": 30, "upper": 8, "macd": 12},
+                    "قالب پنج": {"rsi": 28, "ema20": 22, "ema50": 22, "upper": 14, "macd": 14}
+                };
+                this.selectedTemplate = null;
+                this.signalHistory = [];
+                this.initializeTemplates();
+                this.createFloatingCubes();
+            }
+
+            createFloatingCubes() {
+                const bgAnimation = document.getElementById('bgAnimation');
+                for (let i = 0; i < 12; i++) {
+                    const cube = document.createElement('div');
+                    cube.className = 'floating-cube';
+                    cube.style.left = Math.random() * 100 + '%';
+                    cube.style.top = Math.random() * 100 + '%';
+                    cube.style.animationDelay = Math.random() * 25 + 's';
+                    cube.style.animationDuration = (20 + Math.random() * 10) + 's';
+                    bgAnimation.appendChild(cube);
+                }
+            }
+
+            initializeTemplates() {
+                const templateGrid = document.getElementById('templateGrid');
+                
+                Object.entries(this.templates).forEach(([name, weights]) => {
+                    const card = document.createElement('div');
+                    card.className = 'template-card';
+                    card.onclick = () => this.selectTemplate(name, card);
+                    
+                    card.innerHTML = `
+                        <h3>${name}</h3>
+                        <div class="template-weights">
+                            <div class="weight-item">
+                                <span>📊 RSI:</span>
+                                <span class="weight-value">${weights.rsi}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📈 EMA20:</span>
+                                <span class="weight-value">${weights.ema20}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📈 EMA50:</span>
+                                <span class="weight-value">${weights.ema50}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>🔵 Upper:</span>
+                                <span class="weight-value">${weights.upper}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>⚡ MACD:</span>
+                                <span class="weight-value">${weights.macd}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    templateGrid.appendChild(card);
+                });
+            }
+
+            selectTemplate(templateName, cardElement) {
+                document.querySelectorAll('.template-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                
+                cardElement.classList.add('active');
+                this.selectedTemplate = templateName;
+                
+                document.getElementById('inputForm').style.display = 'block';
+                document.getElementById('inputForm').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            calculateRsiSignal(rsiValue, weight) {
+                if (rsiValue < 20) return weight * 1.0;
+                else if (rsiValue < 30) return weight * 0.8;
+                else if (rsiValue < 40) return weight * 0.4;
+                else if (rsiValue > 80) return weight * -1.0;
+                else if (rsiValue > 70) return weight * -0.8;
+                else if (rsiValue > 60) return weight * -0.4;
+                else return 0;
+            }
+
+            calculateEmaSignal(ema20, ema50, currentPrice, weight) {
+                const emaDiff = ((ema20 - ema50) / ema50) * 100;
+                const priceToEma20 = ((currentPrice - ema20) / ema20) * 100;
+                
+                if (ema20 > ema50 && priceToEma20 > 0.5) {
+                    const signalStrength = Math.min(Math.abs(emaDiff) / 2, 1.0);
+                    return weight * signalStrength;
+                } else if (ema20 < ema50 && priceToEma20 < -0.5) {
+                    const signalStrength = Math.min(Math.abs(emaDiff) / 2, 1.0);
+                    return weight * -signalStrength;
+                } else {
+                    return weight * (ema20 > ema50 ? 0.2 : -0.2);
+                }
+            }
+
+            calculateUpperBandSignal(currentPrice, upperBand, weight) {
+                const distanceRatio = (upperBand - currentPrice) / upperBand * 100;
+                
+                if (distanceRatio < 1) return weight * -0.9;
+                else if (distanceRatio < 3) return weight * -0.6;
+                else if (distanceRatio > 10) return weight * 0.7;
+                else return weight * 0.2;
+            }
+
+            calculateMacdSignal(macdLine, signalLine, histogram, weight) {
+                const macdDiff = macdLine - signalLine;
+                
+                if (macdDiff > 0 && histogram > 0) {
+                    const signalStrength = Math.min(Math.abs(macdDiff) * 10, 1.0);
+                    return weight * signalStrength;
+                } else if (macdDiff < 0 && histogram < 0) {
+                    const signalStrength = Math.min(Math.abs(macdDiff) * 10, 1.0);
+                    return weight * -signalStrength;
+                } else {
+                    return weight * (macdDiff > 0 ? 0.1 : -0.1);
+                }
+            }
+
+            generateAdvancedSignal(data, templateWeights) {
+                // Calculate individual signals - EXACT same algorithm as Python
+                const rsiSignal = this.calculateRsiSignal(data.rsi, templateWeights.rsi);
+                
+                const emaSignal = this.calculateEmaSignal(
+                    data.ema20, data.ema50, data.currentPrice,
+                    (templateWeights.ema20 + templateWeights.ema50) / 2
+                );
+                
+                const upperSignal = this.calculateUpperBandSignal(
+                    data.currentPrice, data.upper, templateWeights.upper
+                );
+                
+                const macdSignal = this.calculateMacdSignal(
+                    data.macd, data.macd * 0.9, data.macd * 0.1,
+                    templateWeights.macd
+                );
+                
+                // Combine signals with intelligent algorithm - EXACT same as Python
+                const totalSignal = rsiSignal + emaSignal + upperSignal + macdSignal;
+                const totalWeight = Object.values(templateWeights).reduce((a, b) => a + b);
+                const normalizedSignal = totalSignal / totalWeight * 100;
+                
+                // Determine trading direction - EXACT same logic as Python
+                let direction, leverage, directionClass;
+                
+                if (normalizedSignal > 30) {
+                    direction = "خرید قوی 🟢";
+                    directionClass = "buy-strong";
+                    leverage = Math.min(Math.floor(Math.abs(normalizedSignal) / 10) + 2, 10);
+                } else if (normalizedSignal > 15) {
+                    direction = "خرید متوسط 🔵";
+                    directionClass = "buy-medium";
+                    leverage = Math.min(Math.floor(Math.abs(normalizedSignal) / 15) + 1, 5);
+                } else if (normalizedSignal < -30) {
+                    direction = "فروش قوی 🔴";
+                    directionClass = "sell-strong";
+                    leverage = Math.min(Math.floor(Math.abs(normalizedSignal) / 10) + 2, 10);
+                } else if (normalizedSignal < -15) {
+                    direction = "فروش متوسط 🟠";
+                    directionClass = "sell-medium";
+                    leverage = Math.min(Math.floor(Math.abs(normalizedSignal) / 15) + 1, 5);
+                } else {
+                    direction = "خنثی ⚪";
+                    directionClass = "neutral";
+                    leverage = 1;
+                }
+                
+                // Calculate entry, take profit, and stop loss - EXACT same as Python
+                let entry, takeProfit, stopLoss;
+                
+                if (direction.includes("خرید")) {
+                    entry = data.support + ((data.support + data.resistance) / 2 - data.support) * 0.2;
+                    takeProfit = data.resistance * 0.98;
+                    stopLoss = data.support * 1.02;
+                } else {
+                    entry = data.resistance - (data.resistance - (data.support + data.resistance) / 2) * 0.2;
+                    takeProfit = data.support * 1.02;
+                    stopLoss = data.resistance * 0.98;
+                }
+                
+                return {
+                    symbol: data.symbol,
+                    currentPrice: data.currentPrice,
+                    direction: direction,
+                    directionClass: directionClass,
+                    entry: Number(entry.toFixed(6)),
+                    takeProfit: Number(takeProfit.toFixed(6)),
+                    stopLoss: Number(stopLoss.toFixed(6)),
+                    leverage: leverage,
+                    normalizedSignal: normalizedSignal,
+                    timestamp: new Date().toISOString(),
+                    signalStrength: Math.abs(normalizedSignal),
+                    analysis: {
+                        rsi: { value: data.rsi, signal: rsiSignal, weight: templateWeights.rsi },
+                        ema: { signal: emaSignal, weight: (templateWeights.ema20 + templateWeights.ema50) / 2 },
+                        upper: { signal: upperSignal, weight: templateWeights.upper },
+                        macd: { signal: macdSignal, weight: templateWeights.macd }
+                    }
+                };
+            }
+
+            displaySignal(signal) {
+                const resultDiv = document.getElementById('signalResult');
+                
+                resultDiv.innerHTML = `
+                    <div class="signal-header">
+                        <h2 style="color: #ffffff; margin-bottom: 8px; font-size: 1.2rem;">🎯 سیگنال معاملاتی پیشرفته</h2>
+                        <div class="signal-direction ${signal.directionClass}">${signal.direction}</div>
+                        <p style="color: #f0f8ff; margin-top: 8px; font-size: 0.9rem;">قدرت سیگنال: ${signal.signalStrength.toFixed(1)}/100</p>
+                    </div>
+
+                    <div class="signal-grid">
+                        <div class="signal-item">
+                            <h3>💰 نماد</h3>
+                            <div class="value">${signal.symbol}</div>
+                        </div>
+                        <div class="signal-item">
+                            <h3>💵 قیمت فعلی</h3>
+                            <div class="value">${signal.currentPrice}</div>
+                        </div>
+                        <div class="signal-item">
+                            <h3>🚀 نقطه ورود</h3>
+                            <div class="value">${signal.entry}</div>
+                        </div>
+                        <div class="signal-item">
+                            <h3>🎯 حد سود</h3>
+                            <div class="value">${signal.takeProfit}</div>
+                        </div>
+                        <div class="signal-item">
+                            <h3>🛡 حد ضرر</h3>
+                            <div class="value">${signal.stopLoss}</div>
+                        </div>
+                        <div class="signal-item">
+                            <h3>📊 اهرم</h3>
+                            <div class="value">${signal.leverage}x</div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-section">
+                        <h3 style="color: #ffffff; margin-bottom: 15px; text-align: center; font-size: 1rem;">🔍 تحلیل دقیق اندیکاتورها</h3>
+                        <div class="indicator-analysis">
+                            <div class="indicator-card">
+                                <div class="indicator-title">📊 RSI Analysis</div>
+                                <div class="indicator-details">
+                                    مقدار: ${signal.analysis.rsi.value} | وزن: ${signal.analysis.rsi.weight}<br>
+                                    سیگنال: ${signal.analysis.rsi.signal.toFixed(2)}
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${signal.analysis.rsi.value}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="indicator-card">
+                                <div class="indicator-title">📈 EMA Analysis</div>
+                                <div class="indicator-details">
+                                    وزن ترکیبی: ${signal.analysis.ema.weight} | سیگنال: ${signal.analysis.ema.signal.toFixed(2)}<br>
+                                    وضعیت: ${signal.analysis.ema.signal > 0 ? 'صعودی' : signal.analysis.ema.signal < 0 ? 'نزولی' : 'خنثی'}
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${Math.min(Math.abs(signal.analysis.ema.signal) * 10, 100)}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="indicator-card">
+                                <div class="indicator-title">🔵 Bollinger Band</div>
+                                <div class="indicator-details">
+                                    وزن: ${signal.analysis.upper.weight} | سیگنال: ${signal.analysis.upper.signal.toFixed(2)}<br>
+                                    وضعیت: ${signal.analysis.upper.signal > 0 ? 'دور از مقاومت' : 'نزدیک به مقاومت'}
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${Math.min(Math.abs(signal.analysis.upper.signal) * 5, 100)}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="indicator-card">
+                                <div class="indicator-title">⚡ MACD Analysis</div>
+                                <div class="indicator-details">
+                                    وزن: ${signal.analysis.macd.weight} | سیگنال: ${signal.analysis.macd.signal.toFixed(2)}<br>
+                                    وضعیت: ${signal.analysis.macd.signal > 0 ? 'مثبت' : signal.analysis.macd.signal < 0 ? 'منفی' : 'خنثی'}
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${Math.min(Math.abs(signal.analysis.macd.signal) * 20, 100)}%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                            <h4 style="color: #ffffff; margin-bottom: 8px; font-size: 0.9rem;">📋 خلاصه تحلیل:</h4>
+                            <p style="line-height: 1.5; font-size: 0.8rem; color: #f0f8ff;">
+                                بر اساس تحلیل پیشرفته ${this.selectedTemplate} و با در نظر گیری وزن‌های تخصصی اندیکاتورها، 
+                                سیگنال نهایی ${signal.direction} با قدرت ${signal.signalStrength.toFixed(1)} درصد تولید شده است.
+                                قیمت فعلی ${signal.currentPrice} و نقطه ورود پیشنهادی ${signal.entry} محاسبه شده است.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                
+                resultDiv.style.display = 'block';
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+                
+                this.signalHistory.unshift(signal);
+                this.updateHistory();
+            }
+
+            updateHistory() {
+                const historyContainer = document.getElementById('historyContainer');
+                
+                if (this.signalHistory.length === 0) {
+                    historyContainer.innerHTML = '<p style="text-align: center; opacity: 0.7; font-size: 0.9rem;">هنوز سیگنالی تولید نشده است</p>';
+                    return;
+                }
+
+                historyContainer.innerHTML = this.signalHistory.slice(0, 8).map(signal => `
+                    <div class="history-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div>
+                                <strong style="color: #ffffff; font-size: 0.9rem;">${signal.symbol}</strong>
+                                <span class="${signal.directionClass}" style="margin-right: 10px; font-size: 0.8rem;">${signal.direction}</span>
+                            </div>
+                            <div style="font-size: 0.7rem; opacity: 0.8;">
+                                ${new Date(signal.timestamp).toLocaleString('fa-IR')}
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 0.75rem;">
+                            <div>قیمت: <span style="color: #ffffff;">${signal.currentPrice}</span></div>
+                            <div>ورود: <span style="color: #ffffff;">${signal.entry}</span></div>
+                            <div>سود: <span style="color: #00ff88;">${signal.takeProfit}</span></div>
+                            <div>ضرر: <span style="color: #ff4757;">${signal.stopLoss}</span></div>
+                        </div>
+                        <div style="margin-top: 8px; font-size: 0.75rem;">
+                            اهرم: <span style="color: #ffd700;">${signal.leverage}x</span> | 
+                            قدرت: <span style="color: #ffffff;">${signal.signalStrength.toFixed(1)}/100</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Initialize the bot
+        const bot = new AdvancedTradingBot();
+
+        // Generate Signal Function - دقیق و کامل
+        function generateSignal() {
+            console.log('شروع تولید سیگنال...');
+            
+            if (!bot.selectedTemplate) {
+                alert('لطفاً ابتدا یک قالب انتخاب کنید');
+                return;
+            }
+
+            // Get form data including current price
+            const symbolEl = document.getElementById('symbol');
+            const currentPriceEl = document.getElementById('currentPrice');
+            const resistanceEl = document.getElementById('resistance');
+            const supportEl = document.getElementById('support');
+            const rsiEl = document.getElementById('rsi');
+            const ema20El = document.getElementById('ema20');
+            const ema50El = document.getElementById('ema50');
+            const upperEl = document.getElementById('upper');
+            const macdEl = document.getElementById('macd');
+
+            if (!symbolEl || !currentPriceEl || !resistanceEl || !supportEl || !rsiEl || !ema20El || !ema50El || !upperEl || !macdEl) {
+                alert('خطا: المان‌های فرم پیدا نشدند');
+                return;
+            }
+
+            const data = {
+                symbol: symbolEl.value.toUpperCase().trim(),
+                currentPrice: parseFloat(currentPriceEl.value),
+                resistance: parseFloat(resistanceEl.value),
+                support: parseFloat(supportEl.value),
+                rsi: parseFloat(rsiEl.value),
+                ema20: parseFloat(ema20El.value),
+                ema50: parseFloat(ema50El.value),
+                upper: parseFloat(upperEl.value),
+                macd: parseFloat(macdEl.value)
+            };
+
+            console.log('داده‌های ورودی:', data);
+
+            // Validate inputs
+            if (!data.symbol || data.symbol.length < 3) {
+                alert('لطفاً نماد ارز معتبر وارد کنید (حداقل 3 کاراکتر)');
+                return;
+            }
+
+            const numericFields = ['currentPrice', 'resistance', 'support', 'rsi', 'ema20', 'ema50', 'upper', 'macd'];
+            for (let field of numericFields) {
+                if (isNaN(data[field]) || data[field] === '') {
+                    alert(`لطفاً مقدار معتبر برای ${field} وارد کنید`);
+                    return;
+                }
+            }
+
+            if (data.rsi < 0 || data.rsi > 100) {
+                alert('RSI باید بین 0 تا 100 باشد');
+                return;
+            }
+
+            if (data.support >= data.resistance) {
+                alert('حمایت باید کمتر از مقاومت باشد');
+                return;
+            }
+
+            if (data.currentPrice <= 0) {
+                alert('قیمت فعلی باید بزرگتر از صفر باشد');
+                return;
+            }
+
+            console.log('اعتبارسنجی موفق، شروع محاسبه...');
+
+            // Show loading
+            const loadingEl = document.getElementById('loading');
+            const resultEl = document.getElementById('signalResult');
+            
+            if (loadingEl) loadingEl.style.display = 'block';
+            if (resultEl) resultEl.style.display = 'none';
+
+            // Process signal generation
+            setTimeout(() => {
+                try {
+                    const templateWeights = bot.templates[bot.selectedTemplate];
+                    console.log('وزن‌های قالب:', templateWeights);
+                    
+                    const signal = bot.generateAdvancedSignal(data, templateWeights);
+                    console.log('سیگنال تولید شده:', signal);
+                    
+                    if (loadingEl) loadingEl.style.display = 'none';
+                    
+                    if (signal) {
+                        bot.displaySignal(signal);
+                        showSuccessAnimation();
+                        
+                        if (resultEl) {
+                            resultEl.classList.add('glow');
+                            setTimeout(() => {
+                                resultEl.classList.remove('glow');
+                            }, 3000);
+                        }
+                    } else {
+                        alert('خطا در تولید سیگنال');
+                    }
+                } catch (error) {
+                    console.error('خطا در تولید سیگنال:', error);
+                    if (loadingEl) loadingEl.style.display = 'none';
+                    alert('خطا در محاسبه سیگنال: ' + error.message);
+                }
+            }, 800);
+        }
+
+        // Reset Form Function
+        function resetForm() {
+            document.getElementById('inputForm').style.display = 'none';
+            document.getElementById('signalResult').style.display = 'none';
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            bot.selectedTemplate = null;
+            
+            // Clear form
+            document.querySelectorAll('input').forEach(input => input.value = '');
+        }
+
+        // Add success animation
+        function showSuccessAnimation() {
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 255, 136, 0.95);
+                color: white;
+                padding: 15px 30px;
+                border-radius: 10px;
+                font-size: 1rem;
+                font-weight: 600;
+                z-index: 1000;
+                animation: successPop 2s ease;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            `;
+            successDiv.textContent = '✅ سیگنال با موفقیت تولید شد!';
+            
+            document.body.appendChild(successDiv);
+            setTimeout(() => successDiv.remove(), 2000);
+        }
+
+        const successAnimationStyles = document.createElement('style');
+        successAnimationStyles.textContent = `
+            @keyframes successPop {
+                0% {
+                    transform: translate(-50%, -50%) scale(0);
+                    opacity: 0;
+                }
+                20% {
+                    transform: translate(-50%, -50%) scale(1.1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-50%, -50%) scale(1);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(successAnimationStyles);
+
+        // Enhanced form validation with real-time feedback
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    validateInput(this);
+                });
+                
+                input.addEventListener('blur', function() {
+                    validateInput(this);
+                });
+            });
+        });
+
+        function validateInput(input) {
+            const value = parseFloat(input.value);
+            const id = input.id;
+            
+            let isValid = true;
+            
+            if (id === 'rsi') {
+                isValid = !isNaN(value) && value >= 0 && value <= 100;
+            } else if (id === 'symbol') {
+                isValid = input.value.length >= 3;
+            } else {
+                isValid = !isNaN(value) && value > 0;
+            }
+            
+            if (input.value && isValid) {
+                input.style.borderColor = '#00ff88';
+                input.style.boxShadow = '0 0 8px rgba(0, 255, 136, 0.3)';
+            } else if (input.value && !isValid) {
+                input.style.borderColor = '#ff4757';
+                input.style.boxShadow = '0 0 8px rgba(255, 71, 87, 0.3)';
+            } else {
+                input.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                input.style.boxShadow = 'none';
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.activeElement.tagName === 'INPUT') {
+                const inputs = Array.from(document.querySelectorAll('input'));
+                const currentIndex = inputs.indexOf(document.activeElement);
+                if (currentIndex < inputs.length - 1) {
+                    inputs[currentIndex + 1].focus();
+                } else {
+                    generateSignal();
+                }
+            }
+        });
+
+        // Auto-save functionality (in memory)
+        setInterval(() => {
+            const formData = {};
+            document.querySelectorAll('input').forEach(input => {
+                if (input.value) {
+                    formData[input.id] = input.value;
+                }
+            });
+            
+            if (Object.keys(formData).length > 0) {
+                window.formBackup = formData;
+            }
+        }, 5000);
+
+        // Restore form data on page load
+        window.addEventListener('load', () => {
+            if (window.formBackup) {
+                Object.entries(window.formBackup).forEach(([id, value]) => {
+                    const input = document.getElementById(id);
+                    if (input) input.value = value;
+                });
+            }
+        });
+
+        // Add floating particles effect
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                width: 3px;
+                height: 3px;
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 0;
+                animation: particleFloat 10s linear infinite;
+                left: ${Math.random() * 100}%;
+                top: 100%;
+            `;
+            
+            particle.addEventListener('animationend', () => particle.remove());
+            document.body.appendChild(particle);
+        }
+
+        // Add particle animation CSS
+        const particleStyles = document.createElement('style');
+        particleStyles.textContent = `
+            @keyframes particleFloat {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(particleStyles);
+
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+    </script>
+</body>
+</html>
