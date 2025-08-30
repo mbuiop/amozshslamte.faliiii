@@ -232,6 +232,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             border: none;
             cursor: pointer;
+            position: relative;
         }
 
         .visit-btn {
@@ -241,6 +242,10 @@
         .download-btn:hover, .visit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-btn:active, .visit-btn:active {
+            transform: scale(0.98);
         }
 
         .bottom-nav {
@@ -354,11 +359,29 @@
             right: 0;
             top: 8px;
         }
+
+        .download-notification {
+            display: none;
+            background: #2196F3;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+        }
     </style>
 </head>
 <body>
     <div class="copy-notification" id="copyNotification">
         آی‌دی تلگرام کپی شد! 📋
+    </div>
+
+    <div class="download-notification" id="downloadNotification">
+        دانلود شروع شد! 📥
     </div>
 
     <div class="header">
@@ -414,28 +437,28 @@
                     <div class="card-icon">🛒</div>
                     <h3>اپلیکیشن فروشگاهی</h3>
                     <p>اپلیکیشن کامل فروشگاه آنلاین با سبد خرید، پرداخت، پنل کاربری و مدیریت محصولات. قابل سفارشی‌سازی کامل.</p>
-                    <a href="m1.apk" download class="download-btn">💾 دانلود نسخه تست</a>
+                    <button class="download-btn" onclick="downloadFile('./m1.apk', 'shop_app.apk')">💾 دانلود نسخه تست</button>
                 </div>
 
                 <div class="card">
                     <div class="card-icon">🍕</div>
                     <h3>اپلیکیشن رستوران</h3>
                     <p>اپلیکیشن سفارش غذا با منوی کامل، سبد خرید، پیگیری سفارش و سیستم امتیازدهی. مناسب رستوران‌ها و فست‌فودها.</p>
-                    <a href="m1.apk" download class="download-btn">💾 دانلود نسخه تست</a>
+                    <button class="download-btn" onclick="downloadFile('./m1.apk', 'restaurant_app.apk')">💾 دانلود نسخه تست</button>
                 </div>
 
                 <div class="card">
                     <div class="card-icon">🎓</div>
                     <h3>اپلیکیشن آموزشی</h3>
                     <p>پلتفرم آموزش آنلاین با قابلیت بارگذاری دوره، آزمون آنلاین، چت و پنل مدیریت اساتید. مناسب مراکز آموزشی.</p>
-                    <a href="m1.apk" download class="download-btn">💾 دانلود نسخه تست</a>
+                    <button class="download-btn" onclick="downloadFile('./m1.apk', 'education_app.apk')">💾 دانلود نسخه تست</button>
                 </div>
 
                 <div class="card">
                     <div class="card-icon">💼</div>
                     <h3>اپلیکیشن کسب‌وکار</h3>
                     <p>اپلیکیشن مدیریت کسب‌وکار با امکان معرفی خدمات، رزرو آنلاین، مدیریت مشتریان و گزارش‌گیری.</p>
-                    <a href="m.apk" download class="download-btn">💾 دانلود نسخه تست</a>
+                    <button class="download-btn" onclick="downloadFile('./m1.apk', 'business_app.apk')">💾 دانلود نسخه تست</button>
                 </div>
             </div>
         </div>
@@ -448,28 +471,28 @@
                     <div class="card-icon">🏪</div>
                     <h3>سایت فروشگاهی</h3>
                     <p>سایت کامل فروشگاه آنلاین با پنل مدیریت، درگاه پرداخت، مدیریت محصولات و سیستم مدیریت سفارشات.</p>
-                    <a href="m1.html" target="_blank" class="visit-btn">🌍 مشاهده نسخه تست</a>
+                    <button class="visit-btn" onclick="openSite('./m1.html')">🌍 مشاهده نسخه تست</button>
                 </div>
 
                 <div class="card">
                     <div class="card-icon">🏢</div>
                     <h3>سایت شرکتی</h3>
                     <p>سایت معرفی شرکت و خدمات با طراحی حرفه‌ای، فرم تماس، نمونه کارها و بخش مدیریت محتوا.</p>
-                    <a href="m1.html" target="_blank" class="visit-btn">🌍 مشاهده نسخه تست</a>
+                    <button class="visit-btn" onclick="openSite('./m1.html')">🌍 مشاهده نسخه تست</button>
                 </div>
 
                 <div class="card">
                     <div class="card-icon">📰</div>
                     <h3>سایت خبری/وبلاگ</h3>
                     <p>پلتفرم انتشار مقاله و خبر با سیستم مدیریت محتوا، نظرات کاربران و امکان اشتراک گذاری مطالب.</p>
-                    <a href="m1.html" target="_blank" class="visit-btn">🌍 مشاهده نسخه تست</a>
+                    <button class="visit-btn" onclick="openSite('./m1.html')">🌍 مشاهده نسخه تست</button>
                 </div>
 
                 <div class="card">
                     <div class="card-icon">🎨</div>
                     <h3>سایت نمونه کار</h3>
                     <p>سایت شخصی برای معرفی نمونه کارها، رزومه و مهارت‌ها. مناسب طراحان، برنامه‌نویسان و هنرمندان.</p>
-                    <a href="m1.html" target="_blank" class="visit-btn">🌍 مشاهده نسخه تست</a>
+                    <button class="visit-btn" onclick="openSite('./m1.html')">🌍 مشاهده نسخه تست</button>
                 </div>
             </div>
         </div>
@@ -537,6 +560,32 @@
             });
         }
 
+        // تابع دانلود فایل APK
+        function downloadFile(filePath, fileName) {
+            // نمایش نوتیفیکیشن دانلود
+            const downloadNotification = document.getElementById('downloadNotification');
+            downloadNotification.style.display = 'block';
+            setTimeout(() => {
+                downloadNotification.style.display = 'none';
+            }, 3000);
+
+            // ایجاد لینک دانلود
+            const link = document.createElement('a');
+            link.href = filePath;
+            link.download = fileName;
+            link.style.display = 'none';
+            
+            // اضافه کردن به DOM، کلیک و حذف
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // تابع باز کردن سایت
+        function openSite(filePath) {
+            window.open(filePath, '_blank');
+        }
+
         // انیمیشن برای کارت‌ها هنگام لود شدن
         window.addEventListener('load', () => {
             const cards = document.querySelectorAll('.card');
@@ -554,6 +603,13 @@
             card.style.transform = 'translateY(30px)';
             card.style.transition = 'all 0.6s ease';
         });
+
+        // تست وجود فایل قبل از دانلود
+        function checkFileExists(filePath) {
+            return fetch(filePath, { method: 'HEAD' })
+                .then(response => response.ok)
+                .catch(() => false);
+        }
     </script>
 </body>
 </html>
