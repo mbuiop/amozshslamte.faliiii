@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه اپلیکیشن و سایت</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .content {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-info {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .main-info h2 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-info p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .telegram-contact {
+            background: linear-gradient(45deg, #0088cc, #006699);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 20px 0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            border: none;
+            position: relative;
+        }
+
+        .telegram-contact:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .telegram-id {
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            margin: 15px 0;
+            display: inline-block;
+            cursor: pointer;
+            user-select: all;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .telegram-id:hover {
+            background: rgba(0, 0, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        .copy-notification {
+            display: none;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .download-btn, .visit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .visit-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+        }
+
+        .download-btn:hover, .visit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 15px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-btn {
+                font-size: 0.8rem;
+                padding: 12px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .main-info {
+                padding: 20px;
+            }
+
+            .main-info h2 {
+                font-size: 1.5rem;
+            }
+
+            .main-info p {
+                font-size: 1rem;
+            }
+        }
+
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .features-list {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .features-list ul {
+            list-style: none;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            font-size: 1rem;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .features-list li:before {
+            content: "✅";
+            position: absolute;
+            right: 0;
+            top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="copy-notification" id="copyNotification">
+        آی‌دی تلگرام کپی شد! 📋
+    </div>
+
+    <div class="header">
+        <h1>🛍️ فروشگاه اپلیکیشن و سایت</h1>
+        <p class="subtitle">طراحی و توسعه اپلیکیشن و سایت سفارشی</p>
+    </div>
+
+    <div class="content">
+        <!-- اطلاعات اصلی -->
+        <div class="main-info">
+            <h2>🎯 تمام اپلیکیشن‌ها و سایت‌ها فروشی هستند</h2>
+            <p>
+                ما متخصص طراحی و توسعه اپلیکیشن‌های موبایل و سایت‌های اینترنتی هستیم. 
+                تمام محصولات ما قابل خریداری، تست و سفارشی‌سازی می‌باشند.
+            </p>
+            <p>
+                هر کسی که علاقه‌مند به دانلود، تست یا خرید محصولات ما است، 
+                می‌تواند از طریق تلگرام با ما در ارتباط باشد.
+            </p>
+            
+            <div class="features-list">
+                <h3 style="color: white; margin-bottom: 15px; text-align: center;">🌟 خدمات ما:</h3>
+                <ul>
+                    <li>طراحی و توسعه اپلیکیشن موبایل (Android & iOS)</li>
+                    <li>طراحی و توسعه سایت‌های مدرن و ریسپانسیو</li>
+                    <li>سفارشی‌سازی کامل طبق نیاز شما</li>
+                    <li>نسخه تست رایگان برای بررسی کیفیت</li>
+                    <li>پشتیبانی کامل پس از فروش</li>
+                    <li>قیمت‌های مناسب و رقابتی</li>
+                </ul>
+            </div>
+
+            <p style="font-size: 1.2rem; font-weight: 600; color: #fff; margin: 25px 0;">
+                📞 برای سفارش، مشاوره و خرید در تلگرام پیام دهید:
+            </p>
+            
+            <div class="telegram-id" onclick="copyToClipboard('@Mortzayar')" title="کلیک کنید تا کپی شود">
+                @Mortzayar
+            </div>
+            
+            <br>
+            
+            <a href="https://t.me/Mortzayar" class="telegram-contact" target="_blank">
+                📱 ارتباط در تلگرام
+            </a>
+        </div>
+
+        <!-- بخش فروشگاه اپلیکیشن -->
+        <div id="app-section" class="section">
+            <h2 class="section-title">📱 اپلیکیشن‌های آماده</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="card-icon">🛒</div>
+                    <h3>اپلیکیشن فروشگاهی</h3>
+                    <p>اپلیکیشن کامل فروشگاه آنلاین با سبد خرید، پرداخت، پنل کاربری و مدیریت محصولات. قابل سفارشی‌سازی کامل.</p>
+                    <a href="m1.apk" download class="download-btn">💾 دانلود نسخه تست</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🍕</div>
+                    <h3>اپلیکیشن رستوران</h3>
+                    <p>اپلیکیشن سفارش غذا با منوی کامل، سبد خرید، پیگیری سفارش و سیستم امتیازدهی. مناسب رستوران‌ها و فست‌فودها.</p>
+                    <a href="m1.apk" download class="download-btn">💾 دانلود نسخه تست</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <h3>اپلیکیشن آموزشی</h3>
+                    <p>پلتفرم آموزش آنلاین با قابلیت بارگذاری دوره، آزمون آنلاین، چت و پنل مدیریت اساتید. مناسب مراکز آموزشی.</p>
+                    <a href="m1.apk" download class="download-btn">💾 دانلود نسخه تست</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">💼</div>
+                    <h3>اپلیکیشن کسب‌وکار</h3>
+                    <p>اپلیکیشن مدیریت کسب‌وکار با امکان معرفی خدمات، رزرو آنلاین، مدیریت مشتریان و گزارش‌گیری.</p>
+                    <a href="m1.apk" download class="download-btn">💾 دانلود نسخه تست</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- بخش فروشگاه سایت -->
+        <div id="website-section" class="section active">
+            <h2 class="section-title">🌐 سایت‌های آماده</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="card-icon">🏪</div>
+                    <h3>سایت فروشگاهی</h3>
+                    <p>سایت کامل فروشگاه آنلاین با پنل مدیریت، درگاه پرداخت، مدیریت محصولات و سیستم مدیریت سفارشات.</p>
+                    <a href="m1.html" target="_blank" class="visit-btn">🌍 مشاهده نسخه تست</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🏢</div>
+                    <h3>سایت شرکتی</h3>
+                    <p>سایت معرفی شرکت و خدمات با طراحی حرفه‌ای، فرم تماس، نمونه کارها و بخش مدیریت محتوا.</p>
+                    <a href="m1.html" target="_blank" class="visit-btn">🌍 مشاهده نسخه تست</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📰</div>
+                    <h3>سایت خبری/وبلاگ</h3>
+                    <p>پلتفرم انتشار مقاله و خبر با سیستم مدیریت محتوا، نظرات کاربران و امکان اشتراک گذاری مطالب.</p>
+                    <a href="m1.html" target="_blank" class="visit-btn">🌍 مشاهده نسخه تست</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>سایت نمونه کار</h3>
+                    <p>سایت شخصی برای معرفی نمونه کارها، رزومه و مهارت‌ها. مناسب طراحان، برنامه‌نویسان و هنرمندان.</p>
+                    <a href="m1.html" target="_blank" class="visit-btn">🌍 مشاهده نسخه تست</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نوار ناوبری پایین -->
+    <div class="bottom-nav">
+        <div class="nav-buttons">
+            <button class="nav-btn active" id="website-btn">
+                <span class="nav-icon">🌐</span>
+                <span>سایت‌های آماده</span>
+            </button>
+            <button class="nav-btn" id="app-btn">
+                <span class="nav-icon">📱</span>
+                <span>اپلیکیشن‌های آماده</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const websiteBtn = document.getElementById('website-btn');
+        const appBtn = document.getElementById('app-btn');
+        const websiteSection = document.getElementById('website-section');
+        const appSection = document.getElementById('app-section');
+
+        function showWebsiteSection() {
+            websiteSection.classList.add('active');
+            appSection.classList.remove('active');
+            websiteBtn.classList.add('active');
+            appBtn.classList.remove('active');
+        }
+
+        function showAppSection() {
+            appSection.classList.add('active');
+            websiteSection.classList.remove('active');
+            appBtn.classList.add('active');
+            websiteBtn.classList.remove('active');
+        }
+
+        websiteBtn.addEventListener('click', showWebsiteSection);
+        appBtn.addEventListener('click', showAppSection);
+
+        // تابع کپی کردن آی‌دی تلگرام
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                const notification = document.getElementById('copyNotification');
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }).catch(function(err) {
+                // اگر کپی نشد، آی‌دی را انتخاب می‌کنیم
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const notification = document.getElementById('copyNotification');
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            });
+        }
+
+        // انیمیشن برای کارت‌ها هنگام لود شدن
+        window.addEventListener('load', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // تنظیمات اولیه برای انیمیشن کارت‌ها
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+        });
+    </script>
+</body>
+</html>
