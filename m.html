@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حمایت مالی</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .heart-icon {
+            font-size: 3rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .description {
+            color: #5a6c7d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .wallet-section {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px solid #dee2e6;
+        }
+        
+        .wallet-label {
+            color: #495057;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .wallet-address {
+            background: #fff;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            word-break: break-all;
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .wallet-address:hover {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+        
+        .copy-btn {
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+        
+        .copy-success {
+            background: linear-gradient(145deg, #28a745, #1e7e34) !important;
+        }
+        
+        .amount-suggestion {
+            background: linear-gradient(145deg, #ffeaa7, #fdcb6e);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 2px solid #f39c12;
+        }
+        
+        .amount-text {
+            color: #d35400;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .amount-note {
+            color: #8b4513;
+            font-size: 0.9rem;
+        }
+        
+        .footer-text {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 25px;
+            font-style: italic;
+        }
+        
+        .crypto-badge {
+            display: inline-block;
+            background: linear-gradient(145deg, #17a2b8, #138496);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .wallet-address {
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart-icon">💖</div>
+        
+        <h1>حمایت مالی داوطلبانه</h1>
+        
+        <p class="description">
+            اگر از کار ما راضی هستید و می‌خواهید از ما حمایت کنید، می‌توانید با کمترین مبلغ ممکن به ما کمک کنید. حمایت شما انگیزه‌ای برای ادامه فعالیت‌هاست.
+        </p>
+        
+        <div class="amount-suggestion">
+            <div class="amount-text">💰 حداقل مبلغ پیشنهادی: ۱ دلار</div>
+            <div class="amount-note">هر مبلغی که بتوانید، ارزشمند است</div>
+        </div>
+        
+        <div class="wallet-section">
+            <div class="crypto-badge">🔗 TRC20 Wallet</div>
+            
+            <div class="wallet-label">آدرس کیف پول:</div>
+            
+            <div class="wallet-address" id="walletAddress">
+                TV61aTh98MGqmteYzda5AaBzdXgGqreG6A
+            </div>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyWallet()">
+                📋 کپی آدرس
+            </button>
+        </div>
+        
+        <p class="footer-text">
+            با تشکر از لطف و حمایت شما 🙏
+        </p>
+    </div>
+
+    <script>
+        function copyWallet() {
+            const walletAddress = document.getElementById('walletAddress').textContent;
+            const copyBtn = document.getElementById('copyBtn');
+            
+            // کپی کردن آدرس
+            navigator.clipboard.writeText(walletAddress).then(function() {
+                // تغییر ظاهر دکمه
+                copyBtn.innerHTML = '✅ کپی شد!';
+                copyBtn.classList.add('copy-success');
+                
+                // بازگشت به حالت اولیه بعد از 2 ثانیه
+                setTimeout(function() {
+                    copyBtn.innerHTML = '📋 کپی آدرس';
+                    copyBtn.classList.remove('copy-success');
+                }, 2000);
+            }).catch(function(err) {
+                // اگر کپی نشد، سعی در انتخاب متن
+                const range = document.createRange();
+                range.selectNode(document.getElementById('walletAddress'));
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                
+                copyBtn.innerHTML = '📱 متن انتخاب شد';
+                setTimeout(function() {
+                    copyBtn.innerHTML = '📋 کپی آدرس';
+                }, 2000);
+            });
+        }
+        
+        // افکت کلیک روی آدرس کیف پول
+        document.getElementById('walletAddress').addEventListener('click', function() {
+            copyWallet();
+        });
+        
+        // افکت hover زیبا برای آدرس
+        document.getElementById('walletAddress').addEventListener('mouseenter', function() {
+            this.style.background = '#f8f9fa';
+            this.style.cursor = 'pointer';
+        });
+        
+        document.getElementById('walletAddress').addEventListener('mouseleave', function() {
+            this.style.background = '#fff';
+        });
+    </script>
+</body>
+</html>
