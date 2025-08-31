@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه اپلیکیشن و سایت</title>
+    <title>فروشگاه اپلیکیشن</title>
     <style>
         * {
             margin: 0;
@@ -131,26 +131,6 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-            animation: fadeInUp 0.6s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -218,7 +198,7 @@
             text-align: center;
         }
 
-        .download-btn, .visit-btn {
+        .download-btn {
             display: block;
             width: 100%;
             padding: 12px 25px;
@@ -235,95 +215,13 @@
             position: relative;
         }
 
-        .visit-btn {
-            background: linear-gradient(45deg, #2196F3, #1976D2);
-        }
-
-        .download-btn:hover, .visit-btn:hover {
+        .download-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
-        .download-btn:active, .visit-btn:active {
+        .download-btn:active {
             transform: scale(0.98);
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            padding: 15px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 1000;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .nav-btn {
-            flex: 1;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-        }
-
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-btn {
-                font-size: 0.8rem;
-                padding: 12px 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .main-info {
-                padding: 20px;
-            }
-
-            .main-info h2 {
-                font-size: 1.5rem;
-            }
-
-            .main-info p {
-                font-size: 1rem;
-            }
         }
 
         .section-title {
@@ -360,18 +258,26 @@
             top: 8px;
         }
 
-        .download-notification {
-            display: none;
-            background: #2196F3;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            z-index: 9999;
-            animation: slideIn 0.3s ease;
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .main-info {
+                padding: 20px;
+            }
+
+            .main-info h2 {
+                font-size: 1.5rem;
+            }
+
+            .main-info p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -380,21 +286,17 @@
         آی‌دی تلگرام کپی شد! 📋
     </div>
 
-    <div class="download-notification" id="downloadNotification">
-        دانلود شروع شد! 📥
-    </div>
-
     <div class="header">
-        <h1>🛍️ فروشگاه اپلیکیشن و سایت</h1>
-        <p class="subtitle">طراحی و توسعه اپلیکیشن و سایت سفارشی</p>
+        <h1>🛍️ فروشگاه اپلیکیشن</h1>
+        <p class="subtitle">طراحی و توسعه اپلیکیشن سفارشی</p>
     </div>
 
     <div class="content">
         <!-- اطلاعات اصلی -->
         <div class="main-info">
-            <h2>🎯 تمام اپلیکیشن‌ها و سایت‌ها فروشی هستند</h2>
+            <h2>🎯 تمام اپلیکیشن‌ها فروشی هستند</h2>
             <p>
-                ما متخصص طراحی و توسعه اپلیکیشن‌های موبایل و سایت‌های اینترنتی هستیم. 
+                ما متخصص طراحی و توسعه اپلیکیشن‌های موبایل هستیم. 
                 تمام محصولات ما قابل خریداری، تست و سفارشی‌سازی می‌باشند.
             </p>
             <p>
@@ -406,7 +308,6 @@
                 <h3 style="color: white; margin-bottom: 15px; text-align: center;">🌟 خدمات ما:</h3>
                 <ul>
                     <li>طراحی و توسعه اپلیکیشن موبایل (Android & iOS)</li>
-                    <li>طراحی و توسعه سایت‌های مدرن و ریسپانسیو</li>
                     <li>سفارشی‌سازی کامل طبق نیاز شما</li>
                     <li>نسخه تست رایگان برای بررسی کیفیت</li>
                     <li>پشتیبانی کامل پس از فروش</li>
@@ -430,111 +331,27 @@
         </div>
 
         <!-- بخش فروشگاه اپلیکیشن -->
-        <div id="app-section" class="section">
+        <div id="app-section">
             <h2 class="section-title">📱 اپلیکیشن‌های آماده</h2>
             <div class="grid-container">
                 <div class="card">
                     <div class="card-icon">🛒</div>
-                    <h3>اپلیکیشن تبدیل متن به عکس</h3>
-                    <p>این اپلیکیشن به قیمت ۱۰۰دولار به فروش می رسد انتقال مالکیت به خریدار  با سورس کد هر کسی خاست  تو تلگرام به ادمین پیام بفرسته اموزش اجراع و پنل مدریت ارجاع داده میشود .</p>
-                    <button class="download-btn" onclick="downloadFile('.m1.apk', 'shop_app.apk')">💾 دانلود نسخه تست</button>
+                    <h3>اپلیکیشن فروشگاهی</h3>
+                    <p>اپلیکیشن کامل فروشگاه آنلاین با سبد خرید، پرداخت، پنل کاربری و مدیریت محصولات. قابل سفارشی‌سازی کامل.</p>
+                    <a href="https://t.me/Mortzayar" class="download-btn" target="_blank">💾 دانلود از تلگرام</a>
                 </div>
 
                 <div class="card">
                     <div class="card-icon">🍕</div>
                     <h3>اپلیکیشن رستوران</h3>
                     <p>اپلیکیشن سفارش غذا با منوی کامل، سبد خرید، پیگیری سفارش و سیستم امتیازدهی. مناسب رستوران‌ها و فست‌فودها.</p>
-                    <button class="download-btn" onclick="downloadFile('.m2.apk', 'restaurant_app.apk')">💾 دانلود نسخه تست</button>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🎓</div>
-                    <h3>اپلیکیشن آموزشی</h3>
-                    <p>پلتفرم آموزش آنلاین با قابلیت بارگذاری دوره، آزمون آنلاین، چت و پنل مدیریت اساتید. مناسب مراکز آموزشی.</p>
-                    <button class="download-btn" onclick="downloadFile('./m3.apk', 'education_app.apk')">💾 دانلود نسخه تست</button>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">💼</div>
-                    <h3>اپلیکیشن کسب‌وکار</h3>
-                    <p>اپلیکیشن مدیریت کسب‌وکار با امکان معرفی خدمات، رزرو آنلاین، مدیریت مشتریان و گزارش‌گیری.</p>
-                    <button class="download-btn" onclick="downloadFile('./m.apk', 'business_app.apk')">💾 دانلود نسخه تست</button>
+                    <a href="https://t.me/Mortzayar" class="download-btn" target="_blank">💾 دانلود از تلگرام</a>
                 </div>
             </div>
-        </div>
-
-        <!-- بخش فروشگاه سایت -->
-        <div id="website-section" class="section active">
-            <h2 class="section-title">🌐 سایت‌های آماده</h2>
-            <div class="grid-container">
-                <div class="card">
-                    <div class="card-icon">🏪</div>
-                    <h3>سایت فروشگاهی</h3>
-                    <p>سایت کامل فروشگاه آنلاین با پنل مدیریت، درگاه پرداخت، مدیریت محصولات و سیستم مدیریت سفارشات.</p>
-                    <button class="visit-btn" onclick="openSite('./m1.html')">🌍 مشاهده نسخه تست</button>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🏢</div>
-                    <h3>سایت شرکتی</h3>
-                    <p>سایت معرفی شرکت و خدمات با طراحی حرفه‌ای، فرم تماس، نمونه کارها و بخش مدیریت محتوا.</p>
-                    <button class="visit-btn" onclick="openSite('./m1.html')">🌍 مشاهده نسخه تست</button>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">📰</div>
-                    <h3>سایت خبری/وبلاگ</h3>
-                    <p>پلتفرم انتشار مقاله و خبر با سیستم مدیریت محتوا، نظرات کاربران و امکان اشتراک گذاری مطالب.</p>
-                    <button class="visit-btn" onclick="openSite('./m1.html')">🌍 مشاهده نسخه تست</button>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🎨</div>
-                    <h3>سایت نمونه کار</h3>
-                    <p>سایت شخصی برای معرفی نمونه کارها، رزومه و مهارت‌ها. مناسب طراحان، برنامه‌نویسان و هنرمندان.</p>
-                    <button class="visit-btn" onclick="openSite('./m1.html')">🌍 مشاهده نسخه تست</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- نوار ناوبری پایین -->
-    <div class="bottom-nav">
-        <div class="nav-buttons">
-            <button class="nav-btn active" id="website-btn">
-                <span class="nav-icon">🌐</span>
-                <span>سایت‌های آماده</span>
-            </button>
-            <button class="nav-btn" id="app-btn">
-                <span class="nav-icon">📱</span>
-                <span>اپلیکیشن‌های آماده</span>
-            </button>
         </div>
     </div>
 
     <script>
-        const websiteBtn = document.getElementById('website-btn');
-        const appBtn = document.getElementById('app-btn');
-        const websiteSection = document.getElementById('website-section');
-        const appSection = document.getElementById('app-section');
-
-        function showWebsiteSection() {
-            websiteSection.classList.add('active');
-            appSection.classList.remove('active');
-            websiteBtn.classList.add('active');
-            appBtn.classList.remove('active');
-        }
-
-        function showAppSection() {
-            appSection.classList.add('active');
-            websiteSection.classList.remove('active');
-            appBtn.classList.add('active');
-            websiteBtn.classList.remove('active');
-        }
-
-        websiteBtn.addEventListener('click', showWebsiteSection);
-        appBtn.addEventListener('click', showAppSection);
-
         // تابع کپی کردن آی‌دی تلگرام
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function() {
@@ -560,32 +377,6 @@
             });
         }
 
-        // تابع دانلود فایل APK
-        function downloadFile(filePath, fileName) {
-            // نمایش نوتیفیکیشن دانلود
-            const downloadNotification = document.getElementById('downloadNotification');
-            downloadNotification.style.display = 'block';
-            setTimeout(() => {
-                downloadNotification.style.display = 'none';
-            }, 3000);
-
-            // ایجاد لینک دانلود
-            const link = document.createElement('a');
-            link.href = filePath;
-            link.download = fileName;
-            link.style.display = 'none';
-            
-            // اضافه کردن به DOM، کلیک و حذف
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // تابع باز کردن سایت
-        function openSite(filePath) {
-            window.open(filePath, '_blank');
-        }
-
         // انیمیشن برای کارت‌ها هنگام لود شدن
         window.addEventListener('load', () => {
             const cards = document.querySelectorAll('.card');
@@ -603,13 +394,6 @@
             card.style.transform = 'translateY(30px)';
             card.style.transition = 'all 0.6s ease';
         });
-
-        // تست وجود فایل قبل از دانلود
-        function checkFileExists(filePath) {
-            return fetch(filePath, { method: 'HEAD' })
-                .then(response => response.ok)
-                .catch(() => false);
-        }
     </script>
 </body>
 </html>
