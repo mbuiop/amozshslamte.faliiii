@@ -3,396 +3,494 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه اپلیکیشن</title>
+    <title>اجراکننده کد HTML</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0f172a;
+            color: #f8fafc;
             min-height: 100vh;
-            padding-bottom: 100px;
+            display: flex;
+            flex-direction: column;
         }
-
+        
         .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .header h1 {
-            color: white;
-            font-size: 2rem;
-            font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .header .subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-
-        .content {
-            padding: 30px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .main-info {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-        }
-
-        .main-info h2 {
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .main-info p {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-
-        .telegram-contact {
-            background: linear-gradient(45deg, #0088cc, #006699);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            display: inline-block;
-            margin: 20px 0;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            border: none;
-            position: relative;
-        }
-
-        .telegram-contact:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .telegram-id {
-            background: rgba(0, 0, 0, 0.2);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            margin: 15px 0;
-            display: inline-block;
-            cursor: pointer;
-            user-select: all;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .telegram-id:hover {
-            background: rgba(0, 0, 0, 0.4);
-            transform: scale(1.05);
-        }
-
-        .copy-notification {
-            display: none;
-            background: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
-            border-radius: 50%;
+            background: #1e293b;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            justify-content: space-between;
+            border-bottom: 1px solid #334155;
         }
-
-        .card h3 {
-            color: white;
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 600;
+        
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #3b82f6;
         }
-
-        .card p {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-align: center;
+        
+        .controls {
+            display: flex;
+            gap: 10px;
         }
-
-        .download-btn {
-            display: block;
-            width: 100%;
-            padding: 12px 25px;
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            text-align: center;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        
+        .btn {
+            padding: 8px 16px;
             border: none;
+            border-radius: 6px;
             cursor: pointer;
-            position: relative;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
         }
-
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .download-btn:active {
-            transform: scale(0.98);
-        }
-
-        .section-title {
-            text-align: center;
+        
+        .btn-run {
+            background: #10b981;
             color: white;
-            font-size: 2rem;
-            margin-bottom: 30px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
-
-        .features-list {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+        
+        .btn-run:hover {
+            background: #059669;
+        }
+        
+        .btn-clear {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #dc2626;
+        }
+        
+        .btn-download {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background: #2563eb;
+        }
+        
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .editor-panel, .output-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            background: #1e293b;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .code-area {
+            flex: 1;
+            background: #1e293b;
+            color: #e2e8f0;
             padding: 20px;
-            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            resize: none;
+            border: none;
+            outline: none;
+            line-height: 1.5;
+            font-size: 15px;
+            tab-size: 4;
         }
-
-        .features-list ul {
-            list-style: none;
-            color: rgba(255, 255, 255, 0.95);
+        
+        .output-area {
+            flex: 1;
+            background: white;
+            border: none;
         }
-
-        .features-list li {
-            padding: 8px 0;
-            font-size: 1rem;
-            position: relative;
-            padding-right: 30px;
+        
+        .footer {
+            background: #1e293b;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #334155;
         }
-
-        .features-list li:before {
-            content: "✅";
-            position: absolute;
-            right: 0;
-            top: 8px;
+        
+        .footer-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            background: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-
+        
+        .footer-btn:hover {
+            background: #2563eb;
+        }
+        
+        .alert {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 6px;
+            background: #10b981;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+        }
+        
         @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
+            .main-container {
+                flex-direction: column;
             }
             
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .main-info {
-                padding: 20px;
-            }
-
-            .main-info h2 {
-                font-size: 1.5rem;
-            }
-
-            .main-info p {
-                font-size: 1rem;
+            .editor-panel, .output-panel {
+                height: 50vh;
             }
         }
     </style>
 </head>
 <body>
-    <div class="copy-notification" id="copyNotification">
-        آی‌دی تلگرام کپی شد! 📋
-    </div>
-
     <div class="header">
-        <h1>🛍️ فروشگاه اپلیکیشن</h1>
-        <p class="subtitle">طراحی و توسعه اپلیکیشن سفارشی</p>
-    </div>
-
-    <div class="content">
-        <!-- اطلاعات اصلی -->
-        <div class="main-info">
-            <h2>🎯 تمام اپلیکیشن‌ها فروشی هستند</h2>
-            <p>
-                ما متخصص طراحی و توسعه اپلیکیشن‌های موبایل هستیم. 
-                تمام محصولات ما قابل خریداری، تست و سفارشی‌سازی می‌باشند.
-            </p>
-            <p>
-                هر کسی که علاقه‌مند به دانلود، تست یا خرید محصولات ما است، 
-                می‌تواند از طریق تلگرام با ما در ارتباط باشد.
-            </p>
-            
-            <div class="features-list">
-                <h3 style="color: white; margin-bottom: 15px; text-align: center;">🌟 خدمات ما:</h3>
-                <ul>
-                    <li>طراحی و توسعه اپلیکیشن موبایل (Android & iOS)</li>
-                    <li>سفارشی‌سازی کامل طبق نیاز شما</li>
-                    <li>نسخه تست رایگان برای بررسی کیفیت</li>
-                    <li>پشتیبانی کامل پس از فروش</li>
-                    <li>قیمت‌های مناسب و رقابتی</li>
-                </ul>
-            </div>
-
-            <p style="font-size: 1.2rem; font-weight: 600; color: #fff; margin: 25px 0;">
-                📞 برای سفارش، مشاوره و خرید در تلگرام پیام دهید:
-            </p>
-            
-            <div class="telegram-id" onclick="copyToClipboard('@Mortzayar')" title="کلیک کنید تا کپی شود">
-                @Mortzayar
-            </div>
-            
-            <br>
-            
-            <a href="https://t.me/Mortzayar" class="telegram-contact" target="_blank">
-                📱 ارتباط در تلگرام
-            </a>
-        </div>
-
-        <!-- بخش فروشگاه اپلیکیشن -->
-        <div id="app-section">
-            <h2 class="section-title">📱 اپلیکیشن‌های آماده</h2>
-            <div class="grid-container">
-                <div class="card">
-                    <div class="card-icon">🛒</div>
-                    <h3>اپلیکیشن تبدیل متن به عکس سه بعدی حرفه ایی </h3>
-                    <p>این اپلیکیشن به ۱۰۰دولار با فروش می رسد پنل مدریت و سورس کد و کد واقعیش  کلا مدریت همه چی واگزار میشود جهت برسی رو دانلود  بزنید و تست  کنید با تشکر.</p>
-                    <a href="https://t.me/davnold/3" class="download-btn" target="_blank">💾 دانلود از تلگرام</a>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🍕</div>
-                    <h3>رباط فروشی تحلیگر حرفه ترید</h3>
-                    <p>این رباط تلگرام به قیمت ۱۰۰دولار به فروش می رسد یکی از پیش  رفته ترین الگوریتم سیگنال دهی گذاشته شده فقد کافیه عدد اندیکاتور حمایت  مقاومت را بفرستی تا سیگنال فوق دقیق تولید کنه با ۵رروش الگوریتم.</p>
-                    <a href="https://t.me/TradeFuturesGuru_Bot" class="download-btn" target="_blank">💾 دانلود از تلگرام</a>
-                </div>
-            </div>
+        <div class="logo">اجراکننده کد HTML</div>
+        <div class="controls">
+            <button class="btn btn-run" id="runBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+                </svg>
+                اجرا
+            </button>
+            <button class="btn btn-clear" id="clearBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
+                </svg>
+                پاک‌کردن
+            </button>
+            <button class="btn btn-download" id="downloadBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 9H15V3H9V9H5L12 16L19 9ZM5 18V20H19V18H5Z" fill="currentColor"/>
+                </svg>
+                دانلود
+            </button>
         </div>
     </div>
+    
+    <div class="main-container">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6C4.9 2 4.01 2.9 4.01 4L4 20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2ZM6 20V4H13V9H18V20H6Z" fill="#94a3b8"/>
+                </svg>
+                <span>ویرایشگر کد</span>
+            </div>
+            <textarea class="code-area" id="htmlCode" placeholder="کد HTML خود را اینجا وارد کنید..." spellcheck="false"></textarea>
+        </div>
+        
+        <div class="output-panel">
+            <div class="panel-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 3H3C1.9 3 1 3.9 1 5V17C1 18.1 1.9 19 3 19H8V21H16V19H21C22.1 19 23 18.1 23 17V5C23 3.9 22.1 3 21 3ZM21 17H3V5H21V17Z" fill="#94a3b8"/>
+                </svg>
+                <span>خروجی</span>
+            </div>
+            <iframe class="output-area" id="outputFrame" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <button class="footer-btn" id="addBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="currentColor"/>
+            </svg>
+        </button>
+        <button class="footer-btn" id="helpBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 18H13V16H11V18ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12 6C9.79 6 8 7.79 8 10H10C10 8.9 10.9 8 12 8C13.1 8 14 8.9 14 10C14 12 11 11.75 11 15H13C13 12.75 16 12.5 16 10C16 7.79 14.21 6 12 6Z" fill="currentColor"/>
+            </svg>
+            آموزش
+        </button>
+    </div>
+    
+    <div class="alert" id="successAlert">با موفقیت اجرا شد</div>
 
     <script>
-        // تابع کپی کردن آی‌دی تلگرام
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(function() {
-                const notification = document.getElementById('copyNotification');
-                notification.style.display = 'block';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3000);
-            }).catch(function(err) {
-                // اگر کپی نشد، آی‌دی را انتخاب می‌کنیم
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
+        document.addEventListener('DOMContentLoaded', function() {
+            const htmlCode = document.getElementById('htmlCode');
+            const outputFrame = document.getElementById('outputFrame');
+            const runBtn = document.getElementById('runBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const addBtn = document.getElementById('addBtn');
+            const helpBtn = document.getElementById('helpBtn');
+            const successAlert = document.getElementById('successAlert');
+            
+            // اجرای کد HTML با دقت بالا
+            function runCode() {
+                try {
+                    const code = htmlCode.value;
+                    const blob = new Blob([code], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    outputFrame.src = url;
+                    
+                    // نمایش اعلان موفقیت
+                    successAlert.style.display = 'block';
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000);
+                } catch (error) {
+                    console.error('خطا در اجرای کد:', error);
+                }
+            }
+            
+            // پاک‌کردن ویرایشگر
+            function clearEditor() {
+                htmlCode.value = '';
+                outputFrame.src = 'about:blank';
+            }
+            
+            // رویدادهای کلیک دکمه‌ها
+            runBtn.addEventListener('click', runCode);
+            clearBtn.addEventListener('click', clearEditor);
+            
+            // دانلود کد فعلی
+            downloadBtn.addEventListener('click', function() {
+                if (htmlCode.value.trim() === '') {
+                    return;
+                }
                 
-                const notification = document.getElementById('copyNotification');
-                notification.style.display = 'block';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3000);
+                const blob = new Blob([htmlCode.value], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'index.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
             });
+            
+            // افزودن فایل جدید
+            addBtn.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.html,.htm,.css,.js';
+                input.multiple = true;
+                
+                input.onchange = function(e) {
+                    const files = e.target.files;
+                    if (files.length > 0) {
+                        handleFiles(files);
+                    }
+                };
+                
+                input.click();
+            });
+            
+            // مدیریت فایل‌های آپلود شده
+            function handleFiles(files) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    if (file.type.startsWith('text/') || 
+                        file.name.endsWith('.html') || 
+                        file.name.endsWith('.htm') || 
+                        file.name.endsWith('.css') || 
+                        file.name.endsWith('.js')) {
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            // اگر فایل HTML است، محتوای آن را بارگذاری کن
+                            if (file.name.endsWith('.html') || file.name.endsWith('.htm')) {
+                                htmlCode.value = e.target.result;
+                                runCode();
+                            }
+                        };
+                        reader.readAsText(file);
+                    }
+                }
+            }
+            
+            // راهنمای GitHub
+            helpBtn.addEventListener('click', function() {
+                const helpWindow = window.open('', '_blank');
+                helpWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html lang="fa" dir="rtl">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>راهنمای انتشار در GitHub</title>
+                        <style>
+                            body {
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                background: #0f172a;
+                                color: #f8fafc;
+                                padding: 20px;
+                                line-height: 1.6;
+                            }
+                            .container {
+                                max-width: 800px;
+                                margin: 0 auto;
+                            }
+                            h1 {
+                                color: #3b82f6;
+                                margin-bottom: 20px;
+                                text-align: center;
+                            }
+                            .step {
+                                background: #1e293b;
+                                border-radius: 8px;
+                                padding: 20px;
+                                margin-bottom: 15px;
+                            }
+                            .step-number {
+                                background: #3b82f6;
+                                color: white;
+                                width: 30px;
+                                height: 30px;
+                                border-radius: 50%;
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                                margin-left: 10px;
+                            }
+                            .github-link {
+                                display: block;
+                                text-align: center;
+                                padding: 12px;
+                                background: #3b82f6;
+                                color: white;
+                                text-decoration: none;
+                                border-radius: 6px;
+                                margin-top: 20px;
+                            }
+                            .github-link:hover {
+                                background: #2563eb;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <h1>راهنمای انتشار در GitHub</h1>
+                            <div class="step">
+                                <span class="step-number">1</span>
+                                <h3>ایجاد حساب کاربری در GitHub</h3>
+                                <p>به سایت github.com رفته و یک حساب کاربری ایجاد کنید.</p>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">2</span>
+                                <h3>ساخت ریپازیتوری جدید</h3>
+                                <p>روی دکمه "+" در بالای صفحه کلیک کرده و "New repository" را انتخاب کنید.</p>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">3</span>
+                                <h3>آپلود فایل‌ها</h3>
+                                <p>فایل‌های خود را به ریپازیتوری drag & drop کنید یا از دکمه upload files استفاده کنید.</p>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">4</span>
+                                <h3>فعال‌سازی GitHub Pages</h3>
+                                <p>به بخش Settings رفته، در قسمت Pages، گزینه main branch را انتخاب کنید.</p>
+                            </div>
+                            <div class="step">
+                                <span class="step-number">5</span>
+                                <h3>دسترسی به وب‌سایت</h3>
+                                <p>وب‌سایت شما در آدرس username.github.io/repository-name در دسترس خواهد بود.</p>
+                            </div>
+                            <a href="https://github.com" target="_blank" class="github-link">رفتن به GitHub</a>
+                        </div>
+                    </body>
+                    </html>
+                `);
+            });
+            
+            // فعال کردن Drag and Drop برای آپلود فایل
+            document.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+            
+            document.addEventListener('drop', function(e) {
+                e.preventDefault();
+                if (e.dataTransfer.files.length > 0) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+            
+            // محتوای پیش‌فرض برای نمایش
+            const defaultCode = `<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه نمونه</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4f46e5, #7e22ce);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            line-height: 1.6;
         }
-
-        // انیمیشن برای کارت‌ها هنگام لود شدن
-        window.addEventListener('load', () => {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
-        });
-
-        // تنظیمات اولیه برای انیمیشن کارت‌ها
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'all 0.6s ease';
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: #4f46e5;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>به صفحه نمونه خوش آمدید!</h1>
+    <p>این یک صفحه HTML نمونه است که می‌توانید آن را ویرایش کرده و نتیجه را به صورت زنده مشاهده کنید.</p>
+    <a href="#" class="btn">شروع کنید</a>
+</body>
+</html>`;
+            
+            htmlCode.value = defaultCode;
+            // اجرای خودکار کد پس از بارگذاری
+            setTimeout(runCode, 500);
         });
     </script>
 </body>
