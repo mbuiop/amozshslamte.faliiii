@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قالب‌های تبلیغاتی</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        
+        .contact-info {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid #4caf50;
+        }
+        
+        .telegram-btn {
+            display: inline-block;
+            background-color: #0088cc;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 136, 204, 0.3);
+        }
+        
+        .telegram-btn:hover {
+            background-color: #006da3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 136, 204, 0.4);
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            margin: 0 10px 10px;
+            cursor: pointer;
+            background-color: #e9ecef;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .tab:hover {
+            background-color: #dde1e6;
+        }
+        
+        .tab.active {
+            background-color: #4b6cb7;
+            color: white;
+            border-color: #3a5795;
+        }
+        
+        .category {
+            display: none;
+        }
+        
+        .category.active {
+            display: block;
+        }
+        
+        .ads-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .ad-template {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .ad-template:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .ad-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #e0e0e0;
+            color: #4b6cb7;
+            text-align: center;
+        }
+        
+        .ad-description {
+            min-height: 150px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+            line-height: 1.6;
+        }
+        
+        .phone-number {
+            direction: ltr;
+            text-align: center;
+            padding: 12px;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #2e7d32;
+            border: 1px dashed #4caf50;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .phone-number:hover {
+            background-color: #c8e6c9;
+        }
+        
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .ads-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .tab {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .ads-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab {
+                width: 80%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>قالب‌های تبلیغاتی</h1>
+        <p>برای مشاهده تبلیغات هر دسته، روی آن کلیک کنید</p>
+        
+        <div class="contact-info">
+            <p>جهت هماهنگی و گذاشتن تبلیغ به این آی‌دی در تلگرام پیام بدهید:</p>
+            <a href="https://t.me/Mortzayar" class="telegram-btn" target="_blank">ارتباط از طریق تلگرام</a>
+        </div>
+    </header>
+    
+    <div class="category-tabs">
+        <div class="tab active" data-category="programming">برنامه نویسی</div>
+        <div class="tab" data-category="support">پشتیبانی</div>
+        <div class="tab" data-category="other">سایر</div>
+    </div>
+    
+    <div id="programming" class="category active">
+        <h2 style="text-align: center; color: #4b6cb7;">تبلیغات برنامه نویسی</h2>
+        <div class="ads-container">
+            <!-- 20 templates for programming -->
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 1</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 2</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 3</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 4</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 5</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 6</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 7</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 8</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 9</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 10</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 11</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 12</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 13</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 14</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 15</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 16</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 17</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 18</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 19</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب برنامه نویسی 20</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="support" class="category">
+        <h2 style="text-align: center; color: #4b6cb7;">تبلیغات پشتیبانی</h2>
+        <div class="ads-container">
+            <!-- 20 templates for support -->
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 1</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 2</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 3</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 4</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 5</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 6</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 7</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 8</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 9</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 10</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 11</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 12</div>
+                <div class="ad-description">توضíحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 13</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 14</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 15</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 16</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 17</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 18</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 19</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب پشتیبانی 20</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="other" class="category">
+        <h2 style="text-align: center; color: #4b6cb7;">تبلیغات سایر</h2>
+        <div class="ads-container">
+            <!-- 20 templates for other -->
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 1</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 2</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 3</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 4</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 5</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 6</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 7</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 8</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 9</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 10</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 11</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 12</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 13</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 14</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 15</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 16</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 17</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 18</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 19</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+            <div class="ad-template">
+                <div class="ad-title">قالب سایر 20</div>
+                <div class="ad-description">توضیحات تبلیغ...</div>
+                <div class="phone-number" onclick="callPhoneNumber(this)">09XX-XXX-XXXX</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="copy-notification" id="copyNotification">شماره تلفن کپی شد!</div>
+    
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab');
+        const categories = document.querySelectorAll('.category');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const categoryId = tab.getAttribute('data-category');
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show selected category
+                categories.forEach(category => {
+                    category.classList.remove('active');
+                    if (category.id === categoryId) {
+                        category.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Call phone number functionality
+        function callPhoneNumber(element) {
+            const phoneNumber = element.textContent.trim();
+            // Remove any non-digit characters except for '+'
+            const cleanPhoneNumber = phoneNumber.replace(/[^\d+]/g, '');
+            
+            // Open the dialer with the phone number
+            window.open(`tel:${cleanPhoneNumber}`, '_self');
+        }
+        
+        // Copy phone number functionality
+        function copyPhoneNumber(element) {
+            const phoneNumber = element.textContent;
+            navigator.clipboard.writeText(phoneNumber).then(() => {
+                const notification = document.getElementById('copyNotification');
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
