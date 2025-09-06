@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پلتفرم کسب درآمد و آنلاین سلامت</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>پلتفرم سیگنال ترید</title>
     <style>
         * {
             margin: 0;
@@ -13,180 +12,232 @@
         }
 
         body {
-            font-family: 'IRANSans', 'Tahoma', sans-serif;
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('m.jpg') center/cover no-repeat fixed;
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg, 
+                rgba(0, 0, 0, 0.7) 0%, 
+                rgba(10, 10, 46, 0.8) 50%, 
+                rgba(0, 0, 0, 0.7) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-ring {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 165, 0, 0.3);
+            border-top: 3px solid #ff6b35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: #ff6b35;
+            font-size: 1.1rem;
+            font-weight: 500;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior: none;
-            color: white;
-            padding: 20px;
         }
 
+        /* Header */
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px 20px 20px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.3);
         }
 
         .header h1 {
             font-size: 2.2rem;
-            margin-bottom: 15px;
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b35, #ffa726, #ffeb3b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+            margin-bottom: 8px;
         }
 
         .header p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            max-width: 800px;
-            margin: 0 auto;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            color: #e0e0e0;
+            font-weight: 300;
         }
 
-        .sticker {
-            font-size: 3rem;
-            margin: 20px 0;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .main-content {
+        /* Middle Section */
+        .middle-section {
             flex: 1;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
-            text-align: center;
-            contain: layout style paint;
+            padding: 40px 20px 120px 20px;
         }
 
-        .center-buttons {
+        .middle-buttons {
             display: flex;
-            gap: 2rem;
-            max-width: 900px;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 350px;
             width: 100%;
-            animation: fadeInUp 1s ease-out 0.3s both;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 120px;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .center-btn {
-            width: 280px;
-            height: 150px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+        .middle-btn {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8a50 50%, #ffa726 100%);
+            border: none;
+            padding: 20px 30px;
             border-radius: 20px;
-            padding: 1rem;
             color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 8px 25px rgba(255, 107, 53, 0.4),
+                0 4px 15px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
+            text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            will-change: transform, box-shadow;
+            min-height: 65px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transform: translateZ(0);
         }
 
-        .center-btn.forest {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-                url('https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+        .middle-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 
+                0 15px 35px rgba(255, 107, 53, 0.6),
+                0 8px 25px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #ffa726 0%, #ff8a50 50%, #ff6b35 100%);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
-        .center-btn.sea {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-                url('https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+        .middle-btn:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: all 0.1s ease;
         }
 
-        .center-btn.mountain {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-                url('https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-        }
-
-        .center-btn::before {
+        .middle-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
         }
 
-        .center-btn:hover::before {
+        .middle-btn:hover::before {
             left: 100%;
         }
 
-        .center-btn:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.8);
+        .middle-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
         }
 
-        .center-btn:active {
-            transform: translateY(-4px) scale(0.99);
+        .middle-btn:active::after {
+            width: 200px;
+            height: 200px;
         }
 
+        /* Click Effect */
+        .middle-btn.clicking {
+            animation: clickPulse 0.3s ease;
+        }
+
+        @keyframes clickPulse {
+            0% { transform: translateY(-5px) scale(1.02); }
+            50% { transform: translateY(-3px) scale(0.98); }
+            100% { transform: translateY(-5px) scale(1.02); }
+        }
+
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.9) 0%,
+                rgba(10, 10, 30, 0.95) 100%
+            );
             backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 0 2rem 0;
-            z-index: 1000;
-            animation: slideInUp 1s ease-out 0.6s both;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            border-top: 1px solid rgba(255, 107, 53, 0.3);
+            padding: 12px 0;
+            z-index: 100;
         }
 
         .nav-container {
@@ -195,248 +246,308 @@
             align-items: center;
             max-width: 600px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 20px;
         }
 
-        .nav-item {
+        .nav-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.7);
-            transition: all 0.3s ease;
-            padding: 0.8rem;
+            color: #b0b0b0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 8px 12px;
             border-radius: 15px;
+            min-width: 70px;
             position: relative;
-            width: 110px;
-            height: 80px;
-            justify-content: center;
         }
 
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-item:hover::before {
-            opacity: 1;
-        }
-
-        .nav-item:hover {
-            color: white;
+        .nav-btn:hover {
+            color: #ff6b35;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 167, 38, 0.1));
             transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
         }
 
         .nav-icon {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            font-size: 22px;
+            margin-bottom: 4px;
             transition: all 0.3s ease;
         }
 
-        .nav-item:hover .nav-icon {
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        .nav-btn:hover .nav-icon {
+            transform: scale(1.2) rotateY(10deg);
         }
 
         .nav-text {
-            font-size: 0.8rem;
+            font-size: 11px;
             font-weight: 500;
-            text-align: center;
-            line-height: 1.2;
+            letter-spacing: 0.5px;
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .center-buttons {
-                flex-direction: column;
-                gap: 1.5rem;
-                align-items: center;
-                margin-bottom: 100px;
-            }
-
-            .center-btn {
-                width: 280px;
-                height: 130px;
-            }
-
-            .nav-container {
-                padding: 0 1rem;
-                max-width: 100%;
-            }
-
-            .nav-item {
-                width: 90px;
-                height: 70px;
-                padding: 0.6rem;
-            }
-
-            .nav-icon {
-                font-size: 1.5rem;
-            }
-
-            .nav-text {
-                font-size: 0.7rem;
-            }
-            
             .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .center-btn {
-                width: 260px;
-                height: 120px;
-                font-size: 1rem;
-            }
-
-            .nav-item {
-                width: 80px;
-                height: 60px;
-            }
-
-            .nav-icon {
-                font-size: 1.3rem;
-            }
-
-            .nav-text {
-                font-size: 0.65rem;
-            }
-            
-            body {
-                padding: 10px;
-            }
-            
-            .header {
-                padding: 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
+                font-size: 1.9rem;
             }
             
             .header p {
                 font-size: 0.9rem;
             }
+            
+            .middle-section {
+                padding: 30px 15px 110px 15px;
+            }
+            
+            .middle-buttons {
+                max-width: 320px;
+                gap: 18px;
+            }
+            
+            .middle-btn {
+                padding: 18px 25px;
+                font-size: 1.2rem;
+                min-height: 60px;
+                border-radius: 18px;
+            }
+            
+            .nav-container {
+                padding: 0 15px;
+            }
+            
+            .nav-btn {
+                min-width: 65px;
+                padding: 6px 10px;
+            }
+            
+            .nav-icon {
+                font-size: 20px;
+            }
+            
+            .nav-text {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 25px 15px 15px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.7rem;
+            }
+            
+            .header p {
+                font-size: 0.85rem;
+            }
+            
+            .middle-section {
+                padding: 25px 12px 100px 12px;
+            }
+            
+            .middle-buttons {
+                max-width: 290px;
+                gap: 16px;
+            }
+            
+            .middle-btn {
+                padding: 16px 20px;
+                font-size: 1.1rem;
+                min-height: 55px;
+                border-radius: 16px;
+            }
+            
+            .nav-btn {
+                min-width: 55px;
+                padding: 5px 8px;
+            }
+            
+            .nav-icon {
+                font-size: 18px;
+            }
+            
+            .nav-text {
+                font-size: 9px;
+            }
+        }
+
+        /* Loading States */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .btn-loading::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 1s linear infinite;
+        }
+
+        .btn-loading span {
+            opacity: 0;
         }
     </style>
 </head>
-<body dir="rtl">
-    <div class="header">
-        <h1>پلتفرم کسب درآمد و آنلاین سلامت</h1>
-        <div class="sticker">🚀</div>
-        <p>
-            پلتفرم پیشرو در ارائه خدمات جامع با بهره‌گیری از فناوری‌های روز دنیا. 
-            این پلتفرم با طراحی بهینه و عملکرد بی‌نظیر، تجربه‌ای منحصر به فرد از کاربردپذیری 
-            و سرعت را برای شما به ارمغان می‌آورد.
-        </p>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loading-ring"></div>
+        <div class="loading-text">در حال بارگذاری...</div>
     </div>
 
-    <div class="main-content">
-        <div class="center-buttons">
-            <a href="bn1.html" class="center-btn forest">
-                سلامت آنلاین
-            </a>
-            <a href="https://translate.google.com/?hl=fa&utm_source=chatgpt.com" class="center-btn sea">
-                ترجمه متن
-            </a>
-            <a href="m.html" class="center-btn mountain">
-                حمایت مالی
-            </a>
-        </div>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>به پلتفرم سیگنال ترید خوش آمدید</h1>
+            <p>پلتفرم حرفه‌ای معاملات و سیگنال‌های کریپتو</p>
+        </header>
+
+        <!-- Middle Section -->
+        <main class="middle-section">
+            <div class="middle-buttons">
+                <a href="m1.html" class="middle-btn" onclick="showLoading(this)">
+                    <span>آنلاین سلامت</span>
+                </a>
+                <a href="m1.html" class="middle-btn" onclick="showLoading(this)">
+                    <span>حمایت مالی</span>
+                </a>
+                <a href="m1.html" class="middle-btn" onclick="showLoading(this)">
+                    <span>ترجمه آنلاین</span>
+                </a>
+            </div>
+        </main>
     </div>
 
+    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <div class="nav-container">
-            <a href="si.html" class="nav-item">
+            <a href="m1.html" class="nav-btn" onclick="showLoading(this)">
                 <div class="nav-icon">📈</div>
-                <span class="nav-text">تولید سیگنال فیوچرز</span>
+                <div class="nav-text">سیگنال فیوچرز</div>
             </a>
-            <a href="https://www.toobit.com/fa/register?invite_code=5EQpCT" class="nav-item">
+            <a href="m1.html" class="nav-btn" onclick="showLoading(this)">
                 <div class="nav-icon">💱</div>
-                <span class="nav-text">صرافی برای ترید</span>
+                <div class="nav-text">صرافی</div>
             </a>
-            <a href="https://share.google/wA9JSCPtcUWAEk3Z3" class="nav-item">
-                <div class="nav-icon">📱</div>
-                <span class="nav-text">بازی دل پسند</span>
+            <a href="m1.html" class="nav-btn" onclick="showLoading(this)">
+                <div class="nav-icon">🎮</div>
+                <div class="nav-text">بازی</div>
             </a>
         </div>
     </nav>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.center-btn, .nav-item');
+        // Loading Screen
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Button Click Loading Effect
+        function showLoading(button) {
+            // Prevent multiple clicks
+            if (button.classList.contains('btn-loading')) {
+                return false;
+            }
             
+            // Add loading state
+            button.classList.add('btn-loading');
+            button.classList.add('clicking');
+            
+            // Remove clicking animation after it completes
+            setTimeout(() => {
+                button.classList.remove('clicking');
+            }, 300);
+            
+            // Navigate after short delay
+            setTimeout(() => {
+                window.location.href = button.href;
+            }, 800);
+            
+            // Prevent default navigation
+            return false;
+        }
+
+        // Add click handlers to all buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.middle-btn, .nav-btn');
             buttons.forEach(button => {
                 button.addEventListener('click', function(e) {
-                    const ripple = document.createElement('div');
-                    ripple.className = 'ripple-effect';
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.background = 'rgba(255, 255, 255, 0.1)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.background = 'transparent';
-                });
-            });
-            
-            document.addEventListener('touchstart', function(e) {
-                if (e.touches.length > 1) {
                     e.preventDefault();
-                }
-            }, { passive: false });
-            
-            document.addEventListener('gesturestart', function(e) {
-                e.preventDefault();
+                    showLoading(this);
+                });
             });
         });
 
-        const style = document.createElement('style');
-        style.textContent = `
-            .ripple-effect {
-                position: absolute;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.4);
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                width: 100px;
-                height: 100px;
-                pointer-events: none;
-                top: 50%;
-                left: 50%;
-                margin-top: -50px;
-                margin-left: -50px;
-            }
-            
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
+        // Enhanced touch feedback for mobile
+        if ('ontouchstart' in window) {
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.classList.contains('middle-btn') || e.target.classList.contains('nav-btn')) {
+                    e.target.style.transform = 'scale(0.95)';
                 }
+            });
+            
+            document.addEventListener('touchend', function(e) {
+                if (e.target.classList.contains('middle-btn') || e.target.classList.contains('nav-btn')) {
+                    setTimeout(() => {
+                        e.target.style.transform = '';
+                    }, 100);
+                }
+            });
+        }
+
+        // Performance optimization
+        let performanceOptimized = false;
+
+        function optimizeForHighTraffic() {
+            if (!performanceOptimized && (navigator.hardwareConcurrency <= 2 || navigator.connection?.effectiveType?.includes('2g'))) {
+                const style = document.createElement('style');
+                style.textContent = `
+                    .middle-btn::before, .middle-btn::after {
+                        display: none !important;
+                    }
+                    * {
+                        transition-duration: 0.2s !important;
+                        animation-duration: 0.5s !important;
+                    }
+                `;
+                document.head.appendChild(style);
+                performanceOptimized = true;
             }
-        `;
-        document.head.appendChild(style);
+        }
+
+        // Initialize optimizations
+        optimizeForHighTraffic();
+
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('Error:', e.error);
+            return true;
+        });
+
+        // Memory cleanup
+        window.addEventListener('beforeunload', function() {
+            document.querySelectorAll('.middle-btn, .nav-btn').forEach(el => {
+                el.onclick = null;
+                el.ontouchstart = null;
+                el.ontouchend = null;
+            });
+        });
     </script>
 </body>
 </html>
