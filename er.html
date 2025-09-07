@@ -3,301 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گالری عکس و ویدیو</title>
+    <title>پشتیبانی و خرید کد هدیه</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            color: #fff;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: #f5f5f5;
+            color: #333;
         }
-        
         .container {
-            max-width: 1200px;
-            width: 100%;
+            max-width: 800px;
             margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
-        
-        header {
+        h1 {
+            color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            width: 100%;
         }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-        
-        .tab-btn {
-            padding: 12px 25px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
+        .contact-info {
+            background-color: #f9f9f9;
+            padding: 20px;
             border-radius: 8px;
+            margin-bottom: 25px;
+            border-right: 4px solid #3498db;
+        }
+        .support-note {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ffd54f;
+        }
+        .email-link {
+            display: inline-block;
+            background-color: #3498db;
             color: white;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .tab-btn.active {
-            background: rgba(255, 255, 255, 0.4);
-            font-weight: bold;
-            transform: scale(1.05);
-        }
-        
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            width: 100%;
-        }
-        
-        .item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        
-        .item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .media-container {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .media-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .item:hover .media-container img {
-            transform: scale(1.05);
-        }
-        
-        .media-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .download-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            text-align: center;
+            padding: 12px 25px;
             text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            font-size: 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: background-color 0.3s;
         }
-        
-        .download-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .email-link:hover {
+            background-color: #2980b9;
         }
-        
-        .hidden {
-            display: none;
-        }
-        
-        /* طراحی ریسپانسیو */
-        @media (max-width: 768px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 15px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .tab-btn {
-                padding: 10px 20px;
-                font-size: 1rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .gallery {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .tab-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>گالری عکس و ویدیو</h1>
-        </header>
+        <h1>پشتیبانی و خرید کد هدیه</h1>
         
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="photos">عکس ها</button>
-            <button class="tab-btn" data-tab="videos">ویدیو ها</button>
+        <div class="contact-info">
+            <p>برای ارتباط با ما از طریق ایمیل:</p>
+            <a href="mailto:milad.yari1377m@gmail.com" class="email-link">ارسال ایمیل به پشتیبانی</a>
         </div>
         
-        <div id="photos-gallery" class="gallery">
-            <!-- قالب های عکس -->
-            <div class="item">
-                <div class="media-container">
-                    <img src="n1.jpg" alt="عکس ۱">
-                </div>
-                <a href="n1.jpg" download class="download-btn">دانلود عکس ۱</a>
-            </div>
-            
-            <div class="item">
-                <div class="media-container">
-                    <img src="n2.jpg" alt="عکس ۲">
-                </div>
-                <a href="n2.jpg" download class="download-btn">دانلود عکس ۲</a>
-            </div>
-            
-            <div class="item">
-                <div class="media-container">
-                    <img src="n3.jpg" alt="عکس ۳">
-                </div>
-                <a href="n3.jpg" download class="download-btn">دانلود عکس ۳</a>
-            </div>
-            
-            <div class="item">
-                <div class="media-container">
-                    <img src="n4.jpg" alt="عکس ۴">
-                </div>
-                <a href="n4.jpg" download class="download-btn">دانلود عکس ۴</a>
-            </div>
-            
-            <div class="item">
-                <div class="media-container">
-                    <img src="n5.jpg" alt="عکس ۵">
-                </div>
-                <a href="n5.jpg" download class="download-btn">دانلود عکس ۵</a>
-            </div>
+        <div class="support-note">
+            <p>در صورت مشکل های فنی، اشکالات به پشتیبانی پیام دهید.</p>
         </div>
         
-        <div id="videos-gallery" class="gallery hidden">
-            <!-- قالب های ویدیو -->
-            <div class="item">
-                <div class="media-container">
-                    <video controls>
-                        <source src="b1.mp4" type="video/mp4">
-                        مرورگر شما از ویدیو پشتیبانی نمی کند.
-                    </video>
-                </div>
-                <a href="b1.mp4" download class="download-btn">دانلود ویدیو ۱</a>
-            </div>
-            
-            <div class="item">
-                <div class="media-container">
-                    <video controls>
-                        <source src="b2.mp4" type="video/mp4">
-                        مرورگر شما از ویدیو پشتیبانی نمی کند.
-                    </video>
-                </div>
-                <a href="b2.mp4" download class="download-btn">دانلود ویدیو ۲</a>
-            </div>
-            
-            <div class="item">
-                <div class="media-container">
-                    <video controls>
-                        <source src="b3.mp4" type="video/mp4">
-                        مرورگر شما از ویدیو پشتیبانی نمی کند.
-                    </video>
-                </div>
-                <a href="b3.mp4" download class="download-btn">دانلود ویدیو ۳</a>
-            </div>
-            
-            <div class="item">
-                <div class="media-container">
-                    <video controls>
-                        <source src="b4.mp4" type="video/mp4">
-                        مرورگر شما از ویدیو پشتیبانی نمی کند.
-                    </video>
-                </div>
-                <a href="b4.mp4" download class="download-btn">دانلود ویدیو ۴</a>
-            </div>
-            
-            <div class="item">
-                <div class="media-container">
-                    <video controls>
-                        <source src="b5.mp4" type="video/mp4">
-                        مرورگر شما از ویدیو پشتیبانی نمی کند.
-                    </video>
-                </div>
-                <a href="b5.mp4" download class="download-btn">دانلود ویدیو ۵</a>
-            </div>
+        <p>خرید فروش کد هدیه انجا می‌شود. در صورت نیاز به پشتیبانی پیام دهید.</p>
+        
+        <div class="footer">
+            <p>© 2023 - تمامی حقوق محفوظ است</p>
         </div>
     </div>
-
-    <script>
-        // مدیریت تب ها
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // حذف کلاس active از همه دکمه ها
-                document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // اضافه کردن کلاس active به دکمه کلیک شده
-                button.classList.add('active');
-                
-                // مخفی کردن همه گالری ها
-                document.querySelectorAll('.gallery').forEach(gallery => {
-                    gallery.classList.add('hidden');
-                });
-                
-                // نمایش گالری مربوطه
-                const tabName = button.getAttribute('data-tab');
-                if (tabName === 'photos') {
-                    document.getElementById('photos-gallery').classList.remove('hidden');
-                } else if (tabName === 'videos') {
-                    document.getElementById('videos-gallery').classList.remove('hidden');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
