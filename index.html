@@ -18,11 +18,37 @@
             background-size: cover;
             color: #fff;
             min-height: 100vh;
+            padding: 20px;
             padding-bottom: 80px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+        
+        .description {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .description h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .description p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+            text-justify: inter-word;
         }
         
         .main-buttons {
@@ -49,11 +75,66 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             text-align: center;
             min-height: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .signal-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            animation: glowing 2s infinite;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+        }
+        
+        @keyframes glowing {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 107, 107, 1), 0 0 40px rgba(255, 107, 107, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+            }
         }
         
         .main-btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* افکت لودینگ */
+        .loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading .loader {
+            opacity: 1;
         }
         
         /* نوار ناوبری پایین */
@@ -86,6 +167,8 @@
             transition: all 0.3s ease;
             padding: 5px 15px;
             border-radius: 15px;
+            position: relative;
+            overflow: hidden;
         }
         
         .nav-item:hover {
@@ -100,6 +183,19 @@
         
         /* رسپانسیو برای موبایل */
         @media (max-width: 768px) {
+            .description {
+                padding: 15px;
+                margin-bottom: 30px;
+            }
+            
+            .description h1 {
+                font-size: 1.8rem;
+            }
+            
+            .description p {
+                font-size: 1rem;
+            }
+            
             .main-btn {
                 font-size: 1rem;
                 padding: 15px;
@@ -118,29 +214,59 @@
     </style>
 </head>
 <body>
+    <!-- بخش توضیحات -->
+    <div class="description">
+        <h1>به پلتفرم جامع خدمات آنلاین خوش آمدید</h1>
+        <p>با استفاده از سرویس های پیشرفته ما، می توانید به سادگی به تحلیل بازارهای مالی دسترسی داشته، سیگنال های معاملاتی دریافت کنید و از خدمات سلامت آنلاین بهره مند شوید.</p>
+        <p>پلتفرم ما با بهره گیری از آخرین تکنولوژی های روز دنیا، امکان دسترسی به ابزارهای تحلیلی پیشرفته را برای شما فراهم کرده است.</p>
+        <p>تیم متخصص ما همواره در کنار شماست تا با ارائه راهکارهای نوین، مسیر موفقیت مالی و سلامتی را برای شما هموار کند.</p>
+        <p>با اطمینان کامل از خدمات ما استفاده کنید و از پشتیبانی 24 ساعته ما بهره مند شوید.</p>
+    </div>
+    
     <!-- دکمه های اصلی صفحه -->
     <div class="main-buttons">
-        <a href="MN1.html" class="main-btn">تحلیل اندیکاتور و دریافت سیگنال فیوچرز ترید</a>
-        <a href="bn1.html" class="main-btn">آنلاین سلامت</a>
-        <a href="m.html" class="main-btn">حمایت مالی</a>
+        <a href="m1.html" class="main-btn signal-btn" id="signal-btn">
+            سیگنال های آماده
+            <div class="loader">
+                <div class="loader-spinner"></div>
+            </div>
+        </a>
+        <a href="m1.html" class="main-btn">
+            تحلیل اندیکاتور و دریافت سیگنال فیوچرز ترید
+            <div class="loader">
+                <div class="loader-spinner"></div>
+            </div>
+        </a>
+        <a href="m1.html" class="main-btn">
+            آنلاین سلامت
+            <div class="loader">
+                <div class="loader-spinner"></div>
+            </div>
+        </a>
+        <a href="m1.html" class="main-btn">
+            حمایت مالی
+            <div class="loader">
+                <div class="loader-spinner"></div>
+            </div>
+        </a>
     </div>
     
     <!-- نوار ناوبری پایین -->
     <nav class="bottom-navbar">
         <div class="nav-items">
-            <a href="m5.html" class="nav-item">
+            <a href="m1.html" class="nav-item">
                 <i class="fas fa-utensils"></i>
                 <span>کار در رستوران</span>
             </a>
-            <a href="m4.html" class="nav-item">
+            <a href="m1.html" class="nav-item">
                 <i class="fas fa-cut"></i>
                 <span>خیاطی</span>
             </a>
-            <a href="m2.html" class="nav-item">
+            <a href="m1.html" class="nav-item">
                 <i class="fas fa-headset"></i>
                 <span>پشتیبانی</span>
             </a>
-            <a href="m3.html" class="nav-item">
+            <a href="m1.html" class="nav-item">
                 <i class="fas fa-ellipsis-h"></i>
                 <span>سایر</span>
             </a>
@@ -150,5 +276,32 @@
             </a>
         </div>
     </nav>
+
+    <script>
+        // افزودن لودینگ به تمام دکمه‌ها
+        document.querySelectorAll('.main-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // جلوگیری از رفتن به لینک در صورت نیاز
+                // e.preventDefault();
+                
+                // نمایش افکت لودینگ
+                this.classList.add('loading');
+                
+                // بعد از 2 ثانیه لودینگ را مخفی می‌کنیم (در واقع این بخش باید بعد از لود کامل صفحه مقصد حذف شود)
+                setTimeout(() => {
+                    this.classList.remove('loading');
+                }, 2000);
+            });
+        });
+        
+        // افکت نورپردازی ویژه برای دکمه سیگنال
+        const signalBtn = document.getElementById('signal-btn');
+        
+        setInterval(() => {
+            // تغییر سایه‌های رنگی برای ایجاد افکت نورپردازی پویا
+            const hueRotate = Math.floor(Math.random() * 360);
+            signalBtn.style.filter = `hue-rotate(${hueRotate}deg)`;
+        }, 3000);
+    </script>
 </body>
 </html>
