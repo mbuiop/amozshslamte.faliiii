@@ -3,551 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پلتفرم سیگنال ترید</title>
+    <title>سرویس های حرفه ای</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('m.jpg') center/cover no-repeat fixed;
+        }
+        
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('m.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
             min-height: 100vh;
-            color: white;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Background Overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                135deg, 
-                rgba(0, 0, 0, 0.7) 0%, 
-                rgba(10, 10, 46, 0.8) 50%, 
-                rgba(0, 0, 0, 0.7) 100%
-            );
-            z-index: 1;
-        }
-
-        /* Loading Animation */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a0a2e 0%, #16213e 50%, #0f3460 100%);
+            padding-bottom: 80px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            transition: all 0.5s ease;
         }
-
-        .loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loading-ring {
-            width: 60px;
-            height: 60px;
-            border: 3px solid rgba(255, 165, 0, 0.3);
-            border-top: 3px solid #ff6b35;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        .loading-text {
-            color: #ff6b35;
-            font-size: 1.1rem;
-            font-weight: 500;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            padding: 30px 20px 20px 20px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 107, 53, 0.3);
-        }
-
-        .header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #ff6b35, #ffa726, #ffeb3b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            font-size: 1rem;
-            color: #e0e0e0;
-            font-weight: 300;
-        }
-
-        /* Middle Section */
-        .middle-section {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px 120px 20px;
-        }
-
-        .middle-buttons {
+        
+        .main-buttons {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            max-width: 350px;
-            width: 100%;
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
         }
-
-        .middle-btn {
-            background: linear-gradient(135deg, #ff6b35 0%, #ff8a50 50%, #ffa726 100%);
-            border: none;
-            padding: 20px 30px;
-            border-radius: 20px;
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 
-                0 8px 25px rgba(255, 107, 53, 0.4),
-                0 4px 15px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
+        
+        .main-btn {
             display: flex;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             text-align: center;
-            min-height: 65px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            transform: translateZ(0);
+            min-height: 80px;
         }
-
-        .middle-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 
-                0 15px 35px rgba(255, 107, 53, 0.6),
-                0 8px 25px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            background: linear-gradient(135deg, #ffa726 0%, #ff8a50 50%, #ff6b35 100%);
-            border-color: rgba(255, 255, 255, 0.4);
+        
+        .main-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
-
-        .middle-btn:active {
-            transform: translateY(-2px) scale(0.98);
-            transition: all 0.1s ease;
-        }
-
-        .middle-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .middle-btn:hover::before {
-            left: 100%;
-        }
-
-        .middle-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.4s ease;
-        }
-
-        .middle-btn:active::after {
-            width: 200px;
-            height: 200px;
-        }
-
-        /* Click Effect */
-        .middle-btn.clicking {
-            animation: clickPulse 0.3s ease;
-        }
-
-        @keyframes clickPulse {
-            0% { transform: translateY(-5px) scale(1.02); }
-            50% { transform: translateY(-3px) scale(0.98); }
-            100% { transform: translateY(-5px) scale(1.02); }
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
+        
+        /* نوار ناوبری پایین */
+        .bottom-navbar {
             position: fixed;
             bottom: 0;
             left: 0;
-            width: 100%;
-            background: linear-gradient(
-                180deg,
-                rgba(0, 0, 0, 0.9) 0%,
-                rgba(10, 10, 30, 0.95) 100%
-            );
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 107, 53, 0.3);
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1);
             padding: 12px 0;
-            z-index: 100;
+            z-index: 1000;
         }
-
-        .nav-container {
+        
+        .nav-items {
             display: flex;
             justify-content: space-around;
-            align-items: center;
-            max-width: 600px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
         }
-
-        .nav-btn {
+        
+        .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            color: #b0b0b0;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 8px 12px;
-            border-radius: 15px;
-            min-width: 70px;
-            position: relative;
-        }
-
-        .nav-btn:hover {
-            color: #ff6b35;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 167, 38, 0.1));
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
-        }
-
-        .nav-icon {
-            font-size: 22px;
-            margin-bottom: 4px;
+            color: #333;
+            font-size: 0.8rem;
             transition: all 0.3s ease;
+            padding: 5px 15px;
+            border-radius: 15px;
         }
-
-        .nav-btn:hover .nav-icon {
-            transform: scale(1.2) rotateY(10deg);
+        
+        .nav-item:hover {
+            background-color: rgba(106, 17, 203, 0.1);
+            color: #6a11cb;
         }
-
-        .nav-text {
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+        
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
         }
-
-        /* Responsive Design */
+        
+        /* رسپانسیو برای موبایل */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.9rem;
+            .main-btn {
+                font-size: 1rem;
+                padding: 15px;
+                min-height: 70px;
             }
             
-            .header p {
-                font-size: 0.9rem;
+            .nav-item {
+                font-size: 0.7rem;
+                padding: 5px 10px;
             }
             
-            .middle-section {
-                padding: 30px 15px 110px 15px;
+            .nav-item i {
+                font-size: 1rem;
             }
-            
-            .middle-buttons {
-                max-width: 320px;
-                gap: 18px;
-            }
-            
-            .middle-btn {
-                padding: 18px 25px;
-                font-size: 1.2rem;
-                min-height: 60px;
-                border-radius: 18px;
-            }
-            
-            .nav-container {
-                padding: 0 15px;
-            }
-            
-            .nav-btn {
-                min-width: 65px;
-                padding: 6px 10px;
-            }
-            
-            .nav-icon {
-                font-size: 20px;
-            }
-            
-            .nav-text {
-                font-size: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 25px 15px 15px 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.7rem;
-            }
-            
-            .header p {
-                font-size: 0.85rem;
-            }
-            
-            .middle-section {
-                padding: 25px 12px 100px 12px;
-            }
-            
-            .middle-buttons {
-                max-width: 290px;
-                gap: 16px;
-            }
-            
-            .middle-btn {
-                padding: 16px 20px;
-                font-size: 1.1rem;
-                min-height: 55px;
-                border-radius: 16px;
-            }
-            
-            .nav-btn {
-                min-width: 55px;
-                padding: 5px 8px;
-            }
-            
-            .nav-icon {
-                font-size: 18px;
-            }
-            
-            .nav-text {
-                font-size: 9px;
-            }
-        }
-
-        /* Loading States */
-        .btn-loading {
-            position: relative;
-            pointer-events: none;
-        }
-
-        .btn-loading::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top: 2px solid white;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: spin 1s linear infinite;
-        }
-
-        .btn-loading span {
-            opacity: 0;
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <div class="loading-ring"></div>
-        <div class="loading-text">در حال بارگذاری...</div>
+    <!-- دکمه های اصلی صفحه -->
+    <div class="main-buttons">
+        <a href="m1.html" class="main-btn">تحلیل اندیکاتور و دریافت سیگنال فیوچرز ترید</a>
+        <a href="m1.html" class="main-btn">آنلاین سلامت</a>
+        <a href="m1.html" class="main-btn">حمایت مالی</a>
     </div>
-
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1>به پلتفرم سیگنال ترید خوش آمدید</h1>
-            <p>پلتفرم حرفه‌ای معاملات و سیگنال‌های کریپتو</p>
-        </header>
-
-        <!-- Middle Section -->
-        <main class="middle-section">
-            <div class="middle-buttons">
-                <a href="bn1.html" class="middle-btn" onclick="showLoading(this)">
-                    <span>آنلاین سلامت</span>
-                </a>
-                <a href="m.html" class="middle-btn" onclick="showLoading(this)">
-                    <span>حمایت مالی</span>
-                </a>
-                <a href="as.html" class="middle-btn" onclick="showLoading(this)">
-                    <span>شغل های پردرامد </span>
-                </a>
-            </div>
-        </main>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <div class="nav-container">
-            <a href="si.html" class="nav-btn" onclick="showLoading(this)">
-                <div class="nav-icon">📈</div>
-                <div class="nav-text">سیگنال فیوچرز</div>
+    
+    <!-- نوار ناوبری پایین -->
+    <nav class="bottom-navbar">
+        <div class="nav-items">
+            <a href="m1.html" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>کار در رستوران</span>
             </a>
-            <a href="https://www.toobit.com/fa/register?invite_code=5EQpCT" class="nav-btn" onclick="showLoading(this)">
-                <div class="nav-icon">💱</div>
-                <div class="nav-text">صرافی</div>
+            <a href="m1.html" class="nav-item">
+                <i class="fas fa-cut"></i>
+                <span>خیاطی</span>
             </a>
-            <a href="er.html" class="nav-btn" onclick="showLoading(this)">
-                <div class="nav-icon">🕛</div>
-                <div class="nav-text">پشتیبانی</div>
+            <a href="m1.html" class="nav-item">
+                <i class="fas fa-headset"></i>
+                <span>پشتیبانی</span>
+            </a>
+            <a href="m1.html" class="nav-item">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>سایر</span>
+            </a>
+            <a href="m1.html" class="nav-item">
+                <i class="fas fa-code"></i>
+                <span>برنامه نویسی</span>
             </a>
         </div>
     </nav>
-
-    <script>
-        // Loading Screen
-        window.addEventListener('load', function() {
-            const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.classList.add('hidden');
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 500);
-            }, 1500);
-        });
-
-        // Button Click Loading Effect
-        function showLoading(button) {
-            // Prevent multiple clicks
-            if (button.classList.contains('btn-loading')) {
-                return false;
-            }
-            
-            // Add loading state
-            button.classList.add('btn-loading');
-            button.classList.add('clicking');
-            
-            // Remove clicking animation after it completes
-            setTimeout(() => {
-                button.classList.remove('clicking');
-            }, 300);
-            
-            // Navigate after short delay
-            setTimeout(() => {
-                window.location.href = button.href;
-            }, 800);
-            
-            // Prevent default navigation
-            return false;
-        }
-
-        // Add click handlers to all buttons
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.middle-btn, .nav-btn');
-            buttons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    showLoading(this);
-                });
-            });
-        });
-
-        // Enhanced touch feedback for mobile
-        if ('ontouchstart' in window) {
-            document.addEventListener('touchstart', function(e) {
-                if (e.target.classList.contains('middle-btn') || e.target.classList.contains('nav-btn')) {
-                    e.target.style.transform = 'scale(0.95)';
-                }
-            });
-            
-            document.addEventListener('touchend', function(e) {
-                if (e.target.classList.contains('middle-btn') || e.target.classList.contains('nav-btn')) {
-                    setTimeout(() => {
-                        e.target.style.transform = '';
-                    }, 100);
-                }
-            });
-        }
-
-        // Performance optimization
-        let performanceOptimized = false;
-
-        function optimizeForHighTraffic() {
-            if (!performanceOptimized && (navigator.hardwareConcurrency <= 2 || navigator.connection?.effectiveType?.includes('2g'))) {
-                const style = document.createElement('style');
-                style.textContent = `
-                    .middle-btn::before, .middle-btn::after {
-                        display: none !important;
-                    }
-                    * {
-                        transition-duration: 0.2s !important;
-                        animation-duration: 0.5s !important;
-                    }
-                `;
-                document.head.appendChild(style);
-                performanceOptimized = true;
-            }
-        }
-
-        // Initialize optimizations
-        optimizeForHighTraffic();
-
-        // Error handling
-        window.addEventListener('error', function(e) {
-            console.error('Error:', e.error);
-            return true;
-        });
-
-        // Memory cleanup
-        window.addEventListener('beforeunload', function() {
-            document.querySelectorAll('.middle-btn, .nav-btn').forEach(el => {
-                el.onclick = null;
-                el.ontouchstart = null;
-                el.ontouchend = null;
-            });
-        });
-    </script>
 </body>
 </html>
