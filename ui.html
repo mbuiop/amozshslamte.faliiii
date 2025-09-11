@@ -3,93 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قالب نمایش عکس</title>
+    <title>پشتیبانی تلگرام</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f8f5f0;
+        * {
             margin: 0;
-            padding: 20px;
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        h1 {
-            color: #5c3a21;
-            margin: 20px 0 40px 0;
-            font-size: 28px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        body {
+            background: linear-gradient(135deg, #0088cc 0%, #2aabee 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
         
         .container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin: 30px auto;
-            max-width: 1200px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            text-align: center;
         }
         
-        .frame {
-            width: 300px;
-            height: 400px;
-            border: 15px solid #8B4513;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        .header {
+            background-color: #0088cc;
+            padding: 25px 20px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px 20px;
+        }
+        
+        .telegram-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background-color: #0088cc;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            position: relative;
         }
         
-        .frame img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: cover;
+        .telegram-icon svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
         }
         
-        .frame::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1);
-            pointer-events: none;
+        .description {
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #555;
         }
         
-        .caption {
-            margin-top: 15px;
-            color: #5c3a21;
-            font-weight: bold;
+        .telegram-link {
+            display: inline-block;
+            background-color: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .telegram-link:hover {
+            background-color: #006da3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+        }
+        
+        .footer {
+            padding: 15px;
+            background-color: #f5f5f5;
+            color: #777;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <h1>در معاملات خود دقت کنید</h1>
-    
     <div class="container">
-        <div>
-            <div class="frame">
-                <img id="frame1-img" src="bn.jpg" alt="عکس قاب اول">
-            </div>
-            <div class="caption">قالب اول</div>
+        <div class="header">
+            <h1>پشتیبانی تلگرام</h1>
+            <p>برای ارتباط با ما از طریق تلگرام</p>
         </div>
         
-        <div>
-            <div class="frame">
-                <img id="frame2-img" src="bn1.jpg" alt="عکس قاب دوم">
+        <div class="content">
+            <div class="telegram-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.14.141-.259.259-.374.261l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                </svg>
             </div>
-            <div class="caption">قالب دوم</div>
+            
+            <p class="description">برای پشتیبانی، ارتباط و تبلیغات از طریق تلگرام با ما در ارتباط باشید</p>
+            
+            <a href="https://t.me/Mortzayar" class="telegram-link" target="_blank">
+                ارتباط از طریق تلگرام
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>t.me/Mortzayar</p>
         </div>
     </div>
-
-    <script>
-        // این کد فقط عکس‌ها را از مسیرهای از پیش تعریف شده نمایش می‌دهد
-        // کاربر نمی‌تواند عکس آپلود کند
-    </script>
 </body>
 </html>
