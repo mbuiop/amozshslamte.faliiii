@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سامانه هوشمند سرمایه‌گذاری و کسب درآمد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --accent: #ff6b6b;
+            --success: #1dd1a1;
+            --warning: #feca57;
+            --dark: #2c3e50;
+            --light: #f5f6fa;
+            --gray: #dfe6e9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'IRANSans', 'Vazir', Tahoma, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .header h1 {
+            color: var(--dark);
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: var(--gray);
+            border-radius: 3px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .input-group input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--gray);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .input-group input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .section {
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .crypto-grid, .job-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .crypto-item, .job-item {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .crypto-item:hover, .job-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .crypto-item.selected, .job-item.selected {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .crypto-icon, .job-icon {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .crypto-info, .job-info {
+            flex: 1;
+        }
+
+        .crypto-info strong, .job-info strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .crypto-info small, .job-info small {
+            opacity: 0.8;
+            font-size: 12px;
+        }
+
+        .result-content {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            color: var(--dark);
+            line-height: 1.8;
+        }
+
+        .portfolio {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+        }
+
+        .portfolio h4 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .portfolio-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .portfolio-percent {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .section-title {
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .note-box {
+            background: rgba(255, 249, 196, 0.5);
+            border-right: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--accent);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .daily-tracker {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .tracker-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tracker-form input, .tracker-form select {
+            padding: 10px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+        }
+
+        .tracker-form button {
+            grid-column: span 2;
+            padding: 10px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .tracker-records {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .tracker-record {
+            padding: 10px;
+            background: var(--light);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .profit-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-value {
+            font-weight: bold;
+            color: var(--success);
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 300px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .crypto-item, .job-item {
+                padding: 15px;
+            }
+            
+            .tracker-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .tracker-form button {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> سامانه هوشمند سرمایه‌گذاری</h1>
+            <p>بهترین راهکارهای سرمایه‌گذاری متناسب با بودجه شما</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+
+        <!-- صفحه ورودی سرمایه -->
+        <div id="capitalInput" class="section active">
+            <h2 class="section-title"><i class="fas fa-wallet"></i> میزان سرمایه خود را وارد کنید</h2>
+            <div class="input-group">
+                <label for="capital">سرمایه شما (تومان):</label>
+                <input type="text" id="capital" placeholder="مثال: 50,000,000">
+            </div>
+            <div class="note-box">
+                <i class="fas fa-info-circle"></i> سرمایه شما به صورت محرمانه پردازش می‌شود و ذخیره نمی‌شود
+            </div>
+            <button class="btn" id="analyzeBtn">
+                <i class="fas fa-search"></i> تحلیل و پیشنهاد سرمایه‌گذاری
+            </button>
+        </div>
+
+        <!-- بخش ارزهای دیجیتال -->
+        <div id="cryptoSection" class="section">
+            <h2 class="section-title"><i class="fas fa-coins"></i> ارزهای دیجیتال پرپتانسیل</h2>
+            <p>با سرمایه زیر ۲۰۰ میلیون تومان، سرمایه‌گذاری در ارزهای دیجیتال می‌تواند گزینه مناسبی باشد.</p>
+            
+            <div class="crypto-grid">
+                <div class="crypto-item" data-crypto="Bitcoin">
+                    <div class="crypto-icon">₿</div>
+                    <div class="crypto-info">
+                        <strong>بیت کوین (BTC)</strong>
+                        <small>پادشاه ارزهای دیجیتال - امن و پایدار برای سرمایه‌گذاری بلندمدت</small>
+                    </div>
+                </div>
+                <div class="crypto-item" data-crypto="Ethereum">
+                    <div class="crypto-icon">Ξ</div>
+                    <div class="crypto-info">
+                        <strong>اتریوم (ETH)</strong>
+                        <small>پلتفرم قراردادهای هوشمند - پایه اصلی دنیای DeFi و NFT</small>
+                    </div>
+                </div>
+                <div class="crypto-item" data-crypto="Solana">
+                    <div class="crypto-icon">S</div>
+                    <div class="crypto-info">
+                        <strong>سولانا (SOL)</strong>
+                        <small>سرعت بالا و کارمزد ناچیز - مناسب برای تراکنش‌های روزمره</small>
+                    </div>
+                </div>
+                <div class="crypto-item" data-crypto="Cardano">
+                    <div class="crypto-icon">A</div>
+                    <div class="crypto-info">
+                        <strong>کاردانو (ADA)</strong>
+                        <small>تکنولوژی پیشرفته و پایدار - تمرکز بر امنیت و توسعه پایدار</small>
+                    </div>
+                </div>
+                <div class="crypto-item" data-crypto="Polkadot">
+                    <div class="crypto-icon">D</div>
+                    <div class="crypto-info">
+                        <strong>پولکادات (DOT)</strong>
+                        <small>اتصال بلاک چین‌ها - امکان تعامل بین شبکه‌های مختلف</small>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" id="backFromCrypto">
+                <i class="fas fa-arrow-right"></i> بازگشت
+            </button>
+        </div>
+
+        <!-- بخش مشاغل -->
+        <div id="jobSection" class="section">
+            <h2 class="section-title"><i class="fas fa-briefcase"></i> انتخاب حوزه تخصص و کسب‌وکار</h2>
+            <p>با سرمایه بالای ۲۰۰ میلیون تومان، راه‌اندازی کسب‌وکار فیزیکی می‌تواند سودآوری مناسبی داشته باشد.</p>
+            
+            <div class="job-grid">
+                <div class="job-item" data-job="تولید لباس">
+                    <div class="job-icon">👕</div>
+                    <div class="job-info">
+                        <strong>تولید لباس</strong>
+                        <small>صنعت پوشاک با سودآوری بالا و بازگشت سرمایه سریع</small>
+                    </div>
+                </div>
+                <div class="job-item" data-job="رستوران و غذا">
+                    <div class="job-icon">🍽️</div>
+                    <div class="job-info">
+                        <strong>رستوران و غذا</strong>
+                        <small>صنعت همیشه پرمتقاضی با تنوع بالا در خدمات</small>
+                    </div>
+                </div>
+                <div class="job-item" data-job="املاک">
+                    <div class="job-icon">🏢</div>
+                    <div class="job-info">
+                        <strong>املاک</strong>
+                        <small>سرمایه‌گذاری مطمئن با پتانسیل سود بالا در بلندمدت</small>
+                    </div>
+                </div>
+                <div class="job-item" data-job="تجارت الکترونیک">
+                    <div class="job-icon">🛒</div>
+                    <div class="job-info">
+                        <strong>تجارت الکترونیک</strong>
+                        <small>فروش آنلاین با حذف هزینه‌های مغازه و نیروی فروش زیاد</small>
+                    </div>
+                </div>
+                <div class="job-item" data-job="خدمات زیبایی">
+                    <div class="job-icon">💄</div>
+                    <div class="job-info">
+                        <strong>خدمات زیبایی</strong>
+                        <small>بازاری پررونق با مشتریان همیشگی و پردرآمد</small>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" id="backFromJobs">
+                <i class="fas fa-arrow-right"></i> بازگشت
+            </button>
+        </div>
+
+        <!-- بخش نتایج -->
+        <div id="resultSection" class="section">
+            <div id="resultContent" class="result-content"></div>
+            
+            <div class="daily-tracker">
+                <h4><i class="fas fa-calendar-day"></i> ردیف روزانه فعالیت‌ها و سود</h4>
+                
+                <div class="tracker-form">
+                    <input type="text" id="activityInput" placeholder="فعالیت (مانند خرید پارچه)">
+                    <input type="number" id="quantityInput" placeholder="مقدار (مانند ۵ طاقه)">
+                    <input type="number" id="costInput" placeholder="هزینه (تومان)">
+                    <input type="number" id="incomeInput" placeholder="درآمد (تومان)">
+                    <select id="periodSelect">
+                        <option value="daily">روزانه</option>
+                        <option value="weekly">هفتگی</option>
+                        <option value="monthly">ماهیانه</option>
+                        <option value="quarterly">سه‌ماهه</option>
+                    </select>
+                    <button id="addActivityBtn"><i class="fas fa-plus"></i> ثبت فعالیت و سود</button>
+                </div>
+                
+                <div class="tracker-records" id="activityRecords">
+                    <!-- فعالیت‌ها اینجا نمایش داده می‌شوند -->
+                </div>
+            </div>
+            
+            <div class="profit-summary">
+                <h4><i class="fas fa-chart-pie"></i> خلاصه سودآوری</h4>
+                <div class="summary-item">
+                    <span>سود روزانه:</span>
+                    <span class="summary-value" id="dailyProfit">0 تومان</span>
+                </div>
+                <div class="summary-item">
+                    <span>سود هفتگی:</span>
+                    <span class="summary-value" id="weeklyProfit">0 تومان</span>
+                </div>
+                <div class="summary-item">
+                    <span>سود ماهیانه:</span>
+                    <span class="summary-value" id="monthlyProfit">0 تومان</span>
+                </div>
+                <div class="summary-item">
+                    <span>سود سه‌ماهه:</span>
+                    <span class="summary-value" id="quarterlyProfit">0 تومان</span>
+                </div>
+                <div class="summary-item">
+                    <span>سود سالیانه:</span>
+                    <span class="summary-value" id="yearlyProfit">0 تومان</span>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="profitChart"></canvas>
+            </div>
+            
+            <button class="btn btn-success" id="backToStart">
+                <i class="fas fa-redo"></i> شروع مجدد
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // مدیریت وضعیت کاربر
+        let userCapital = 0;
+        let currentSection = 'capitalInput';
+        let userActivities = [];
+        let profitChart = null;
+        
+        // بارگذاری داده‌های ذخیره شده
+        function loadUserData() {
+            const savedData = localStorage.getItem('investmentGuideUserData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                userCapital = data.capital || 0;
+                userActivities = data.activities || [];
+                
+                if (userCapital > 0) {
+                    document.getElementById('capital').value = userCapital.toLocaleString();
+                }
+                
+                updateActivityRecords();
+                updateProfitSummary();
+                renderProfitChart();
+            }
+        }
+        
+        // ذخیره داده‌های کاربر
+        function saveUserData() {
+            const data = {
+                capital: userCapital,
+                activities: userActivities
+            };
+            localStorage.setItem('investmentGuideUserData', JSON.stringify(data));
+        }
+        
+        // تابع نمایش بخش
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            currentSection = sectionId;
+            
+            // بروزرسانی نوار پیشرفت
+            updateProgressBar();
+        }
+        
+        // بروزرسانی نوار پیشرفت
+        function updateProgressBar() {
+            let progress = 0;
+            
+            switch(currentSection) {
+                case 'capitalInput':
+                    progress = 25;
+                    break;
+                case 'cryptoSection':
+                case 'jobSection':
+                    progress = 50;
+                    break;
+                case 'resultSection':
+                    progress = 100;
+                    break;
+            }
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        // بروزرسانی لیست فعالیت‌ها
+        function updateActivityRecords() {
+            const recordsContainer = document.getElementById('activityRecords');
+            recordsContainer.innerHTML = '';
+            
+            if (userActivities.length === 0) {
+                recordsContainer.innerHTML = '<p style="text-align: center; padding: 10px;">هنوز فعالیتی ثبت نشده است</p>';
+                return;
+            }
+            
+            userActivities.slice().reverse().forEach(activity => {
+                const profit = activity.income - activity.cost;
+                const profitClass = profit >= 0 ? 'success' : 'accent';
+                
+                const recordEl = document.createElement('div');
+                recordEl.className = 'tracker-record';
+                recordEl.innerHTML = `
+                    <div>
+                        <strong>${activity.name}</strong>
+                        <div>${activity.quantity} - ${activity.period}</div>
+                    </div>
+                    <div style="color: var(--${profitClass}); font-weight: bold;">
+                        ${profit >= 0 ? '+' : ''}${profit.toLocaleString()} تومان
+                    </div>
+                `;
+                recordsContainer.appendChild(recordEl);
+            });
+        }
+        
+        // بروزرسانی خلاصه سودآوری
+        function updateProfitSummary() {
+            const now = new Date();
+            const dailyProfit = calculateProfitForPeriod('daily', now);
+            const weeklyProfit = calculateProfitForPeriod('weekly', now);
+            const monthlyProfit = calculateProfitForPeriod('monthly', now);
+            const quarterlyProfit = calculateProfitForPeriod('quarterly', now);
+            const yearlyProfit = calculateProfitForPeriod('yearly', now);
+            
+            document.getElementById('dailyProfit').textContent = `${dailyProfit.toLocaleString()} تومان`;
+            document.getElementById('weeklyProfit').textContent = `${weeklyProfit.toLocaleString()} تومان`;
+            document.getElementById('monthlyProfit').textContent = `${monthlyProfit.toLocaleString()} تومان`;
+            document.getElementById('quarterlyProfit').textContent = `${quarterlyProfit.toLocaleString()} تومان`;
+            document.getElementById('yearlyProfit').textContent = `${yearlyProfit.toLocaleString()} تومان`;
+        }
+        
+        // محاسبه سود برای بازه زمانی مشخص
+        function calculateProfitForPeriod(period, now) {
+            let profit = 0;
+            
+            userActivities.forEach(activity => {
+                if (activity.period === period) {
+                    profit += (activity.income - activity.cost);
+                }
+            });
+            
+            return profit;
+        }
+        
+        // رسم نمودار سودآوری
+        function renderProfitChart() {
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            
+            if (profitChart) {
+                profitChart.destroy();
+            }
+            
+            // داده‌های نمونه برای نمودار
+            const labels = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور'];
+            const data = [500000, 750000, 600000, 900000, 1200000, 1500000];
+            
+            profitChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'سود ماهیانه (تومان)',
+                        data: data,
+                        borderColor: '#4e54c8',
+                        backgroundColor: 'rgba(78, 84, 200, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'پیش‌بینی سود ماهیانه',
+                            font: {
+                                family: 'IRANSans',
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                font: {
+                                    family: 'IRANSans'
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' تومان';
+                                },
+                                font: {
+                                    family: 'IRANSans'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    family: 'IRANSans'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // دکمه تحلیل سرمایه
+        document.getElementById('analyzeBtn').addEventListener('click', function() {
+            const capital = document.getElementById('capital').value;
+            userCapital = parseInt(capital.replace(/,/g, ''));
+            
+            if (!capital || userCapital < 1000000) {
+                alert('لطفاً میزان سرمایه معتبر وارد کنید (حداقل ۱ میلیون تومان)');
+                return;
+            }
+            
+            // ذخیره سرمایه کاربر
+            saveUserData();
+
+            if (userCapital < 200000000) {
+                showSection('cryptoSection');
+            } else {
+                showSection('jobSection');
+            }
+        });
+
+        // انتخاب ارز دیجیتال
+        document.querySelectorAll('.crypto-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.crypto-item').forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                setTimeout(() => {
+                    showCryptoAdvice();
+                }, 500);
+            });
+        });
+
+        // انتخاب شغل
+        document.querySelectorAll('.job-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.job-item').forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                setTimeout(() => {
+                    const jobType = this.getAttribute('data-job');
+                    showJobAdvice(jobType);
+                }, 500);
+            });
+        });
+
+        // نمایش راهنمای ارز دیجیتال
+        function showCryptoAdvice() {
+            const selectedCrypto = document.querySelector('.crypto-item.selected').dataset.crypto;
+            
+            let advice = `
+                <h3><i class="fas fa-chart-pie"></i> راهکار سرمایه‌گذاری در ارزهای دیجیتال</h3>
+                <p>شما با سرمایه <strong>${userCapital.toLocaleString()} تومان</strong> می‌توانید در ارزهای دیجیتال زیر سرمایه‌گذاری کنید:</p>
+                
+                <div class="portfolio">
+                    <h4><i class="fas fa-coins"></i> سبد پیشنهادی سرمایه‌گذاری</h4>
+                    <div class="portfolio-item">
+                        <span>بیت کوین (BTC)</span>
+                        <span class="portfolio-percent">40%</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <span>اتریوم (ETH)</span>
+                        <span class="portfolio-percent">25%</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <span>سولانا (SOL)</span>
+                        <span class="portfolio-percent">15%</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <span>کاردانو (ADA)</span>
+                        <span class="portfolio-percent">10%</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <span>پولکادات (DOT)</span>
+                        <span class="portfolio-percent">10%</span>
+                    </div>
+                </div>
+                
+                <div class="note-box">
+                    <i class="fas fa-lightbulb"></i> <strong>راهکار عملی:</strong>
+                    <p>سرمایه خود را بین ۵ ارز بالا تقسیم کنید. این تنوع‌بخشی ریسک شما را کاهش می‌دهد. 
+                    توصیه می‌شود از صرافی‌های معتبر ایرانی و بین‌المللی برای خرید استفاده کنید و دارایی‌های خود را در کیف پول سخت‌افزاری امن نگهداری کنید.</p>
+                </div>
+                
+                <div class="note-box">
+                    <i class="fas fa-exclamation-triangle"></i> <strong>راهنمای خرید و فروش:</strong>
+                    <p>برای خرید ارزهای دیجیتال، قیمت را زیر نظر بگیرید. وقتی قیمت ۲٪ کاهش یافت، خرید کنید و بعد از یک هفته اگر قیمت افزایش یافت، بفروشید. این استراتژی ساده ولی مؤثر می‌تواند سود خوبی برای شما ایجاد کند.</p>
+                </div>
+                
+                <p><span class="badge">نکته مهم</span> سرمایه‌گذاری در ارزهای دیجیتال نوسانات زیادی دارد. تنها با سرمایه مازاد خود اقدام کنید و همیشه به فکر مدیریت ریسک باشید.</p>
+            `;
+            
+            document.getElementById('resultContent').innerHTML = advice;
+            showSection('resultSection');
+        }
+
+        // نمایش راهنمای شغلی
+        function showJobAdvice(jobType) {
+            let advice = '';
+            
+            if (jobType === 'تولید لباس') {
+                advice = `
+                    <h3><i class="fas fa-tshirt"></i> راهکار راه‌اندازی کسب‌وکار تولید لباس</h3>
+                    <p>شما با سرمایه <strong>${userCapital.toLocaleString()} تومان</strong> می‌توانید یک کسب‌وکار تولید لباس راه‌اندازی کنید:</p>
+                    
+                    <div class="note-box">
+                        <i class="fas fa-check-circle"></i> <strong>مراحل اجرایی دقیق:</strong>
+                        <ul style="padding-right: 20px; margin-top: 10px;">
+                            <li>برو داخل بازار تهران یا هر شهرستان که هستی ۵ طاقه پارچه پنبه بخر</li>
+                            <li>برو از اینستاگرام یا کانال‌هایی که هست، از داخل اونا یک مدل لباس خوب و شیک عکسشو ذخیره کن</li>
+                            <li>اون پارچه را بده برش بزنن و با مدل خوب بدوز</li>
+                            <li>بعد برو و هر چند نمونه داری بازاریابی کن، نشون بده نمونه کار را</li>
+                            <li>همیشه یادت باشه هیچ موقع سود کم نکش روش. چون ممکنه خرید چکی داشته باشی، حداقل ۵۰ هزار تومان بکش روش</li>
+                            <li>بعد نشون بده. دیدی بازار خوبه، تخفیف بده ۱۰ هزار تومان بنداز تا همیشه تو سود باشی</li>
+                            <li>چکی بفروش به معتبرها. هر سه ماه یکبار اگر تو این کار انجام بدی، سرمایه تو در آخر سال ۳ برابر یا بیشتر میشه</li>
+                        </ul>
+                    </div>
+                    
+                    <p><span class="badge">برآورد سود</span> با اجرای صحیح این طرح، می‌توانید در پایان سال سرمایه خود را ۳ برابر کنید.</p>
+                    
+                    <p><span class="badge">نکته کلیدی</span> کیفیت کار و مدل‌های به‌روز مهم‌ترین عوامل موفقیت در این کسب‌وکار هستند. همیشه نمونه کارهای خود را به مشتریان نشان دهید و از بازخورد آن‌ها برای بهبود محصولات استفاده کنید.</p>
+                `;
+            } else if (jobType === 'رستوران و غذا') {
+                advice = `
+                    <h3><i class="fas fa-utensils"></i> راهکار راه‌اندازی رستوران</h3>
+                    <p>شما با سرمایه <strong>${userCapital.toLocaleString()} تومان</strong> می‌توانید یک رستوران یا غذاخوری راه‌اندازی کنید:</p>
+                    
+                    <div class="note-box">
+                        <i class="fas fa-check-circle"></i> <strong>مراحل اجرایی دقیق:</strong>
+                        <ul style="padding-right: 20px; margin-top: 10px;">
+                            <li>برو یک مغازه در محل پرتردد بگیر با ماهی ۵ میلیون تومان</li>
+                            <li>یک آشپز خوب با حقوق ۸ میلیون تومان استخدام کن</li>
+                            <li>منوی محدود اما با کیفیت بالا درست کن</li>
+                            <li>از مواد اولیه تازه و مرغوب استفاده کن</li>
+                            <li>برو بازاریابی کن، برای کسب‌وکارهای اطراف پخش کن</li>
+                            <li>همیشه یادت باشه کیفیت غذا مهمه، پس هیچ وقت مواد بی‌کیفیت نخر</li>
+                            <li>تخفیف مخصوص برای مشتریان دائمی در نظر بگیر</li>
+                            <li>با پیک‌های محل همکاری کن</li>
+                        </ul>
+                    </div>
+                    
+                    <p><span class="badge">برآورد سود</span> با مدیریت خوب و کیفیت بالای غذا، می‌توانید در سال اول به سوددهی برسید و در سال‌های بعد سرمایه خود را چند برابر کنید.</p>
+                `;
+            } else {
+                advice = `
+                    <h3><i class="fas fa-briefcase"></i> راهکار راه‌اندازی کسب‌وکار ${jobType}</h3>
+                    <p>شما با سرمایه <strong>${userCapital.toLocaleString()} تومان</strong> می‌توانید یک کسب‌وکار در زمینه ${jobType} راه‌اندازی کنید:</p>
+                    
+                    <div class="note-box">
+                        <i class="fas fa-check-circle"></i> <strong>مراحل اجرایی دقیق:</strong>
+                        <ul style="padding-right: 20px; margin-top: 10px;">
+                            <li>برو بازار مربوطه و مواد اولیه مرغوب بخرم</li>
+                            <li>یک نیروی کار ماهر استخدام کن</li>
+                            <li>محصولات با کیفیت بالا تولید کن</li>
+                            <li>برو بازاریابی کن و محصولاتت رو نشون بده</li>
+                            <li>همیشه روی سودت محکم باش، حداقل ۵۰٪ سود بگیر</li>
+                            <li>تخفیف فقط برای مشتریان عمده در نظر بگیر</li>
+                            <li>با کیفیت کار کن و مشتری مداری رو فراموش نکن</li>
+                        </ul>
+                    </div>
+                    
+                    <p><span class="badge">برآورد سود</span> با اجرای صحیح و مدیریت مناسب، می‌توانید در پایان سال اول سرمایه خود را ۲ تا ۳ برابر کنید.</p>
+                `;
+            }
+            
+            document.getElementById('resultContent').innerHTML = advice;
+            showSection('resultSection');
+        }
+
+        // افزودن فعالیت روزانه
+        document.getElementById('addActivityBtn').addEventListener('click', function() {
+            const activityInput = document.getElementById('activityInput');
+            const quantityInput = document.getElementById('quantityInput');
+            const costInput = document.getElementById('costInput');
+            const incomeInput = document.getElementById('incomeInput');
+            const periodSelect = document.getElementById('periodSelect');
+            
+            const activity = activityInput.value.trim();
+            const quantity = quantityInput.value.trim();
+            const cost = parseInt(costInput.value) || 0;
+            const income = parseInt(incomeInput.value) || 0;
+            const period = periodSelect.value;
+            
+            if (!activity || !quantity) {
+                alert('لطفاً فعالیت و مقدار را وارد کنید');
+                return;
+            }
+            
+            userActivities.push({
+                name: activity,
+                quantity: quantity,
+                cost: cost,
+                income: income,
+                period: period,
+                date: new Date().toLocaleDateString('fa-IR')
+            });
+            
+            activityInput.value = '';
+            quantityInput.value = '';
+            costInput.value = '';
+            incomeInput.value = '';
+            
+            updateActivityRecords();
+            updateProfitSummary();
+            saveUserData();
+        });
+
+        // دکمه‌های بازگشت
+        document.getElementById('backFromCrypto').addEventListener('click', function() {
+            showSection('capitalInput');
+        });
+
+        document.getElementById('backFromJobs').addEventListener('click', function() {
+            showSection('capitalInput');
+        });
+
+        document.getElementById('backToStart').addEventListener('click', function() {
+            showSection('capitalInput');
+        });
+
+        // فرمت کردن عدد سرمایه هنگام تایپ
+        document.getElementById('capital').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/,/g, '');
+            if (!isNaN(value)) {
+                e.target.value = parseInt(value || 0).toLocaleString();
+            }
+        });
+        
+        // بارگذاری داده‌های کاربر هنگام شروع
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            updateProgressBar();
+        });
+    </script>
+</body>
+</html>
