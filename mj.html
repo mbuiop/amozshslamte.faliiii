@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت هوشمند قرص‌ها</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazir', 'Tahoma', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .form-section {
+            padding: 25px 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border: none;
+            padding: 18px 25px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-clear {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-clear:hover {
+            background: #5a6268;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fc 0%, #e8f5e8 100%);
+            border-radius: 15px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .summary-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 15px;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            background: #f8f9ff;
+            padding: 15px 10px;
+            border-radius: 10px;
+            border-right: 3px solid #4facfe;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4facfe;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* قالب جدید برای روز درمان */
+        .treatment-day-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .treatment-day-header .day-number {
+            font-size: 2em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* قالب جدید برای ساعات */
+        .daily-times-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .time-slot {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .time-slot:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .time-text {
+            font-size: 1.4em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .pill-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .instruction {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+
+        .warning {
+            background: #ffe6e6;
+            color: #d63031;
+            padding: 15px;
+            border-radius: 10px;
+            border-right: 4px solid #d63031;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        .saved-indicator {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 0.95em;
+            border: 1px solid #c3e6cb;
+            font-weight: bold;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                border-radius: 15px;
+            }
+            
+            .form-section {
+                padding: 20px 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .time-slots-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .time-slot {
+                padding: 15px 10px;
+            }
+
+            .time-text {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💊 مدیریت قرص‌ها</h1>
+            <p>برنامه‌ریزی دقیق برای مصرف دارو</p>
+        </div>
+
+        <div class="form-section">
+            <div id="savedIndicator" class="saved-indicator" style="display: none;">
+                ✅ اطلاعات شما در مرورگر ذخیره شده است
+            </div>
+
+            <form id="pillForm">
+                <div class="form-group">
+                    <label for="pillCount">تعداد کل قرص‌ها:</label>
+                    <input type="number" id="pillCount" placeholder="مثال: 100" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="intervalHours">فاصله مصرف:</label>
+                    <select id="intervalHours" required>
+                        <option value="">انتخاب کنید</option>
+                        <option value="4">هر 4 ساعت</option>
+                        <option value="6">هر 6 ساعت</option>
+                        <option value="8">هر 8 ساعت</option>
+                        <option value="12">هر 12 ساعت</option>
+                        <option value="24">روزی یک بار</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="startTime">ساعت شروع:</label>
+                    <input type="time" id="startTime" value="08:00" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pillsPerDose">تعداد قرص در هر نوبت:</label>
+                    <input type="number" id="pillsPerDose" value="1" min="1" required>
+                </div>
+
+                <button type="submit" class="btn-calculate">🔍 محاسبه برنامه</button>
+                <button type="button" class="btn-clear" onclick="clearData()">🗑️ پاک کردن اطلاعات</button>
+            </form>
+
+            <div id="results" class="results">
+                <!-- نتایج اینجا نمایش داده می‌شود -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بارگذاری داده‌های ذخیره شده هنگام بارگذاری صفحه
+        window.addEventListener('load', function() {
+            loadSavedData();
+        });
+
+        document.getElementById('pillForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateSchedule();
+        });
+
+        // ذخیره در localStorage مرورگر
+        function saveData(data) {
+            try {
+                localStorage.setItem('pillManagerData', JSON.stringify(data));
+                showSavedIndicator();
+                console.log('Data saved to localStorage:', data);
+            } catch(e) {
+                console.error('Error saving to localStorage:', e);
+            }
+        }
+
+        // بارگذاری از localStorage مرورگر
+        function loadSavedData() {
+            try {
+                const savedData = localStorage.getItem('pillManagerData');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    
+                    document.getElementById('pillCount').value = data.pillCount || '';
+                    document.getElementById('intervalHours').value = data.intervalHours || '';
+                    document.getElementById('startTime').value = data.startTime || '08:00';
+                    document.getElementById('pillsPerDose').value = data.pillsPerDose || '1';
+                    
+                    if (data.pillCount && data.intervalHours) {
+                        showSavedIndicator();
+                        calculateSchedule(); // محاسبه خودکار
+                    }
+                }
+            } catch(e) {
+                console.error('Error loading from localStorage:', e);
+            }
+        }
+
+        function clearData() {
+            try {
+                localStorage.removeItem('pillManagerData');
+                document.getElementById('pillForm').reset();
+                document.getElementById('startTime').value = '08:00';
+                document.getElementById('pillsPerDose').value = '1';
+                document.getElementById('results').classList.remove('show');
+                document.getElementById('savedIndicator').style.display = 'none';
+                console.log('Data cleared from localStorage');
+            } catch(e) {
+                console.error('Error clearing localStorage:', e);
+            }
+        }
+
+        function showSavedIndicator() {
+            const indicator = document.getElementById('savedIndicator');
+            indicator.style.display = 'block';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 4000);
+        }
+
+        function calculateSchedule() {
+            const pillCount = parseInt(document.getElementById('pillCount').value);
+            const intervalHours = parseInt(document.getElementById('intervalHours').value);
+            const startTime = document.getElementById('startTime').value;
+            const pillsPerDose = parseInt(document.getElementById('pillsPerDose').value);
+
+            // ذخیره اطلاعات در مرورگر
+            saveData({
+                pillCount,
+                intervalHours,
+                startTime,
+                pillsPerDose
+            });
+
+            // محاسبه تعداد دوزها
+            const totalDoses = Math.floor(pillCount / pillsPerDose);
+            const totalDays = Math.ceil((totalDoses * intervalHours) / 24);
+            const dailyDoses = 24 / intervalHours;
+
+            // تولید برنامه روزانه
+            const dailySchedule = generateDailySchedule(startTime, intervalHours, totalDays, pillsPerDose);
+
+            displayResults(pillCount, totalDoses, totalDays, dailyDoses, dailySchedule, pillsPerDose, intervalHours);
+        }
+
+        function generateDailySchedule(startTime, intervalHours, totalDays, pillsPerDose) {
+            const schedule = [];
+            const [startHour, startMinute] = startTime.split(':').map(Number);
+            const dailyDoses = 24 / intervalHours;
+
+            for (let day = 1; day <= Math.min(totalDays, 14); day++) { // حداکثر 14 روز نمایش
+                const daySchedule = {
+                    day: day,
+                    times: []
+                };
+
+                for (let dose = 0; dose < dailyDoses; dose++) {
+                    const hour = (startHour + (dose * intervalHours)) % 24;
+                    const timeString = `${hour.toString().padStart(2, '0')}:${startMinute.toString().padStart(2, '0')}`;
+                    
+                    daySchedule.times.push({
+                        time: timeString,
+                        pills: pillsPerDose
+                    });
+                }
+
+                schedule.push(daySchedule);
+            }
+
+            return schedule;
+        }
+
+        function displayResults(pillCount, totalDoses, totalDays, dailyDoses, dailySchedule, pillsPerDose, intervalHours) {
+            const resultsDiv = document.getElementById('results');
+            
+            const instruction = getInstruction(intervalHours);
+            
+            resultsDiv.innerHTML = `
+                <div class="summary-card">
+                    <div class="summary-title">خلاصه برنامه درمان</div>
+                    <div class="summary-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">${totalDays}</span>
+                            <div class="stat-label">روز درمان</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">${dailyDoses}</span>
+                            <div class="stat-label">بار در روز</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instruction">
+                    ${instruction}
+                </div>
+
+                ${dailySchedule.map(day => `
+                    <div class="treatment-day-header">
+                        <span class="day-number">روز ${day.day}</span>
+                        برنامه مصرف روزانه
+                    </div>
+                    
+                    <div class="daily-times-container">
+                        <div class="time-slots-grid">
+                            ${day.times.map(timeSlot => `
+                                <div class="time-slot">
+                                    <span class="time-text">⏰ ${timeSlot.time}</span>
+                                    <div class="pill-info">${timeSlot.pills} قرص + آب</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+                
+                ${totalDays > 14 ? '<p style="text-align: center; color: #666; margin-top: 15px; font-size: 0.9em;">... و ادامه برنامه تا پایان درمان</p>' : ''}
+
+                <div class="warning">
+                    <strong>⚠️ مهم:</strong> هر قرص را با یک لیوان پر آب بخورید و هیچ نوبتی را فراموش نکنید.
+                </div>
+            `;
+
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getInstruction(intervalHours) {
+            const instructions = {
+                4: "🕐 هر 4 ساعت یک بار - 6 نوبت در روز",
+                6: "🕕 هر 6 ساعت یک بار - 4 نوبت در روز", 
+                8: "🕗 هر 8 ساعت یک بار - 3 نوبت در روز",
+                12: "🕚 هر 12 ساعت یک بار - 2 نوبت در روز",
+                24: "🕐 روزانه یک بار در همان ساعت"
+            };
+
+            return instructions[intervalHours] || "طبق برنامه مصرف کنید";
+        }
+    </script>
+</body>
+</html>
