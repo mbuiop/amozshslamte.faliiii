@@ -1,373 +1,0 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10 ارز دیجیتال پرپتانسیل</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Tahoma', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .crypto-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .crypto-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .crypto-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            border-color: #667eea;
-        }
-
-        .crypto-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .crypto-rank {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-left: 15px;
-        }
-
-        .crypto-name {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .crypto-symbol {
-            background: #f0f0f0;
-            color: #666;
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            margin-right: auto;
-        }
-
-        .crypto-description {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .crypto-features {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .crypto-features h4 {
-            color: #333;
-            margin-bottom: 8px;
-            font-size: 1rem;
-        }
-
-        .crypto-features ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .crypto-features li {
-            color: #666;
-            margin-bottom: 5px;
-            position: relative;
-            padding-right: 20px;
-        }
-
-        .crypto-features li:before {
-            content: "✓";
-            position: absolute;
-            right: 0;
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        .potential-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            .crypto-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .crypto-card {
-                padding: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🚀 10 ارز دیجیتال پرپتانسیل 2025</h1>
-            <p>بهترین فرصت‌های سرمایه‌گذاری در دنیای کریپتو</p>
-        </div>
-
-        <div class="crypto-grid">
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">1</div>
-                    <div class="crypto-name">بیت کوین</div>
-                    <div class="crypto-symbol">BTC</div>
-                </div>
-                <div class="crypto-description">
-                    طلای دیجیتال و اولین و معروف‌ترین ارز دیجیتال جهان که همچنان بهترین ذخیره ارزش محسوب می‌شود.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>محدودیت عرضه 21 میلیون کوین</li>
-                        <li>پذیرش گسترده در سطح جهانی</li>
-                        <li>امنیت بالای شبکه</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: بسیار بالا</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">2</div>
-                    <div class="crypto-name">اتریوم</div>
-                    <div class="crypto-symbol">ETH</div>
-                </div>
-                <div class="crypto-description">
-                    پلتفرم قراردادهای هوشمند که پایه اکثر پروژه‌های DeFi و NFT است و دارای اکوسیستم بزرگی می‌باشد.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>پلتفرم قراردادهای هوشمند</li>
-                        <li>اکوسیستم غنی DeFi</li>
-                        <li>انتقال به Proof of Stake</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: بسیار بالا</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">3</div>
-                    <div class="crypto-name">سولانا</div>
-                    <div class="crypto-symbol">SOL</div>
-                </div>
-                <div class="crypto-description">
-                    بلاک چین پرسرعت و کم‌هزینه که رقیب جدی اتریوم محسوب می‌شود و دارای رشد سریعی است.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>سرعت تراکنش فوق‌العاده بالا</li>
-                        <li>کارمزد بسیار پایین</li>
-                        <li>اکوسیستم رو به رشد</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: بالا</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">4</div>
-                    <div class="crypto-name">کاردانو</div>
-                    <div class="crypto-symbol">ADA</div>
-                </div>
-                <div class="crypto-description">
-                    بلاک چین مبتنی بر تحقیقات علمی با تمرکز بر پایداری و امنیت که دارای رویکرد منحصربفردی است.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>مبتنی بر تحقیقات علمی</li>
-                        <li>مصرف انرژی کم</li>
-                        <li>سیستم حکمرانی قوی</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: بالا</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">5</div>
-                    <div class="crypto-name">پولکادات</div>
-                    <div class="crypto-symbol">DOT</div>
-                </div>
-                <div class="crypto-description">
-                    شبکه چند زنجیره‌ای که امکان ارتباط بین بلاک چین‌های مختلف را فراهم می‌کند.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>قابلیت اتصال چند زنجیره</li>
-                        <li>مقیاس‌پذیری بالا</li>
-                        <li>حکمرانی انطباق‌پذیر</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: بالا</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">6</div>
-                    <div class="crypto-name">چین لینک</div>
-                    <div class="crypto-symbol">LINK</div>
-                </div>
-                <div class="crypto-description">
-                    شبکه Oracle غیرمتمرکز که داده‌های دنیای واقعی را به بلاک چین‌ها متصل می‌کند.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>رهبر بازار Oracle</li>
-                        <li>شراکت‌های گسترده</li>
-                        <li>نقش کلیدی در DeFi</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: متوسط تا بالا</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">7</div>
-                    <div class="crypto-name">آوالانچ</div>
-                    <div class="crypto-symbol">AVAX</div>
-                </div>
-                <div class="crypto-description">
-                    پلتفرم قراردادهای هوشمند با سرعت بالا و کارمزد کم که جایگزین مناسبی برای اتریوم است.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>سرعت تراکنش بالا</li>
-                        <li>سازگاری با اتریوم</li>
-                        <li>مصرف انرژی کم</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: متوسط تا بالا</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">8</div>
-                    <div class="crypto-name">پولیگان</div>
-                    <div class="crypto-symbol">MATIC</div>
-                </div>
-                <div class="crypto-description">
-                    راه‌حل لایه دوم برای اتریوم که مقیاس‌پذیری و کاهش هزینه‌ها را فراهم می‌کند.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>راه‌حل مقیاس‌پذیری</li>
-                        <li>کارمزد بسیار پایین</li>
-                        <li>اکوسیستم فعال DeFi</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: متوسط</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">9</div>
-                    <div class="crypto-name">یونی سوپ</div>
-                    <div class="crypto-symbol">UNI</div>
-                </div>
-                <div class="crypto-description">
-                    بزرگترین صرافی غیرمتمرکز (DEX) که نقش مهمی در اکوسیستم DeFi دارد.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>رهبر بازار DEX</li>
-                        <li>حجم معامله بالا</li>
-                        <li>نوآوری مداوم</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: متوسط</span>
-            </div>
-
-            <div class="crypto-card">
-                <div class="crypto-header">
-                    <div class="crypto-rank">10</div>
-                    <div class="crypto-name">دوج کوین</div>
-                    <div class="crypto-symbol">DOGE</div>
-                </div>
-                <div class="crypto-description">
-                    ارز میم که به دلیل محبوبیت در شبکه‌های اجتماعی و حمایت شخصیت‌های مشهور رشد کرده است.
-                </div>
-                <div class="crypto-features">
-                    <h4>ویژگی‌های کلیدی:</h4>
-                    <ul>
-                        <li>محبوبیت بالا در رسانه‌ها</li>
-                        <li>جامعه قوی</li>
-                        <li>کاربرد در پرداخت‌ها</li>
-                    </ul>
-                </div>
-                <span class="potential-badge">پتانسیل: نامشخص</span>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
