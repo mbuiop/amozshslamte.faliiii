@@ -1,230 +1,0 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحلیل معاملات</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-        
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            padding: 0 20px;
-        }
-        
-        .nav-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 25px;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-        }
-        
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
-        }
-        
-        .nav-btn.indicator {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
-        
-        .nav-btn.indicator:hover {
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-        }
-        
-        .icon {
-            font-size: 18px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        
-        .main-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-        
-        .title {
-            text-align: center;
-            font-size: 2.5em;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-weight: 700;
-        }
-        
-        .indicators-section {
-            line-height: 1.8;
-            font-size: 16px;
-            color: #34495e;
-        }
-        
-        .indicator-item {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 15px;
-            border-right: 5px solid #3498db;
-        }
-        
-        .indicator-title {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        
-        .highlight {
-            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="po.html" class="nav-btn" target="_blank">
-                <span class="icon">🤖</span>
-                سیگنال های اماده
-            </a>
-            <a href="MN1.html" class="nav-btn indicator">
-                <span class="icon">📊</span>
-                تحلیل با اندیکاتور
-            </a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="main-content">
-            <h1 class="title">راهنمای اندیکاتورهای تحلیل تکنیکال</h1>
-            
-            <div class="indicators-section">
-                <div class="indicator-item">
-                    <div class="indicator-title">🔵 اندیکاتور RSI (Relative Strength Index)</div>
-                    <p>
-                        اندیکاتور RSI یکی از محبوب‌ترین ابزارهای تحلیل تکنیکال است که برای شناسایی مناطق <span class="highlight">اشباع خرید و فروش</span> استفاده می‌شود. این اندیکاتور در بازه‌ای بین 0 تا 100 نوسان می‌کند و معمولاً زمانی که بالای 70 قرار می‌گیرد، نشان‌دهنده اشباع خرید و زمانی که زیر 30 قرار می‌گیرد، نشان‌دهنده اشباع فروش است.
-                    </p>
-                    <p>
-                        تفسیر صحیح RSI نیازمند درنظرگیری روند کلی بازار است. در روندهای صعودی قوی، ممکن است RSI برای مدت طولانی در منطقه اشباع خرید باقی بماند و این امر نشان‌دهنده قدرت روند است نه لزوماً سیگنال فروش.
-                    </p>
-                </div>
-
-                <div class="indicator-item">
-                    <div class="indicator-title">📈 اندیکاتور MACD (Moving Average Convergence Divergence)</div>
-                    <p>
-                        MACD یکی از قدرتمندترین اندیکاتورهای <span class="highlight">تشخیص روند و مومنتوم</span> محسوب می‌شود. این اندیکاتور از تفاوت بین دو میانگین متحرک نمایی تشکیل شده و شامل سه خط اصلی است: خط MACD، خط سیگنال و هیستوگرام.
-                    </p>
-                    <p>
-                        زمانی که خط MACD از بالا خط سیگنال را قطع کند، معمولاً سیگنال فروش و زمانی که از پایین آن را قطع کند، سیگنال خرید تلقی می‌شود. همچنین واگرایی بین قیمت و MACD می‌تواند نشان‌دهنده تغییر احتمالی روند باشد.
-                    </p>
-                </div>
-
-                <div class="indicator-item">
-                    <div class="indicator-title">🎯 اندیکاتور Bollinger Bands</div>
-                    <p>
-                        باندهای بولینگر شامل سه خط است: میانگین متحرک ساده در وسط و دو باند بالا و پایین که بر اساس <span class="highlight">انحراف معیار قیمت</span> محاسبه می‌شوند. این اندیکاتور برای تشخیص نوسانات قیمت و شناسایی نقاط ورود و خروج مناسب استفاده می‌شود.
-                    </p>
-                    <p>
-                        زمانی که قیمت به باند بالایی نزدیک می‌شود، ممکن است در منطقه اشباع خرید باشد و زمانی که به باند پایینی نزدیک می‌شود، در منطقه اشباع فروش قرار دارد. همچنین انقباض باندها معمولاً نشان‌دهنده کاهش نوسانات و احتمال شکست قیمت در آینده نزدیک است.
-                    </p>
-                </div>
-
-                <div class="indicator-item">
-                    <div class="indicator-title">⚡ اندیکاتور Stochastic Oscillator</div>
-                    <p>
-                        اندیکاتور استوکاستیک موقعیت قیمت فعلی را نسبت به <span class="highlight">محدوده قیمتی مشخصی از گذشته</span> مقایسه می‌کند و شامل دو خط %K و %D است. این اندیکاتور بین 0 تا 100 نوسان می‌کند و برای شناسایی نقاط برگشت قیمت در بازارهای محدوده‌ای بسیار مؤثر است.
-                    </p>
-                    <p>
-                        مقادیر بالای 80 معمولاً نشان‌دهنده اشباع خرید و مقادیر زیر 20 نشان‌دهنده اشباع فروش هستند. تقاطع خط %K با خط %D می‌تواند سیگنال‌های خرید و فروش قابل اعتمادی ارائه دهد، به خصوص زمانی که در مناطق اشباع رخ دهد.
-                    </p>
-                </div>
-
-                <div class="indicator-item">
-                    <div class="indicator-title">🌊 اندیکاتور Moving Averages (میانگین‌های متحرک)</div>
-                    <p>
-                        میانگین‌های متحرک از بنیادی‌ترین و پرکاربردترین ابزارهای تحلیل تکنیکال هستند که برای <span class="highlight">تشخیص روند و حمایت/مقاومت</span> استفاده می‌شوند. انواع مختلفی از میانگین‌های متحرک وجود دارد که شامل میانگین ساده (SMA) و میانگین نمایی (EMA) می‌شود.
-                    </p>
-                    <p>
-                        زمانی که قیمت بالای میانگین متحرک قرار دارد، معمولاً روند صعودی و زمانی که زیر آن است، روند نزولی تلقی می‌شود. تقاطع میانگین‌های متحرک با دوره‌های مختلف (مانند Golden Cross و Death Cross) از سیگنال‌های مهم تغییر روند محسوب می‌شوند.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // اضافه کردن انیمیشن برای دکمه‌ها
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px) scale(1.05)';
-            });
-            
-            btn.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // انیمیشن برای باکس‌های اندیکاتور
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.indicator-item').forEach(item => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(30px)';
-            item.style.transition = 'all 0.6s ease';
-            observer.observe(item);
-        });
-    </script>
-</body>
-</html>
