@@ -80,6 +80,27 @@
             gap: 8px;
         }
 
+        .header-btn {
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 0.7em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .header-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         .notification-bell {
             position: relative;
             font-size: 1.3em;
@@ -88,6 +109,8 @@
             padding: 5px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+            color: white;
         }
 
         .notification-bell:hover {
@@ -105,26 +128,6 @@
             border-radius: 50%;
             animation: pulse 2s infinite;
             border: 1px solid white;
-        }
-
-        .announcement-btn {
-            position: relative;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 5px 8px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            font-size: 0.7em;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .announcement-btn:hover {
-            transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.2);
         }
 
         .menu-toggle {
@@ -257,6 +260,8 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
         }
 
         .menu-item:hover {
@@ -561,6 +566,7 @@
             cursor: pointer;
             color: #7f8c8d;
             max-width: 70px;
+            text-decoration: none;
         }
 
         .nav-item.active {
@@ -800,7 +806,7 @@
                 font-size: 0.65em;
             }
             
-            .announcement-btn {
+            .header-btn {
                 font-size: 0.6em;
                 padding: 4px 6px;
             }
@@ -824,7 +830,7 @@
                 font-size: 0.6em;
             }
             
-            .announcement-btn {
+            .header-btn {
                 font-size: 0.55em;
                 padding: 3px 5px;
             }
@@ -843,13 +849,19 @@
                 <div class="logo-text">سیستم قدرتمند مالی</div>
             </div>
             <div class="header-controls">
-                <div class="notification-bell" onclick="showNotification()">
+                <a href="m12.html" class="header-btn">
+                    <span>💰</span> راه کسب درآمد
+                </a>
+                <a href="m12.html" class="header-btn">
+                    <span>👥</span> ثبت کارمند
+                </a>
+                <a href="m12.html" class="header-btn">
+                    <span>💳</span> تراکنش‌ها
+                </a>
+                <a href="mk.html" class="notification-bell">
                     <div class="notification-dot"></div>
                     🔔
-                </div>
-                <div class="announcement-btn" onclick="goToAnnouncements()">
-                    📢 اطلاعیه‌ها
-                </div>
+                </a>
                 <div class="menu-toggle" onclick="toggleMenu()">
                     ☰
                 </div>
@@ -873,50 +885,34 @@
 
         <div class="side-menu">
             <div class="menu-header">
-                <div class="menu-title">منوی سریع</div>
+                <div class="menu-title">منوی مالی</div>
                 <div class="close-menu" onclick="toggleMenu()">✕</div>
             </div>
             <div class="menu-items">
-                <div class="menu-item" onclick="showSection('finance')">
+                <a href="m1.html" class="menu-item">
                     <div class="menu-icon">💰</div>
-                    <div class="menu-text">ثبت تراکنش مالی</div>
-                </div>
-                <div class="menu-item" onclick="showSection('production')">
-                    <div class="menu-icon">🏭</div>
-                    <div class="menu-text">حسابرسی تولیدی</div>
-                </div>
-                <div class="menu-item" onclick="showSection('accounting')">
+                    <div class="menu-text">مالی یک</div>
+                </a>
+                <a href="m1.html" class="menu-item">
+                    <div class="menu-icon">💳</div>
+                    <div class="menu-text">مالی دو</div>
+                </a>
+                <a href="m1.html" class="menu-item">
                     <div class="menu-icon">📈</div>
-                    <div class="menu-text">گزارش‌های حسابداری</div>
-                </div>
-                <div class="menu-item" onclick="showSection('checks')">
+                    <div class="menu-text">مالی سه</div>
+                </a>
+                <a href="m1.html" class="menu-item">
                     <div class="menu-icon">🏦</div>
-                    <div class="menu-text">مدیریت چک‌ها</div>
-                </div>
-                <div class="menu-item" onclick="generateFinancialReport()">
-                    <div class="menu-icon">📄</div>
-                    <div class="menu-text">گزارش مالی کامل</div>
-                </div>
-                <div class="menu-item" onclick="showFinancialTips()">
-                    <div class="menu-icon">💡</div>
-                    <div class="menu-text">نکات مالی هوشمند</div>
-                </div>
-                <div class="menu-item" onclick="clearAllData()">
-                    <div class="menu-icon">🗑️</div>
-                    <div class="menu-text">پاک کردن همه داده‌ها</div>
-                </div>
-                <div class="menu-item" onclick="exportData()">
-                    <div class="menu-icon">📤</div>
-                    <div class="menu-text">خروجی گرفتن از داده‌ها</div>
-                </div>
-                <div class="menu-item" onclick="importData()">
-                    <div class="menu-icon">📥</div>
-                    <div class="menu-text">ورود داده‌ها</div>
-                </div>
-                <div class="menu-item" onclick="showHelp()">
-                    <div class="menu-icon">❓</div>
-                    <div class="menu-text">راهنمای استفاده</div>
-                </div>
+                    <div class="menu-text">مالی چهار</div>
+                </a>
+                <a href="m1.html" class="menu-item">
+                    <div class="menu-icon">💼</div>
+                    <div class="menu-text">مالی پنج</div>
+                </a>
+                <a href="m1.html" class="menu-item">
+                    <div class="menu-icon">📊</div>
+                    <div class="menu-text">مالی شش</div>
+                </a>
             </div>
         </div>
         <div class="menu-overlay" onclick="toggleMenu()"></div>
@@ -1106,21 +1102,21 @@
 
         <!-- ناوبری پایین -->
         <div class="nav-bottom">
-            <div class="nav-item active" onclick="showSection('finance')">
+            <a href="mb.html" class="nav-item">
                 <div class="nav-icon">💰</div>
-                <div class="nav-label">مالی</div>
-            </div>
-            <div class="nav-item" onclick="showSection('production')">
-                <div class="nav-icon">🏭</div>
-                <div class="nav-label">تولیدی</div>
-            </div>
-            <div class="nav-item" onclick="showSection('accounting')">
-                <div class="nav-icon">📈</div>
-                <div class="nav-label">گزارش‌ها</div>
-            </div>
-            <div class="nav-item" onclick="showSection('checks')">
+                <div class="nav-label">راه کسب درآمد</div>
+            </a>
+            <a href="mb.html" class="nav-item">
+                <div class="nav-icon">👥</div>
+                <div class="nav-label">ثبت کارمند</div>
+            </a>
+            <a href="mb.html" class="nav-item">
+                <div class="nav-icon">💳</div>
+                <div class="nav-label">تراکنش‌ها</div>
+            </a>
+            <div class="nav-item active" onclick="showSection('checks')">
                 <div class="nav-icon">🏦</div>
-                <div class="nav-label">چک‌ها</div>
+                <div class="nav-label">مدیریت چک</div>
             </div>
         </div>
     </div>
@@ -1235,11 +1231,6 @@
             const overlay = document.querySelector('.menu-overlay');
             menu.classList.toggle('active');
             overlay.classList.toggle('active');
-        }
-
-        // هدایت به صفحه اطلاعیه‌ها
-        function goToAnnouncements() {
-            window.location.href = 'm.html';
         }
 
         // مدیریت مالی
@@ -1848,129 +1839,6 @@ ${netProfit > 0 ? '✅ وضعیت مالی شما عالی است!' : '⚠️ ن
             const randomTip = tips[Math.floor(Math.random() * tips.length)];
             alert(randomTip);
             showSuccessMessage('💡 نکته مالی جدید دریافت کردید!');
-        }
-
-        function clearAllData() {
-            if (confirm('⚠️ آیا از پاک کردن همه داده‌ها اطمینان دارید؟ این عمل غیرقابل بازگشت است!')) {
-                localStorage.clear();
-                financeData = [];
-                productionData = [];
-                checksData = [];
-                initializeSampleData();
-                showSuccessMessage('✅ همه داده‌ها با موفقیت پاک شدند!');
-            }
-        }
-
-        function exportData() {
-            const data = {
-                financeData,
-                productionData,
-                checksData,
-                exportDate: new Date().toISOString(),
-                version: '1.0'
-            };
-            
-            const dataStr = JSON.stringify(data, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `financial-data-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showSuccessMessage('✅ داده‌ها با موفقیت ذخیره شدند!');
-        }
-
-        function importData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        try {
-                            const importedData = JSON.parse(e.target.result);
-                            
-                            if (importedData.financeData) financeData = importedData.financeData;
-                            if (importedData.productionData) productionData = importedData.productionData;
-                            if (importedData.checksData) checksData = importedData.checksData;
-                            
-                            localStorage.setItem('financeData', JSON.stringify(financeData));
-                            localStorage.setItem('productionData', JSON.stringify(productionData));
-                            localStorage.setItem('checksData', JSON.stringify(checksData));
-                            
-                            updateAccountingStats();
-                            loadFinanceData();
-                            loadChecksData();
-                            loadAccountingData();
-                            
-                            showSuccessMessage('✅ داده‌ها با موفقیت وارد شدند!');
-                        } catch (error) {
-                            showSuccessMessage('❌ خطا در وارد کردن داده‌ها!');
-                        }
-                    };
-                    reader.readAsText(file);
-                }
-            };
-            input.click();
-        }
-
-        function showHelp() {
-            const helpText = `
-📖 **راهنمای استفاده از سیستم مالی**
-
-💰 **بخش مدیریت مالی:**
-- ثبت درآمد و هزینه‌های روزانه
-- دسته‌بندی تراکنش‌ها
-- مشاهده نمودارهای تحلیلی
-
-🏭 **بخش حسابرسی تولیدی:**
-- محاسبه قیمت تمام شده محصولات
-- محاسبه سود بر اساس درصد مورد نظر
-- تحلیل هزینه‌های مواد اولیه و تولید
-
-📈 **بخش گزارش‌های حسابداری:**
-- مشاهده آمار و نمودارهای پیشرفته
-- تحلیل عملکرد مالی
-- گزارش‌گیری جامع
-
-🏦 **بخش مدیریت چک:**
-- ثبت و مدیریت چک‌های دریافتی
-- هشدار سررسید چک‌ها
-- پیگیری وضعیت چک‌ها
-
-💡 **نکات مهم:**
-- تمام داده‌ها در مرورگر شما ذخیره می‌شوند
-- می‌توانید از داده‌ها خروجی بگیرید
-- سیستم کاملاً واکنش‌گرا و بهینه است
-            `.trim();
-            
-            alert(helpText);
-        }
-
-        function showNotification() {
-            const activeChecks = checksData.filter(check => check.status === 'active');
-            const dueChecks = activeChecks.filter(check => {
-                const daysUntilDue = Math.ceil((new Date(check.dueDate) - new Date()) / (1000 * 60 * 60 * 24));
-                return daysUntilDue <= 3 && daysUntilDue >= 0;
-            });
-            
-            let notificationText = '🔔 اعلان‌های سیستم:\n\n';
-            notificationText += '✅ سیستم با موفقیت فعال است\n';
-            notificationText += `💰 ${financeData.length} تراکنش ثبت شده\n`;
-            notificationText += `🏭 ${productionData.length} محاسبه تولید\n`;
-            notificationText += `🏦 ${activeChecks.length} چک فعال\n`;
-            
-            if (dueChecks.length > 0) {
-                notificationText += `\n⚠️ ${dueChecks.length} چک تا ۳ روز آینده سررسید می‌شوند`;
-            }
-            
-            alert(notificationText);
         }
 
         function showSuccessMessage(message) {
