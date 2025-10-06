@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 سیستم فوق قدرتمند مدیریت مالی</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #219653;
+            --secondary: #3498db;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --purple: #9b59b6;
+            --teal: #1abc9c;
+            --gold: #f1c40f;
+            --check-color: #9b59b6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-header {
+            background: linear-gradient(135deg, var(--dark), #34495e);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 1.3em;
+        }
+
+        .logo-text {
+            font-size: 0.9em;
+            font-weight: 800;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notification-bell {
+            position: relative;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .notification-bell:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            border: 1px solid white;
+        }
+
+        .announcement-btn {
+            position: relative;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 0.7em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .announcement-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-toggle {
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .horizontal-menu {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            position: sticky;
+            top: 50px;
+            z-index: 999;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .horizontal-menu::-webkit-scrollbar {
+            height: 3px;
+        }
+
+        .horizontal-menu::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 8px;
+        }
+
+        .menu-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.7em;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 6px rgba(39, 174, 96, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.4);
+        }
+
+        .menu-btn.secondary {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+        }
+
+        .menu-btn.warning {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+        }
+
+        .menu-btn.purple {
+            background: linear-gradient(135deg, var(--purple), #8e44ad);
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--dark), #2c3e50);
+            color: white;
+            padding: 15px;
+            transition: right 0.3s ease;
+            z-index: 1002;
+            box-shadow: -3px 0 20px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-title {
+            font-size: 1.1em;
+            font-weight: 800;
+        }
+
+        .close-menu {
+            font-size: 1.3em;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-menu:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+
+        .menu-icon {
+            font-size: 1.1em;
+            width: 20px;
+            text-align: center;
+        }
+
+        .menu-text {
+            font-weight: 600;
+            flex: 1;
+            font-size: 0.8em;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            display: none;
+        }
+
+        .menu-overlay.active {
+            display: block;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            padding-bottom: 70px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
+        }
+
+        .form-title {
+            font-size: 1.1em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--dark);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.8em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 12px;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 3px 12px rgba(39, 174, 96, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            box-shadow: 0 3px 12px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+            box-shadow: 0 3px 12px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, var(--purple), #8e44ad);
+            box-shadow: 0 3px 12px rgba(155, 89, 182, 0.4);
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, var(--check-color), #8e44ad);
+            box-shadow: 0 3px 12px rgba(155, 89, 182, 0.4);
+        }
+
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 12px 0;
+            font-weight: 700;
+            box-shadow: 0 3px 12px rgba(46, 204, 113, 0.5);
+            animation: slideIn 0.5s ease-out;
+            font-size: 0.8em;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .production-result {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .production-title {
+            font-size: 1em;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .cost-breakdown {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cost-item:last-child {
+            border-bottom: none;
+        }
+
+        .cost-label {
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .cost-value {
+            font-weight: 800;
+            font-size: 1em;
+        }
+
+        .final-price-section {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            border: 2px solid white;
+        }
+
+        .price-label {
+            font-size: 1em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .price-amount {
+            font-size: 1.6em;
+            font-weight: 900;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .advice-section {
+            background: #e8f6ef;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .advice-title {
+            color: var(--dark);
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .advice-content {
+            color: #2c3e50;
+            line-height: 1.5;
+            font-size: 0.85em;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin: 15px 0;
+            height: 250px;
+        }
+
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 6px;
+            box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid #e0e0e0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 6px 4px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+            color: #7f8c8d;
+            max-width: 70px;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(52, 152, 219, 0.15));
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-icon {
+            font-size: 1.3em;
+            margin-bottom: 3px;
+        }
+
+        .nav-label {
+            font-size: 0.6em;
+            font-weight: 700;
+        }
+
+        .transaction-list {
+            margin-top: 15px;
+        }
+
+        .transaction-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-right: 3px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .transaction-item:hover {
+            transform: translateX(-2px);
+        }
+
+        .transaction-details {
+            flex: 1;
+        }
+
+        .transaction-title {
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: var(--dark);
+            font-size: 0.9em;
+        }
+
+        .transaction-meta {
+            font-size: 0.7em;
+            color: #7f8c8d;
+        }
+
+        .transaction-amount {
+            font-weight: 800;
+            font-size: 1em;
+        }
+
+        .income {
+            color: var(--primary);
+        }
+
+        .expense {
+            color: var(--danger);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .summary-card h3 {
+            font-size: 0.75em;
+            margin-bottom: 6px;
+            color: #7f8c8d;
+        }
+
+        .summary-card .amount {
+            font-size: 1.2em;
+            font-weight: 800;
+        }
+
+        .cost-inputs {
+            margin-bottom: 15px;
+        }
+
+        .cost-input-group {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .cost-input-group input {
+            flex: 1;
+        }
+
+        .add-cost-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s;
+        }
+
+        .add-cost-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(52, 152, 219, 0.4);
+        }
+
+        .profit-display {
+            background: linear-gradient(135deg, var(--gold), #f39c12);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+        }
+
+        .profit-title {
+            font-size: 1em;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .profit-amount {
+            font-size: 1.5em;
+            font-weight: 900;
+        }
+
+        .info-message {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 12px 0;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            text-align: center;
+            border: 1px solid white;
+        }
+
+        .info-title {
+            font-size: 1em;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .info-content {
+            font-size: 0.85em;
+            line-height: 1.4;
+            opacity: 0.95;
+        }
+
+        .accounting-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .accounting-stat {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .accounting-stat .value {
+            font-size: 1.1em;
+            font-weight: 800;
+            margin: 5px 0;
+        }
+
+        .accounting-stat .label {
+            font-size: 0.7em;
+            color: #7f8c8d;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                margin: 15px auto;
+                min-height: calc(100vh - 30px);
+                border-radius: 15px;
+                overflow: hidden;
+            }
+            
+            .nav-bottom {
+                left: 50%;
+                right: auto;
+                width: 800px;
+                transform: translateX(-50%);
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+            
+            .main-content {
+                padding-bottom: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .side-menu {
+                width: 260px;
+            }
+            
+            .horizontal-menu {
+                padding: 6px 10px;
+            }
+            
+            .menu-btn {
+                padding: 5px 10px;
+                font-size: 0.65em;
+            }
+            
+            .announcement-btn {
+                font-size: 0.6em;
+                padding: 4px 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .top-header {
+                padding: 8px 12px;
+            }
+            
+            .logo-text {
+                font-size: 0.8em;
+            }
+            
+            .horizontal-menu {
+                padding: 5px 8px;
+            }
+            
+            .menu-btn {
+                padding: 4px 8px;
+                font-size: 0.6em;
+            }
+            
+            .announcement-btn {
+                font-size: 0.55em;
+                padding: 3px 5px;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-header">
+            <div class="logo">
+                <div class="logo-icon">🚀</div>
+                <div class="logo-text">سیستم قدرتمند مالی</div>
+            </div>
+            <div class="header-controls">
+                <div class="notification-bell" onclick="showNotification()">
+                    <div class="notification-dot"></div>
+                    🔔
+                </div>
+                <div class="announcement-btn" onclick="goToAnnouncements()">
+                    📢 اطلاعیه‌ها
+                </div>
+                <div class="menu-toggle" onclick="toggleMenu()">
+                    ☰
+                </div>
+            </div>
+        </div>
+
+        <div class="horizontal-menu">
+            <button class="menu-btn" onclick="showSection('finance')">
+                <span>💰</span> مدیریت مالی
+            </button>
+            <button class="menu-btn secondary" onclick="showSection('production')">
+                <span>🏭</span> حسابرسی تولیدی
+            </button>
+            <button class="menu-btn warning" onclick="showSection('accounting')">
+                <span>📈</span> گزارش‌ها
+            </button>
+            <button class="menu-btn purple" onclick="showSection('checks')">
+                <span>🏦</span> مدیریت چک
+            </button>
+        </div>
+
+        <div class="side-menu">
+            <div class="menu-header">
+                <div class="menu-title">منوی سریع</div>
+                <div class="close-menu" onclick="toggleMenu()">✕</div>
+            </div>
+            <div class="menu-items">
+                <div class="menu-item" onclick="showSection('finance')">
+                    <div class="menu-icon">💰</div>
+                    <div class="menu-text">ثبت تراکنش مالی</div>
+                </div>
+                <div class="menu-item" onclick="showSection('production')">
+                    <div class="menu-icon">🏭</div>
+                    <div class="menu-text">حسابرسی تولیدی</div>
+                </div>
+                <div class="menu-item" onclick="showSection('accounting')">
+                    <div class="menu-icon">📈</div>
+                    <div class="menu-text">گزارش‌های حسابداری</div>
+                </div>
+                <div class="menu-item" onclick="showSection('checks')">
+                    <div class="menu-icon">🏦</div>
+                    <div class="menu-text">مدیریت چک‌ها</div>
+                </div>
+                <div class="menu-item" onclick="generateFinancialReport()">
+                    <div class="menu-icon">📄</div>
+                    <div class="menu-text">گزارش مالی کامل</div>
+                </div>
+                <div class="menu-item" onclick="showFinancialTips()">
+                    <div class="menu-icon">💡</div>
+                    <div class="menu-text">نکات مالی هوشمند</div>
+                </div>
+                <div class="menu-item" onclick="clearAllData()">
+                    <div class="menu-icon">🗑️</div>
+                    <div class="menu-text">پاک کردن همه داده‌ها</div>
+                </div>
+                <div class="menu-item" onclick="exportData()">
+                    <div class="menu-icon">📤</div>
+                    <div class="menu-text">خروجی گرفتن از داده‌ها</div>
+                </div>
+                <div class="menu-item" onclick="importData()">
+                    <div class="menu-icon">📥</div>
+                    <div class="menu-text">ورود داده‌ها</div>
+                </div>
+                <div class="menu-item" onclick="showHelp()">
+                    <div class="menu-icon">❓</div>
+                    <div class="menu-text">راهنمای استفاده</div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+        <div class="main-content">
+            <!-- بخش مدیریت مالی -->
+            <div id="finance" class="section active">
+                <div class="form-container">
+                    <h2 class="form-title">💰 مدیریت مالی</h2>
+                    
+                    <div class="form-group">
+                        <label for="finance-type">نوع تراکنش:</label>
+                        <select id="finance-type">
+                            <option value="income">درآمد</option>
+                            <option value="expense">هزینه</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="finance-amount">مبلغ (تومان):</label>
+                        <input type="number" id="finance-amount" placeholder="مبلغ را وارد کنید" value="1000000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="finance-description">توضیحات:</label>
+                        <input type="text" id="finance-description" placeholder="شرح تراکنش" value="فروش محصول">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="finance-category">دسته‌بندی:</label>
+                        <select id="finance-category">
+                            <option value="salary">حقوق</option>
+                            <option value="business" selected>کسب و کار</option>
+                            <option value="investment">سرمایه‌گذاری</option>
+                            <option value="food">خوراکی</option>
+                            <option value="transport">حمل و نقل</option>
+                            <option value="shopping">خرید</option>
+                            <option value="bills">قبض</option>
+                            <option value="entertainment">سرگرمی</option>
+                            <option value="health">سلامت</option>
+                            <option value="other">متفرقه</option>
+                        </select>
+                    </div>
+
+                    <button class="btn" onclick="addFinanceTransaction()">
+                        <span>💾</span> ثبت تراکنش
+                    </button>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="form-title">📊 نمودار مالی</h2>
+                    <div class="chart-container">
+                        <canvas id="financeChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="transaction-list" id="finance-transactions">
+                    <!-- تراکنش‌ها اینجا نمایش داده می‌شوند -->
+                </div>
+            </div>
+
+            <!-- بخش حسابرسی تولیدی -->
+            <div id="production" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">🏭 حسابرسی تولیدی</h2>
+                    
+                    <div class="form-group">
+                        <label for="product-name">نام محصول:</label>
+                        <input type="text" id="product-name" placeholder="نام محصول را وارد کنید" value="تیشرت مردانه">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="material-cost">هزینه کل مواد اولیه (تومان):</label>
+                        <input type="number" id="material-cost" placeholder="مثلاً 50000000 برای 50 میلیون" value="50000000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="production-quantity">تعداد تولید شده:</label>
+                        <input type="number" id="production-quantity" placeholder="تعداد تولید شده" value="100">
+                    </div>
+
+                    <div class="cost-inputs">
+                        <h3 style="margin-bottom: 12px; color: var(--dark); font-weight: 800;">💰 هزینه‌های اضافی تولید:</h3>
+                        <div id="additional-costs">
+                            <!-- هزینه‌های اضافی اینجا اضافه می‌شوند -->
+                        </div>
+                        <button type="button" class="add-cost-btn" onclick="addCostField()">
+                            <span>➕</span> افزودن هزینه جدید
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="desired-profit">سود مورد نظر شما (درصد):</label>
+                        <input type="number" id="desired-profit" placeholder="مثلاً 30 برای 30% سود" value="30">
+                    </div>
+
+                    <button class="btn btn-purple" onclick="calculateProductionCost()">
+                        <span>🧮</span> محاسبه دقیق قیمت تمام شده
+                    </button>
+                </div>
+
+                <div id="production-result">
+                    <!-- نتایج محاسبات اینجا نمایش داده می‌شوند -->
+                </div>
+            </div>
+
+            <!-- بخش حسابداری -->
+            <div id="accounting" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">📊 گزارش‌های حسابداری</h2>
+                    <div class="info-message">
+                        <div class="info-title">💰 خلاصه عملکرد مالی</div>
+                        <div class="info-content">
+                            در این بخش می‌توانید عملکرد مالی کامل خود را مشاهده کنید.
+                        </div>
+                    </div>
+                    
+                    <div class="accounting-stats">
+                        <div class="accounting-stat">
+                            <div class="label">کل درآمد</div>
+                            <div class="value income" id="accounting-total-income">۰ تومان</div>
+                        </div>
+                        <div class="accounting-stat">
+                            <div class="label">کل هزینه</div>
+                            <div class="value expense" id="accounting-total-expense">۰ تومان</div>
+                        </div>
+                        <div class="accounting-stat">
+                            <div class="label">سود خالص</div>
+                            <div class="value" id="accounting-net-profit">۰ تومان</div>
+                        </div>
+                        <div class="accounting-stat">
+                            <div class="label">چک‌های فعال</div>
+                            <div class="value" id="accounting-active-checks">۰</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="accountingChart"></canvas>
+                    </div>
+
+                    <div style="margin-top: 15px; display: flex; gap: 8px;">
+                        <button class="btn btn-secondary" onclick="generateFinancialReport()">
+                            <span>📄</span> گزارش کامل
+                        </button>
+                        <button class="btn btn-warning" onclick="showFinancialTips()">
+                            <span>💡</span> نکات مالی
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش مدیریت چک -->
+            <div id="checks" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">🏦 سیستم مدیریت چک</h2>
+                    
+                    <div class="form-group">
+                        <label for="check-amount">مبلغ چک (تومان):</label>
+                        <input type="number" id="check-amount" placeholder="مبلغ چک را وارد کنید" value="5000000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="check-bank">نام بانک:</label>
+                        <input type="text" id="check-bank" placeholder="نام بانک صادر کننده" value="ملت">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="check-issuer">صادر کننده چک:</label>
+                        <input type="text" id="check-issuer" placeholder="نام صادر کننده چک" value="شرکت البرز">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="check-due-date">تاریخ سررسید:</label>
+                        <input type="date" id="check-due-date">
+                    </div>
+
+                    <button class="btn btn-check" onclick="addCheck()">
+                        <span>💾</span> ثبت چک جدید
+                    </button>
+                </div>
+
+                <div id="checks-list">
+                    <!-- لیست چک‌ها اینجا نمایش داده می‌شوند -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ناوبری پایین -->
+        <div class="nav-bottom">
+            <div class="nav-item active" onclick="showSection('finance')">
+                <div class="nav-icon">💰</div>
+                <div class="nav-label">مالی</div>
+            </div>
+            <div class="nav-item" onclick="showSection('production')">
+                <div class="nav-icon">🏭</div>
+                <div class="nav-label">تولیدی</div>
+            </div>
+            <div class="nav-item" onclick="showSection('accounting')">
+                <div class="nav-icon">📈</div>
+                <div class="nav-label">گزارش‌ها</div>
+            </div>
+            <div class="nav-item" onclick="showSection('checks')">
+                <div class="nav-icon">🏦</div>
+                <div class="nav-label">چک‌ها</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // داده‌های برنامه
+        let financeData = JSON.parse(localStorage.getItem('financeData')) || [];
+        let productionData = JSON.parse(localStorage.getItem('productionData')) || [];
+        let checksData = JSON.parse(localStorage.getItem('checksData')) || [];
+
+        // بارگذاری اولیه داده‌های نمونه
+        function initializeSampleData() {
+            if (financeData.length === 0) {
+                financeData = [
+                    {
+                        id: 1,
+                        type: 'income',
+                        amount: 5000000,
+                        description: 'فروش محصولات',
+                        category: 'business',
+                        date: new Date().toLocaleDateString('fa-IR'),
+                        timestamp: Date.now()
+                    },
+                    {
+                        id: 2,
+                        type: 'expense',
+                        amount: 2000000,
+                        description: 'خرید مواد اولیه',
+                        category: 'business',
+                        date: new Date().toLocaleDateString('fa-IR'),
+                        timestamp: Date.now() - 86400000
+                    },
+                    {
+                        id: 3,
+                        type: 'income',
+                        amount: 3000000,
+                        description: 'فروش آنلاین',
+                        category: 'business',
+                        date: new Date().toLocaleDateString('fa-IR'),
+                        timestamp: Date.now() - 172800000
+                    }
+                ];
+                localStorage.setItem('financeData', JSON.stringify(financeData));
+            }
+
+            if (checksData.length === 0) {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                
+                checksData = [
+                    {
+                        id: 1,
+                        amount: 3000000,
+                        bank: 'ملت',
+                        issuer: 'شرکت کوهستان',
+                        dueDate: tomorrow.toISOString().split('T')[0],
+                        status: 'active'
+                    },
+                    {
+                        id: 2,
+                        amount: 2500000,
+                        bank: 'صادرات',
+                        issuer: 'فروشگاه مرکزی',
+                        dueDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
+                        status: 'active'
+                    }
+                ];
+                localStorage.setItem('checksData', JSON.stringify(checksData));
+            }
+
+            updateAccountingStats();
+            loadFinanceData();
+            loadChecksData();
+            loadAccountingData();
+        }
+
+        // نمایش بخش‌ها
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            document.getElementById(sectionName).classList.add('active');
+            
+            // پیدا کردن آیتم ناوبری مربوطه و فعال کردن آن
+            let navItems = document.querySelectorAll('.nav-item');
+            for (let i = 0; i < navItems.length; i++) {
+                if (navItems[i].onclick && navItems[i].onclick.toString().includes(sectionName)) {
+                    navItems[i].classList.add('active');
+                    break;
+                }
+            }
+            
+            // بارگذاری داده‌های مربوطه
+            if (sectionName === 'finance') {
+                loadFinanceData();
+            } else if (sectionName === 'production') {
+                loadProductionData();
+            } else if (sectionName === 'accounting') {
+                loadAccountingData();
+            } else if (sectionName === 'checks') {
+                loadChecksData();
+            }
+        }
+
+        // مدیریت منو
+        function toggleMenu() {
+            const menu = document.querySelector('.side-menu');
+            const overlay = document.querySelector('.menu-overlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // هدایت به صفحه اطلاعیه‌ها
+        function goToAnnouncements() {
+            window.location.href = 'm.html';
+        }
+
+        // مدیریت مالی
+        function addFinanceTransaction() {
+            const type = document.getElementById('finance-type').value;
+            const amount = parseFloat(document.getElementById('finance-amount').value);
+            const description = document.getElementById('finance-description').value;
+            const category = document.getElementById('finance-category').value;
+
+            if (!amount || !description) {
+                showSuccessMessage('⚠️ لطفاً تمام فیلدها را پر کنید');
+                return;
+            }
+
+            const transaction = {
+                id: Date.now(),
+                type,
+                amount,
+                description,
+                category,
+                date: new Date().toLocaleDateString('fa-IR'),
+                timestamp: Date.now()
+            };
+
+            financeData.push(transaction);
+            localStorage.setItem('financeData', JSON.stringify(financeData));
+
+            showSuccessMessage('✅ تراکنش با موفقیت ثبت شد!');
+            loadFinanceData();
+            updateAccountingStats();
+            
+            // پاک کردن فرم
+            document.getElementById('finance-amount').value = '';
+            document.getElementById('finance-description').value = '';
+        }
+
+        function loadFinanceData() {
+            // نمایش تراکنش‌ها
+            displayTransactions();
+            createFinanceChart();
+        }
+
+        function displayTransactions() {
+            const container = document.getElementById('finance-transactions');
+            container.innerHTML = '';
+
+            const sortedTransactions = [...financeData].sort((a, b) => b.timestamp - a.timestamp);
+            
+            if (sortedTransactions.length === 0) {
+                container.innerHTML = '<div class="info-message">هیچ تراکنشی ثبت نشده است</div>';
+                return;
+            }
+            
+            sortedTransactions.forEach(transaction => {
+                const transactionEl = document.createElement('div');
+                transactionEl.className = 'transaction-item';
+                transactionEl.innerHTML = `
+                    <div class="transaction-details">
+                        <div class="transaction-title">${transaction.description}</div>
+                        <div class="transaction-meta">${transaction.date} - ${getCategoryName(transaction.category)}</div>
+                    </div>
+                    <div class="transaction-amount ${transaction.type}">
+                        ${transaction.type === 'income' ? '+' : '-'}${transaction.amount.toLocaleString()} تومان
+                    </div>
+                `;
+                container.appendChild(transactionEl);
+            });
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'salary': 'حقوق',
+                'business': 'کسب و کار',
+                'investment': 'سرمایه‌گذاری',
+                'food': 'خوراکی',
+                'transport': 'حمل و نقل',
+                'shopping': 'خرید',
+                'bills': 'قبض',
+                'entertainment': 'سرگرمی',
+                'health': 'سلامت',
+                'other': 'متفرقه'
+            };
+            return categories[category] || 'سایر';
+        }
+
+        function createFinanceChart() {
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            
+            const categories = {};
+            financeData.forEach(transaction => {
+                if (transaction.type === 'expense') {
+                    if (!categories[transaction.category]) {
+                        categories[transaction.category] = 0;
+                    }
+                    categories[transaction.category] += transaction.amount;
+                }
+            });
+
+            const labels = Object.keys(categories).map(key => getCategoryName(key));
+            const data = Object.values(categories);
+
+            if (data.length === 0) {
+                document.getElementById('financeChart').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('financeChart').style.display = 'block';
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            rtl: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // حسابرسی تولیدی
+        function loadProductionData() {
+            document.getElementById('additional-costs').innerHTML = '';
+            addCostField();
+        }
+
+        function addCostField() {
+            const container = document.getElementById('additional-costs');
+            const costId = 'cost-' + Date.now();
+            
+            const costGroup = document.createElement('div');
+            costGroup.className = 'cost-input-group';
+            costGroup.innerHTML = `
+                <input type="text" placeholder="عنوان هزینه" id="${costId}-name" value="هزینه دوخت">
+                <input type="number" placeholder="مبلغ کل" id="${costId}-amount" value="10000000">
+            `;
+            container.appendChild(costGroup);
+        }
+
+        function calculateProductionCost() {
+            const productName = document.getElementById('product-name').value;
+            const materialCost = parseFloat(document.getElementById('material-cost').value) || 0;
+            const quantity = parseFloat(document.getElementById('production-quantity').value) || 1;
+            const desiredProfit = parseFloat(document.getElementById('desired-profit').value) || 0;
+
+            if (!productName || materialCost <= 0 || quantity <= 0) {
+                showSuccessMessage('⚠️ لطفاً اطلاعات محصول را به درستی وارد کنید');
+                return;
+            }
+
+            // جمع‌آوری هزینه‌های اضافی
+            const costInputs = document.querySelectorAll('#additional-costs .cost-input-group');
+            let additionalCostsTotal = 0;
+            const costDetails = [];
+
+            costInputs.forEach(inputGroup => {
+                const nameInput = inputGroup.querySelector('input[type="text"]');
+                const amountInput = inputGroup.querySelector('input[type="number"]');
+                
+                if (nameInput.value && amountInput.value) {
+                    const costAmount = parseFloat(amountInput.value);
+                    additionalCostsTotal += costAmount;
+                    costDetails.push({
+                        name: nameInput.value,
+                        amount: costAmount
+                    });
+                }
+            });
+
+            // محاسبات دقیق
+            const materialCostPerUnit = materialCost / quantity;
+            const additionalCostPerUnit = additionalCostsTotal / quantity;
+            const totalCostPerUnit = materialCostPerUnit + additionalCostPerUnit;
+            
+            const sellingPriceWithProfit = totalCostPerUnit * (1 + desiredProfit/100);
+            const totalProfitPerUnit = sellingPriceWithProfit - totalCostPerUnit;
+            const totalProfit = totalProfitPerUnit * quantity;
+            const profitPercentage = (totalProfitPerUnit / totalCostPerUnit) * 100;
+
+            // نمایش نتایج
+            displayProductionResult(
+                productName, 
+                materialCost, 
+                quantity, 
+                additionalCostsTotal, 
+                materialCostPerUnit, 
+                additionalCostPerUnit, 
+                totalCostPerUnit,
+                sellingPriceWithProfit,
+                totalProfitPerUnit,
+                totalProfit,
+                profitPercentage
+            );
+
+            // ذخیره محاسبات
+            const productionRecord = {
+                id: Date.now(),
+                productName,
+                materialCost,
+                quantity,
+                additionalCosts: costDetails,
+                totalCostPerUnit,
+                desiredProfit,
+                sellingPrice: sellingPriceWithProfit,
+                totalProfitPerUnit,
+                totalProfit,
+                profitPercentage,
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            productionData.push(productionRecord);
+            localStorage.setItem('productionData', JSON.stringify(productionData));
+            
+            showSuccessMessage('✅ محاسبات با موفقیت انجام شد!');
+        }
+
+        function displayProductionResult(productName, materialCost, quantity, additionalCostsTotal, 
+                                        materialCostPerUnit, additionalCostPerUnit, totalCostPerUnit,
+                                        sellingPrice, profitPerUnit, totalProfit, profitPercentage) {
+            const container = document.getElementById('production-result');
+            
+            container.innerHTML = `
+                <div class="production-result">
+                    <div class="production-title">💰 نتیجه محاسبات برای "${productName}"</div>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span class="cost-label">هزینه کل مواد اولیه:</span>
+                            <span class="cost-value">${materialCost.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">تعداد تولید شده:</span>
+                            <span class="cost-value">${quantity.toLocaleString()} عدد</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">هزینه مواد اولیه هر عدد:</span>
+                            <span class="cost-value">${Math.round(materialCostPerUnit).toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">هزینه‌های اضافی هر عدد:</span>
+                            <span class="cost-value">${Math.round(additionalCostPerUnit).toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item" style="border-top: 2px solid white; padding-top: 10px;">
+                            <span class="cost-label">💰 هزینه کل هر عدد:</span>
+                            <span class="cost-value">${Math.round(totalCostPerUnit).toLocaleString()} تومان</span>
+                        </div>
+                    </div>
+                    
+                    <div class="final-price-section">
+                        <div class="price-label">🎯 قیمت تمام شده هر عدد:</div>
+                        <div class="price-amount">${Math.round(totalCostPerUnit).toLocaleString()} تومان</div>
+                    </div>
+                </div>
+                
+                <div class="profit-display">
+                    <div class="profit-title">💰 سود شما</div>
+                    <div class="profit-amount">${Math.round(profitPerUnit).toLocaleString()} تومان</div>
+                    <div style="margin-top: 6px; font-size: 0.9em;">
+                        قیمت فروش هر عدد: ${Math.round(sellingPrice).toLocaleString()} تومان
+                    </div>
+                    <div style="margin-top: 4px; font-size: 0.8em;">
+                        سود کل: ${Math.round(totalProfit).toLocaleString()} تومان
+                    </div>
+                </div>
+                
+                <div class="advice-section">
+                    <div class="advice-title">💡 راهنمای قیمت‌گذاری</div>
+                    <div class="advice-content">
+                        <strong>"${productName}"</strong>
+                        <br><br>
+                        🎯 <strong>تحلیل هزینه‌ها:</strong>
+                        <br>
+                        • مواد اولیه: ${Math.round(materialCostPerUnit).toLocaleString()} تومان
+                        <br>
+                        • هزینه‌های اضافی: ${Math.round(additionalCostPerUnit).toLocaleString()} تومان
+                        <br>
+                        • قیمت تمام شده: ${Math.round(totalCostPerUnit).toLocaleString()} تومان
+                        <br><br>
+                        💰 <strong>پیشنهاد فروش:</strong>
+                        <br>
+                        • قیمت پیشنهادی: ${Math.round(sellingPrice).toLocaleString()} تومان
+                        <br>
+                        • سود هر عدد: ${Math.round(profitPerUnit).toLocaleString()} تومان
+                        <br>
+                        • درصد سود: ${Math.round(profitPercentage)}%
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="productionChart"></canvas>
+                </div>
+            `;
+            
+            // ایجاد نمودار تولید
+            createProductionChart(materialCostPerUnit, additionalCostPerUnit, totalCostPerUnit, profitPerUnit);
+        }
+
+        function createProductionChart(materialCost, additionalCost, totalCost, profit) {
+            const ctx = document.getElementById('productionChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['مواد اولیه', 'هزینه‌های اضافی', 'قیمت تمام شده', 'سود هر عدد'],
+                    datasets: [{
+                        label: 'مبلغ (تومان)',
+                        data: [materialCost, additionalCost, totalCost, profit],
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB', 
+                            '#4BC0C0',
+                            '#FFCE56'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'تجزیه و تحلیل کامل هزینه‌ها و سود'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' تومان';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // مدیریت چک‌ها
+        function addCheck() {
+            const amount = parseFloat(document.getElementById('check-amount').value);
+            const bank = document.getElementById('check-bank').value;
+            const issuer = document.getElementById('check-issuer').value;
+            const dueDate = document.getElementById('check-due-date').value;
+
+            if (!amount || !bank || !issuer || !dueDate) {
+                showSuccessMessage('⚠️ لطفاً تمام فیلدهای چک را پر کنید');
+                return;
+            }
+
+            const check = {
+                id: Date.now(),
+                amount,
+                bank,
+                issuer,
+                dueDate,
+                status: 'active'
+            };
+
+            checksData.push(check);
+            localStorage.setItem('checksData', JSON.stringify(checksData));
+
+            showSuccessMessage('✅ چک با موفقیت ثبت شد!');
+            loadChecksData();
+            updateAccountingStats();
+            
+            // پاک کردن فرم
+            document.getElementById('check-amount').value = '';
+            document.getElementById('check-bank').value = '';
+            document.getElementById('check-issuer').value = '';
+        }
+
+        function loadChecksData() {
+            const container = document.getElementById('checks-list');
+            container.innerHTML = '';
+
+            const activeChecks = checksData.filter(check => check.status === 'active');
+            
+            if (activeChecks.length === 0) {
+                container.innerHTML = '<div class="info-message">هیچ چک فعالی ثبت نشده است</div>';
+                return;
+            }
+
+            activeChecks.forEach(check => {
+                const daysUntilDue = Math.ceil((new Date(check.dueDate) - new Date()) / (1000 * 60 * 60 * 24));
+                let statusText = '';
+                let statusColor = '';
+                
+                if (daysUntilDue < 0) {
+                    statusText = 'معوق';
+                    statusColor = '#e74c3c';
+                } else if (daysUntilDue === 0) {
+                    statusText = 'امروز';
+                    statusColor = '#f39c12';
+                } else if (daysUntilDue === 1) {
+                    statusText = 'فردا';
+                    statusColor = '#f39c12';
+                } else if (daysUntilDue <= 7) {
+                    statusText = `${daysUntilDue} روز دیگر`;
+                    statusColor = '#f39c12';
+                } else {
+                    statusText = `${daysUntilDue} روز دیگر`;
+                    statusColor = '#27ae60';
+                }
+
+                const checkElement = document.createElement('div');
+                checkElement.className = 'production-result';
+                checkElement.innerHTML = `
+                    <div class="production-title">چک بانک ${check.bank}</div>
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span class="cost-label">مبلغ:</span>
+                            <span class="cost-value">${check.amount.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">صادر کننده:</span>
+                            <span class="cost-value">${check.issuer}</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">تاریخ سررسید:</span>
+                            <span class="cost-value">${new Date(check.dueDate).toLocaleDateString('fa-IR')}</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">وضعیت:</span>
+                            <span class="cost-value" style="color: ${statusColor}">${statusText}</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; display: flex; gap: 8px;">
+                        <button class="add-cost-btn" style="background: #27ae60;" onclick="markCheckPaid(${check.id})">
+                            ✅ وصول شده
+                        </button>
+                        <button class="add-cost-btn" style="background: #e74c3c;" onclick="deleteCheck(${check.id})">
+                            ❌ حذف
+                        </button>
+                    </div>
+                `;
+                container.appendChild(checkElement);
+            });
+        }
+
+        function markCheckPaid(checkId) {
+            if (confirm('آیا این چک وصول شده است؟')) {
+                const checkIndex = checksData.findIndex(check => check.id === checkId);
+                if (checkIndex !== -1) {
+                    checksData[checkIndex].status = 'paid';
+                    localStorage.setItem('checksData', JSON.stringify(checksData));
+                    showSuccessMessage('✅ وضعیت چک به "وصول شده" تغییر یافت');
+                    loadChecksData();
+                    updateAccountingStats();
+                }
+            }
+        }
+
+        function deleteCheck(checkId) {
+            if (confirm('آیا از حذف این چک اطمینان دارید؟')) {
+                checksData = checksData.filter(check => check.id !== checkId);
+                localStorage.setItem('checksData', JSON.stringify(checksData));
+                showSuccessMessage('✅ چک با موفقیت حذف شد');
+                loadChecksData();
+                updateAccountingStats();
+            }
+        }
+
+        // بخش حسابداری
+        function loadAccountingData() {
+            updateAccountingStats();
+            createAccountingChart();
+        }
+
+        function updateAccountingStats() {
+            const totalIncome = financeData.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+            const totalExpense = financeData.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+            const netProfit = totalIncome - totalExpense;
+            const activeChecks = checksData.filter(check => check.status === 'active').length;
+
+            document.getElementById('accounting-total-income').textContent = totalIncome.toLocaleString() + ' تومان';
+            document.getElementById('accounting-total-expense').textContent = totalExpense.toLocaleString() + ' تومان';
+            document.getElementById('accounting-net-profit').textContent = netProfit.toLocaleString() + ' تومان';
+            document.getElementById('accounting-net-profit').style.color = netProfit >= 0 ? 'var(--primary)' : 'var(--danger)';
+            document.getElementById('accounting-active-checks').textContent = activeChecks;
+        }
+
+        function createAccountingChart() {
+            const ctx = document.getElementById('accountingChart').getContext('2d');
+            
+            // گروه‌بندی بر اساس ماه
+            const monthlyData = {};
+            financeData.forEach(transaction => {
+                const date = new Date(transaction.timestamp);
+                const monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
+                
+                if (!monthlyData[monthYear]) {
+                    monthlyData[monthYear] = { income: 0, expense: 0 };
+                }
+                
+                if (transaction.type === 'income') {
+                    monthlyData[monthYear].income += transaction.amount;
+                } else {
+                    monthlyData[monthYear].expense += transaction.amount;
+                }
+            });
+
+            const labels = Object.keys(monthlyData).sort();
+            const incomeData = labels.map(label => monthlyData[label].income);
+            const expenseData = labels.map(label => monthlyData[label].expense);
+
+            if (incomeData.length === 0 && expenseData.length === 0) {
+                document.getElementById('accountingChart').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('accountingChart').style.display = 'block';
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'درآمد',
+                            data: incomeData,
+                            backgroundColor: 'rgba(39, 174, 96, 0.7)',
+                            borderColor: 'rgba(39, 174, 96, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'هزینه',
+                            data: expenseData,
+                            backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                            borderColor: 'rgba(231, 76, 60, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' تومان';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // توابع منو
+        function generateFinancialReport() {
+            const totalIncome = financeData.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+            const totalExpense = financeData.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+            const netProfit = totalIncome - totalExpense;
+            const activeChecks = checksData.filter(check => check.status === 'active');
+            const totalChecksAmount = activeChecks.reduce((sum, check) => sum + check.amount, 0);
+            const productionCount = productionData.length;
+            
+            const report = `
+📊 **گزارش مالی کامل**
+تاریخ: ${new Date().toLocaleDateString('fa-IR')}
+
+💰 **وضعیت مالی:**
+• کل درآمد: ${totalIncome.toLocaleString()} تومان
+• کل هزینه: ${totalExpense.toLocaleString()} تومان
+• سود خالص: ${netProfit.toLocaleString()} تومان
+
+🏦 **وضعیت چک‌ها:**
+• تعداد چک‌های فعال: ${activeChecks.length} چک
+• مجموع مبلغ چک‌ها: ${totalChecksAmount.toLocaleString()} تومان
+
+📈 **آمار کلی:**
+• تعداد تراکنش‌ها: ${financeData.length} تراکنش
+• تعداد محاسبات تولید: ${productionCount} محاسبه
+
+${netProfit > 0 ? '✅ وضعیت مالی شما عالی است!' : '⚠️ نیاز به بازبینی مالی دارید'}
+            `.trim();
+            
+            alert(report);
+            showSuccessMessage('✅ گزارش مالی تولید شد!');
+        }
+
+        function showFinancialTips() {
+            const tips = [
+                "💡 همیشه ۲۰٪ از درآمد خود را پس‌انداز کنید",
+                "📈 ۳۰٪ از درآمد را سرمایه‌گذاری نمایید",
+                "💰 هزینه‌های غیرضروری را شناسایی و حذف کنید",
+                "🎯 برای کسب و کار خود اهداف مالی مشخص تعیین کنید",
+                "📊 ماهانه گزارش مالی تهیه و تحلیل کنید",
+                "🏦 چک‌های خود را به موقع پیگیری کنید",
+                "💳 از تاریخ سررسید چک‌ها غافل نشوید",
+                "🔍 قیمت تمام شده محصولات را دقیق محاسبه کنید",
+                "📱 از نرم‌افزارهای مالی برای مدیریت استفاده کنید",
+                "🎪 برای تفریح و سرگرمی هم بودجه در نظر بگیرید"
+            ];
+            
+            const randomTip = tips[Math.floor(Math.random() * tips.length)];
+            alert(randomTip);
+            showSuccessMessage('💡 نکته مالی جدید دریافت کردید!');
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ آیا از پاک کردن همه داده‌ها اطمینان دارید؟ این عمل غیرقابل بازگشت است!')) {
+                localStorage.clear();
+                financeData = [];
+                productionData = [];
+                checksData = [];
+                initializeSampleData();
+                showSuccessMessage('✅ همه داده‌ها با موفقیت پاک شدند!');
+            }
+        }
+
+        function exportData() {
+            const data = {
+                financeData,
+                productionData,
+                checksData,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `financial-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showSuccessMessage('✅ داده‌ها با موفقیت ذخیره شدند!');
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const importedData = JSON.parse(e.target.result);
+                            
+                            if (importedData.financeData) financeData = importedData.financeData;
+                            if (importedData.productionData) productionData = importedData.productionData;
+                            if (importedData.checksData) checksData = importedData.checksData;
+                            
+                            localStorage.setItem('financeData', JSON.stringify(financeData));
+                            localStorage.setItem('productionData', JSON.stringify(productionData));
+                            localStorage.setItem('checksData', JSON.stringify(checksData));
+                            
+                            updateAccountingStats();
+                            loadFinanceData();
+                            loadChecksData();
+                            loadAccountingData();
+                            
+                            showSuccessMessage('✅ داده‌ها با موفقیت وارد شدند!');
+                        } catch (error) {
+                            showSuccessMessage('❌ خطا در وارد کردن داده‌ها!');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        function showHelp() {
+            const helpText = `
+📖 **راهنمای استفاده از سیستم مالی**
+
+💰 **بخش مدیریت مالی:**
+- ثبت درآمد و هزینه‌های روزانه
+- دسته‌بندی تراکنش‌ها
+- مشاهده نمودارهای تحلیلی
+
+🏭 **بخش حسابرسی تولیدی:**
+- محاسبه قیمت تمام شده محصولات
+- محاسبه سود بر اساس درصد مورد نظر
+- تحلیل هزینه‌های مواد اولیه و تولید
+
+📈 **بخش گزارش‌های حسابداری:**
+- مشاهده آمار و نمودارهای پیشرفته
+- تحلیل عملکرد مالی
+- گزارش‌گیری جامع
+
+🏦 **بخش مدیریت چک:**
+- ثبت و مدیریت چک‌های دریافتی
+- هشدار سررسید چک‌ها
+- پیگیری وضعیت چک‌ها
+
+💡 **نکات مهم:**
+- تمام داده‌ها در مرورگر شما ذخیره می‌شوند
+- می‌توانید از داده‌ها خروجی بگیرید
+- سیستم کاملاً واکنش‌گرا و بهینه است
+            `.trim();
+            
+            alert(helpText);
+        }
+
+        function showNotification() {
+            const activeChecks = checksData.filter(check => check.status === 'active');
+            const dueChecks = activeChecks.filter(check => {
+                const daysUntilDue = Math.ceil((new Date(check.dueDate) - new Date()) / (1000 * 60 * 60 * 24));
+                return daysUntilDue <= 3 && daysUntilDue >= 0;
+            });
+            
+            let notificationText = '🔔 اعلان‌های سیستم:\n\n';
+            notificationText += '✅ سیستم با موفقیت فعال است\n';
+            notificationText += `💰 ${financeData.length} تراکنش ثبت شده\n`;
+            notificationText += `🏭 ${productionData.length} محاسبه تولید\n`;
+            notificationText += `🏦 ${activeChecks.length} چک فعال\n`;
+            
+            if (dueChecks.length > 0) {
+                notificationText += `\n⚠️ ${dueChecks.length} چک تا ۳ روز آینده سررسید می‌شوند`;
+            }
+            
+            alert(notificationText);
+        }
+
+        function showSuccessMessage(message) {
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-message';
+            successMsg.textContent = message;
+            
+            document.querySelector('.main-content').prepend(successMsg);
+            
+            setTimeout(() => {
+                successMsg.remove();
+            }, 4000);
+        }
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            // تنظیم تاریخ پیش‌فرض برای چک (فردا)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('check-due-date').value = tomorrow.toISOString().split('T')[0];
+            
+            initializeSampleData();
+            addCostField();
+            
+            // نمایش پیام خوش‌آمدگویی
+            setTimeout(() => {
+                showSuccessMessage('🚀 سیستم مالی فوق قدرتمند فعال شد!');
+            }, 1000);
+        });
+
+        // جلوگیری از بسته شدن منو هنگام کلیک روی آن
+        document.querySelector('.side-menu').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    </script>
+</body>
+</html>
