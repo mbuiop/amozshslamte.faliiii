@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🚀 سیستم حساب داری</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <style>
         :root {
             --primary: #27ae60;
@@ -80,27 +81,6 @@
             gap: 8px;
         }
 
-        .header-btn {
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 6px 10px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            font-size: 0.7em;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            text-decoration: none;
-            color: white;
-        }
-
-        .header-btn:hover {
-            transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
         .notification-bell {
             position: relative;
             font-size: 1.3em;
@@ -130,170 +110,90 @@
             border: 1px solid white;
         }
 
-        .menu-toggle {
+        .hamburger-menu {
             font-size: 1.3em;
             cursor: pointer;
-            transition: all 0.3s ease;
             padding: 5px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .menu-toggle:hover {
+        .hamburger-menu:hover {
             transform: scale(1.1);
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .horizontal-menu {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 8px 12px;
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            position: sticky;
-            top: 50px;
-            z-index: 999;
-            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .horizontal-menu::-webkit-scrollbar {
-            height: 3px;
-        }
-
-        .horizontal-menu::-webkit-scrollbar-thumb {
-            background: var(--primary);
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 10px;
+            background: white;
             border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 220px;
+            z-index: 1001;
+            display: none;
+            overflow: hidden;
         }
 
-        .menu-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 15px;
+        .dropdown-menu.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dropdown-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
             cursor: pointer;
-            font-size: 0.7em;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-            box-shadow: 0 1px 6px rgba(39, 174, 96, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .menu-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.4);
-        }
-
-        .menu-btn.secondary {
-            background: linear-gradient(135deg, var(--secondary), #2980b9);
-        }
-
-        .menu-btn.warning {
-            background: linear-gradient(135deg, var(--warning), #e67e22);
-        }
-
-        .menu-btn.purple {
-            background: linear-gradient(135deg, var(--purple), #8e44ad);
-        }
-
-        .side-menu {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 280px;
-            height: 100vh;
-            background: linear-gradient(135deg, var(--dark), #2c3e50);
-            color: white;
-            padding: 15px;
-            transition: right 0.3s ease;
-            z-index: 1002;
-            box-shadow: -3px 0 20px rgba(0, 0, 0, 0.3);
-            overflow-y: auto;
-        }
-
-        .side-menu.active {
-            right: 0;
-        }
-
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .menu-title {
-            font-size: 1.1em;
-            font-weight: 800;
-        }
-
-        .close-menu {
-            font-size: 1.3em;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .close-menu:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(90deg);
-        }
-
-        .menu-items {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .menu-item {
+            transition: background 0.2s;
             display: flex;
             align-items: center;
             gap: 10px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .dropdown-item:hover {
+            background: #f5f5f5;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .media-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
             padding: 10px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: white;
+            margin: 10px 0;
+            border-radius: 10px;
+            scrollbar-width: none;
         }
 
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(-3px);
-        }
-
-        .menu-icon {
-            font-size: 1.1em;
-            width: 20px;
-            text-align: center;
-        }
-
-        .menu-text {
-            font-weight: 600;
-            flex: 1;
-            font-size: 0.8em;
-        }
-
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1001;
+        .media-slider::-webkit-scrollbar {
             display: none;
         }
 
-        .menu-overlay.active {
-            display: block;
+        .media-item {
+            flex: 0 0 auto;
+            width: 120px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .main-content {
@@ -424,6 +324,11 @@
         .btn-check {
             background: linear-gradient(135deg, var(--check-color), #8e44ad);
             box-shadow: 0 3px 12px rgba(155, 89, 182, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            box-shadow: 0 3px 12px rgba(231, 76, 60, 0.4);
         }
 
         .success-message {
@@ -769,6 +674,188 @@
             color: #7f8c8d;
         }
 
+        /* استایل‌های جدید برای بخش‌های اضافه شده */
+        .signature-pad {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            margin-bottom: 12px;
+            height: 150px;
+            width: 100%;
+        }
+
+        .invoice-preview {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .invoice-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .invoice-items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .invoice-items th, .invoice-items td {
+            border: 1px solid #e0e0e0;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .invoice-items th {
+            background: #f5f5f5;
+            font-weight: 700;
+        }
+
+        .invoice-total {
+            text-align: left;
+            font-weight: 800;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .invoice-signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .signature-box {
+            text-align: center;
+            width: 45%;
+        }
+
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-top: 40px;
+            padding-top: 5px;
+        }
+
+        .assets-list {
+            margin-top: 15px;
+        }
+
+        .asset-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-right: 3px solid var(--secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .asset-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .asset-control-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7em;
+        }
+
+        .asset-control-btn.danger {
+            background: var(--danger);
+        }
+
+        .employee-list {
+            margin-top: 15px;
+        }
+
+        .employee-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-right: 3px solid var(--purple);
+        }
+
+        .employee-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .employee-name {
+            font-weight: 800;
+            font-size: 1em;
+        }
+
+        .employee-salary {
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .employee-details {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+
+        .employee-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .card-number {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.1em;
+            text-align: center;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card-number:hover {
+            background: #e0e0e0;
+        }
+
+        .help-content {
+            line-height: 1.6;
+            font-size: 0.9em;
+        }
+
+        .help-section {
+            margin-bottom: 15px;
+        }
+
+        .help-title {
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 1em;
+        }
+
         @media (min-width: 768px) {
             .container {
                 max-width: 800px;
@@ -793,22 +880,8 @@
         }
 
         @media (max-width: 480px) {
-            .side-menu {
-                width: 260px;
-            }
-            
-            .horizontal-menu {
-                padding: 6px 10px;
-            }
-            
-            .menu-btn {
-                padding: 5px 10px;
-                font-size: 0.65em;
-            }
-            
-            .header-btn {
-                font-size: 0.6em;
-                padding: 4px 6px;
+            .main-content {
+                padding-bottom: 70px;
             }
         }
 
@@ -819,20 +892,6 @@
             
             .logo-text {
                 font-size: 0.8em;
-            }
-            
-            .horizontal-menu {
-                padding: 5px 8px;
-            }
-            
-            .menu-btn {
-                padding: 4px 8px;
-                font-size: 0.6em;
-            }
-            
-            .header-btn {
-                font-size: 0.55em;
-                padding: 3px 5px;
             }
             
             .main-content {
@@ -849,73 +908,46 @@
                 <div class="logo-text">سیستم حساب داری</div>
             </div>
             <div class="header-controls">
-                <a href="m12.html" class="header-btn">
-                    <span>💰</span> مدریت حساب بانگی 
-                </a>
-                <a href="m12.html" class="header-btn">
-                    <span>👥</span> ثبت کارمند
-                </a>
-                <a href="m12.html" class="header-btn">
-                    <span>💳</span> تراکنش‌ها
-                </a>
+                <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-item" onclick="showSection('employees')">
+                        <span>👥</span> مدیریت کارمندان
+                    </div>
+                    <div class="dropdown-item" onclick="showSection('invoice')">
+                        <span>🧾</span> ایجاد فاکتور
+                    </div>
+                    <div class="dropdown-item" onclick="showSection('assets')">
+                        <span>💰</span> گاو صندوق / دارایی
+                    </div>
+                    <div class="dropdown-item" onclick="showSection('help')">
+                        <span>❓</span> راهنمایی استفاده
+                    </div>
+                    <div class="dropdown-item" onclick="showSection('donate')">
+                        <span>❤️</span> حمایت مالی
+                    </div>
+                </div>
                 <a href="mk.html" class="notification-bell">
                     <div class="notification-dot"></div>
                     🔔
                 </a>
-                <div class="menu-toggle" onclick="toggleMenu()">
-                    ☰
-                </div>
             </div>
         </div>
 
-        <div class="horizontal-menu">
-            <button class="menu-btn" onclick="showSection('finance')">
-                <span>💰</span> مدیریت مالی
-            </button>
-            <button class="menu-btn secondary" onclick="showSection('production')">
-                <span>🏭</span> حسابرسی تولیدی
-            </button>
-            <button class="menu-btn warning" onclick="showSection('accounting')">
-                <span>📈</span> گزارش‌ها
-            </button>
-            <button class="menu-btn purple" onclick="showSection('checks')">
-                <span>🏦</span> مدیریت چک
-            </button>
-        </div>
-
-        <div class="side-menu">
-            <div class="menu-header">
-                <div class="menu-title">منوی مالی</div>
-                <div class="close-menu" onclick="toggleMenu()">✕</div>
+        <!-- اسلایدر رسانه -->
+        <div class="media-slider">
+            <div class="media-item">
+                <img src="m.jpg" alt="تصویر تبلیغاتی" onerror="this.style.display='none'">
             </div>
-            <div class="menu-items">
-                <a href="m1.html" class="menu-item">
-                    <div class="menu-icon">💰</div>
-                    <div class="menu-text">مالی یک</div>
-                </a>
-                <a href="m1.html" class="menu-item">
-                    <div class="menu-icon">💳</div>
-                    <div class="menu-text">مالی دو</div>
-                </a>
-                <a href="m1.html" class="menu-item">
-                    <div class="menu-icon">📈</div>
-                    <div class="menu-text">مالی سه</div>
-                </a>
-                <a href="m1.html" class="menu-item">
-                    <div class="menu-icon">🏦</div>
-                    <div class="menu-text">مالی چهار</div>
-                </a>
-                <a href="m1.html" class="menu-item">
-                    <div class="menu-icon">💼</div>
-                    <div class="menu-text">مالی پنج</div>
-                </a>
-                <a href="m1.html" class="menu-item">
-                    <div class="menu-icon">📊</div>
-                    <div class="menu-text">مالی شش</div>
-                </a>
+            <div class="media-item">
+                <video muted onloadedmetadata="this.muted=true" onerror="this.style.display='none'">
+                    <source src="ad.mp4" type="video/mp4">
+                    مرورگر شما از ویدیو پشتیبانی نمی‌کند
+                </video>
+            </div>
+            <div class="media-item">
+                <img src="banner.jpg" alt="بنر تبلیغاتی" onerror="this.style.display='none'">
             </div>
         </div>
-        <div class="menu-overlay" onclick="toggleMenu()"></div>
 
         <div class="main-content">
             <!-- بخش مدیریت مالی -->
@@ -933,19 +965,19 @@
 
                     <div class="form-group">
                         <label for="finance-amount">مبلغ (تومان):</label>
-                        <input type="number" id="finance-amount" placeholder="مبلغ را وارد کنید" value="1000000">
+                        <input type="number" id="finance-amount" placeholder="مبلغ را وارد کنید">
                     </div>
 
                     <div class="form-group">
                         <label for="finance-description">توضیحات:</label>
-                        <input type="text" id="finance-description" placeholder="شرح تراکنش" value="فروش محصول">
+                        <input type="text" id="finance-description" placeholder="شرح تراکنش">
                     </div>
 
                     <div class="form-group">
                         <label for="finance-category">دسته‌بندی:</label>
                         <select id="finance-category">
                             <option value="salary">حقوق</option>
-                            <option value="business" selected>کسب و کار</option>
+                            <option value="business">کسب و کار</option>
                             <option value="investment">سرمایه‌گذاری</option>
                             <option value="food">خوراکی</option>
                             <option value="transport">حمل و نقل</option>
@@ -981,17 +1013,17 @@
                     
                     <div class="form-group">
                         <label for="product-name">نام محصول:</label>
-                        <input type="text" id="product-name" placeholder="نام محصول را وارد کنید" value="تیشرت مردانه">
+                        <input type="text" id="product-name" placeholder="نام محصول را وارد کنید">
                     </div>
 
                     <div class="form-group">
                         <label for="material-cost">هزینه کل مواد اولیه (تومان):</label>
-                        <input type="number" id="material-cost" placeholder="مثلاً 50000000 برای 50 میلیون" value="50000000">
+                        <input type="number" id="material-cost" placeholder="مثلاً 50000000 برای 50 میلیون">
                     </div>
 
                     <div class="form-group">
                         <label for="production-quantity">تعداد تولید شده:</label>
-                        <input type="number" id="production-quantity" placeholder="تعداد تولید شده" value="100">
+                        <input type="number" id="production-quantity" placeholder="تعداد تولید شده">
                     </div>
 
                     <div class="cost-inputs">
@@ -1006,7 +1038,7 @@
 
                     <div class="form-group">
                         <label for="desired-profit">سود مورد نظر شما (درصد):</label>
-                        <input type="number" id="desired-profit" placeholder="مثلاً 30 برای 30% سود" value="30">
+                        <input type="number" id="desired-profit" placeholder="مثلاً 30 برای 30% سود">
                     </div>
 
                     <button class="btn btn-purple" onclick="calculateProductionCost()">
@@ -1071,17 +1103,17 @@
                     
                     <div class="form-group">
                         <label for="check-amount">مبلغ چک (تومان):</label>
-                        <input type="number" id="check-amount" placeholder="مبلغ چک را وارد کنید" value="5000000">
+                        <input type="number" id="check-amount" placeholder="مبلغ چک را وارد کنید">
                     </div>
 
                     <div class="form-group">
                         <label for="check-bank">نام بانک:</label>
-                        <input type="text" id="check-bank" placeholder="نام بانک صادر کننده" value="ملت">
+                        <input type="text" id="check-bank" placeholder="نام بانک صادر کننده">
                     </div>
 
                     <div class="form-group">
                         <label for="check-issuer">صادر کننده چک:</label>
-                        <input type="text" id="check-issuer" placeholder="نام صادر کننده چک" value="شرکت البرز">
+                        <input type="text" id="check-issuer" placeholder="نام صادر کننده چک">
                     </div>
 
                     <div class="form-group">
@@ -1094,473 +1126,726 @@
                     </button>
                 </div>
 
-                <div id="checks-list">
-                    <!-- لیست چک‌ها اینجا نمایش داده می‌شوند -->
+                <div class="form-container">
+                    <h2 class="form-title">📋 چک‌های ثبت شده</h2>
+                    <div id="checks-list">
+                        <!-- لیست چک‌ها اینجا نمایش داده می‌شود -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش مدیریت کارمندان -->
+            <div id="employees" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">👥 مدیریت کارمندان</h2>
+                    
+                    <div class="form-group">
+                        <label for="employee-name">نام کارمند:</label>
+                        <input type="text" id="employee-name" placeholder="نام کامل کارمند">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employee-position">سمت:</label>
+                        <input type="text" id="employee-position" placeholder="سمت شغلی">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employee-salary">حقوق ماهانه (تومان):</label>
+                        <input type="number" id="employee-salary" placeholder="مبلغ حقوق">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employee-start-date">تاریخ شروع به کار:</label>
+                        <input type="date" id="employee-start-date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employee-performance">عملکرد (از 10):</label>
+                        <input type="number" id="employee-performance" min="0" max="10" placeholder="امتیاز عملکرد">
+                    </div>
+
+                    <button class="btn" onclick="addEmployee()">
+                        <span>➕</span> افزودن کارمند
+                    </button>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="form-title">📋 لیست کارمندان</h2>
+                    <div class="employee-list" id="employees-list">
+                        <!-- لیست کارمندان اینجا نمایش داده می‌شود -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش ایجاد فاکتور -->
+            <div id="invoice" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">🧾 ایجاد فاکتور</h2>
+                    
+                    <div class="form-group">
+                        <label for="invoice-type">نوع فاکتور:</label>
+                        <select id="invoice-type">
+                            <option value="sale">فروش</option>
+                            <option value="purchase">خرید</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="invoice-seller">فروشنده:</label>
+                        <input type="text" id="invoice-seller" placeholder="نام فروشنده">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="invoice-buyer">خریدار:</label>
+                        <input type="text" id="invoice-buyer" placeholder="نام خریدار">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="invoice-date">تاریخ:</label>
+                        <input type="date" id="invoice-date">
+                    </div>
+
+                    <h3 style="margin: 15px 0 10px; color: var(--dark);">🛍️ اقلام فاکتور</h3>
+                    <div id="invoice-items">
+                        <div class="invoice-item-row">
+                            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                                <input type="text" placeholder="نام کالا" class="item-name">
+                                <input type="number" placeholder="تعداد" class="item-quantity" style="width: 80px;">
+                                <input type="number" placeholder="قیمت واحد" class="item-price" style="width: 120px;">
+                                <button type="button" class="add-cost-btn danger" onclick="removeInvoiceItem(this)">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="add-cost-btn" onclick="addInvoiceItem()">
+                        <span>➕</span> افزودن کالا
+                    </button>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="invoice-notes">توضیحات:</label>
+                        <textarea id="invoice-notes" rows="3" placeholder="توضیحات اضافی"></textarea>
+                    </div>
+
+                    <h3 style="margin: 15px 0 10px; color: var(--dark);">✍️ امضا</h3>
+                    <div class="signature-pad-container">
+                        <canvas class="signature-pad" id="signature-pad"></canvas>
+                        <button type="button" class="add-cost-btn danger" onclick="clearSignature()" style="margin-bottom: 10px;">
+                            <span>🗑️</span> پاک کردن امضا
+                        </button>
+                    </div>
+
+                    <button class="btn btn-purple" onclick="generateInvoice()">
+                        <span>🧾</span> ایجاد فاکتور
+                    </button>
+                </div>
+
+                <div class="invoice-preview" id="invoice-preview" style="display: none;">
+                    <!-- پیش‌نمایش فاکتور اینجا نمایش داده می‌شود -->
+                </div>
+            </div>
+
+            <!-- بخش گاو صندوق / دارایی -->
+            <div id="assets" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">💰 مدیریت دارایی‌ها</h2>
+                    
+                    <div class="form-group">
+                        <label for="asset-name">نام دارایی:</label>
+                        <input type="text" id="asset-name" placeholder="نام دارایی (مثلاً: پول نقد، طلا، سهام)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="asset-value">ارزش (تومان):</label>
+                        <input type="number" id="asset-value" placeholder="ارزش دارایی">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="asset-quantity">تعداد/مقدار:</label>
+                        <input type="number" id="asset-quantity" placeholder="تعداد یا مقدار" value="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="asset-description">توضیحات:</label>
+                        <textarea id="asset-description" rows="2" placeholder="توضیحات درباره دارایی"></textarea>
+                    </div>
+
+                    <button class="btn" onclick="addAsset()">
+                        <span>➕</span> افزودن دارایی
+                    </button>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="form-title">📊 دارایی‌های شما</h2>
+                    <div class="assets-list" id="assets-list">
+                        <!-- لیست دارایی‌ها اینجا نمایش داده می‌شود -->
+                    </div>
+                    <div class="profit-display" id="total-assets">
+                        <div class="profit-title">💰 کل دارایی‌های شما</div>
+                        <div class="profit-amount">۰ تومان</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش راهنمایی استفاده -->
+            <div id="help" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">❓ راهنمایی استفاده از پلتفرم</h2>
+                    
+                    <div class="help-content">
+                        <div class="help-section">
+                            <div class="help-title">🎯 هدف پلتفرم</div>
+                            <p>این پلتفرم یک سیستم جامع مدیریت مالی و حسابداری است که به شما کمک می‌کند تمام امور مالی کسب و کار خود را به صورت حرفه‌ای مدیریت کنید.</p>
+                        </div>
+
+                        <div class="help-section">
+                            <div class="help-title">📊 بخش‌های اصلی</div>
+                            <ul style="padding-right: 20px; margin-top: 8px;">
+                                <li><strong>مدیریت مالی:</strong> ثبت درآمدها و هزینه‌ها</li>
+                                <li><strong>حسابرسی تولیدی:</strong> محاسبه قیمت تمام شده محصولات</li>
+                                <li><strong>گزارش‌های حسابداری:</strong> تحلیل و گزارش‌گیری مالی</li>
+                                <li><strong>مدیریت چک:</strong> پیگیری چک‌های دریافتی و پرداختی</li>
+                                <li><strong>مدیریت کارمندان:</strong> ثبت اطلاعات و حقوق پرسنل</li>
+                                <li><strong>ایجاد فاکتور:</strong> صدور فاکتورهای فروش و خرید</li>
+                                <li><strong>مدیریت دارایی:</strong> ثبت و پیگیری دارایی‌های شما</li>
+                            </ul>
+                        </div>
+
+                        <div class="help-section">
+                            <div class="help-title">💡 نکات مهم</div>
+                            <ul style="padding-right: 20px; margin-top: 8px;">
+                                <li>اطلاعات خود را به طور منظم ثبت کنید</li>
+                                <li>از گزارش‌های مالی برای تحلیل عملکرد استفاده کنید</li>
+                                <li>هشدارها و یادآوری‌ها را فعال نگه دارید</li>
+                                <li>اطلاعات مهم را پشتیبان‌گیری کنید</li>
+                            </ul>
+                        </div>
+
+                        <div class="help-section">
+                            <div class="help-title">📱 نحوه استفاده</div>
+                            <p>برای استفاده از هر بخش، از منوی بالا یا نوار پایین صفحه بخش مورد نظر را انتخاب کنید. سپس اطلاعات خواسته شده را وارد کرده و عملیات مورد نظر را انجام دهید.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش حمایت مالی -->
+            <div id="donate" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">❤️ حمایت مالی</h2>
+                    
+                    <div class="info-message">
+                        <div class="info-title">🙏 قدردانی از حمایت شما</div>
+                        <div class="info-content">
+                            این پلتفرم با هدف کمک به کسب و کارهای کوچک و متوسط توسعه یافته است. 
+                            حمایت‌های مالی داوطلبانه شما به ما انگیزه می‌دهد تا به توسعه و بهبود این سیستم ادامه دهیم.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>شماره کارت برای حمایت مالی:</label>
+                        <div class="card-number" onclick="copyCardNumber()">
+                            ۶۲۱۹ - ۸۶۱۰ - ۹۹۵۴ - ۵۰۳۲
+                        </div>
+                        <div style="text-align: center; font-size: 0.8em; color: #7f8c8d; margin-top: 5px;">
+                            برای کپی کردن کلیک کنید
+                        </div>
+                    </div>
+
+                    <div class="advice-section">
+                        <div class="advice-title">💳 نحوه واریز</div>
+                        <div class="advice-content">
+                            <p>می‌توانید از طریق تمامی دستگاه‌های خودپرداز، اینترنت بانک یا برنامه‌های موبایلی بانک‌ها مبلغ مورد نظر خود را به شماره کارت بالا واریز کنید.</p>
+                            <p style="margin-top: 8px;">هر میزان حمایت مالی شما، حتی مبالغ کوچک، برای ما بسیار ارزشمند است و در توسعه و بهبود این پلتفرم سرمایه‌گذاری خواهد شد.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="donation-amount">مبلغ حمایت (تومان):</label>
+                        <input type="number" id="donation-amount" placeholder="مبلغ مورد نظر برای حمایت">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="donation-message">پیام حمایتی (اختیاری):</label>
+                        <textarea id="donation-message" rows="3" placeholder="پیام حمایتی خود را اینجا بنویسید..."></textarea>
+                    </div>
+
+                    <button class="btn btn-purple" onclick="submitDonation()">
+                        <span>💳</span> ثبت حمایت مالی
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- ناوبری پایین -->
         <div class="nav-bottom">
-            <a href="mb.html" class="nav-item">
+            <div class="nav-item active" onclick="showSection('finance')">
                 <div class="nav-icon">💰</div>
-                <div class="nav-label">راه کسب درآمد</div>
-            </a>
-            <a href="mb.html" class="nav-item">
-                <div class="nav-icon">👥</div>
-                <div class="nav-label">ثبت کارمند</div>
-            </a>
-            <a href="mb.html" class="nav-item">
-                <div class="nav-icon">💳</div>
-                <div class="nav-label">تراکنش‌ها</div>
-            </a>
-            <div class="nav-item active" onclick="showSection('checks')">
+                <div class="nav-label">مالی</div>
+            </div>
+            <div class="nav-item" onclick="showSection('production')">
+                <div class="nav-icon">🏭</div>
+                <div class="nav-label">تولیدی</div>
+            </div>
+            <div class="nav-item" onclick="showSection('accounting')">
+                <div class="nav-icon">📊</div>
+                <div class="nav-label">حسابداری</div>
+            </div>
+            <div class="nav-item" onclick="showSection('checks')">
                 <div class="nav-icon">🏦</div>
-                <div class="nav-label">مدیریت چک</div>
+                <div class="nav-label">چک‌ها</div>
             </div>
         </div>
     </div>
 
     <script>
-        // داده‌های برنامه
-        let financeData = JSON.parse(localStorage.getItem('financeData')) || [];
-        let productionData = JSON.parse(localStorage.getItem('productionData')) || [];
-        let checksData = JSON.parse(localStorage.getItem('checksData')) || [];
+        // داده‌های خالی
+        let financeData = {
+            income: 0,
+            expense: 0,
+            transactions: []
+        };
 
-        // بارگذاری اولیه داده‌های نمونه
-        function initializeSampleData() {
-            if (financeData.length === 0) {
-                financeData = [
-                    {
-                        id: 1,
-                        type: 'income',
-                        amount: 5000000,
-                        description: 'فروش محصولات',
-                        category: 'business',
-                        date: new Date().toLocaleDateString('fa-IR'),
-                        timestamp: Date.now()
-                    },
-                    {
-                        id: 2,
-                        type: 'expense',
-                        amount: 2000000,
-                        description: 'خرید مواد اولیه',
-                        category: 'business',
-                        date: new Date().toLocaleDateString('fa-IR'),
-                        timestamp: Date.now() - 86400000
-                    },
-                    {
-                        id: 3,
-                        type: 'income',
-                        amount: 3000000,
-                        description: 'فروش آنلاین',
-                        category: 'business',
-                        date: new Date().toLocaleDateString('fa-IR'),
-                        timestamp: Date.now() - 172800000
-                    }
-                ];
-                localStorage.setItem('financeData', JSON.stringify(financeData));
-            }
+        let productionData = {
+            costs: [],
+            products: []
+        };
 
-            if (checksData.length === 0) {
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                
-                checksData = [
-                    {
-                        id: 1,
-                        amount: 3000000,
-                        bank: 'ملت',
-                        issuer: 'شرکت کوهستان',
-                        dueDate: tomorrow.toISOString().split('T')[0],
-                        status: 'active'
-                    },
-                    {
-                        id: 2,
-                        amount: 2500000,
-                        bank: 'صادرات',
-                        issuer: 'فروشگاه مرکزی',
-                        dueDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
-                        status: 'active'
-                    }
-                ];
-                localStorage.setItem('checksData', JSON.stringify(checksData));
-            }
+        let accountingData = {
+            totalIncome: 0,
+            totalExpense: 0,
+            netProfit: 0,
+            activeChecks: 0
+        };
 
-            updateAccountingStats();
-            loadFinanceData();
-            loadChecksData();
-            loadAccountingData();
+        let checksData = [];
+        let employeesData = [];
+        let assetsData = [];
+        let invoicesData = [];
+
+        // امضای دیجیتال
+        let signaturePad = null;
+
+        // تاریخ شمسی
+        function getCurrentPersianDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return now.toLocaleDateString('fa-IR', options);
         }
 
-        // نمایش بخش‌ها
-        function showSection(sectionName) {
+        // نمایش بخش مورد نظر
+        function showSection(sectionId) {
+            // مخفی کردن تمام بخش‌ها
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
+            
+            // نمایش بخش انتخاب شده
+            document.getElementById(sectionId).classList.add('active');
+            
+            // به‌روزرسانی ناوبری پایین
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
-            document.getElementById(sectionName).classList.add('active');
+            // مخفی کردن منوی کشویی
+            document.getElementById('dropdownMenu').classList.remove('active');
             
-            // پیدا کردن آیتم ناوبری مربوطه و فعال کردن آن
-            let navItems = document.querySelectorAll('.nav-item');
-            for (let i = 0; i < navItems.length; i++) {
-                if (navItems[i].onclick && navItems[i].onclick.toString().includes(sectionName)) {
-                    navItems[i].classList.add('active');
-                    break;
-                }
+            // اگر بخش امضا فعال است، امضای دیجیتال را راه‌اندازی کن
+            if (sectionId === 'invoice' && !signaturePad) {
+                setTimeout(() => {
+                    const canvas = document.getElementById('signature-pad');
+                    if (canvas) {
+                        signaturePad = new SignaturePad(canvas);
+                        canvas.style.width = '100%';
+                        canvas.style.height = '150px';
+                    }
+                }, 100);
             }
             
-            // بارگذاری داده‌های مربوطه
-            if (sectionName === 'finance') {
-                loadFinanceData();
-            } else if (sectionName === 'production') {
-                loadProductionData();
-            } else if (sectionName === 'accounting') {
-                loadAccountingData();
-            } else if (sectionName === 'checks') {
-                loadChecksData();
+            // اگر بخش مالی است، نمودار را به‌روزرسانی کن
+            if (sectionId === 'finance') {
+                updateFinanceChart();
+            }
+            
+            // اگر بخش حسابداری است، نمودار حسابداری را به‌روزرسانی کن
+            if (sectionId === 'accounting') {
+                updateAccountingChart();
             }
         }
 
-        // مدیریت منو
+        // نمایش/مخفی کردن منوی کشویی
         function toggleMenu() {
-            const menu = document.querySelector('.side-menu');
-            const overlay = document.querySelector('.menu-overlay');
+            const menu = document.getElementById('dropdownMenu');
             menu.classList.toggle('active');
-            overlay.classList.toggle('active');
         }
 
-        // مدیریت مالی
+        // بستن منوی کشویی هنگام کلیک خارج از آن
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // افزودن تراکنش مالی
         function addFinanceTransaction() {
             const type = document.getElementById('finance-type').value;
-            const amount = parseFloat(document.getElementById('finance-amount').value);
-            const description = document.getElementById('finance-description').value;
+            const amount = parseInt(document.getElementById('finance-amount').value) || 0;
+            const description = document.getElementById('finance-description').value || 'بدون توضیح';
             const category = document.getElementById('finance-category').value;
-
-            if (!amount || !description) {
-                showSuccessMessage('⚠️ لطفاً تمام فیلدها را پر کنید');
+            
+            if (amount <= 0) {
+                alert('لطفاً مبلغ معتبر وارد کنید');
                 return;
             }
-
+            
             const transaction = {
                 id: Date.now(),
                 type,
                 amount,
                 description,
                 category,
-                date: new Date().toLocaleDateString('fa-IR'),
-                timestamp: Date.now()
+                date: new Date().toLocaleDateString('fa-IR')
             };
-
-            financeData.push(transaction);
-            localStorage.setItem('financeData', JSON.stringify(financeData));
-
-            showSuccessMessage('✅ تراکنش با موفقیت ثبت شد!');
-            loadFinanceData();
-            updateAccountingStats();
             
-            // پاک کردن فرم
+            financeData.transactions.push(transaction);
+            
+            if (type === 'income') {
+                financeData.income += amount;
+            } else {
+                financeData.expense += amount;
+            }
+            
+            updateFinanceDisplay();
             document.getElementById('finance-amount').value = '';
             document.getElementById('finance-description').value = '';
-        }
-
-        function loadFinanceData() {
-            // نمایش تراکنش‌ها
-            displayTransactions();
-            createFinanceChart();
-        }
-
-        function displayTransactions() {
-            const container = document.getElementById('finance-transactions');
-            container.innerHTML = '';
-
-            const sortedTransactions = [...financeData].sort((a, b) => b.timestamp - a.timestamp);
             
-            if (sortedTransactions.length === 0) {
-                container.innerHTML = '<div class="info-message">هیچ تراکنشی ثبت نشده است</div>';
+            // نمایش پیام موفقیت
+            showSuccessMessage('تراکنش با موفقیت ثبت شد');
+        }
+
+        // به‌روزرسانی نمایش مالی
+        function updateFinanceDisplay() {
+            const transactionsContainer = document.getElementById('finance-transactions');
+            transactionsContainer.innerHTML = '';
+            
+            if (financeData.transactions.length === 0) {
+                transactionsContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #7f8c8d;">هیچ تراکنشی ثبت نشده است</div>';
                 return;
             }
             
-            sortedTransactions.forEach(transaction => {
-                const transactionEl = document.createElement('div');
-                transactionEl.className = 'transaction-item';
-                transactionEl.innerHTML = `
+            financeData.transactions.forEach(transaction => {
+                const transactionElement = document.createElement('div');
+                transactionElement.className = 'transaction-item';
+                transactionElement.innerHTML = `
                     <div class="transaction-details">
                         <div class="transaction-title">${transaction.description}</div>
                         <div class="transaction-meta">${transaction.date} - ${getCategoryName(transaction.category)}</div>
                     </div>
-                    <div class="transaction-amount ${transaction.type}">
-                        ${transaction.type === 'income' ? '+' : '-'}${transaction.amount.toLocaleString()} تومان
+                    <div class="transaction-amount ${transaction.type === 'income' ? 'income' : 'expense'}">
+                        ${transaction.type === 'income' ? '+' : '-'} ${transaction.amount.toLocaleString()} تومان
                     </div>
                 `;
-                container.appendChild(transactionEl);
+                transactionsContainer.appendChild(transactionElement);
             });
+            
+            updateFinanceChart();
         }
 
+        // دریافت نام دسته‌بندی
         function getCategoryName(category) {
             const categories = {
-                'salary': 'حقوق',
-                'business': 'کسب و کار',
-                'investment': 'سرمایه‌گذاری',
-                'food': 'خوراکی',
-                'transport': 'حمل و نقل',
-                'shopping': 'خرید',
-                'bills': 'قبض',
-                'entertainment': 'سرگرمی',
-                'health': 'سلامت',
-                'other': 'متفرقه'
+                salary: 'حقوق',
+                business: 'کسب و کار',
+                investment: 'سرمایه‌گذاری',
+                food: 'خوراکی',
+                transport: 'حمل و نقل',
+                shopping: 'خرید',
+                bills: 'قبض',
+                entertainment: 'سرگرمی',
+                health: 'سلامت',
+                other: 'متفرقه'
             };
+            
             return categories[category] || 'سایر';
         }
 
-        function createFinanceChart() {
+        // به‌روزرسانی نمودار مالی
+        function updateFinanceChart() {
             const ctx = document.getElementById('financeChart').getContext('2d');
             
-            const categories = {};
-            financeData.forEach(transaction => {
-                if (transaction.type === 'expense') {
-                    if (!categories[transaction.category]) {
-                        categories[transaction.category] = 0;
-                    }
-                    categories[transaction.category] += transaction.amount;
-                }
-            });
-
-            const labels = Object.keys(categories).map(key => getCategoryName(key));
-            const data = Object.values(categories);
-
-            if (data.length === 0) {
+            // داده‌های نمودار
+            const incomeData = financeData.transactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+                
+            const expenseData = financeData.transactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            // اگر نمودار قبلی وجود دارد، آن را از بین ببر
+            if (window.financeChartInstance) {
+                window.financeChartInstance.destroy();
+            }
+            
+            // اگر داده‌ای وجود ندارد، پیام نشان بده
+            if (incomeData === 0 && expenseData === 0) {
                 document.getElementById('financeChart').style.display = 'none';
                 return;
             }
-
+            
             document.getElementById('financeChart').style.display = 'block';
             
-            new Chart(ctx, {
+            // ایجاد نمودار جدید
+            window.financeChartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: labels,
+                    labels: ['درآمد', 'هزینه'],
                     datasets: [{
-                        data: data,
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+                        data: [incomeData, expenseData],
+                        backgroundColor: ['#27ae60', '#e74c3c'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            rtl: true
+                            rtl: true,
+                            labels: {
+                                font: {
+                                    family: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
+                                }
+                            }
                         }
                     }
                 }
             });
         }
 
-        // حسابرسی تولیدی
-        function loadProductionData() {
-            document.getElementById('additional-costs').innerHTML = '';
-            addCostField();
-        }
-
+        // افزودن فیلد هزینه
         function addCostField() {
-            const container = document.getElementById('additional-costs');
+            const costsContainer = document.getElementById('additional-costs');
             const costId = 'cost-' + Date.now();
             
-            const costGroup = document.createElement('div');
-            costGroup.className = 'cost-input-group';
-            costGroup.innerHTML = `
-                <input type="text" placeholder="عنوان هزینه" id="${costId}-name" value="هزینه دوخت">
-                <input type="number" placeholder="مبلغ کل" id="${costId}-amount" value="10000000">
+            const costElement = document.createElement('div');
+            costElement.className = 'cost-input-group';
+            costElement.innerHTML = `
+                <input type="text" placeholder="عنوان هزینه (مثلاً: دستمزد کارگر)" id="${costId}-name">
+                <input type="number" placeholder="مبلغ (تومان)" id="${costId}-amount">
+                <button type="button" class="add-cost-btn danger" onclick="this.parentElement.remove()">✕</button>
             `;
-            container.appendChild(costGroup);
+            
+            costsContainer.appendChild(costElement);
         }
 
+        // محاسبه هزینه تولید
         function calculateProductionCost() {
-            const productName = document.getElementById('product-name').value;
-            const materialCost = parseFloat(document.getElementById('material-cost').value) || 0;
-            const quantity = parseFloat(document.getElementById('production-quantity').value) || 1;
-            const desiredProfit = parseFloat(document.getElementById('desired-profit').value) || 0;
-
-            if (!productName || materialCost <= 0 || quantity <= 0) {
-                showSuccessMessage('⚠️ لطفاً اطلاعات محصول را به درستی وارد کنید');
+            const productName = document.getElementById('product-name').value || 'محصول';
+            const materialCost = parseInt(document.getElementById('material-cost').value) || 0;
+            const quantity = parseInt(document.getElementById('production-quantity').value) || 1;
+            const desiredProfit = parseInt(document.getElementById('desired-profit').value) || 0;
+            
+            if (materialCost <= 0 || quantity <= 0) {
+                alert('لطفاً مقادیر معتبر وارد کنید');
                 return;
             }
-
-            // جمع‌آوری هزینه‌های اضافی
+            
+            // محاسبه هزینه‌های اضافی
+            let additionalCosts = 0;
             const costInputs = document.querySelectorAll('#additional-costs .cost-input-group');
-            let additionalCostsTotal = 0;
-            const costDetails = [];
-
-            costInputs.forEach(inputGroup => {
-                const nameInput = inputGroup.querySelector('input[type="text"]');
-                const amountInput = inputGroup.querySelector('input[type="number"]');
-                
-                if (nameInput.value && amountInput.value) {
-                    const costAmount = parseFloat(amountInput.value);
-                    additionalCostsTotal += costAmount;
-                    costDetails.push({
-                        name: nameInput.value,
-                        amount: costAmount
-                    });
-                }
+            costInputs.forEach(input => {
+                const amount = parseInt(input.querySelector('input[type="number"]').value) || 0;
+                additionalCosts += amount;
             });
-
-            // محاسبات دقیق
-            const materialCostPerUnit = materialCost / quantity;
-            const additionalCostPerUnit = additionalCostsTotal / quantity;
-            const totalCostPerUnit = materialCostPerUnit + additionalCostPerUnit;
             
-            const sellingPriceWithProfit = totalCostPerUnit * (1 + desiredProfit/100);
-            const totalProfitPerUnit = sellingPriceWithProfit - totalCostPerUnit;
-            const totalProfit = totalProfitPerUnit * quantity;
-            const profitPercentage = (totalProfitPerUnit / totalCostPerUnit) * 100;
-
+            // محاسبه قیمت تمام شده
+            const totalCost = materialCost + additionalCosts;
+            const costPerUnit = totalCost / quantity;
+            const profitPerUnit = costPerUnit * (desiredProfit / 100);
+            const sellingPricePerUnit = costPerUnit + profitPerUnit;
+            const totalSellingPrice = sellingPricePerUnit * quantity;
+            const totalProfit = totalSellingPrice - totalCost;
+            
             // نمایش نتایج
-            displayProductionResult(
-                productName, 
-                materialCost, 
-                quantity, 
-                additionalCostsTotal, 
-                materialCostPerUnit, 
-                additionalCostPerUnit, 
-                totalCostPerUnit,
-                sellingPriceWithProfit,
-                totalProfitPerUnit,
-                totalProfit,
-                profitPercentage
-            );
-
-            // ذخیره محاسبات
-            const productionRecord = {
-                id: Date.now(),
-                productName,
-                materialCost,
-                quantity,
-                additionalCosts: costDetails,
-                totalCostPerUnit,
-                desiredProfit,
-                sellingPrice: sellingPriceWithProfit,
-                totalProfitPerUnit,
-                totalProfit,
-                profitPercentage,
-                date: new Date().toLocaleDateString('fa-IR')
-            };
-            
-            productionData.push(productionRecord);
-            localStorage.setItem('productionData', JSON.stringify(productionData));
-            
-            showSuccessMessage('✅ محاسبات با موفقیت انجام شد!');
-        }
-
-        function displayProductionResult(productName, materialCost, quantity, additionalCostsTotal, 
-                                        materialCostPerUnit, additionalCostPerUnit, totalCostPerUnit,
-                                        sellingPrice, profitPerUnit, totalProfit, profitPercentage) {
-            const container = document.getElementById('production-result');
-            
-            container.innerHTML = `
+            const resultContainer = document.getElementById('production-result');
+            resultContainer.innerHTML = `
                 <div class="production-result">
-                    <div class="production-title">💰 نتیجه محاسبات برای "${productName}"</div>
+                    <div class="production-title">🧮 نتایج محاسبات برای "${productName}"</div>
                     
                     <div class="cost-breakdown">
                         <div class="cost-item">
-                            <span class="cost-label">هزینه کل مواد اولیه:</span>
+                            <span class="cost-label">هزینه مواد اولیه:</span>
                             <span class="cost-value">${materialCost.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">هزینه‌های اضافی:</span>
+                            <span class="cost-value">${additionalCosts.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">هزینه کل تولید:</span>
+                            <span class="cost-value">${totalCost.toLocaleString()} تومان</span>
                         </div>
                         <div class="cost-item">
                             <span class="cost-label">تعداد تولید شده:</span>
                             <span class="cost-value">${quantity.toLocaleString()} عدد</span>
                         </div>
                         <div class="cost-item">
-                            <span class="cost-label">هزینه مواد اولیه هر عدد:</span>
-                            <span class="cost-value">${Math.round(materialCostPerUnit).toLocaleString()} تومان</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="cost-label">هزینه‌های اضافی هر عدد:</span>
-                            <span class="cost-value">${Math.round(additionalCostPerUnit).toLocaleString()} تومان</span>
-                        </div>
-                        <div class="cost-item" style="border-top: 2px solid white; padding-top: 10px;">
-                            <span class="cost-label">💰 هزینه کل هر عدد:</span>
-                            <span class="cost-value">${Math.round(totalCostPerUnit).toLocaleString()} تومان</span>
+                            <span class="cost-label">قیمت تمام شده هر واحد:</span>
+                            <span class="cost-value">${Math.round(costPerUnit).toLocaleString()} تومان</span>
                         </div>
                     </div>
                     
                     <div class="final-price-section">
-                        <div class="price-label">🎯 قیمت تمام شده هر عدد:</div>
-                        <div class="price-amount">${Math.round(totalCostPerUnit).toLocaleString()} تومان</div>
+                        <div class="price-label">💰 قیمت فروش هر واحد (با ${desiredProfit}% سود):</div>
+                        <div class="price-amount">${Math.round(sellingPricePerUnit).toLocaleString()} تومان</div>
                     </div>
-                </div>
-                
-                <div class="profit-display">
-                    <div class="profit-title">💰 سود شما</div>
-                    <div class="profit-amount">${Math.round(profitPerUnit).toLocaleString()} تومان</div>
-                    <div style="margin-top: 6px; font-size: 0.9em;">
-                        قیمت فروش هر عدد: ${Math.round(sellingPrice).toLocaleString()} تومان
-                    </div>
-                    <div style="margin-top: 4px; font-size: 0.8em;">
-                        سود کل: ${Math.round(totalProfit).toLocaleString()} تومان
+                    
+                    <div class="profit-display">
+                        <div class="profit-title">💵 سود کل پیش‌بینی شده</div>
+                        <div class="profit-amount">${Math.round(totalProfit).toLocaleString()} تومان</div>
                     </div>
                 </div>
                 
                 <div class="advice-section">
-                    <div class="advice-title">💡 راهنمای قیمت‌گذاری</div>
+                    <div class="advice-title">💡 توصیه‌های مالی</div>
                     <div class="advice-content">
-                        <strong>"${productName}"</strong>
-                        <br><br>
-                        🎯 <strong>تحلیل هزینه‌ها:</strong>
-                        <br>
-                        • مواد اولیه: ${Math.round(materialCostPerUnit).toLocaleString()} تومان
-                        <br>
-                        • هزینه‌های اضافی: ${Math.round(additionalCostPerUnit).toLocaleString()} تومان
-                        <br>
-                        • قیمت تمام شده: ${Math.round(totalCostPerUnit).toLocaleString()} تومان
-                        <br><br>
-                        💰 <strong>پیشنهاد فروش:</strong>
-                        <br>
-                        • قیمت پیشنهادی: ${Math.round(sellingPrice).toLocaleString()} تومان
-                        <br>
-                        • سود هر عدد: ${Math.round(profitPerUnit).toLocaleString()} تومان
-                        <br>
-                        • درصد سود: ${Math.round(profitPercentage)}%
+                        <p>• برای افزایش سود، راه‌های کاهش هزینه‌های تولید را بررسی کنید</p>
+                        <p>• قیمت‌های بازار را برای محصول مشابه بررسی کنید</p>
+                        <p>• در صورت امکان، حجم تولید را افزایش دهید تا هزینه واحد کاهش یابد</p>
                     </div>
-                </div>
-                
-                <div class="chart-container">
-                    <canvas id="productionChart"></canvas>
                 </div>
             `;
             
-            // ایجاد نمودار تولید
-            createProductionChart(materialCostPerUnit, additionalCostPerUnit, totalCostPerUnit, profitPerUnit);
+            // ذخیره داده‌های تولید
+            productionData.products.push({
+                name: productName,
+                materialCost,
+                additionalCosts,
+                quantity,
+                sellingPrice: Math.round(sellingPricePerUnit),
+                profit: Math.round(totalProfit),
+                date: new Date().toLocaleDateString('fa-IR')
+            });
+            
+            showSuccessMessage('محاسبات با موفقیت انجام شد');
         }
 
-        function createProductionChart(materialCost, additionalCost, totalCost, profit) {
-            const ctx = document.getElementById('productionChart').getContext('2d');
+        // افزودن چک
+        function addCheck() {
+            const amount = parseInt(document.getElementById('check-amount').value) || 0;
+            const bank = document.getElementById('check-bank').value || 'نامشخص';
+            const issuer = document.getElementById('check-issuer').value || 'نامشخص';
+            const dueDate = document.getElementById('check-due-date').value;
             
-            new Chart(ctx, {
+            if (amount <= 0 || !dueDate) {
+                alert('لطفاً اطلاعات ضروری را وارد کنید');
+                return;
+            }
+            
+            const check = {
+                id: Date.now(),
+                amount,
+                bank,
+                issuer,
+                dueDate,
+                status: 'active',
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            checksData.push(check);
+            updateChecksDisplay();
+            
+            document.getElementById('check-amount').value = '';
+            document.getElementById('check-bank').value = '';
+            document.getElementById('check-issuer').value = '';
+            document.getElementById('check-due-date').value = '';
+            
+            showSuccessMessage('چک با موفقیت ثبت شد');
+        }
+
+        // به‌روزرسانی نمایش چک‌ها
+        function updateChecksDisplay() {
+            const checksContainer = document.getElementById('checks-list');
+            checksContainer.innerHTML = '';
+            
+            if (checksData.length === 0) {
+                checksContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #7f8c8d;">چکی ثبت نشده است</div>';
+                return;
+            }
+            
+            checksData.forEach(check => {
+                const checkElement = document.createElement('div');
+                checkElement.className = 'transaction-item';
+                checkElement.innerHTML = `
+                    <div class="transaction-details">
+                        <div class="transaction-title">چک ${check.bank} - ${check.issuer}</div>
+                        <div class="transaction-meta">سررسید: ${check.dueDate} - وضعیت: ${check.status === 'active' ? 'فعال' : 'وصول شده'}</div>
+                    </div>
+                    <div class="transaction-amount ${check.status === 'active' ? 'income' : 'expense'}">
+                        ${check.amount.toLocaleString()} تومان
+                    </div>
+                `;
+                checksContainer.appendChild(checkElement);
+            });
+            
+            // به‌روزرسانی آمار حسابداری
+            accountingData.activeChecks = checksData.filter(c => c.status === 'active').length;
+            updateAccountingDisplay();
+        }
+
+        // به‌روزرسانی نمایش حسابداری
+        function updateAccountingDisplay() {
+            document.getElementById('accounting-total-income').textContent = `${financeData.income.toLocaleString()} تومان`;
+            document.getElementById('accounting-total-expense').textContent = `${financeData.expense.toLocaleString()} تومان`;
+            document.getElementById('accounting-net-profit').textContent = `${(financeData.income - financeData.expense).toLocaleString()} تومان`;
+            document.getElementById('accounting-active-checks').textContent = accountingData.activeChecks;
+        }
+
+        // به‌روزرسانی نمودار حسابداری
+        function updateAccountingChart() {
+            const ctx = document.getElementById('accountingChart').getContext('2d');
+            
+            // داده‌های نمودار
+            const incomeData = financeData.income;
+            const expenseData = financeData.expense;
+            const netProfit = incomeData - expenseData;
+            
+            // اگر نمودار قبلی وجود دارد، آن را از بین ببر
+            if (window.accountingChartInstance) {
+                window.accountingChartInstance.destroy();
+            }
+            
+            // اگر داده‌ای وجود ندارد، پیام نشان بده
+            if (incomeData === 0 && expenseData === 0) {
+                document.getElementById('accountingChart').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('accountingChart').style.display = 'block';
+            
+            // ایجاد نمودار جدید
+            window.accountingChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['مواد اولیه', 'هزینه‌های اضافی', 'قیمت تمام شده', 'سود هر عدد'],
+                    labels: ['درآمد', 'هزینه', 'سود خالص'],
                     datasets: [{
                         label: 'مبلغ (تومان)',
-                        data: [materialCost, additionalCost, totalCost, profit],
-                        backgroundColor: [
-                            '#FF6384',
-                            '#36A2EB', 
-                            '#4BC0C0',
-                            '#FFCE56'
-                        ]
+                        data: [incomeData, expenseData, netProfit],
+                        backgroundColor: ['#27ae60', '#e74c3c', '#3498db'],
+                        borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
-                        title: {
-                            display: true,
-                            text: 'تجزیه و تحلیل کامل هزینه‌ها و سود'
+                        legend: {
+                            display: false
                         }
                     },
                     scales: {
@@ -1577,306 +1862,490 @@
             });
         }
 
-        // مدیریت چک‌ها
-        function addCheck() {
-            const amount = parseFloat(document.getElementById('check-amount').value);
-            const bank = document.getElementById('check-bank').value;
-            const issuer = document.getElementById('check-issuer').value;
-            const dueDate = document.getElementById('check-due-date').value;
-
-            if (!amount || !bank || !issuer || !dueDate) {
-                showSuccessMessage('⚠️ لطفاً تمام فیلدهای چک را پر کنید');
-                return;
-            }
-
-            const check = {
-                id: Date.now(),
-                amount,
-                bank,
-                issuer,
-                dueDate,
-                status: 'active'
-            };
-
-            checksData.push(check);
-            localStorage.setItem('checksData', JSON.stringify(checksData));
-
-            showSuccessMessage('✅ چک با موفقیت ثبت شد!');
-            loadChecksData();
-            updateAccountingStats();
-            
-            // پاک کردن فرم
-            document.getElementById('check-amount').value = '';
-            document.getElementById('check-bank').value = '';
-            document.getElementById('check-issuer').value = '';
-        }
-
-        function loadChecksData() {
-            const container = document.getElementById('checks-list');
-            container.innerHTML = '';
-
-            const activeChecks = checksData.filter(check => check.status === 'active');
-            
-            if (activeChecks.length === 0) {
-                container.innerHTML = '<div class="info-message">هیچ چک فعالی ثبت نشده است</div>';
-                return;
-            }
-
-            activeChecks.forEach(check => {
-                const daysUntilDue = Math.ceil((new Date(check.dueDate) - new Date()) / (1000 * 60 * 60 * 24));
-                let statusText = '';
-                let statusColor = '';
-                
-                if (daysUntilDue < 0) {
-                    statusText = 'معوق';
-                    statusColor = '#e74c3c';
-                } else if (daysUntilDue === 0) {
-                    statusText = 'امروز';
-                    statusColor = '#f39c12';
-                } else if (daysUntilDue === 1) {
-                    statusText = 'فردا';
-                    statusColor = '#f39c12';
-                } else if (daysUntilDue <= 7) {
-                    statusText = `${daysUntilDue} روز دیگر`;
-                    statusColor = '#f39c12';
-                } else {
-                    statusText = `${daysUntilDue} روز دیگر`;
-                    statusColor = '#27ae60';
-                }
-
-                const checkElement = document.createElement('div');
-                checkElement.className = 'production-result';
-                checkElement.innerHTML = `
-                    <div class="production-title">چک بانک ${check.bank}</div>
-                    <div class="cost-breakdown">
-                        <div class="cost-item">
-                            <span class="cost-label">مبلغ:</span>
-                            <span class="cost-value">${check.amount.toLocaleString()} تومان</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="cost-label">صادر کننده:</span>
-                            <span class="cost-value">${check.issuer}</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="cost-label">تاریخ سررسید:</span>
-                            <span class="cost-value">${new Date(check.dueDate).toLocaleDateString('fa-IR')}</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="cost-label">وضعیت:</span>
-                            <span class="cost-value" style="color: ${statusColor}">${statusText}</span>
-                        </div>
-                    </div>
-                    <div style="margin-top: 12px; display: flex; gap: 8px;">
-                        <button class="add-cost-btn" style="background: #27ae60;" onclick="markCheckPaid(${check.id})">
-                            ✅ وصول شده
-                        </button>
-                        <button class="add-cost-btn" style="background: #e74c3c;" onclick="deleteCheck(${check.id})">
-                            ❌ حذف
-                        </button>
-                    </div>
-                `;
-                container.appendChild(checkElement);
-            });
-        }
-
-        function markCheckPaid(checkId) {
-            if (confirm('آیا این چک وصول شده است؟')) {
-                const checkIndex = checksData.findIndex(check => check.id === checkId);
-                if (checkIndex !== -1) {
-                    checksData[checkIndex].status = 'paid';
-                    localStorage.setItem('checksData', JSON.stringify(checksData));
-                    showSuccessMessage('✅ وضعیت چک به "وصول شده" تغییر یافت');
-                    loadChecksData();
-                    updateAccountingStats();
-                }
-            }
-        }
-
-        function deleteCheck(checkId) {
-            if (confirm('آیا از حذف این چک اطمینان دارید؟')) {
-                checksData = checksData.filter(check => check.id !== checkId);
-                localStorage.setItem('checksData', JSON.stringify(checksData));
-                showSuccessMessage('✅ چک با موفقیت حذف شد');
-                loadChecksData();
-                updateAccountingStats();
-            }
-        }
-
-        // بخش حسابداری
-        function loadAccountingData() {
-            updateAccountingStats();
-            createAccountingChart();
-        }
-
-        function updateAccountingStats() {
-            const totalIncome = financeData.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
-            const totalExpense = financeData.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
-            const netProfit = totalIncome - totalExpense;
-            const activeChecks = checksData.filter(check => check.status === 'active').length;
-
-            document.getElementById('accounting-total-income').textContent = totalIncome.toLocaleString() + ' تومان';
-            document.getElementById('accounting-total-expense').textContent = totalExpense.toLocaleString() + ' تومان';
-            document.getElementById('accounting-net-profit').textContent = netProfit.toLocaleString() + ' تومان';
-            document.getElementById('accounting-net-profit').style.color = netProfit >= 0 ? 'var(--primary)' : 'var(--danger)';
-            document.getElementById('accounting-active-checks').textContent = activeChecks;
-        }
-
-        function createAccountingChart() {
-            const ctx = document.getElementById('accountingChart').getContext('2d');
-            
-            // گروه‌بندی بر اساس ماه
-            const monthlyData = {};
-            financeData.forEach(transaction => {
-                const date = new Date(transaction.timestamp);
-                const monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
-                
-                if (!monthlyData[monthYear]) {
-                    monthlyData[monthYear] = { income: 0, expense: 0 };
-                }
-                
-                if (transaction.type === 'income') {
-                    monthlyData[monthYear].income += transaction.amount;
-                } else {
-                    monthlyData[monthYear].expense += transaction.amount;
-                }
-            });
-
-            const labels = Object.keys(monthlyData).sort();
-            const incomeData = labels.map(label => monthlyData[label].income);
-            const expenseData = labels.map(label => monthlyData[label].expense);
-
-            if (incomeData.length === 0 && expenseData.length === 0) {
-                document.getElementById('accountingChart').style.display = 'none';
-                return;
-            }
-
-            document.getElementById('accountingChart').style.display = 'block';
-            
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'درآمد',
-                            data: incomeData,
-                            backgroundColor: 'rgba(39, 174, 96, 0.7)',
-                            borderColor: 'rgba(39, 174, 96, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'هزینه',
-                            data: expenseData,
-                            backgroundColor: 'rgba(231, 76, 60, 0.7)',
-                            borderColor: 'rgba(231, 76, 60, 1)',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString() + ' تومان';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // توابع منو
+        // تولید گزارش مالی
         function generateFinancialReport() {
-            const totalIncome = financeData.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
-            const totalExpense = financeData.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
-            const netProfit = totalIncome - totalExpense;
-            const activeChecks = checksData.filter(check => check.status === 'active');
-            const totalChecksAmount = activeChecks.reduce((sum, check) => sum + check.amount, 0);
-            const productionCount = productionData.length;
-            
             const report = `
-📊 **گزارش مالی کامل**
-تاریخ: ${new Date().toLocaleDateString('fa-IR')}
-
-💰 **وضعیت مالی:**
-• کل درآمد: ${totalIncome.toLocaleString()} تومان
-• کل هزینه: ${totalExpense.toLocaleString()} تومان
-• سود خالص: ${netProfit.toLocaleString()} تومان
-
-🏦 **وضعیت چک‌ها:**
-• تعداد چک‌های فعال: ${activeChecks.length} چک
-• مجموع مبلغ چک‌ها: ${totalChecksAmount.toLocaleString()} تومان
-
-📈 **آمار کلی:**
-• تعداد تراکنش‌ها: ${financeData.length} تراکنش
-• تعداد محاسبات تولید: ${productionCount} محاسبه
-
-${netProfit > 0 ? '✅ وضعیت مالی شما عالی است!' : '⚠️ نیاز به بازبینی مالی دارید'}
-            `.trim();
+                گزارش مالی کامل - ${getCurrentPersianDate()}
+                
+                📊 خلاصه عملکرد:
+                • کل درآمد: ${financeData.income.toLocaleString()} تومان
+                • کل هزینه: ${financeData.expense.toLocaleString()} تومان
+                • سود خالص: ${(financeData.income - financeData.expense).toLocaleString()} تومان
+                • تعداد چک‌های فعال: ${accountingData.activeChecks}
+                
+                💼 تراکنش‌ها:
+                ${financeData.transactions.length > 0 ? 
+                    financeData.transactions.map(t => 
+                        `• ${t.date} - ${t.description} - ${t.type === 'income' ? '+' : '-'}${t.amount.toLocaleString()} تومان`
+                    ).join('\n') 
+                    : '• هیچ تراکنشی ثبت نشده است'
+                }
+                
+                🏭 محصولات تولیدی:
+                ${productionData.products.length > 0 ? 
+                    productionData.products.map(p => 
+                        `• ${p.name} - قیمت فروش: ${p.sellingPrice.toLocaleString()} تومان - سود: ${p.profit.toLocaleString()} تومان`
+                    ).join('\n') 
+                    : '• هیچ محصولی ثبت نشده است'
+                }
+            `;
             
             alert(report);
-            showSuccessMessage('✅ گزارش مالی تولید شد!');
+            showSuccessMessage('گزارش مالی ایجاد شد');
         }
 
+        // نمایش نکات مالی
         function showFinancialTips() {
             const tips = [
-                "💡 همیشه ۲۰٪ از درآمد خود را پس‌انداز کنید",
-                "📈 ۳۰٪ از درآمد را سرمایه‌گذاری نمایید",
-                "💰 هزینه‌های غیرضروری را شناسایی و حذف کنید",
-                "🎯 برای کسب و کار خود اهداف مالی مشخص تعیین کنید",
-                "📊 ماهانه گزارش مالی تهیه و تحلیل کنید",
-                "🏦 چک‌های خود را به موقع پیگیری کنید",
-                "💳 از تاریخ سررسید چک‌ها غافل نشوید",
-                "🔍 قیمت تمام شده محصولات را دقیق محاسبه کنید",
-                "📱 از نرم‌افزارهای مالی برای مدیریت استفاده کنید",
-                "🎪 برای تفریح و سرگرمی هم بودجه در نظر بگیرید"
+                "💡 همیشه 10-20% از درآمد خود را پس‌انداز کنید",
+                "💡 هزینه‌های خود را به طور منظم بررسی و تحلیل کنید",
+                "💡 برای سرمایه‌گذاری‌های بزرگ تحقیق کنید",
+                "💡 از وام‌های با بهره بالا خودداری کنید",
+                "💡 برای دوران بازنشستگی برنامه‌ریزی کنید",
+                "💡 بیمه مناسب برای دارایی‌های خود تهیه کنید",
+                "💡 صورت‌های مالی خود را به طور منظم بررسی کنید"
             ];
             
-            const randomTip = tips[Math.floor(Math.random() * tips.length)];
-            alert(randomTip);
-            showSuccessMessage('💡 نکته مالی جدید دریافت کردید!');
+            alert("نکات مالی مهم:\n\n" + tips.join('\n'));
         }
 
+        // نمایش پیام موفقیت
         function showSuccessMessage(message) {
+            // حذف پیام قبلی اگر وجود دارد
             const existingMessage = document.querySelector('.success-message');
             if (existingMessage) {
                 existingMessage.remove();
             }
             
-            const successMsg = document.createElement('div');
-            successMsg.className = 'success-message';
-            successMsg.textContent = message;
+            // ایجاد پیام جدید
+            const messageElement = document.createElement('div');
+            messageElement.className = 'success-message';
+            messageElement.textContent = message;
             
-            document.querySelector('.main-content').prepend(successMsg);
+            // اضافه کردن پیام به بالای محتوا
+            const mainContent = document.querySelector('.main-content');
+            mainContent.prepend(messageElement);
             
+            // حذف خودکار پیام بعد از 3 ثانیه
             setTimeout(() => {
-                successMsg.remove();
-            }, 4000);
+                messageElement.remove();
+            }, 3000);
         }
 
-        // بارگذاری اولیه
-        document.addEventListener('DOMContentLoaded', function() {
-            // تنظیم تاریخ پیش‌فرض برای چک (فردا)
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            document.getElementById('check-due-date').value = tomorrow.toISOString().split('T')[0];
+        // افزودن کارمند
+        function addEmployee() {
+            const name = document.getElementById('employee-name').value;
+            const position = document.getElementById('employee-position').value;
+            const salary = parseInt(document.getElementById('employee-salary').value) || 0;
+            const startDate = document.getElementById('employee-start-date').value;
+            const performance = parseInt(document.getElementById('employee-performance').value) || 0;
             
-            initializeSampleData();
-            addCostField();
+            if (!name || !position || salary <= 0 || !startDate) {
+                alert('لطفاً اطلاعات ضروری را وارد کنید');
+                return;
+            }
             
-            // نمایش پیام خوش‌آمدگویی
-            setTimeout(() => {
-                showSuccessMessage('🚀 سیستم مالی فوق قدرتمند فعال شد!');
-            }, 1000);
-        });
+            const employee = {
+                id: Date.now(),
+                name,
+                position,
+                salary,
+                startDate,
+                performance,
+                status: 'active'
+            };
+            
+            employeesData.push(employee);
+            updateEmployeesDisplay();
+            
+            // پاک کردن فرم
+            document.getElementById('employee-name').value = '';
+            document.getElementById('employee-position').value = '';
+            document.getElementById('employee-salary').value = '';
+            document.getElementById('employee-start-date').value = '';
+            document.getElementById('employee-performance').value = '';
+            
+            showSuccessMessage('کارمند با موفقیت اضافه شد');
+        }
 
-        // جلوگیری از بسته شدن منو هنگام کلیک روی آن
-        document.querySelector('.side-menu').addEventListener('click', function(event) {
-            event.stopPropagation();
+        // به‌روزرسانی نمایش کارمندان
+        function updateEmployeesDisplay() {
+            const employeesContainer = document.getElementById('employees-list');
+            employeesContainer.innerHTML = '';
+            
+            if (employeesData.length === 0) {
+                employeesContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #7f8c8d;">هیچ کارمندی ثبت نشده است</div>';
+                return;
+            }
+            
+            employeesData.forEach(employee => {
+                const employeeElement = document.createElement('div');
+                employeeElement.className = 'employee-item';
+                employeeElement.innerHTML = `
+                    <div class="employee-header">
+                        <div class="employee-name">${employee.name}</div>
+                        <div class="employee-salary">${employee.salary.toLocaleString()} تومان</div>
+                    </div>
+                    <div class="employee-details">
+                        <div>سمت: ${employee.position}</div>
+                        <div>تاریخ شروع: ${employee.startDate}</div>
+                        <div>عملکرد: ${employee.performance}/10</div>
+                    </div>
+                    <div class="employee-controls">
+                        <button class="asset-control-btn" onclick="editEmployee(${employee.id})">✏️ ویرایش</button>
+                        <button class="asset-control-btn danger" onclick="removeEmployee(${employee.id})">🗑️ حذف</button>
+                    </div>
+                `;
+                employeesContainer.appendChild(employeeElement);
+            });
+        }
+
+        // حذف کارمند
+        function removeEmployee(id) {
+            if (confirm('آیا از حذف این کارمند اطمینان دارید؟')) {
+                employeesData = employeesData.filter(employee => employee.id !== id);
+                updateEmployeesDisplay();
+                showSuccessMessage('کارمند با موفقیت حذف شد');
+            }
+        }
+
+        // ویرایش کارمند
+        function editEmployee(id) {
+            const employee = employeesData.find(emp => emp.id === id);
+            if (employee) {
+                document.getElementById('employee-name').value = employee.name;
+                document.getElementById('employee-position').value = employee.position;
+                document.getElementById('employee-salary').value = employee.salary;
+                document.getElementById('employee-start-date').value = employee.startDate;
+                document.getElementById('employee-performance').value = employee.performance;
+                
+                // حذف کارمند قدیمی
+                employeesData = employeesData.filter(emp => emp.id !== id);
+                updateEmployeesDisplay();
+                
+                showSuccessMessage('اطلاعات کارمند برای ویرایش بارگذاری شد');
+            }
+        }
+
+        // افزودن دارایی
+        function addAsset() {
+            const name = document.getElementById('asset-name').value;
+            const value = parseInt(document.getElementById('asset-value').value) || 0;
+            const quantity = parseInt(document.getElementById('asset-quantity').value) || 1;
+            const description = document.getElementById('asset-description').value || 'بدون توضیح';
+            
+            if (!name || value <= 0) {
+                alert('لطفاً اطلاعات ضروری را وارد کنید');
+                return;
+            }
+            
+            const asset = {
+                id: Date.now(),
+                name,
+                value,
+                quantity,
+                description,
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            assetsData.push(asset);
+            updateAssetsDisplay();
+            
+            // پاک کردن فرم
+            document.getElementById('asset-name').value = '';
+            document.getElementById('asset-value').value = '';
+            document.getElementById('asset-quantity').value = '1';
+            document.getElementById('asset-description').value = '';
+            
+            showSuccessMessage('دارایی با موفقیت اضافه شد');
+        }
+
+        // به‌روزرسانی نمایش دارایی‌ها
+        function updateAssetsDisplay() {
+            const assetsContainer = document.getElementById('assets-list');
+            assetsContainer.innerHTML = '';
+            
+            if (assetsData.length === 0) {
+                assetsContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #7f8c8d;">هیچ دارایی ثبت نشده است</div>';
+                return;
+            }
+            
+            let totalValue = 0;
+            
+            assetsData.forEach(asset => {
+                const assetValue = asset.value * asset.quantity;
+                totalValue += assetValue;
+                
+                const assetElement = document.createElement('div');
+                assetElement.className = 'asset-item';
+                assetElement.innerHTML = `
+                    <div class="transaction-details">
+                        <div class="transaction-title">${asset.name}</div>
+                        <div class="transaction-meta">${asset.description} - ${asset.date}</div>
+                    </div>
+                    <div class="transaction-amount income">
+                        ${assetValue.toLocaleString()} تومان
+                    </div>
+                    <div class="asset-controls">
+                        <button class="asset-control-btn" onclick="editAsset(${asset.id})">✏️</button>
+                        <button class="asset-control-btn danger" onclick="removeAsset(${asset.id})">🗑️</button>
+                    </div>
+                `;
+                assetsContainer.appendChild(assetElement);
+            });
+            
+            // به‌روزرسانی کل دارایی‌ها
+            document.getElementById('total-assets').innerHTML = `
+                <div class="profit-title">💰 کل دارایی‌های شما</div>
+                <div class="profit-amount">${totalValue.toLocaleString()} تومان</div>
+            `;
+        }
+
+        // حذف دارایی
+        function removeAsset(id) {
+            if (confirm('آیا از حذف این دارایی اطمینان دارید؟')) {
+                assetsData = assetsData.filter(asset => asset.id !== id);
+                updateAssetsDisplay();
+                showSuccessMessage('دارایی با موفقیت حذف شد');
+            }
+        }
+
+        // ویرایش دارایی
+        function editAsset(id) {
+            const asset = assetsData.find(a => a.id === id);
+            if (asset) {
+                document.getElementById('asset-name').value = asset.name;
+                document.getElementById('asset-value').value = asset.value;
+                document.getElementById('asset-quantity').value = asset.quantity;
+                document.getElementById('asset-description').value = asset.description;
+                
+                // حذف دارایی قدیمی
+                assetsData = assetsData.filter(a => a.id !== id);
+                updateAssetsDisplay();
+                
+                showSuccessMessage('اطلاعات دارایی برای ویرایش بارگذاری شد');
+            }
+        }
+
+        // افزودن کالا به فاکتور
+        function addInvoiceItem() {
+            const itemsContainer = document.getElementById('invoice-items');
+            const itemRow = document.createElement('div');
+            itemRow.className = 'invoice-item-row';
+            itemRow.innerHTML = `
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <input type="text" placeholder="نام کالا" class="item-name">
+                    <input type="number" placeholder="تعداد" class="item-quantity" style="width: 80px;">
+                    <input type="number" placeholder="قیمت واحد" class="item-price" style="width: 120px;">
+                    <button type="button" class="add-cost-btn danger" onclick="removeInvoiceItem(this)">✕</button>
+                </div>
+            `;
+            itemsContainer.appendChild(itemRow);
+        }
+
+        // حذف کالا از فاکتور
+        function removeInvoiceItem(button) {
+            button.closest('.invoice-item-row').remove();
+        }
+
+        // پاک کردن امضا
+        function clearSignature() {
+            if (signaturePad) {
+                signaturePad.clear();
+            }
+        }
+
+        // ایجاد فاکتور
+        function generateInvoice() {
+            const type = document.getElementById('invoice-type').value;
+            const seller = document.getElementById('invoice-seller').value;
+            const buyer = document.getElementById('invoice-buyer').value;
+            const date = document.getElementById('invoice-date').value || new Date().toISOString().split('T')[0];
+            const notes = document.getElementById('invoice-notes').value;
+            
+            if (!seller || !buyer) {
+                alert('لطفاً اطلاعات فروشنده و خریدار را وارد کنید');
+                return;
+            }
+            
+            // جمع‌آوری اقلام فاکتور
+            const items = [];
+            let total = 0;
+            
+            document.querySelectorAll('.invoice-item-row').forEach(row => {
+                const name = row.querySelector('.item-name').value;
+                const quantity = parseInt(row.querySelector('.item-quantity').value) || 0;
+                const price = parseInt(row.querySelector('.item-price').value) || 0;
+                
+                if (name && quantity > 0 && price > 0) {
+                    const itemTotal = quantity * price;
+                    total += itemTotal;
+                    
+                    items.push({
+                        name,
+                        quantity,
+                        price,
+                        total: itemTotal
+                    });
+                }
+            });
+            
+            if (items.length === 0) {
+                alert('لطفاً حداقل یک کالا به فاکتور اضافه کنید');
+                return;
+            }
+            
+            // ایجاد پیش‌نمایش فاکتور
+            const previewContainer = document.getElementById('invoice-preview');
+            previewContainer.style.display = 'block';
+            
+            previewContainer.innerHTML = `
+                <div class="invoice-header">
+                    <h2>فاکتور ${type === 'sale' ? 'فروش' : 'خرید'}</h2>
+                    <p>شماره: ${Date.now()}</p>
+                    <p>تاریخ: ${date}</p>
+                </div>
+                
+                <div class="invoice-details">
+                    <div>
+                        <strong>فروشنده:</strong> ${seller}
+                    </div>
+                    <div>
+                        <strong>خریدار:</strong> ${buyer}
+                    </div>
+                </div>
+                
+                <table class="invoice-items">
+                    <thead>
+                        <tr>
+                            <th>ردیف</th>
+                            <th>نام کالا</th>
+                            <th>تعداد</th>
+                            <th>قیمت واحد (تومان)</th>
+                            <th>جمع (تومان)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${items.map((item, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${item.name}</td>
+                                <td>${item.quantity}</td>
+                                <td>${item.price.toLocaleString()}</td>
+                                <td>${item.total.toLocaleString()}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                
+                <div class="invoice-total">
+                    <strong>مبلغ کل فاکتور: ${total.toLocaleString()} تومان</strong>
+                </div>
+                
+                ${notes ? `<div style="margin-top: 15px;"><strong>توضیحات:</strong> ${notes}</div>` : ''}
+                
+                <div class="invoice-signatures">
+                    <div class="signature-box">
+                        <div>امضا فروشنده</div>
+                        <div class="signature-line"></div>
+                    </div>
+                    <div class="signature-box">
+                        <div>امضا خریدار</div>
+                        <div class="signature-line"></div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn" onclick="downloadInvoice()">
+                        <span>📥</span> دانلود فاکتور
+                    </button>
+                </div>
+            `;
+            
+            // ذخیره فاکتور
+            const invoice = {
+                id: Date.now(),
+                type,
+                seller,
+                buyer,
+                date,
+                items,
+                total,
+                notes,
+                signature: signaturePad ? signaturePad.toDataURL() : null
+            };
+            
+            invoicesData.push(invoice);
+            
+            showSuccessMessage('فاکتور با موفقیت ایجاد شد');
+        }
+
+        // دانلود فاکتور
+        function downloadInvoice() {
+            alert('عملکرد دانلود فاکتور در این نسخه دمو فعال است. در نسخه کامل، فاکتور به صورت PDF دانلود خواهد شد.');
+            showSuccessMessage('فاکتور آماده دانلود است');
+        }
+
+        // کپی شماره کارت
+        function copyCardNumber() {
+            const cardNumber = '6219861099545032';
+            navigator.clipboard.writeText(cardNumber)
+                .then(() => {
+                    showSuccessMessage('شماره کارت کپی شد');
+                })
+                .catch(err => {
+                    alert('خطا در کپی کردن شماره کارت');
+                });
+        }
+
+        // ثبت حمایت مالی
+        function submitDonation() {
+            const amount = parseInt(document.getElementById('donation-amount').value) || 0;
+            const message = document.getElementById('donation-message').value;
+            
+            if (amount <= 0) {
+                alert('لطفاً مبلغ معتبر وارد کنید');
+                return;
+            }
+            
+            // در اینجا معمولاً اطلاعات به سرور ارسال می‌شود
+            // در این نسخه دمو فقط پیام نمایش داده می‌شود
+            
+            const thankYouMessage = `
+                🙏 با تشکر از حمایت شما!
+                
+                مبلغ حمایت: ${amount.toLocaleString()} تومان
+                ${message ? `پیام شما: ${message}` : ''}
+                
+                شماره کارت برای واریز:
+                ۶۲۱۹ - ۸۶۱۰ - ۹۹۵۴ - ۵۰۳۲
+                
+                پس از واریز، رسید را برای ما ارسال کنید.
+            `;
+            
+            alert(thankYouMessage);
+            
+            // پاک کردن فرم
+            document.getElementById('donation-amount').value = '';
+            document.getElementById('donation-message').value = '';
+            
+            showSuccessMessage('اطلاعات حمایت مالی ثبت شد');
+        }
+
+        // مقداردهی اولیه هنگام بارگذاری صفحه
+        document.addEventListener('DOMContentLoaded', function() {
+            // تنظیم تاریخ امروز به صورت پیش‌فرض
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('invoice-date').value = today;
+            document.getElementById('employee-start-date').value = today;
+            document.getElementById('check-due-date').value = today;
+            
+            // به‌روزرسانی نمایش‌ها
+            updateFinanceDisplay();
+            updateChecksDisplay();
+            updateEmployeesDisplay();
+            updateAssetsDisplay();
+            updateAccountingDisplay();
         });
     </script>
 </body>
