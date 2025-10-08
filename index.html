@@ -6,6 +6,8 @@
     <title>🚀 سیستم حساب داری</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --primary: #27ae60;
@@ -131,7 +133,7 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            width: 220px;
+            width: 280px;
             z-index: 1001;
             display: none;
             overflow: hidden;
@@ -329,6 +331,11 @@
         .btn-danger {
             background: linear-gradient(135deg, var(--danger), #c0392b);
             box-shadow: 0 3px 12px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-teal {
+            background: linear-gradient(135deg, var(--teal), #16a085);
+            box-shadow: 0 3px 12px rgba(26, 188, 156, 0.4);
         }
 
         .success-message {
@@ -919,6 +926,18 @@
                     <div class="dropdown-item" onclick="showSection('assets')">
                         <span>💰</span> گاو صندوق / دارایی
                     </div>
+                    <div class="dropdown-item" onclick="showSection('tax')">
+                        <span>🧮</span> محاسبه مالیات
+                    </div>
+                    <div class="dropdown-item" onclick="showSection('budget')">
+                        <span>📅</span> بودجه‌بندی
+                    </div>
+                    <div class="dropdown-item" onclick="showSection('reports')">
+                        <span>📊</span> گزارش‌های پیشرفته
+                    </div>
+                    <div class="dropdown-item" onclick="showSection('reminders')">
+                        <span>⏰</span> یادآوری‌ها
+                    </div>
                     <div class="dropdown-item" onclick="showSection('help')">
                         <span>❓</span> راهنمایی استفاده
                     </div>
@@ -928,7 +947,7 @@
                 </div>
                 <a href="mk.html" class="notification-bell">
                     <div class="notification-dot"></div>
-                    🔔اطلاعیه
+                    🔔
                 </a>
             </div>
         </div>
@@ -936,16 +955,16 @@
         <!-- اسلایدر رسانه -->
         <div class="media-slider">
             <div class="media-item">
-                <img src="m1.webp" alt="تصویر تبلیغاتی" onerror="this.style.display='none'">
+                <img src="m.jpg" alt="تصویر تبلیغاتی" onerror="this.style.display='none'">
             </div>
             <div class="media-item">
                 <video muted onloadedmetadata="this.muted=true" onerror="this.style.display='none'">
-                    <source src="a.mp4" type="video/mp4">
+                    <source src="ad.mp4" type="video/mp4">
                     مرورگر شما از ویدیو پشتیبانی نمی‌کند
                 </video>
             </div>
             <div class="media-item">
-                <img src="b.jpg" alt="بنر تبلیغاتی" onerror="this.style.display='none'">
+                <img src="banner.jpg" alt="بنر تبلیغاتی" onerror="this.style.display='none'">
             </div>
         </div>
 
@@ -1285,6 +1304,179 @@
                 </div>
             </div>
 
+            <!-- بخش محاسبه مالیات -->
+            <div id="tax" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">🧮 محاسبه مالیات</h2>
+                    
+                    <div class="form-group">
+                        <label for="tax-income">درآمد سالانه (تومان):</label>
+                        <input type="number" id="tax-income" placeholder="درآمد سالانه خود را وارد کنید">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tax-deductions">کسورات قانونی (تومان):</label>
+                        <input type="number" id="tax-deductions" placeholder="مبلغ کسورات قانونی">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tax-type">نوع فعالیت:</label>
+                        <select id="tax-type">
+                            <option value="individual">فردی</option>
+                            <option value="company">شرکتی</option>
+                            <option value="freelance">آزاد</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-teal" onclick="calculateTax()">
+                        <span>🧮</span> محاسبه مالیات
+                    </button>
+                </div>
+
+                <div id="tax-result">
+                    <!-- نتایج محاسبه مالیات اینجا نمایش داده می‌شوند -->
+                </div>
+            </div>
+
+            <!-- بخش بودجه‌بندی -->
+            <div id="budget" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">📅 بودجه‌بندی ماهانه</h2>
+                    
+                    <div class="form-group">
+                        <label for="budget-month">ماه:</label>
+                        <select id="budget-month">
+                            <option value="1">فروردین</option>
+                            <option value="2">اردیبهشت</option>
+                            <option value="3">خرداد</option>
+                            <option value="4">تیر</option>
+                            <option value="5">مرداد</option>
+                            <option value="6">شهریور</option>
+                            <option value="7">مهر</option>
+                            <option value="8">آبان</option>
+                            <option value="9">آذر</option>
+                            <option value="10">دی</option>
+                            <option value="11">بهمن</option>
+                            <option value="12">اسفند</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budget-year">سال:</label>
+                        <input type="number" id="budget-year" placeholder="۱۴۰۳" value="1403">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budget-income">درآمد پیش‌بینی شده (تومان):</label>
+                        <input type="number" id="budget-income" placeholder="درآمد ماهانه">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budget-expenses">هزینه‌های پیش‌بینی شده (تومان):</label>
+                        <input type="number" id="budget-expenses" placeholder="هزینه‌های ماهانه">
+                    </div>
+
+                    <button class="btn btn-teal" onclick="createBudget()">
+                        <span>💾</span> ثبت بودجه
+                    </button>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="form-title">📊 بودجه‌های ثبت شده</h2>
+                    <div id="budget-list">
+                        <!-- لیست بودجه‌ها اینجا نمایش داده می‌شود -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش گزارش‌های پیشرفته -->
+            <div id="reports" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">📊 گزارش‌های پیشرفته</h2>
+                    
+                    <div class="form-group">
+                        <label for="report-type">نوع گزارش:</label>
+                        <select id="report-type">
+                            <option value="financial">گزارش مالی جامع</option>
+                            <option value="tax">گزارش مالیاتی</option>
+                            <option value="performance">گزارش عملکرد</option>
+                            <option value="inventory">گزارش موجودی</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="report-period">بازه زمانی:</label>
+                        <select id="report-period">
+                            <option value="monthly">ماهانه</option>
+                            <option value="quarterly">سه‌ماهه</option>
+                            <option value="yearly">سالانه</option>
+                            <option value="custom">سفارشی</option>
+                        </select>
+                    </div>
+
+                    <div id="custom-date-range" style="display: none;">
+                        <div class="form-group">
+                            <label for="report-start-date">تاریخ شروع:</label>
+                            <input type="date" id="report-start-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="report-end-date">تاریخ پایان:</label>
+                            <input type="date" id="report-end-date">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-purple" onclick="generateAdvancedReport()">
+                        <span>📈</span> ایجاد گزارش
+                    </button>
+                </div>
+
+                <div id="advanced-report-result">
+                    <!-- نتایج گزارش پیشرفته اینجا نمایش داده می‌شوند -->
+                </div>
+            </div>
+
+            <!-- بخش یادآوری‌ها -->
+            <div id="reminders" class="section">
+                <div class="form-container">
+                    <h2 class="form-title">⏰ سیستم یادآوری</h2>
+                    
+                    <div class="form-group">
+                        <label for="reminder-title">عنوان یادآوری:</label>
+                        <input type="text" id="reminder-title" placeholder="عنوان یادآوری">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reminder-description">توضیحات:</label>
+                        <textarea id="reminder-description" rows="3" placeholder="توضیحات یادآوری"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reminder-date">تاریخ یادآوری:</label>
+                        <input type="datetime-local" id="reminder-date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reminder-priority">اولویت:</label>
+                        <select id="reminder-priority">
+                            <option value="low">کم</option>
+                            <option value="medium">متوسط</option>
+                            <option value="high">بالا</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-warning" onclick="addReminder()">
+                        <span>➕</span> افزودن یادآوری
+                    </button>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="form-title">📋 یادآوری‌های فعال</h2>
+                    <div id="reminders-list">
+                        <!-- لیست یادآوری‌ها اینجا نمایش داده می‌شود -->
+                    </div>
+                </div>
+            </div>
+
             <!-- بخش راهنمایی استفاده -->
             <div id="help" class="section">
                 <div class="form-container">
@@ -1306,6 +1498,10 @@
                                 <li><strong>مدیریت کارمندان:</strong> ثبت اطلاعات و حقوق پرسنل</li>
                                 <li><strong>ایجاد فاکتور:</strong> صدور فاکتورهای فروش و خرید</li>
                                 <li><strong>مدیریت دارایی:</strong> ثبت و پیگیری دارایی‌های شما</li>
+                                <li><strong>محاسبه مالیات:</strong> محاسبه مالیات بر درآمد</li>
+                                <li><strong>بودجه‌بندی:</strong> برنامه‌ریزی مالی ماهانه</li>
+                                <li><strong>گزارش‌های پیشرفته:</strong> تحلیل‌های مالی دقیق</li>
+                                <li><strong>یادآوری‌ها:</strong> مدیریت زمان و وظایف</li>
                             </ul>
                         </div>
 
@@ -1343,7 +1539,7 @@
                     <div class="form-group">
                         <label>شماره کارت برای حمایت مالی:</label>
                         <div class="card-number" onclick="copyCardNumber()">
-                            5892101187322777
+                            ۶۲۱۹ - ۸۶۱۰ - ۹۹۵۴ - ۵۰۳۲
                         </div>
                         <div style="text-align: center; font-size: 0.8em; color: #7f8c8d; margin-top: 5px;">
                             برای کپی کردن کلیک کنید
@@ -1420,6 +1616,9 @@
         let employeesData = [];
         let assetsData = [];
         let invoicesData = [];
+        let taxData = [];
+        let budgetData = [];
+        let remindersData = [];
 
         // امضای دیجیتال
         let signaturePad = null;
@@ -1469,6 +1668,14 @@
             // اگر بخش حسابداری است، نمودار حسابداری را به‌روزرسانی کن
             if (sectionId === 'accounting') {
                 updateAccountingChart();
+            }
+            
+            // اگر بخش گزارش‌ها است، بازه زمانی سفارشی را مدیریت کن
+            if (sectionId === 'reports') {
+                document.getElementById('report-period').addEventListener('change', function() {
+                    const customRange = document.getElementById('custom-date-range');
+                    customRange.style.display = this.value === 'custom' ? 'block' : 'none';
+                });
             }
         }
 
@@ -2256,8 +2463,8 @@
                 </div>
                 
                 <div style="margin-top: 20px; text-align: center;">
-                    <button class="btn" onclick="downloadInvoice()">
-                        <span>📥</span> دانلود فاکتور
+                    <button class="btn" onclick="downloadInvoiceAsPDF()">
+                        <span>📥</span> دانلود فاکتور (PDF)
                     </button>
                 </div>
             `;
@@ -2280,15 +2487,477 @@
             showSuccessMessage('فاکتور با موفقیت ایجاد شد');
         }
 
-        // دانلود فاکتور
-        function downloadInvoice() {
-            alert('عملکرد دانلود فاکتور در این نسخه دمو فعال است. در نسخه کامل، فاکتور به صورت PDF دانلود خواهد شد.');
-            showSuccessMessage('فاکتور آماده دانلود است');
+        // دانلود فاکتور به صورت PDF
+        function downloadInvoiceAsPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // محتوای فاکتور
+            const invoiceContent = document.getElementById('invoice-preview');
+            
+            // استفاده از html2canvas برای گرفتن اسکرین‌شات از فاکتور
+            html2canvas(invoiceContent).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const pageHeight = 290;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                
+                let position = 10;
+                
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // ذخیره فایل
+                doc.save(`فاکتور_${Date.now()}.pdf`);
+                showSuccessMessage('فاکتور با موفقیت دانلود شد');
+            });
+        }
+
+        // محاسبه مالیات
+        function calculateTax() {
+            const income = parseInt(document.getElementById('tax-income').value) || 0;
+            const deductions = parseInt(document.getElementById('tax-deductions').value) || 0;
+            const type = document.getElementById('tax-type').value;
+            
+            if (income <= 0) {
+                alert('لطفاً درآمد معتبر وارد کنید');
+                return;
+            }
+            
+            // محاسبه مالیات بر اساس نوع فعالیت
+            let taxRate = 0;
+            let taxAmount = 0;
+            
+            switch(type) {
+                case 'individual':
+                    // نرخ مالیات برای افراد
+                    if (income <= 56000000) {
+                        taxRate = 0;
+                    } else if (income <= 150000000) {
+                        taxRate = 10;
+                    } else if (income <= 250000000) {
+                        taxRate = 15;
+                    } else if (income <= 350000000) {
+                        taxRate = 20;
+                    } else {
+                        taxRate = 25;
+                    }
+                    break;
+                    
+                case 'company':
+                    // نرخ مالیات برای شرکت‌ها
+                    taxRate = 25;
+                    break;
+                    
+                case 'freelance':
+                    // نرخ مالیات برای فعالیت آزاد
+                    taxRate = 15;
+                    break;
+            }
+            
+            // محاسبه مبلغ مالیات
+            const taxableIncome = Math.max(0, income - deductions);
+            taxAmount = (taxableIncome * taxRate) / 100;
+            
+            // نمایش نتایج
+            const resultContainer = document.getElementById('tax-result');
+            resultContainer.innerHTML = `
+                <div class="production-result">
+                    <div class="production-title">🧮 نتایج محاسبه مالیات</div>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span class="cost-label">درآمد سالانه:</span>
+                            <span class="cost-value">${income.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">کسورات قانونی:</span>
+                            <span class="cost-value">${deductions.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">درآمد مشمول مالیات:</span>
+                            <span class="cost-value">${taxableIncome.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">نرخ مالیات:</span>
+                            <span class="cost-value">${taxRate}%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="final-price-section">
+                        <div class="price-label">💰 مبلغ مالیات قابل پرداخت:</div>
+                        <div class="price-amount">${Math.round(taxAmount).toLocaleString()} تومان</div>
+                    </div>
+                </div>
+                
+                <div class="advice-section">
+                    <div class="advice-title">💡 نکات مالیاتی</div>
+                    <div class="advice-content">
+                        <p>• مالیات محاسبه شده بر اساس قوانین جاری مالیاتی است</p>
+                        <p>• برای محاسبه دقیق‌تر با حسابدار خود مشورت کنید</p>
+                        <p>• مهلت پرداخت مالیات معمولاً تا پایان تیرماه سال بعد است</p>
+                    </div>
+                </div>
+            `;
+            
+            // ذخیره داده‌های مالیاتی
+            taxData.push({
+                income,
+                deductions,
+                type,
+                taxRate,
+                taxAmount: Math.round(taxAmount),
+                date: new Date().toLocaleDateString('fa-IR')
+            });
+            
+            showSuccessMessage('مالیات با موفقیت محاسبه شد');
+        }
+
+        // ایجاد بودجه
+        function createBudget() {
+            const month = document.getElementById('budget-month').value;
+            const year = parseInt(document.getElementById('budget-year').value) || 1403;
+            const income = parseInt(document.getElementById('budget-income').value) || 0;
+            const expenses = parseInt(document.getElementById('budget-expenses').value) || 0;
+            
+            if (income <= 0 || expenses <= 0) {
+                alert('لطفاً مقادیر معتبر وارد کنید');
+                return;
+            }
+            
+            const budget = {
+                id: Date.now(),
+                month,
+                year,
+                income,
+                expenses,
+                balance: income - expenses,
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            budgetData.push(budget);
+            updateBudgetDisplay();
+            
+            // پاک کردن فرم
+            document.getElementById('budget-income').value = '';
+            document.getElementById('budget-expenses').value = '';
+            
+            showSuccessMessage('بودجه با موفقیت ثبت شد');
+        }
+
+        // به‌روزرسانی نمایش بودجه‌ها
+        function updateBudgetDisplay() {
+            const budgetContainer = document.getElementById('budget-list');
+            budgetContainer.innerHTML = '';
+            
+            if (budgetData.length === 0) {
+                budgetContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #7f8c8d;">هیچ بودجه‌ای ثبت نشده است</div>';
+                return;
+            }
+            
+            budgetData.forEach(budget => {
+                const monthNames = [
+                    'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور',
+                    'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'
+                ];
+                
+                const budgetElement = document.createElement('div');
+                budgetElement.className = 'transaction-item';
+                budgetElement.innerHTML = `
+                    <div class="transaction-details">
+                        <div class="transaction-title">بودجه ${monthNames[budget.month - 1]} ${budget.year}</div>
+                        <div class="transaction-meta">
+                            درآمد: ${budget.income.toLocaleString()} تومان | 
+                            هزینه: ${budget.expenses.toLocaleString()} تومان
+                        </div>
+                    </div>
+                    <div class="transaction-amount ${budget.balance >= 0 ? 'income' : 'expense'}">
+                        ${budget.balance >= 0 ? '+' : ''}${budget.balance.toLocaleString()} تومان
+                    </div>
+                `;
+                budgetContainer.appendChild(budgetElement);
+            });
+        }
+
+        // ایجاد گزارش پیشرفته
+        function generateAdvancedReport() {
+            const reportType = document.getElementById('report-type').value;
+            const period = document.getElementById('report-period').value;
+            
+            let reportContent = '';
+            
+            switch(reportType) {
+                case 'financial':
+                    reportContent = generateFinancialAdvancedReport(period);
+                    break;
+                case 'tax':
+                    reportContent = generateTaxReport(period);
+                    break;
+                case 'performance':
+                    reportContent = generatePerformanceReport(period);
+                    break;
+                case 'inventory':
+                    reportContent = generateInventoryReport(period);
+                    break;
+            }
+            
+            const resultContainer = document.getElementById('advanced-report-result');
+            resultContainer.innerHTML = reportContent;
+            
+            showSuccessMessage('گزارش پیشرفته ایجاد شد');
+        }
+
+        // ایجاد گزارش مالی پیشرفته
+        function generateFinancialAdvancedReport(period) {
+            return `
+                <div class="production-result">
+                    <div class="production-title">📊 گزارش مالی پیشرفته</div>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span class="cost-label">تعداد تراکنش‌ها:</span>
+                            <span class="cost-value">${financeData.transactions.length}</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">میانگین درآمد ماهانه:</span>
+                            <span class="cost-value">${(financeData.income / 12).toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">میانگین هزینه ماهانه:</span>
+                            <span class="cost-value">${(financeData.expense / 12).toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">نسبت سود به درآمد:</span>
+                            <span class="cost-value">${financeData.income > 0 ? Math.round(((financeData.income - financeData.expense) / financeData.income) * 100) : 0}%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="advice-section">
+                        <div class="advice-title">💡 تحلیل عملکرد</div>
+                        <div class="advice-content">
+                            <p>• ${financeData.income > financeData.expense ? 'عملکرد مالی شما مطلوب است' : 'نیاز به بازبینی در هزینه‌ها دارید'}</p>
+                            <p>• ${financeData.transactions.length > 10 ? 'تعداد تراکنش‌های شما مناسب است' : 'لازم است تراکنش‌های بیشتری ثبت کنید'}</p>
+                            <p>• برای بهبود عملکرد، هزینه‌های غیرضروری را کاهش دهید</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ایجاد گزارش مالیاتی
+        function generateTaxReport(period) {
+            const totalTax = taxData.reduce((sum, item) => sum + item.taxAmount, 0);
+            
+            return `
+                <div class="production-result">
+                    <div class="production-title">🧮 گزارش مالیاتی</div>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span class="cost-label">تعداد محاسبات مالیاتی:</span>
+                            <span class="cost-value">${taxData.length}</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">کل مالیات محاسبه شده:</span>
+                            <span class="cost-value">${totalTax.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">میانگین نرخ مالیات:</span>
+                            <span class="cost-value">${taxData.length > 0 ? Math.round(taxData.reduce((sum, item) => sum + item.taxRate, 0) / taxData.length) : 0}%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="advice-section">
+                        <div class="advice-title">💡 توصیه‌های مالیاتی</div>
+                        <div class="advice-content">
+                            <p>• مالیات خود را به موقع پرداخت کنید</p>
+                            <p>• از مشاوره مالیاتی متخصصان استفاده کنید</p>
+                            <p>• اسناد و مدارک مالی خود را به دقت نگهداری کنید</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ایجاد گزارش عملکرد
+        function generatePerformanceReport(period) {
+            const totalEmployees = employeesData.length;
+            const avgSalary = totalEmployees > 0 ? employeesData.reduce((sum, emp) => sum + emp.salary, 0) / totalEmployees : 0;
+            const avgPerformance = totalEmployees > 0 ? employeesData.reduce((sum, emp) => sum + emp.performance, 0) / totalEmployees : 0;
+            
+            return `
+                <div class="production-result">
+                    <div class="production-title">📈 گزارش عملکرد</div>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span class="cost-label">تعداد کارمندان:</span>
+                            <span class="cost-value">${totalEmployees}</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">میانگین حقوق:</span>
+                            <span class="cost-value">${Math.round(avgSalary).toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">میانگین عملکرد:</span>
+                            <span class="cost-value">${avgPerformance.toFixed(1)}/10</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">هزینه کل حقوق:</span>
+                            <span class="cost-value">${employeesData.reduce((sum, emp) => sum + emp.salary, 0).toLocaleString()} تومان</span>
+                        </div>
+                    </div>
+                    
+                    <div class="advice-section">
+                        <div class="advice-title">💡 تحلیل منابع انسانی</div>
+                        <div class="advice-content">
+                            <p>• ${avgPerformance >= 7 ? 'عملکرد کارمندان شما مطلوب است' : 'نیاز به بهبود عملکرد کارمندان دارید'}</p>
+                            <p>• ${totalEmployees > 5 ? 'تیم شما از نظر تعداد مناسب است' : 'ممکن است نیاز به استخدام نیروی جدید داشته باشید'}</p>
+                            <p>• برای افزایش بهره‌وری، برنامه‌های آموزشی برگزار کنید</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ایجاد گزارش موجودی
+        function generateInventoryReport(period) {
+            const totalAssets = assetsData.length;
+            const totalValue = assetsData.reduce((sum, asset) => sum + (asset.value * asset.quantity), 0);
+            const mostValuable = assetsData.length > 0 ? assetsData.reduce((max, asset) => 
+                (asset.value * asset.quantity) > (max.value * max.quantity) ? asset : max
+            ) : null;
+            
+            return `
+                <div class="production-result">
+                    <div class="production-title">📦 گزارش موجودی و دارایی</div>
+                    
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span class="cost-label">تعداد دارایی‌ها:</span>
+                            <span class="cost-value">${totalAssets}</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">ارزش کل دارایی‌ها:</span>
+                            <span class="cost-value">${totalValue.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">میانگین ارزش هر دارایی:</span>
+                            <span class="cost-value">${totalAssets > 0 ? Math.round(totalValue / totalAssets).toLocaleString() : 0} تومان</span>
+                        </div>
+                        ${mostValuable ? `
+                        <div class="cost-item">
+                            <span class="cost-label">باارزش‌ترین دارایی:</span>
+                            <span class="cost-value">${mostValuable.name} (${(mostValuable.value * mostValuable.quantity).toLocaleString()} تومان)</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="advice-section">
+                        <div class="advice-title">💡 مدیریت دارایی</div>
+                        <div class="advice-content">
+                            <p>• دارایی‌های خود را به طور منظم بازبینی کنید</p>
+                            <p>• برای دارایی‌های با ارزش بیمه مناسب تهیه کنید</p>
+                            <p>• برنامه‌ای برای تنوع بخشیدن به دارایی‌های خود داشته باشید</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // افزودن یادآوری
+        function addReminder() {
+            const title = document.getElementById('reminder-title').value;
+            const description = document.getElementById('reminder-description').value;
+            const date = document.getElementById('reminder-date').value;
+            const priority = document.getElementById('reminder-priority').value;
+            
+            if (!title || !date) {
+                alert('لطفاً عنوان و تاریخ یادآوری را وارد کنید');
+                return;
+            }
+            
+            const reminder = {
+                id: Date.now(),
+                title,
+                description,
+                date,
+                priority,
+                status: 'active',
+                created: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            remindersData.push(reminder);
+            updateRemindersDisplay();
+            
+            // پاک کردن فرم
+            document.getElementById('reminder-title').value = '';
+            document.getElementById('reminder-description').value = '';
+            document.getElementById('reminder-date').value = '';
+            
+            showSuccessMessage('یادآوری با موفقیت اضافه شد');
+        }
+
+        // به‌روزرسانی نمایش یادآوری‌ها
+        function updateRemindersDisplay() {
+            const remindersContainer = document.getElementById('reminders-list');
+            remindersContainer.innerHTML = '';
+            
+            if (remindersData.length === 0) {
+                remindersContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #7f8c8d;">هیچ یادآوری ثبت نشده است</div>';
+                return;
+            }
+            
+            // مرتب‌سازی یادآوری‌ها بر اساس تاریخ
+            const sortedReminders = [...remindersData].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            sortedReminders.forEach(reminder => {
+                const priorityColors = {
+                    low: '#27ae60',
+                    medium: '#f39c12',
+                    high: '#e74c3c'
+                };
+                
+                const reminderElement = document.createElement('div');
+                reminderElement.className = 'transaction-item';
+                reminderElement.style.borderRightColor = priorityColors[reminder.priority];
+                reminderElement.innerHTML = `
+                    <div class="transaction-details">
+                        <div class="transaction-title">${reminder.title}</div>
+                        <div class="transaction-meta">
+                            ${reminder.description} | 
+                            تاریخ: ${reminder.date} | 
+                            اولویت: <span style="color: ${priorityColors[reminder.priority]}">${reminder.priority === 'low' ? 'کم' : reminder.priority === 'medium' ? 'متوسط' : 'بالا'}</span>
+                        </div>
+                    </div>
+                    <div class="asset-controls">
+                        <button class="asset-control-btn danger" onclick="removeReminder(${reminder.id})">🗑️</button>
+                    </div>
+                `;
+                remindersContainer.appendChild(reminderElement);
+            });
+        }
+
+        // حذف یادآوری
+        function removeReminder(id) {
+            if (confirm('آیا از حذف این یادآوری اطمینان دارید؟')) {
+                remindersData = remindersData.filter(reminder => reminder.id !== id);
+                updateRemindersDisplay();
+                showSuccessMessage('یادآوری با موفقیت حذف شد');
+            }
         }
 
         // کپی شماره کارت
         function copyCardNumber() {
-            const cardNumber = '5892101187322777';
+            const cardNumber = '6219861099545032';
             navigator.clipboard.writeText(cardNumber)
                 .then(() => {
                     showSuccessMessage('شماره کارت کپی شد');
@@ -2318,7 +2987,7 @@
                 ${message ? `پیام شما: ${message}` : ''}
                 
                 شماره کارت برای واریز:
-                5892101187322777
+                ۶۲۱۹ - ۸۶۱۰ - ۹۹۵۴ - ۵۰۳۲
                 
                 پس از واریز، رسید را برای ما ارسال کنید.
             `;
@@ -2340,12 +3009,19 @@
             document.getElementById('employee-start-date').value = today;
             document.getElementById('check-due-date').value = today;
             
+            // تنظیم تاریخ و زمان فعلی برای یادآوری
+            const now = new Date();
+            const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+            document.getElementById('reminder-date').value = localDateTime;
+            
             // به‌روزرسانی نمایش‌ها
             updateFinanceDisplay();
             updateChecksDisplay();
             updateEmployeesDisplay();
             updateAssetsDisplay();
             updateAccountingDisplay();
+            updateBudgetDisplay();
+            updateRemindersDisplay();
         });
     </script>
 </body>
