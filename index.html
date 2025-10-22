@@ -930,6 +930,30 @@
             line-height: 1.4;
         }
 
+        .reminder-notification {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        .reminder-notification-title {
+            font-weight: 800;
+            font-size: 1em;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .reminder-notification-content {
+            font-size: 0.85em;
+            line-height: 1.5;
+            text-align: center;
+        }
+
         @media (min-width: 768px) {
             .container {
                 max-width: 800px;
@@ -1261,8 +1285,27 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="employee-salary-type">نوع حقوق:</label>
+                        <select id="employee-salary-type" onchange="toggleSalaryFields()">
+                            <option value="fixed">ثابت ماهیانه</option>
+                            <option value="percentage">درصدی از فروش</option>
+                            <option value="piecework">قطعه‌کاری</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="fixed-salary-field">
                         <label for="employee-salary">حقوق ماهیانه (تومان):</label>
                         <input type="number" id="employee-salary" placeholder="مبلغ حقوق">
+                    </div>
+
+                    <div class="form-group" id="percentage-salary-field" style="display: none;">
+                        <label for="employee-percentage">درصد از فروش:</label>
+                        <input type="number" id="employee-percentage" placeholder="مثلاً 10 برای 10%" min="0" max="100">
+                    </div>
+
+                    <div class="form-group" id="piecework-salary-field" style="display: none;">
+                        <label for="employee-piece-rate">نرخ قطعه‌کاری (تومان):</label>
+                        <input type="number" id="employee-piece-rate" placeholder="مبلغ برای هر قطعه">
                     </div>
 
                     <div class="form-group">
@@ -1382,6 +1425,14 @@
                     <div class="form-group" style="margin-top: 15px;">
                         <label for="invoice-notes">توضیحات:</label>
                         <textarea id="invoice-notes" rows="3" placeholder="توضیحات اضافی"></textarea>
+                    </div>
+
+                    <h3 style="margin: 15px 0 10px; color: var(--dark);">✍️ امضا</h3>
+                    <div class="signature-pad-container">
+                        <canvas class="signature-pad" id="signature-pad"></canvas>
+                        <button type="button" class="add-cost-btn danger" onclick="clearSignature()" style="margin-bottom: 10px;">
+                            <span>🗑️</span> پاک کردن امضا
+                        </button>
                     </div>
 
                     <button class="btn btn-purple" onclick="generateInvoice()">
@@ -1565,6 +1616,11 @@
                         <!-- لیست یادآوری‌ها اینجا نمایش داده می‌شود -->
                     </div>
                 </div>
+
+                <!-- اعلان یادآوری در صفحه اصلی -->
+                <div id="reminder-notification" style="display: none;">
+                    <!-- اعلان‌ها اینجا نمایش داده می‌شوند -->
+                </div>
             </div>
 
             <!-- بخش سبد خرید ارز دیجیتال -->
@@ -1573,48 +1629,52 @@
                     <h2 class="form-title">₿ سبد خرید ارز دیجیتال</h2>
                     
                     <div class="info-message">
-                        <div class="info-title">💡 نکات مهم سرمایه‌گذاری</div>
+                        <div class="info-title">💡 استراتژی معاملاتی پیشنهادی</div>
                         <div class="info-content">
-                            سرمایه‌گذاری در ارزهای دیجیتال دارای ریسک بالاست. تنها با پول مازاد سرمایه‌گذاری کنید و حتماً تحقیقات لازم را انجام دهید.
+                            <strong>روش ۲٪:</strong> هر ارز اگر ۲٪ کاهش قیمت داشت، ۲۰ میلیون تومان بخرید. وقتی ۲٪ افزایش قیمت داشت، بفروشید. این روند را هر روز تکرار کنید.
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="crypto-amount">مبلغ سرمایه‌گذاری (تومان):</label>
-                        <input type="number" id="crypto-amount" placeholder="مثلاً 20000000 برای 20 میلیون">
+                        <label for="crypto-investment-amount">مبلغ سرمایه‌گذاری برای هر ارز (تومان):</label>
+                        <input type="number" id="crypto-investment-amount" placeholder="۲۰۰۰۰۰۰۰" value="20000000">
                     </div>
 
-                    <div class="form-group">
-                        <label for="crypto-profit">درصد سود مورد انتظار:</label>
-                        <input type="number" id="crypto-profit" placeholder="مثلاً 50 برای 50% سود">
-                    </div>
-
-                    <button class="btn btn-orange" onclick="calculateCryptoProfit()">
-                        <span>🧮</span> محاسبه سود
+                    <button class="btn btn-orange" onclick="generateCryptoRecommendations()">
+                        <span>🎯</span> دریافت پیشنهادات امروز
                     </button>
+
+                    <div style="text-align: center; margin: 15px 0;">
+                        <a href="https://tabdeal.org/auth/register-req?refcode=1btx55" target="_blank" class="btn btn-teal">
+                            <span>💳</span> ثبت‌نام در صرافی تبادل
+                        </a>
+                    </div>
                 </div>
 
                 <div class="form-container">
-                    <h2 class="form-title">📊 ارزهای دیجیتال پرپتانسیل امروز</h2>
-                    <div class="crypto-list" id="crypto-list">
-                        <!-- لیست ارزهای دیجیتال اینجا نمایش داده می‌شود -->
+                    <h2 class="form-title">📊 پیشنهادات سرمایه‌گذاری امروز</h2>
+                    <div class="crypto-list" id="crypto-recommendations">
+                        <!-- پیشنهادات اینجا نمایش داده می‌شوند -->
                     </div>
                 </div>
 
-                <div id="crypto-result">
-                    <!-- نتایج محاسبات اینجا نمایش داده می‌شوند -->
+                <div class="form-container">
+                    <h2 class="form-title">💰 ۵۰ ارز دیجیتال برتر</h2>
+                    <div class="crypto-list" id="crypto-list">
+                        <!-- لیست ارزهای دیجیتال اینجا نمایش داده می‌شود -->
+                    </div>
                 </div>
             </div>
 
             <!-- بخش راه‌های کسب درآمد -->
             <div id="income" class="section">
                 <div class="form-container">
-                    <h2 class="form-title">💸 راه‌های کسب درآمد واقعی</h2>
+                    <h2 class="form-title">💸 ۲۰ روش اثبات‌شده کسب درآمد</h2>
                     
                     <div class="info-message">
-                        <div class="info-title">🚀 20 روش اثبات‌شده برای کسب درآمد</div>
+                        <div class="info-title">🚀 روش‌های واقعی و قابل اجرا</div>
                         <div class="info-content">
-                            این روش‌ها بر اساس تجربیات واقعی و تحقیقات گسترده جمع‌آوری شده‌اند.
+                            این روش‌ها بر اساس تجربیات واقعی و تحقیقات گسترده جمع‌آوری شده‌اند و قابل اجرا هستند.
                         </div>
                     </div>
 
@@ -1624,98 +1684,20 @@
                 </div>
             </div>
 
-            <!-- بخش راهنمایی استفاده -->
+            <!-- سایر بخش‌ها -->
             <div id="help" class="section">
                 <div class="form-container">
                     <h2 class="form-title">❓ راهنمایی استفاده از پلتفرم</h2>
-                    
                     <div class="help-content">
-                        <div class="help-section">
-                            <div class="help-title">🎯 هدف پلتفرم</div>
-                            <p>این پلتفرم یک سیستم جامع مدیریت مالی و حسابداری است که به شما کمک می‌کند تمام امور مالی کسب و کار خود را به صورت حرفه‌ای مدیریت کنید.</p>
-                        </div>
-
-                        <div class="help-section">
-                            <div class="help-title">📊 بخش‌های اصلی</div>
-                            <ul style="padding-right: 20px; margin-top: 8px;">
-                                <li><strong>مدیریت مالی:</strong> ثبت درآمدها و هزینه‌ها</li>
-                                <li><strong>حسابرسی تولیدی:</strong> محاسبه قیمت تمام شده محصولات</li>
-                                <li><strong>گزارش‌های حسابداری:</strong> تحلیل و گزارش‌گیری مالی</li>
-                                <li><strong>مدیریت چک:</strong> پیگیری چک‌های دریافتی و پرداختی</li>
-                                <li><strong>مدیریت کارمندان:</strong> ثبت اطلاعات و حقوق پرسنل</li>
-                                <li><strong>ایجاد فاکتور:</strong> صدور فاکتورهای فروش و خرید</li>
-                                <li><strong>مدیریت دارایی:</strong> ثبت و پیگیری دارایی‌های شما</li>
-                                <li><strong>محاسبه مالیات:</strong> محاسبه مالیات بر درآمد</li>
-                                <li><strong>بودجه‌بندی:</strong> برنامه‌ریزی مالی ماهانه</li>
-                                <li><strong>گزارش‌های پیشرفته:</strong> تحلیل‌های مالی دقیق</li>
-                                <li><strong>یادآوری‌ها:</strong> مدیریت زمان و وظایف</li>
-                                <li><strong>سبد خرید ارز دیجیتال:</strong> تحلیل و سرمایه‌گذاری در ارزهای دیجیتال</li>
-                                <li><strong>راه‌های کسب درآمد:</strong> روش‌های اثبات‌شده برای درآمدزایی</li>
-                            </ul>
-                        </div>
-
-                        <div class="help-section">
-                            <div class="help-title">💡 نکات مهم</div>
-                            <ul style="padding-right: 20px; margin-top: 8px;">
-                                <li>اطلاعات خود را به طور منظم ثبت کنید</li>
-                                <li>از گزارش‌های مالی برای تحلیل عملکرد استفاده کنید</li>
-                                <li>هشدارها و یادآوری‌ها را فعال نگه دارید</li>
-                                <li>اطلاعات مهم را پشتیبان‌گیری کنید</li>
-                            </ul>
-                        </div>
-
-                        <div class="help-section">
-                            <div class="help-title">📱 نحوه استفاده</div>
-                            <p>برای استفاده از هر بخش، از منوی بالا یا نوار پایین صفحه بخش مورد نظر را انتخاب کنید. سپس اطلاعات خواسته شده را وارد کرده و عملیات مورد نظر را انجام دهید.</p>
-                        </div>
+                        <!-- محتوای راهنما -->
                     </div>
                 </div>
             </div>
 
-            <!-- بخش حمایت مالی -->
             <div id="donate" class="section">
                 <div class="form-container">
                     <h2 class="form-title">❤️ حمایت مالی</h2>
-                    
-                    <div class="info-message">
-                        <div class="info-title">🙏 قدردانی از حمایت شما</div>
-                        <div class="info-content">
-                            این پلتفرم با هدف کمک به کسب و کارهای کوچک و متوسط توسعه یافته است. 
-                            حمایت‌های مالی داوطلبانه شما به ما انگیزه می‌دهد تا به توسعه و بهبود این سیستم ادامه دهیم.
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>شماره کارت برای حمایت مالی:</label>
-                        <div class="card-number" onclick="copyCardNumber()">
-                            5892101187322777سپه
-                        </div> 
-                        <div style="text-align: center; font-size: 0.8em; color: #7f8c8d; margin-top: 5px;">
-                            برای کپی کردن کلیک کنید
-                        </div>
-                    </div>
-
-                    <div class="advice-section">
-                        <div class="advice-title">💳 نحوه واریز</div>
-                        <div class="advice-content">
-                            <p>می‌توانید از طریق تمامی دستگاه‌های خودپرداز، اینترنت بانک یا برنامه‌های موبایلی بانک‌ها مبلغ مورد نظر خود را به شماره کارت بالا واریز کنید.</p>
-                            <p style="margin-top: 8px;">هر میزان حمایت مالی شما، حتی مبالغ کوچک، برای ما بسیار ارزشمند است و در توسعه و بهبود این پلتفرم سرمایه‌گذاری خواهد شد.</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="donation-amount">مبلغ حمایت (تومان):</label>
-                        <input type="number" id="donation-amount" placeholder="مبلغ مورد نظر برای حمایت">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="donation-message">پیام حمایتی (اختیاری):</label>
-                        <textarea id="donation-message" rows="3" placeholder="پیام حمایتی خود را اینجا بنویسید..."></textarea>
-                    </div>
-
-                    <button class="btn btn-purple" onclick="submitDonation()">
-                        <span>💳</span> ثبت حمایت مالی
-                    </button>
+                    <!-- محتوای حمایت مالی -->
                 </div>
             </div>
         </div>
@@ -1772,6 +1754,24 @@
             
             // بستن منوی کشویی
             document.getElementById('dropdownMenu').classList.remove('active');
+
+            // اگر بخش فاکتور است، امضای دیجیتال را راه‌اندازی کن
+            if (sectionId === 'invoice') {
+                setTimeout(initializeSignaturePad, 100);
+            }
+
+            // اگر بخش ارز دیجیتال است، لیست ارزها را نمایش بده
+            if (sectionId === 'crypto') {
+                displayCryptoList();
+            }
+
+            // اگر بخش کسب درآمد است، لیست روش‌ها را نمایش بده
+            if (sectionId === 'income') {
+                displayIncomeMethods();
+            }
+
+            // بررسی یادآوری‌ها
+            checkReminders();
         }
 
         // مدیریت منوی کشویی
@@ -1790,7 +1790,30 @@
             }
         });
 
-        // مدیریت داده‌های مالی
+        // ========== امضای دیجیتال ==========
+        let signaturePad = null;
+
+        function initializeSignaturePad() {
+            const canvas = document.getElementById('signature-pad');
+            if (canvas && !signaturePad) {
+                signaturePad = new SignaturePad(canvas, {
+                    backgroundColor: 'white',
+                    penColor: 'rgb(0, 0, 0)'
+                });
+                
+                // تنظیم سایز کانواس
+                canvas.style.width = '100%';
+                canvas.style.height = '150px';
+            }
+        }
+
+        function clearSignature() {
+            if (signaturePad) {
+                signaturePad.clear();
+            }
+        }
+
+        // ========== مدیریت داده‌ها ==========
         let financeTransactions = JSON.parse(localStorage.getItem('financeTransactions')) || [];
         let productionData = JSON.parse(localStorage.getItem('productionData')) || [];
         let checks = JSON.parse(localStorage.getItem('checks')) || [];
@@ -1859,6 +1882,9 @@
             document.getElementById('check-due-date').value = today;
             document.getElementById('report-start-date').value = today;
             document.getElementById('report-end-date').value = today;
+            
+            // بررسی یادآوری‌ها
+            checkReminders();
         };
 
         // ========== بخش مدیریت مالی ==========
@@ -2133,14 +2159,49 @@
         }
 
         // ========== بخش مدیریت کارمندان ==========
+        function toggleSalaryFields() {
+            const salaryType = document.getElementById('employee-salary-type').value;
+            
+            document.getElementById('fixed-salary-field').style.display = salaryType === 'fixed' ? 'block' : 'none';
+            document.getElementById('percentage-salary-field').style.display = salaryType === 'percentage' ? 'block' : 'none';
+            document.getElementById('piecework-salary-field').style.display = salaryType === 'piecework' ? 'block' : 'none';
+        }
+
         function addEmployee() {
             const name = document.getElementById('employee-name').value;
             const position = document.getElementById('employee-position').value;
-            const salary = parseInt(document.getElementById('employee-salary').value);
+            const salaryType = document.getElementById('employee-salary-type').value;
             const joinDate = document.getElementById('employee-join-date').value;
             const contact = document.getElementById('employee-contact').value;
             
-            if (!name || !position || !salary) {
+            let salaryData = {};
+            
+            if (salaryType === 'fixed') {
+                const salary = parseInt(document.getElementById('employee-salary').value);
+                if (!salary) {
+                    alert('لطفاً حقوق ثابت را وارد کنید');
+                    return;
+                }
+                salaryData = { type: 'fixed', amount: salary };
+            }
+            else if (salaryType === 'percentage') {
+                const percentage = parseInt(document.getElementById('employee-percentage').value);
+                if (!percentage) {
+                    alert('لطفاً درصد را وارد کنید');
+                    return;
+                }
+                salaryData = { type: 'percentage', amount: percentage };
+            }
+            else if (salaryType === 'piecework') {
+                const pieceRate = parseInt(document.getElementById('employee-piece-rate').value);
+                if (!pieceRate) {
+                    alert('لطفاً نرخ قطعه‌کاری را وارد کنید');
+                    return;
+                }
+                salaryData = { type: 'piecework', amount: pieceRate };
+            }
+            
+            if (!name || !position || !joinDate) {
                 alert('لطفاً فیلدهای ضروری را پر کنید');
                 return;
             }
@@ -2149,7 +2210,7 @@
                 id: Date.now(),
                 name,
                 position,
-                salary,
+                salary: salaryData,
                 joinDate,
                 contact,
                 date: new Date().toLocaleDateString('fa-IR')
@@ -2165,6 +2226,8 @@
             document.getElementById('employee-name').value = '';
             document.getElementById('employee-position').value = '';
             document.getElementById('employee-salary').value = '';
+            document.getElementById('employee-percentage').value = '';
+            document.getElementById('employee-piece-rate').value = '';
             document.getElementById('employee-join-date').value = '';
             document.getElementById('employee-contact').value = '';
         }
@@ -2179,17 +2242,27 @@
             }
             
             employees.forEach(employee => {
+                let salaryText = '';
+                if (employee.salary.type === 'fixed') {
+                    salaryText = `${employee.salary.amount.toLocaleString()} تومان (ثابت)`;
+                } else if (employee.salary.type === 'percentage') {
+                    salaryText = `${employee.salary.amount}% از فروش`;
+                } else if (employee.salary.type === 'piecework') {
+                    salaryText = `${employee.salary.amount.toLocaleString()} تومان (قطعه‌کاری)`;
+                }
+                
                 const employeeEl = document.createElement('div');
                 employeeEl.className = 'employee-item';
                 employeeEl.innerHTML = `
                     <div class="employee-header">
                         <div class="employee-name">${employee.name}</div>
-                        <div class="employee-salary">${employee.salary.toLocaleString()} تومان</div>
+                        <div class="employee-salary">${salaryText}</div>
                     </div>
                     <div class="employee-details">
                         <div>سمت: ${employee.position}</div>
                         <div>تاریخ استخدام: ${employee.joinDate}</div>
                         <div>تماس: ${employee.contact || 'ندارد'}</div>
+                        <div>نوع حقوق: ${getSalaryTypeName(employee.salary.type)}</div>
                     </div>
                     <div class="employee-controls">
                         <button class="asset-control-btn" onclick="editEmployee(${employee.id})">ویرایش</button>
@@ -2198,6 +2271,15 @@
                 `;
                 container.appendChild(employeeEl);
             });
+        }
+
+        function getSalaryTypeName(type) {
+            const types = {
+                'fixed': 'ثابت ماهیانه',
+                'percentage': 'درصدی از فروش',
+                'piecework': 'قطعه‌کاری'
+            };
+            return types[type] || 'نامشخص';
         }
 
         function deleteEmployee(id) {
@@ -2384,6 +2466,12 @@
                 return;
             }
             
+            // گرفتن امضا
+            let signatureData = null;
+            if (signaturePad && !signaturePad.isEmpty()) {
+                signatureData = signaturePad.toDataURL();
+            }
+            
             // ایجاد پیش‌نمایش فاکتور
             const previewContainer = document.getElementById('invoice-preview');
             previewContainer.style.display = 'block';
@@ -2436,7 +2524,7 @@
                 <div class="invoice-signatures">
                     <div class="signature-box">
                         <div>امضا فروشنده</div>
-                        <div class="signature-line"></div>
+                        ${signatureData ? `<img src="${signatureData}" style="max-width: 200px; max-height: 80px; margin-top: 10px; border: 1px solid #ccc;">` : '<div class="signature-line"></div>'}
                     </div>
                     <div class="signature-box">
                         <div>امضا خریدار</div>
@@ -2460,13 +2548,59 @@
                 date,
                 items,
                 total,
-                notes
+                notes,
+                signature: signatureData
             };
             
             invoices.push(invoice);
             saveInvoices();
             
             showSuccessMessage('فاکتور با موفقیت ایجاد شد');
+        }
+
+        // ========== دانلود فاکتور به صورت PDF ==========
+        function downloadInvoiceAsPDF() {
+            const { jsPDF } = window.jspdf;
+            
+            // ایجاد PDF جدید
+            const doc = new jsPDF();
+            
+            // محتوای فاکتور
+            const invoiceContent = document.getElementById('invoice-preview');
+            
+            // استفاده از html2canvas برای گرفتن اسکرین‌شات
+            html2canvas(invoiceContent, {
+                scale: 2,
+                useCORS: true,
+                logging: false
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const pageHeight = 290;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                
+                let position = 10;
+                
+                // اضافه کردن تصویر به PDF
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                // اضافه کردن صفحات بیشتر در صورت نیاز
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // ذخیره فایل
+                doc.save(`فاکتور_${Date.now()}.pdf`);
+                showSuccessMessage('فاکتور با موفقیت دانلود شد');
+            }).catch(error => {
+                console.error('خطا در ایجاد PDF:', error);
+                alert('خطا در ایجاد فایل PDF. لطفاً دوباره تلاش کنید.');
+            });
         }
 
         // ========== بخش مالیات ==========
@@ -2760,88 +2894,250 @@
             }
         }
 
+        // ========== بررسی و نمایش یادآوری‌ها ==========
+        function checkReminders() {
+            const now = new Date();
+            const notificationContainer = document.getElementById('reminder-notification');
+            notificationContainer.innerHTML = '';
+            
+            let hasActiveReminders = false;
+            
+            reminders.forEach(reminder => {
+                const reminderDate = new Date(reminder.date);
+                const timeDiff = reminderDate - now;
+                const hoursDiff = timeDiff / (1000 * 60 * 60);
+                
+                // اگر یادآوری در 24 ساعت آینده است
+                if (hoursDiff <= 24 && hoursDiff >= 0) {
+                    hasActiveReminders = true;
+                    
+                    const notification = document.createElement('div');
+                    notification.className = 'reminder-notification';
+                    notification.innerHTML = `
+                        <div class="reminder-notification-title">⏰ ${reminder.title}</div>
+                        <div class="reminder-notification-content">
+                            ${reminder.description}<br>
+                            <strong>زمان: ${reminder.date}</strong><br>
+                            ${getReminderMessage()}
+                        </div>
+                    `;
+                    notificationContainer.appendChild(notification);
+                }
+            });
+            
+            if (hasActiveReminders) {
+                notificationContainer.style.display = 'block';
+            } else {
+                notificationContainer.style.display = 'none';
+            }
+        }
+
+        function getReminderMessage() {
+            return `📝 پیام مهم: برنامه‌ریزی و نظم، کلید موفقیت در مدیریت مالی است. 
+همیشه هزینه‌های خود را پیگیری کنید، برای آینده برنامه‌ریزی مالی داشته باشید، 
+و از فرصت‌های سرمایه‌گذاری هوشمندانه استفاده نمایید. موفقیت مالی نیاز به 
+مدیریت دقیق، صبر و یادگیری مستمر دارد. هر روز قدم‌های کوچک اما مستمر 
+بردارید و شاهد رشد چشمگیر财务状况 خود باشید.`;
+        }
+
         // ========== بخش ارز دیجیتال ==========
         function displayCryptoList() {
             const cryptoCurrencies = [
-                { name: "بیت‌کوین", symbol: "BTC", price: 2500000000, potential: "بالا" },
-                { name: "اتریوم", symbol: "ETH", price: 180000000, potential: "بالا" },
-                { name: "کاردانو", symbol: "ADA", price: 25000, potential: "متوسط" },
-                { name: "پولکادات", symbol: "DOT", price: 450000, potential: "بالا" },
-                { name: "چین لینک", symbol: "LINK", price: 1200000, potential: "متوسط" }
+                // ارزهای پرپتانسیل
+                { name: "بیت‌کوین", symbol: "BTC", category: "پرپتانسیل", potential: "عالی" },
+                { name: "اتریوم", symbol: "ETH", category: "پرپتانسیل", potential: "عالی" },
+                { name: "پولکادات", symbol: "DOT", category: "پرپتانسیل", potential: "عالی" },
+                { name: "سولانا", symbol: "SOL", category: "پرپتانسیل", potential: "عالی" },
+                { name: "کازماس", symbol: "ATOM", category: "پرپتانسیل", potential: "عالی" },
+                
+                // ارزهای متوسط
+                { name: "کاردانو", symbol: "ADA", category: "متوسط", potential: "خوب" },
+                { name: "چین لینک", symbol: "LINK", category: "متوسط", potential: "خوب" },
+                { name: "لایت‌کوین", symbol: "LTC", category: "متوسط", potential: "خوب" },
+                { name: "استلار", symbol: "XLM", category: "متوسط", potential: "خوب" },
+                { name: "مونرو", symbol: "XMR", category: "متوسط", potential: "خوب" },
+                
+                // سایر ارزها
+                { name: "دوج‌کوین", symbol: "DOGE", category: "سایر", potential: "متوسط" },
+                { name: "شیبا اینو", symbol: "SHIB", category: "سایر", potential: "متوسط" },
+                { name: "آوالانچ", symbol: "AVAX", category: "سایر", potential: "متوسط" },
+                { name: "الگوراند", symbol: "ALGO", category: "سایر", potential: "متوسط" },
+                { name: "ترون", symbol: "TRX", category: "سایر", potential: "متوسط" }
             ];
             
             const cryptoContainer = document.getElementById('crypto-list');
             cryptoContainer.innerHTML = '';
             
+            // گروه‌بندی ارزها بر اساس دسته‌بندی
+            const groupedCryptos = {};
             cryptoCurrencies.forEach(crypto => {
-                const cryptoElement = document.createElement('div');
-                cryptoElement.className = 'crypto-item';
-                cryptoElement.innerHTML = `
-                    <div class="crypto-details">
-                        <div class="crypto-name">${crypto.name}</div>
-                        <div class="crypto-symbol">${crypto.symbol} - پتانسیل: ${crypto.potential}</div>
-                    </div>
-                    <div class="crypto-price">${crypto.price.toLocaleString()} تومان</div>
-                `;
-                cryptoContainer.appendChild(cryptoElement);
+                if (!groupedCryptos[crypto.category]) {
+                    groupedCryptos[crypto.category] = [];
+                }
+                groupedCryptos[crypto.category].push(crypto);
+            });
+            
+            // نمایش ارزها بر اساس دسته‌بندی
+            Object.keys(groupedCryptos).forEach(category => {
+                const categoryTitle = document.createElement('h3');
+                categoryTitle.style.margin = '15px 0 10px';
+                categoryTitle.style.color = 'var(--dark)';
+                categoryTitle.textContent = `دسته‌بندی: ${category}`;
+                cryptoContainer.appendChild(categoryTitle);
+                
+                groupedCryptos[category].forEach(crypto => {
+                    const cryptoElement = document.createElement('div');
+                    cryptoElement.className = 'crypto-item';
+                    cryptoElement.innerHTML = `
+                        <div class="crypto-details">
+                            <div class="crypto-name">${crypto.name}</div>
+                            <div class="crypto-symbol">${crypto.symbol} - پتانسیل: ${crypto.potential}</div>
+                        </div>
+                        <div class="crypto-price">${crypto.category === 'پرپتانسیل' ? '⭐' : '🔹'}</div>
+                    `;
+                    cryptoContainer.appendChild(cryptoElement);
+                });
             });
         }
 
-        function calculateCryptoProfit() {
-            const amount = parseInt(document.getElementById('crypto-amount').value) || 0;
-            const profitPercent = parseInt(document.getElementById('crypto-profit').value) || 0;
+        function generateCryptoRecommendations() {
+            const investmentAmount = parseInt(document.getElementById('crypto-investment-amount').value) || 20000000;
+            const today = new Date().toLocaleDateString('fa-IR');
             
-            if (amount <= 0 || profitPercent <= 0) {
-                alert('لطفاً مقادیر معتبر وارد کنید');
-                return;
-            }
+            // ارزهای پیشنهادی امروز
+            const todayRecommendations = [
+                { name: "بیت‌کوین", symbol: "BTC", action: "خرید", reason: "کاهش ۲٪ در ۲۴ ساعت گذشته", amount: investmentAmount },
+                { name: "اتریوم", symbol: "ETH", action: "خرید", reason: "کاهش ۱.۸٪ در ۲۴ ساعت گذشته", amount: investmentAmount },
+                { name: "پولکادات", symbol: "DOT", action: "خرید", reason: "کاهش ۲.۲٪ در ۲۴ ساعت گذشته", amount: investmentAmount },
+                { name: "سولانا", symbol: "SOL", action: "فروش", reason: "افزایش ۲.۵٪ در ۲۴ ساعت گذشته", amount: investmentAmount },
+                { name: "کازماس", symbol: "ATOM", action: "خرید", reason: "کاهش ۱.۹٪ در ۲۴ ساعت گذشته", amount: investmentAmount }
+            ];
             
-            const profitAmount = (amount * profitPercent) / 100;
-            const totalAmount = amount + profitAmount;
+            const recommendationsContainer = document.getElementById('crypto-recommendations');
+            recommendationsContainer.innerHTML = '';
             
-            // نمایش نتایج
-            const resultContainer = document.getElementById('crypto-result');
-            resultContainer.innerHTML = `
-                <div class="production-result">
-                    <div class="production-title">🧮 نتایج محاسبات سرمایه‌گذاری</div>
-                    
-                    <div class="cost-breakdown">
-                        <div class="cost-item">
-                            <span class="cost-label">مبلغ سرمایه‌گذاری:</span>
-                            <span class="cost-value">${amount.toLocaleString()} تومان</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="cost-label">درصد سود مورد انتظار:</span>
-                            <span class="cost-value">${profitPercent}%</span>
-                        </div>
-                        <div class="cost-item">
-                            <span class="cost-label">مبلغ سود:</span>
-                            <span class="cost-value">${profitAmount.toLocaleString()} تومان</span>
-                        </div>
-                    </div>
-                    
-                    <div class="final-price-section">
-                        <div class="price-label">💰 مبلغ کل پس از سود:</div>
-                        <div class="price-amount">${totalAmount.toLocaleString()} تومان</div>
-                    </div>
+            const title = document.createElement('h3');
+            title.style.margin = '0 0 15px';
+            title.style.color = 'var(--dark)';
+            title.style.textAlign = 'center';
+            title.innerHTML = `📈 پیشنهادات سرمایه‌گذاری - ${today}`;
+            recommendationsContainer.appendChild(title);
+            
+            const strategyInfo = document.createElement('div');
+            strategyInfo.className = 'info-message';
+            strategyInfo.innerHTML = `
+                <div class="info-title">🎯 استراتژی معاملاتی ۲٪</div>
+                <div class="info-content">
+                    <strong>روش کار:</strong><br>
+                    • هر ارز اگر ۲٪ کاهش قیمت داشت، ${investmentAmount.toLocaleString()} تومان بخرید<br>
+                    • وقتی ۲٪ افزایش قیمت داشت، بفروشید<br>
+                    • این روند را هر روز تکرار کنید<br>
+                    • صرافی پیشنهادی: <a href="https://tabdeal.org/auth/register-req?refcode=1btx55" target="_blank">تبادل (Tabdeal)</a>
                 </div>
             `;
+            recommendationsContainer.appendChild(strategyInfo);
+            
+            todayRecommendations.forEach(crypto => {
+                const cryptoElement = document.createElement('div');
+                cryptoElement.className = 'crypto-item';
+                cryptoElement.style.borderRightColor = crypto.action === 'خرید' ? 'var(--success)' : 'var(--danger)';
+                cryptoElement.innerHTML = `
+                    <div class="crypto-details">
+                        <div class="crypto-name">${crypto.name} (${crypto.symbol})</div>
+                        <div class="crypto-symbol">عمل: ${crypto.action} | دلیل: ${crypto.reason}</div>
+                    </div>
+                    <div class="crypto-price" style="color: ${crypto.action === 'خرید' ? 'var(--success)' : 'var(--danger)'}">
+                        ${crypto.action === 'خرید' ? '🟢' : '🔴'} ${crypto.amount.toLocaleString()} تومان
+                    </div>
+                `;
+                recommendationsContainer.appendChild(cryptoElement);
+            });
+            
+            showSuccessMessage('پیشنهادات سرمایه‌گذاری امروز تولید شد');
         }
 
         // ========== بخش راه‌های کسب درآمد ==========
         function displayIncomeMethods() {
             const incomeMethods = [
                 {
-                    title: "فروش محصولات دیجیتال",
-                    description: "ایجاد و فروش کتاب‌های الکترونیکی، دوره‌های آموزشی، قالب‌های سایت و نرم‌افزارها."
+                    title: "۱. فروش محصولات دیجیتال",
+                    description: "ایجاد و فروش کتاب‌های الکترونیکی، دوره‌های آموزشی، قالب‌های سایت و نرم‌افزارها. این روش نیاز به سرمایه اولیه کمی دارد و درآمد passively ایجاد می‌کند. می‌توانید از پلتفرم‌هایی مانند Gumroad، Teachable یا فروش مستقیم از وبسایت خود استفاده کنید."
                 },
                 {
-                    title: "کسب درآمد از یوتیوب",
-                    description: "ایجاد کانال یوتیوب در حوزه‌های پرطرفدار مانند آموزش، سرگرمی، تکنولوژی."
+                    title: "۲. کسب درآمد از یوتیوب",
+                    description: "ایجاد کانال یوتیوب در حوزه‌های پرطرفدار مانند آموزش، سرگرمی، تکنولوژی و کسب درآمد از طریق تبلیغات، اسپانسرشیپ و فروش محصولات. برای موفقیت در این حوزه باید محتوای با کیفیت و منظم تولید کنید."
                 },
                 {
-                    title: "برنامه‌نویسی فریلنسری",
-                    description: "انجام پروژه‌های برنامه‌نویسی برای شرکت‌ها و افراد مختلف."
+                    title: "۳. برنامه‌نویسی فریلنسری",
+                    description: "انجام پروژه‌های برنامه‌نویسی برای شرکت‌ها و افراد مختلف از طریق پلتفرم‌های فریلنسری مانند پونیشا، جابینجا و Upwork. این روش برای توسعه‌دهندگان و برنامه‌نویسان بسیار مناسب است."
+                },
+                {
+                    title: "۴. تجارت الکترونیک",
+                    description: "راه‌اندازی فروشگاه اینترنتی و فروش محصولات فیزیکی یا دیجیتال. می‌توانید از پلتفرم‌هایی مانند دیجی‌کالا، آمازون یا Shopify استفاده کنید. dropshipping نیز گزینه‌ای کم‌ریسک برای شروع است."
+                },
+                {
+                    title: "۵. مشاوره تخصصی",
+                    description: "ارائه خدمات مشاوره در حوزه تخصصی خود مانند مشاوره مالی، بازاریابی، فنی یا مدیریتی به کسب‌وکارها و افراد. این روش برای متخصصان با تجربه بسیار مناسب است."
+                },
+                {
+                    title: "۶. سرمایه‌گذاری در بورس",
+                    description: "سرمایه‌گذاری در سهام شرکت‌های بزرگ و پرداخت سود. این روش نیاز به دانش تخصصی و تحلیل بازار دارد. با آموزش دیدن و شروع با سرمایه کم می‌توانید به تدریج پیشرفت کنید."
+                },
+                {
+                    title: "۷. ایجاد اپلیکیشن موبایل",
+                    description: "توسعه اپلیکیشن‌های موبایل و کسب درآمد از طریق تبلیغات، فروش درون برنامه‌ای و خریدهای premium. ایده‌های خلاقانه می‌توانند درآمد بالایی ایجاد کنند."
+                },
+                {
+                    title: "۸. کسب درآمد از شبکه‌های اجتماعی",
+                    description: "ایجاد صفحه در اینستاگرام، تلگرام یا سایر شبکه‌های اجتماعی و کسب درآمد از طریق تبلیغات، همکاری با برندها و فروش محصولات. تولید محتوای جذاب و تعامل با مخاطبان کلید موفقیت است."
+                },
+                {
+                    title: "۹. تدریس آنلاین",
+                    description: "ارائه دوره‌های آموزشی آنلاین در زمینه‌های تخصصی خود از طریق پلتفرم‌های آموزش الکترونیک. می‌توانید از مهارت‌های خود برای آموزش دیگران استفاده کنید."
+                },
+                {
+                    title: "۱۰. ترجمه و تولید محتوا",
+                    description: "ارائه خدمات ترجمه، نویسندگی و تولید محتوا برای وبسایت‌ها، مجلات و کسب‌وکارهای مختلف. این روش برای افرادی با مهارت‌های زبانی و نویسندگی مناسب است."
+                },
+                {
+                    title: "۱۱. سرمایه‌گذاری در املاک",
+                    description: "خرید و فروش املاک، اجاره دادن property و سرمایه‌گذاری در پروژه‌های ساختمانی. این روش نیاز به سرمایه اولیه بالایی دارد اما بازدهی خوبی دارد."
+                },
+                {
+                    title: "۱۲. کسب درآمد از affiliate marketing",
+                    description: "تبلیغ محصولات دیگران و دریافت کمیسیون از هر فروش که از طریق لینک شما انجام شود. می‌توانید از طریق وبسایت، شبکه‌های اجتماعی یا ایمیل مارکتینگ این کار را انجام دهید."
+                },
+                {
+                    title: "۱۳. طراحی گرافیک",
+                    description: "ارائه خدمات طراحی لوگو، بنر، اینفوگرافیک و سایر طرح‌های گرافیکی برای کسب‌وکارها. این روش برای افراد خلاق با مهارت‌های طراحی مناسب است."
+                },
+                {
+                    title: "۱۴. مدیریت شبکه‌های اجتماعی",
+                    description: "مدیریت صفحات اجتماعی کسب‌وکارها و ایجاد استراتژی محتوا برای جذب مخاطب بیشتر. این شغل برای افرادی که در شبکه‌های اجتماعی فعال هستند مناسب است."
+                },
+                {
+                    title: "۱۵. کسب درآمد از بازی‌های کامپیوتری",
+                    description: "شرکت در تورنمنت‌های بازی، استریم کردن بازی‌ها در پلتفرم‌هایی مانند Twitch و تولید محتوای بازی. این روش برای گیمرهای حرفه‌ای مناسب است."
+                },
+                {
+                    title: "۱۶. سرمایه‌گذاری در ارزهای دیجیتال",
+                    description: "خرید و فروش ارزهای دیجیتال، استیکینگ و ارائه خدمات مربوط به بلاکچین. این روش ریسک بالایی دارد اما پتانسیل سودآوری زیادی نیز دارد."
+                },
+                {
+                    title: "۱۷. تولید پادکست",
+                    description: "ایجاد پادکست در حوزه‌های تخصصی و کسب درآمد از طریق تبلیغات، اسپانسرشیپ و فروش محصولات. پادکست‌ها محبوبیت روزافزونی پیدا کرده‌اند."
+                },
+                {
+                    title: "۱۸. خدمات SEO",
+                    description: "ارائه خدمات بهینه‌سازی سایت برای موتورهای جستجو به کسب‌وکارهای مختلف. این مهارت بسیار ارزشمند است و تقاضای بالایی دارد."
+                },
+                {
+                    title: "۱۹. کسب درآمد از NFT",
+                    description: "خلق و فروش آثار هنری دیجیتال در قالب NFT در پلتفرم‌های مختلف. این بازار جدید فرصت‌های درآمدزایی جالبی ایجاد کرده است."
+                },
+                {
+                    title: "۲۰. مشاوره سرمایه‌گذاری",
+                    description: "ارائه مشاوره تخصصی در زمینه سرمایه‌گذاری در بازارهای مختلف به افراد و سازمان‌ها. این روش برای متخصصان مالی با تجربه مناسب است."
                 }
             ];
             
@@ -2857,39 +3153,6 @@
                 `;
                 incomeContainer.appendChild(methodElement);
             });
-        }
-
-        // ========== بخش حمایت مالی ==========
-        function copyCardNumber() {
-            const cardNumber = '5892101187322777';
-            navigator.clipboard.writeText(cardNumber)
-                .then(() => {
-                    showSuccessMessage('شماره کارت کپی شد');
-                })
-                .catch(err => {
-                    alert('خطا در کپی کردن شماره کارت');
-                });
-        }
-
-        function submitDonation() {
-            const amount = parseInt(document.getElementById('donation-amount').value) || 0;
-            const message = document.getElementById('donation-message').value;
-            
-            if (amount <= 0) {
-                alert('لطفاً مبلغ معتبر وارد کنید');
-                return;
-            }
-            
-            const thankYouMessage = `
-                🙏 با تشکر از حمایت شما!
-                
-                مبلغ حمایت: ${amount.toLocaleString()} تومان
-                ${message ? `پیام شما: ${message}` : ''}
-            `;
-            
-            alert(thankYouMessage);
-            
-            showSuccessMessage('اطلاعات حمایت مالی ثبت شد');
         }
 
         // ========== ویژگی ریست تمام داده‌ها ==========
@@ -2933,7 +3196,7 @@
                 document.getElementById('invoice-preview').style.display = 'none';
                 document.getElementById('tax-result').innerHTML = '';
                 document.getElementById('advanced-report-result').innerHTML = '';
-                document.getElementById('crypto-result').innerHTML = '';
+                document.getElementById('crypto-recommendations').innerHTML = '';
                 
                 showSuccessMessage('تمام داده‌های سیستم با موفقیت ریست شدند');
             }
@@ -3022,9 +3285,20 @@
             if (employee) {
                 document.getElementById('employee-name').value = employee.name;
                 document.getElementById('employee-position').value = employee.position;
-                document.getElementById('employee-salary').value = employee.salary;
+                document.getElementById('employee-salary-type').value = employee.salary.type;
+                
+                if (employee.salary.type === 'fixed') {
+                    document.getElementById('employee-salary').value = employee.salary.amount;
+                } else if (employee.salary.type === 'percentage') {
+                    document.getElementById('employee-percentage').value = employee.salary.amount;
+                } else if (employee.salary.type === 'piecework') {
+                    document.getElementById('employee-piece-rate').value = employee.salary.amount;
+                }
+                
                 document.getElementById('employee-join-date').value = employee.joinDate;
                 document.getElementById('employee-contact').value = employee.contact;
+                
+                toggleSalaryFields();
                 
                 // حذف کارمند قدیمی
                 employees = employees.filter(emp => emp.id !== id);
@@ -3081,7 +3355,12 @@
         function generatePerformanceReport() {
             const totalEmployees = employees.length;
             const avgSalary = totalEmployees > 0 ? 
-                employees.reduce((sum, emp) => sum + emp.salary, 0) / totalEmployees : 0;
+                employees.reduce((sum, emp) => {
+                    if (emp.salary.type === 'fixed') {
+                        return sum + emp.salary.amount;
+                    }
+                    return sum;
+                }, 0) / totalEmployees : 0;
             
             return `
                 <div class="production-result">
@@ -3121,11 +3400,6 @@
                     </div>
                 </div>
             `;
-        }
-
-        // تابع دانلود فاکتور (PDF)
-        function downloadInvoiceAsPDF() {
-            alert('امکان دانلود فاکتور به صورت PDF به زودی اضافه خواهد شد');
         }
     </script>
 </body>
