@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم آرامش و تمرکز ذهن</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html, body {
+            overflow: hidden;
+            height: 100%;
+            background: linear-gradient(135deg, #0a192f, #1a2a6c, #4a235a);
+            color: white;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        
+        .container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .nav-tab.active {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .breathing-circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .breathing-circle::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .breathing-circle.active::before {
+            opacity: 1;
+            animation: lightPulse 2s infinite alternate;
+        }
+        
+        @keyframes lightPulse {
+            0% {
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.4),
+                            inset 0 0 30px rgba(255, 255, 255, 0.1);
+            }
+            100% {
+                box-shadow: 0 0 60px rgba(255, 255, 255, 0.8),
+                            inset 0 0 50px rgba(255, 255, 255, 0.2);
+            }
+        }
+        
+        .timer {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            position: relative;
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            min-height: 60px;
+            transition: all 0.3s ease;
+        }
+        
+        .instructions {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .mind-clearing-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .light-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 10px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .light-cell {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .light-cell.active {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        .light-cell.cleared {
+            background: rgba(76, 175, 80, 0.5);
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
+        }
+        
+        .light-cell.cleared::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: lightBeam 6s ease-out forwards;
+        }
+        
+        @keyframes lightBeam {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            50% {
+                width: 400px;
+                height: 400px;
+                opacity: 0.8;
+            }
+            100% {
+                width: 600px;
+                height: 600px;
+                opacity: 0;
+            }
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        .quote {
+            font-style: italic;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 15px;
+            min-width: 150px;
+            margin: 10px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .stress-relief-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .particle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+        }
+        
+        .breathing-guide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .breath-circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .breath-inner {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 4s ease-in-out;
+        }
+        
+        .breath-inner.expand {
+            transform: scale(1.5);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+        
+        .breath-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+        
+        .breath-light {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .breath-light.active {
+            opacity: 1;
+            animation: breathLightFlow 4s linear;
+        }
+        
+        @keyframes breathLightFlow {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            25% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.6;
+            }
+            75% {
+                transform: scale(1.5);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        .success-message {
+            background: rgba(76, 175, 80, 0.3);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            animation: fadeIn 1s;
+        }
+        
+        .pulse-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: 20px;
+            pointer-events: none;
+            opacity: 0;
+        }
+        
+        .pulse-active {
+            animation: therapyPulse 2s infinite;
+        }
+        
+        @keyframes therapyPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+        
+        .session-history {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+        }
+        
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .audio-controls {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .audio-btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        /* استایل‌های بخش خواب */
+        .sleep-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sleep-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        
+        .moon {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #f5f5f5 0%, #e0e0e0 100%);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
+            margin: 20px 0;
+            position: relative;
+            animation: moonGlow 4s infinite alternate;
+        }
+        
+        @keyframes moonGlow {
+            0% {
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 60px rgba(255, 255, 255, 0.9);
+            }
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        .breathing-waves {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .wave {
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: waveExpand 4s infinite ease-in-out;
+        }
+        
+        .wave:nth-child(1) { animation-delay: 0s; }
+        .wave:nth-child(2) { animation-delay: 1s; }
+        .wave:nth-child(3) { animation-delay: 2s; }
+        .wave:nth-child(4) { animation-delay: 3s; }
+        
+        @keyframes waveExpand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+        
+        .sleep-timer {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .sleep-message {
+            font-size: 1.3rem;
+            margin: 15px 0;
+            min-height: 60px;
+        }
+        
+        @media (max-width: 600px) {
+            .breathing-circle {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .timer {
+                font-size: 3rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-tab {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .breath-circle {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .moon {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>سیستم آرامش و تمرکز ذهن</h1>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-target="breathing">آرامش تنفس</button>
+            <button class="nav-tab" data-target="mind">آرامش ذهن</button>
+            <button class="nav-tab" data-target="stress">از بین بردن استرس</button>
+            <button class="nav-tab" data-target="sleep">سیستم خواب</button>
+        </div>
+        
+        <!-- بخش آرامش تنفس -->
+        <div id="breathing" class="section active">
+            <h2>تمرین حبس نفس</h2>
+            <div class="instructions">
+                <p>دست خود را روی دایره قرار دهید. شمارش ثانیه‌ها شروع می‌شود.</p>
+                <p>تا جایی که می‌توانید نفس خود را حبس کنید، سپس دست خود را بردارید.</p>
+            </div>
+            
+            <div class="breathing-circle" id="breathingCircle">
+                <div class="timer" id="timer">0</div>
+            </div>
+            
+            <div class="message" id="message">دست خود را روی دایره قرار دهید</div>
+            
+            <div class="audio-controls">
+                <button class="audio-btn" id="playBreathingSound">پخش صدای آرامش</button>
+                <button class="audio-btn" id="stopBreathingSound">توقف صدا</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-value" id="todayRecord">0</div>
+                    <div class="stat-label">رکورد امروز (ثانیه)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="bestRecord">0</div>
+                    <div class="stat-label">بهترین رکورد (ثانیه)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="goal">60</div>
+                    <div class="stat-label">هدف فردا (ثانیه)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- بخش آرامش ذهن -->
+        <div id="mind" class="section mind-clearing-section">
+            <h2>پاکسازی ذهن</h2>
+            <div class="instructions">
+                <p>روی مربع‌های نورانی کلیک کنید تا تمام آن‌ها روشن شوند.</p>
+                <p>با هر کلیک، ذهن شما پاکتر و آرامتر می‌شود.</p>
+            </div>
+            
+            <div class="light-grid" id="lightGrid">
+                <!-- مربع‌های نورانی با JavaScript تولید می‌شوند -->
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="mindProgress"></div>
+            </div>
+            
+            <div class="controls">
+                <button id="startMindClearing">شروع پاکسازی ذهن</button>
+                <button id="resetMindClearing">شروع مجدد</button>
+            </div>
+            
+            <div class="audio-controls">
+                <button class="audio-btn" id="playMindSound">پخش صدای آرامش</button>
+                <button class="audio-btn" id="stopMindSound">توقف صدا</button>
+            </div>
+            
+            <div id="mindClearingResult" class="hidden success-message">
+                <h3>آفرین! ذهنت کاملاً خالی شد!</h3>
+                <p>همه چیز درست می‌شود. کافی است هر روز این تمرین را انجام دهی.</p>
+            </div>
+        </div>
+        
+        <!-- بخش از بین بردن استرس -->
+        <div id="stress" class="section stress-relief-section">
+            <h2>از بین بردن استرس</h2>
+            <div class="instructions">
+                <p>با ریتم تنفس خود هماهنگ شوید. نفس عمیق بکشید و آرامش را احساس کنید.</p>
+            </div>
+            
+            <div class="breathing-guide">
+                <div class="breath-circle">
+                    <div class="breath-inner" id="breathInner">
+                        <div class="breath-text" id="breathText">نفس بکش</div>
+                    </div>
+                    <div class="breath-light" id="breathLight"></div>
+                </div>
+            </div>
+            
+            <div class="timer" id="stressTimer">5:00</div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="stressProgress"></div>
+            </div>
+            
+            <div class="controls">
+                <button id="startStressRelief">شروع تمرین تنفس</button>
+                <button id="pauseStressRelief" class="hidden">توقف موقت</button>
+                <button id="resetStressRelief">بازنشانی</button>
+            </div>
+            
+            <div class="audio-controls">
+                <button class="audio-btn" id="playStressSound">پخش صدای آرامش</button>
+                <button class="audio-btn" id="stopStressSound">توقف صدا</button>
+            </div>
+            
+            <div class="particle-container" id="particleContainer"></div>
+            
+            <div class="quote" id="stressQuote">"استرس را رها کن و آرامش را جایگزین آن کن"</div>
+        </div>
+        
+        <!-- بخش سیستم خواب -->
+        <div id="sleep" class="section sleep-section">
+            <h2>سیستم خواب آرام</h2>
+            <div class="instructions">
+                <p>با دنبال کردن ریتم تنفس و تماشای نورهای آرامش‌بخش، آماده خواب شوید.</p>
+            </div>
+            
+            <div class="sleep-container">
+                <div class="moon"></div>
+                <div class="stars" id="starsContainer"></div>
+                
+                <div class="breathing-waves">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+                
+                <div class="sleep-timer" id="sleepTimer">15:00</div>
+                
+                <div class="sleep-message" id="sleepMessage">
+                    آماده‌ای برای یک خواب عمیق و آرام؟
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="sleepProgress"></div>
+                </div>
+                
+                <div class="controls">
+                    <button id="startSleep">شروع برنامه خواب</button>
+                    <button id="pauseSleep" class="hidden">توقف موقت</button>
+                    <button id="resetSleep">بازنشانی</button>
+                </div>
+                
+                <div class="audio-controls">
+                    <button class="audio-btn" id="playSleepSound">پخش صدای خواب</button>
+                    <button class="audio-btn" id="stopSleepSound">توقف صدا</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // مدیریت تب‌ها
+        const navTabs = document.querySelectorAll('.nav-tab');
+        const sections = document.querySelectorAll('.section');
+        
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetId = tab.getAttribute('data-target');
+                
+                // غیرفعال کردن همه تب‌ها و بخش‌ها
+                navTabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                // فعال کردن تب و بخش انتخاب شده
+                tab.classList.add('active');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        
+        // سیستم صداها
+        let currentAudio = null;
+        
+        // تابع برای پخش صداهای مختلف
+        function playSound(soundType) {
+            // توقف صداهای قبلی
+            stopSound();
+            
+            // لیست فایل‌های صوتی برای هر بخش
+            const soundFiles = {
+                breathing: ['m1.mp3', 'm2.mp3', 'm3.mp3', 'm4.mp3', 'm5.mp3'],
+                mind: ['m1.mp3', 'm2.mp3', 'm3.mp3', 'm4.mp3', 'm5.mp3'],
+                stress: ['m1.mp3', 'm2.mp3', 'm3.mp3', 'm4.mp3', 'm5.mp3'],
+                sleep: ['m1.mp3', 'm2.mp3', 'm3.mp3', 'm4.mp3', 'm5.mp3']
+            };
+            
+            // انتخاب تصادفی یک فایل صوتی
+            const randomIndex = Math.floor(Math.random() * soundFiles[soundType].length);
+            const soundFile = soundFiles[soundType][randomIndex];
+            
+            // ایجاد المان صوتی
+            currentAudio = new Audio(soundFile);
+            currentAudio.loop = true;
+            currentAudio.volume = 0.5;
+            
+            // پخش صدا
+            currentAudio.play().catch(e => {
+                console.log('خطا در پخش صدا:', e);
+            });
+        }
+        
+        // توقف صدا
+        function stopSound() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+        }
+        
+        // بخش تمرین تنفس
+        const breathingCircle = document.getElementById('breathingCircle');
+        const timer = document.getElementById('timer');
+        const message = document.getElementById('message');
+        const todayRecordEl = document.getElementById('todayRecord');
+        const bestRecordEl = document.getElementById('bestRecord');
+        const goalEl = document.getElementById('goal');
+        const playBreathingSoundBtn = document.getElementById('playBreathingSound');
+        const stopBreathingSoundBtn = document.getElementById('stopBreathingSound');
+        
+        let seconds = 0;
+        let timerInterval;
+        let isActive = false;
+        let todayRecord = 0;
+        let bestRecord = parseInt(localStorage.getItem('bestRecord')) || 0;
+        let goal = 60;
+        
+        // به روز رسانی آمار
+        function updateStats() {
+            todayRecordEl.textContent = todayRecord;
+            bestRecordEl.textContent = bestRecord;
+            goalEl.textContent = goal;
+        }
+        
+        breathingCircle.addEventListener('mouseenter', startTimer);
+        breathingCircle.addEventListener('touchstart', startTimer);
+        
+        breathingCircle.addEventListener('mouseleave', stopTimer);
+        breathingCircle.addEventListener('touchend', stopTimer);
+        
+        playBreathingSoundBtn.addEventListener('click', () => playSound('breathing'));
+        stopBreathingSoundBtn.addEventListener('click', stopSound);
+        
+        function startTimer() {
+            if (isActive) return;
+            
+            isActive = true;
+            seconds = 0;
+            timer.textContent = seconds;
+            breathingCircle.classList.add('active');
+            message.textContent = "نفستو حبس کن!";
+            
+            timerInterval = setInterval(() => {
+                seconds++;
+                timer.textContent = seconds;
+                
+                // افزایش سرعت نورپردازی با افزایش زمان
+                const pulseSpeed = Math.max(2 - (seconds / 30), 0.5);
+                breathingCircle.style.animationDuration = `${pulseSpeed}s`;
+                
+                if (seconds >= 45) {
+                    message.textContent = "شگفت انگیز! ادامه بده!";
+                } else if (seconds >= 30) {
+                    message.textContent = "فوق العاده‌ای!";
+                } else if (seconds >= 20) {
+                    message.textContent = "عالی عمل کردی!";
+                } else if (seconds >= 10) {
+                    message.textContent = "آفرین! ادامه بده!";
+                }
+            }, 1000);
+        }
+        
+        function stopTimer() {
+            if (!isActive) return;
+            
+            clearInterval(timerInterval);
+            breathingCircle.classList.remove('active');
+            
+            // به روز رسانی رکوردها
+            if (seconds > todayRecord) {
+                todayRecord = seconds;
+            }
+            
+            if (seconds > bestRecord) {
+                bestRecord = seconds;
+                localStorage.setItem('bestRecord', bestRecord);
+            }
+            
+            // تنظیم هدف برای فردا
+            goal = seconds + 5;
+            
+            if (seconds >= 30) {
+                message.textContent = "شگفت انگیز! تو یک قهرمانی! فردا " + goal + " ثانیه هدف بگیر!";
+            } else if (seconds >= 20) {
+                message.textContent = "عالی! فردا " + goal + " ثانیه هدف بگیر!";
+            } else if (seconds >= 10) {
+                message.textContent = "آفرین! خوب عمل کردی! فردا " + goal + " ثانیه هدف بگیر!";
+            } else {
+                message.textContent = "دفعه بعدی بهتر می‌شوی! فردا " + goal + " ثانیه هدف بگیر!";
+            }
+            
+            updateStats();
+            isActive = false;
+        }
+        
+        // بخش پاکسازی ذهن
+        const lightGrid = document.getElementById('lightGrid');
+        const mindProgress = document.getElementById('mindProgress');
+        const startMindClearingBtn = document.getElementById('startMindClearing');
+        const resetMindClearingBtn = document.getElementById('resetMindClearing');
+        const mindClearingResult = document.getElementById('mindClearingResult');
+        const playMindSoundBtn = document.getElementById('playMindSound');
+        const stopMindSoundBtn = document.getElementById('stopMindSound');
+        
+        let lightCells = [];
+        let clearedCells = 0;
+        let totalCells = 25;
+        let mindClearingActive = false;
+        
+        playMindSoundBtn.addEventListener('click', () => playSound('mind'));
+        stopMindSoundBtn.addEventListener('click', stopSound);
+        
+        // ایجاد شبکه نورانی
+        function createLightGrid() {
+            lightGrid.innerHTML = '';
+            lightCells = [];
+            clearedCells = 0;
+            
+            for (let i = 0; i < totalCells; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'light-cell';
+                cell.addEventListener('click', () => activateCell(cell, i));
+                lightGrid.appendChild(cell);
+                lightCells.push(cell);
+            }
+            
+            updateMindProgress();
+            mindClearingResult.classList.add('hidden');
+        }
+        
+        function activateCell(cell, index) {
+            if (!mindClearingActive || cell.classList.contains('cleared')) return;
+            
+            cell.classList.add('cleared');
+            clearedCells++;
+            
+            // فعال کردن سلول‌های مجاور
+            const row = Math.floor(index / 5);
+            const col = index % 5;
+            
+            // بالا
+            if (row > 0) activateIfExists(row - 1, col);
+            // پایین
+            if (row < 4) activateIfExists(row + 1, col);
+            // چپ
+            if (col > 0) activateIfExists(row, col - 1);
+            // راست
+            if (col < 4) activateIfExists(row, col + 1);
+            
+            updateMindProgress();
+            
+            // ایجاد نور آرامش‌بخش تصادفی با احتمال بیشتر (70%)
+            if (Math.random() < 0.7) {
+                createCalmingLight(cell);
+            }
+            
+            // بررسی اتمام بازی
+            if (clearedCells === totalCells) {
+                mindClearingResult.classList.remove('hidden');
+                mindClearingActive = false;
+                
+                // ایجاد نور نهایی
+                createFinalLight();
+            }
+        }
+        
+        function activateIfExists(row, col) {
+            const index = row * 5 + col;
+            if (index >= 0 && index < totalCells && !lightCells[index].classList.contains('cleared')) {
+                lightCells[index].classList.add('cleared');
+                clearedCells++;
+            }
+        }
+        
+        function updateMindProgress() {
+            const progress = (clearedCells / totalCells) * 100;
+            mindProgress.style.width = `${progress}%`;
+        }
+        
+        // ایجاد نور آرامش‌بخش
+        function createCalmingLight(cell) {
+            const lightBeam = document.createElement('div');
+            lightBeam.className = 'calming-light';
+            lightBeam.style.position = 'absolute';
+            lightBeam.style.top = '50%';
+            lightBeam.style.left = '50%';
+            lightBeam.style.width = '0';
+            lightBeam.style.height = '0';
+            lightBeam.style.background = 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)';
+            lightBeam.style.borderRadius = '50%';
+            lightBeam.style.transform = 'translate(-50%, -50%)';
+            lightBeam.style.zIndex = '1';
+            lightBeam.style.pointerEvents = 'none';
+            
+            cell.appendChild(lightBeam);
+            
+            // انیمیشن نور
+            setTimeout(() => {
+                lightBeam.style.transition = 'all 6s ease-out';
+                lightBeam.style.width = '600px';
+                lightBeam.style.height = '600px';
+                lightBeam.style.opacity = '0';
+            }, 10);
+            
+            // حذف المان پس از اتمام انیمیشن
+            setTimeout(() => {
+                if (lightBeam.parentNode) {
+                    lightBeam.parentNode.removeChild(lightBeam);
+                }
+            }, 6000);
+        }
+        
+        // ایجاد نور نهایی پس از اتمام بازی
+        function createFinalLight() {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const randomCell = lightCells[Math.floor(Math.random() * lightCells.length)];
+                    createCalmingLight(randomCell);
+                }, i * 600);
+            }
+        }
+        
+        startMindClearingBtn.addEventListener('click', () => {
+            mindClearingActive = true;
+            createLightGrid();
+        });
+        
+        resetMindClearingBtn.addEventListener('click', createLightGrid);
+        
+        // بخش از بین بردن استرس
+        const breathInner = document.getElementById('breathInner');
+        const breathText = document.getElementById('breathText');
+        const breathLight = document.getElementById('breathLight');
+        const stressTimer = document.getElementById('stressTimer');
+        const stressProgress = document.getElementById('stressProgress');
+        const startStressReliefBtn = document.getElementById('startStressRelief');
+        const pauseStressReliefBtn = document.getElementById('pauseStressRelief');
+        const resetStressReliefBtn = document.getElementById('resetStressRelief');
+        const stressQuote = document.getElementById('stressQuote');
+        const particleContainer = document.getElementById('particleContainer');
+        const playStressSoundBtn = document.getElementById('playStressSound');
+        const stopStressSoundBtn = document.getElementById('stopStressSound');
+        
+        let stressSeconds = 5 * 60; // 5 دقیقه
+        let stressInterval;
+        let isStressActive = false;
+        let isStressPaused = false;
+        let breathPhase = 'inhale'; // inhale, hold, exhale
+        let breathCycle = 0;
+        
+        const stressQuotes = [
+            "استرس را رها کن و آرامش را جایگزین آن کن",
+            "نفس عمیق بکش و همه نگرانی‌ها را رها کن",
+            "تو قوی‌تر از هر استرسی هستی",
+            "آرامش حق طبیعی توست",
+            "همین حالا تصمیم بگیر که آرام باشی",
+            "استرس تنها یک میهمان ناخوانده است، به آن اجازه نده بماند",
+            "هر نفسی که می‌کشی تو را به آرامش نزدیک‌تر می‌کند",
+            "ذهن آرام، زندگی آرام می‌آورد"
+        ];
+        
+        startStressReliefBtn.addEventListener('click', startStressRelief);
+        pauseStressReliefBtn.addEventListener('click', togglePauseStressRelief);
+        resetStressReliefBtn.addEventListener('click', resetStressRelief);
+        playStressSoundBtn.addEventListener('click', () => playSound('stress'));
+        stopStressSoundBtn.addEventListener('click', stopSound);
+        
+        function startStressRelief() {
+            if (isStressActive) return;
+            
+            isStressActive = true;
+            isStressPaused = false;
+            startStressReliefBtn.classList.add('hidden');
+            pauseStressReliefBtn.classList.remove('hidden');
+            
+            stressInterval = setInterval(updateStressTimer, 1000);
+            startBreathingGuide();
+        }
+        
+        function togglePauseStressRelief() {
+            if (!isStressActive) return;
+            
+            if (isStressPaused) {
+                // ادامه دادن
+                stressInterval = setInterval(updateStressTimer, 1000);
+                startBreathingGuide();
+                pauseStressReliefBtn.textContent = "توقف موقت";
+                isStressPaused = false;
+            } else {
+                // توقف
+                clearInterval(stressInterval);
+                clearInterval(breathInterval);
+                pauseStressReliefBtn.textContent = "ادامه جلسه";
+                isStressPaused = true;
+            }
+        }
+        
+        function resetStressRelief() {
+            clearInterval(stressInterval);
+            clearInterval(breathInterval);
+            isStressActive = false;
+            isStressPaused = false;
+            stressSeconds = 5 * 60;
+            updateStressDisplay();
+            startStressReliefBtn.classList.remove('hidden');
+            pauseStressReliefBtn.classList.add('hidden');
+            pauseStressReliefBtn.textContent = "توقف موقت";
+            breathInner.classList.remove('expand');
+            breathText.textContent = "نفس بکش";
+            breathLight.classList.remove('active');
+        }
+        
+        function updateStressTimer() {
+            if (stressSeconds > 0) {
+                stressSeconds--;
+                updateStressDisplay();
+                
+                // تغییر نقل قول هر 30 ثانیه
+                if (stressSeconds % 30 === 0) {
+                    changeStressQuote();
+                }
+            } else {
+                clearInterval(stressInterval);
+                clearInterval(breathInterval);
+                stressTimer.textContent = "انجام شد!";
+                startStressReliefBtn.classList.remove('hidden');
+                pauseStressReliefBtn.classList.add('hidden');
+                isStressActive = false;
+                breathText.textContent = "آفرین!";
+            }
+        }
+        
+        function updateStressDisplay() {
+            const minutes = Math.floor(stressSeconds / 60);
+            const seconds = stressSeconds % 60;
+            stressTimer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            const progress = ((5 * 60 - stressSeconds) / (5 * 60)) * 100;
+            stressProgress.style.width = `${progress}%`;
+        }
+        
+        function startBreathingGuide() {
+            breathCycle = 0;
+            breathPhase = 'inhale';
+            breathInner.classList.remove('expand');
+            breathText.textContent = "نفس بکش";
+            breathLight.classList.remove('active');
+            
+            breathInterval = setInterval(() => {
+                breathCycle++;
+                
+                if (breathPhase === 'inhale') {
+                    breathInner.classList.add('expand');
+                    breathText.textContent = "نفس بکش...";
+                    breathPhase = 'hold';
+                } else if (breathPhase === 'hold') {
+                    breathText.textContent = "نگه دار...";
+                    breathPhase = 'exhale';
+                } else {
+                    breathInner.classList.remove('expand');
+                    breathText.textContent = "بازدم...";
+                    breathPhase = 'inhale';
+                    
+                    // فعال کردن نور پردازی در بازدم
+                    breathLight.classList.add('active');
+                    
+                    // ایجاد ذرات نورانی در هر بازدم
+                    createParticles();
+                    
+                    // غیرفعال کردن نور پس از اتمام انیمیشن
+                    setTimeout(() => {
+                        breathLight.classList.remove('active');
+                    }, 4000);
+                }
+            }, 4000); // تغییر هر 4 ثانیه
+        }
+        
+        function changeStressQuote() {
+            const randomIndex = Math.floor(Math.random() * stressQuotes.length);
+            stressQuote.textContent = `"${stressQuotes[randomIndex]}"`;
+        }
+        
+        function createParticles() {
+            // پاکسازی ذرات قبلی
+            particleContainer.innerHTML = '';
+            
+            // ایجاد ذرات جدید
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // موقعیت تصادفی در اطراف دایره تنفس
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 150 + 50;
+                const left = 50 + Math.cos(angle) * distance;
+                const top = 50 + Math.sin(angle) * distance;
+                
+                particle.style.left = `${left}%`;
+                particle.style.top = `${top}%`;
+                
+                // اندازه تصادفی
+                const size = Math.random() * 15 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // رنگ‌های مختلف برای ذرات
+                const colors = [
+                    'rgba(255, 255, 255, 0.9)',
+                    'rgba(173, 216, 230, 0.8)',
+                    'rgba(240, 248, 255, 0.7)',
+                    'rgba(224, 255, 255, 0.8)'
+                ];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                // انیمیشن حرکت به سمت بیرون
+                const targetX = 50 + Math.cos(angle) * 300;
+                const targetY = 50 + Math.sin(angle) * 300;
+                
+                particle.style.animation = `moveParticle 4s ease-out forwards`;
+                
+                // اضافه کردن استایل انیمیشن moveParticle
+                if (!document.querySelector('#moveParticleStyle')) {
+                    const style = document.createElement('style');
+                    style.id = 'moveParticleStyle';
+                    style.textContent = `
+                        @keyframes moveParticle {
+                            0% { 
+                                opacity: 1; 
+                                transform: translate(0, 0) scale(1);
+                            }
+                            100% { 
+                                opacity: 0; 
+                                transform: translate(${targetX - left}%, ${targetY - top}%) scale(0);
+                            }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+                particleContainer.appendChild(particle);
+            }
+        }
+        
+        // بخش سیستم خواب
+        const starsContainer = document.getElementById('starsContainer');
+        const sleepTimer = document.getElementById('sleepTimer');
+        const sleepMessage = document.getElementById('sleepMessage');
+        const sleepProgress = document.getElementById('sleepProgress');
+        const startSleepBtn = document.getElementById('startSleep');
+        const pauseSleepBtn = document.getElementById('pauseSleep');
+        const resetSleepBtn = document.getElementById('resetSleep');
+        const playSleepSoundBtn = document.getElementById('playSleepSound');
+        const stopSleepSoundBtn = document.getElementById('stopSleepSound');
+        
+        let sleepSeconds = 15 * 60; // 15 دقیقه
+        let sleepInterval;
+        let isSleepActive = false;
+        let isSleepPaused = false;
+        
+        // ایجاد ستاره‌ها
+        function createStars() {
+            starsContainer.innerHTML = '';
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 3 + 1}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        playSleepSoundBtn.addEventListener('click', () => playSound('sleep'));
+        stopSleepSoundBtn.addEventListener('click', stopSound);
+        
+        startSleepBtn.addEventListener('click', startSleepProgram);
+        pauseSleepBtn.addEventListener('click', togglePauseSleep);
+        resetSleepBtn.addEventListener('click', resetSleepProgram);
+        
+        function startSleepProgram() {
+            if (isSleepActive) return;
+            
+            isSleepActive = true;
+            isSleepPaused = false;
+            startSleepBtn.classList.add('hidden');
+            pauseSleepBtn.classList.remove('hidden');
+            sleepMessage.textContent = "چشمانت را ببند و نفس عمیق بکش...";
+            
+            sleepInterval = setInterval(updateSleepTimer, 1000);
+            
+            // پخش صدای خواب به صورت خودکار
+            playSound('sleep');
+        }
+        
+        function togglePauseSleep() {
+            if (!isSleepActive) return;
+            
+            if (isSleepPaused) {
+                // ادامه دادن
+                sleepInterval = setInterval(updateSleepTimer, 1000);
+                pauseSleepBtn.textContent = "توقف موقت";
+                isSleepPaused = false;
+                sleepMessage.textContent = "چشمانت را ببند و نفس عمیق بکش...";
+            } else {
+                // توقف
+                clearInterval(sleepInterval);
+                pauseSleepBtn.textContent = "ادامه برنامه";
+                isSleepPaused = true;
+                sleepMessage.textContent = "برنامه متوقف شد...";
+            }
+        }
+        
+        function resetSleepProgram() {
+            clearInterval(sleepInterval);
+            isSleepActive = false;
+            isSleepPaused = false;
+            sleepSeconds = 15 * 60;
+            updateSleepDisplay();
+            startSleepBtn.classList.remove('hidden');
+            pauseSleepBtn.classList.add('hidden');
+            pauseSleepBtn.textContent = "توقف موقت";
+            sleepMessage.textContent = "آماده‌ای برای یک خواب عمیق و آرام؟";
+        }
+        
+        function updateSleepTimer() {
+            if (sleepSeconds > 0) {
+                sleepSeconds--;
+                updateSleepDisplay();
+                
+                // تغییر پیام بر اساس زمان باقیمانده
+                if (sleepSeconds === 10 * 60) {
+                    sleepMessage.textContent = "بدنت در حال آرامش است...";
+                } else if (sleepSeconds === 5 * 60) {
+                    sleepMessage.textContent = "ذهنت سبک می‌شود...";
+                } else if (sleepSeconds === 2 * 60) {
+                    sleepMessage.textContent = "آماده خوابی عمیق و آرام...";
+                } else if (sleepSeconds === 30) {
+                    sleepMessage.textContent = "خواب شیرین...";
+                }
+            } else {
+                clearInterval(sleepInterval);
+                sleepTimer.textContent = "استراحت کامل!";
+                startSleepBtn.classList.remove('hidden');
+                pauseSleepBtn.classList.add('hidden');
+                isSleepActive = false;
+                sleepMessage.textContent = "امیدواریم خواب آرامی داشته باشید...";
+            }
+        }
+        
+        function updateSleepDisplay() {
+            const minutes = Math.floor(sleepSeconds / 60);
+            const seconds = sleepSeconds % 60;
+            sleepTimer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            const progress = ((15 * 60 - sleepSeconds) / (15 * 60)) * 100;
+            sleepProgress.style.width = `${progress}%`;
+        }
+        
+        // مقداردهی اولیه
+        updateStats();
+        createLightGrid();
+        updateStressDisplay();
+        changeStressQuote();
+        createStars();
+        updateSleepDisplay();
+    </script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درمان سلامت ریه - دکتر آنلاین</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 50%, #4caf50 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 50%, #4caf50 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            padding: 25px 20px;
+        }
+
+        .remedy-section {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .remedy-header {
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 50%, #4caf50 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+        }
+
+        .remedy-header h2 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .remedy-header p {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .current-remedy {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .remedy-title {
+            color: #4caf50;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remedy-number {
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+
+        .remedy-text {
+            font-size: 0.95em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .timer-display {
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            min-width: 100px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+            box-shadow: 0 8px 25px rgba(67, 233, 123, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            color: white;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+            padding: 18px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 0.95em;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(67, 233, 123, 0.3);
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hidden-remedies {
+            opacity: 0.3;
+            font-size: 0.8em;
+            color: #6c757d;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                border-radius: 25px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 درمان سلامت ریه</h1>
+            <p>موثرترین روش‌های طبیعی برای بهبود سلامت و پاکسازی ریه</p>
+        </div>
+
+        <div class="main-content">
+            <div class="remedy-section" id="lungs">
+                <div class="current-remedy">
+                    <div class="remedy-title">
+                        <span class="remedy-number">1</span>
+                        <span>روش اول - شما اینجا هستید</span>
+                    </div>
+                    <div class="remedy-text" id="lungs-text">برای شروع، دکمه زیر را بزنید</div>
+                    <div class="timer-display" id="lungs-timer" style="display: none;">⏰ زمان باقی‌مانده: <span></span></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="startTreatment('lungs')">شروع روش ۱</button>
+                        <button class="btn btn-success" onclick="reportSuccess('lungs')" style="display: none;">خوب شدم ✓</button>
+                        <button class="btn btn-primary" onclick="nextRemedy('lungs')" style="display: none;">روش بعدی</button>
+                    </div>
+                    <div id="lungs-success" style="display: none;"></div>
+                </div>
+                <div class="hidden-remedies" id="lungs-hidden">
+                    🔒 ۲۹ روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const remedies = {
+            lungs: [
+                "🌬️ **تمرینات تنفسی عمیق**: روزانه ۱۰ دقیقه تنفس عمیق دیافراگمی انجام دهید تا ظرفیت ریه‌ها افزایش یابد.",
+                "💧 **نوشیدن آب گرم با لیمو**: صبح ناشتا یک لیوان آب گرم با چند قطره لیموی تازه بنوشید تا سموم ریه دفع شود.",
+                "🌿 **دمنوش آویشن**: نوشیدن دمنوش آویشن به پاکسازی ریه و کاهش التهاب کمک می‌کند.",
+                "🍯 **عسل و زنجبیل**: ترکیب عسل و زنجبیل تازه برای تقویت ریه و کاهش سرفه.",
+                "🌰 **مغز بادام**: مصرف روزانه چند عدد بادام خام برای تقویت سیستم تنفسی.",
+                "🍃 **نعناع فلفلی**: استنشاق بخور نعناع یا نوشیدن دمنوش آن برای باز کردن مجاری تنفسی.",
+                "💨 **بخور اکالیپتوس**: افزودن چند قطره روغن اکالیپتوس به آب داغ و استنشاق بخار آن.",
+                "🍵 **چای سبز**: نوشیدن چای سبز به دلیل آنتی اکسیدان‌های قوی برای سلامت ریه مفید است.",
+                "🥕 **آب هویج**: نوشیدن آب هویج تازه برای تقویت سیستم ایمنی و سلامت ریه.",
+                "🌶️ **فلفل کاین**: مصرف مقدار کمی فلفل کاین در غذا به کاهش احتقان ریه کمک می‌کند.",
+                "🍋 **ویتامین C**: مصرف مرکبات و مواد غذایی سرشار از ویتامین C برای تقویت ریه.",
+                "🧄 **سیر**: مصرف سیر خام یا پخته به دلیل خواص ضدالتهابی برای ریه مفید است.",
+                "💛 **زردچوبه**: اضافه کردن زردچوبه به غذاها به کاهش التهاب ریه کمک می‌کند.",
+                "🍎 **سیب**: مصرف روزانه سیب برای بهبود عملکرد ریه و کاهش خطر بیماری‌های تنفسی.",
+                "🥦 **کلم بروکلی**: سرشار از آنتی اکسیدان‌هایی که برای محافظت از ریه مفید هستند.",
+                "🌻 **دانه آفتابگردان**: منبع ویتامین E که برای سلامت ریه ضروری است.",
+                "🍃 **زنجبیل و پیاز**: ترکیب زنجبیل و پیاز در غذا برای پاکسازی ریه.",
+                "💧 **نوشیدن آب کافی**: روزانه حداقل ۸ لیوان آب برای مرطوب نگه داشتن مجاری تنفسی.",
+                "🌿 **پونه کوهی**: استفاده از پونه به عنوان ادویه یا دمنوش برای خواص ضد میکروبی.",
+                "🍈 **آناناس**: حاوی آنزیم بروملین که به کاهش التهاب ریه کمک می‌کند.",
+                "🌰 **گردو**: منبع امگا-۳ که برای کاهش التهاب ریه مفید است.",
+                "🍅 **گوجه فرنگی**: سرشار از لیکوپن که برای سلامت ریه مفید است.",
+                "💚 **اسفناج**: مصرف اسفناج برای دریافت آنتی اکسیدان‌ها و ویتامین‌های ضروری.",
+                "🌾 **جو دوسر**: مصرف جو دوسر برای دریافت سلنیوم که برای سلامت ریه مهم است.",
+                "🍒 **آلبالو و گیلاس**: میوه‌های ضد التهاب برای کمک به سلامت ریه.",
+                "🥑 **آووکادو**: منبع غنی ویتامین E که از بافت ریه محافظت می‌کند.",
+                "🍠 **سیب زمینی شیرین**: سرشار از بتاکاروتن که برای سلامت ریه مفید است.",
+                "🌰 **تخم کتان**: منبع امگا-۳ برای کاهش التهاب در دستگاه تنفسی.",
+                "🌿 **مریم گلی**: دمنوش مریم گلی برای پاکسازی ریه و کاهش سرفه.",
+                "💧 **ورزش منظم**: انجام ورزش‌های هوازی منظم برای تقویت ظرفیت ریه."
+            ]
+        };
+
+        let currentState = { currentIndex: 0, timer: null, endTime: null, isActive: false };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+        });
+
+        function loadSavedData() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('lungsData') || '{}');
+                if (saved.currentIndex !== undefined) currentState.currentIndex = saved.currentIndex;
+                if (saved.endTime && new Date().getTime() < saved.endTime) {
+                    currentState.endTime = saved.endTime;
+                    currentState.isActive = saved.isActive || false;
+                    restoreActiveState();
+                } else if (saved.endTime && new Date().getTime() >= saved.endTime) {
+                    // اگر زمان به پایان رسیده باشد، وضعیت را بازنشانی کنید
+                    currentState.endTime = null;
+                    currentState.isActive = false;
+                    saveData();
+                }
+            } catch (e) {
+                console.log('No saved data found');
+            }
+        }
+
+        function saveData() {
+            const dataToSave = {
+                currentIndex: currentState.currentIndex,
+                endTime: currentState.endTime,
+                isActive: currentState.isActive
+            };
+            localStorage.setItem('lungsData', JSON.stringify(dataToSave));
+        }
+
+        function startTreatment() {
+            const timerDisplay = document.getElementById('lungs-timer');
+            const startBtn = document.querySelector('.btn-primary');
+            const successBtn = document.querySelector('.btn-success');
+            const nextBtn = document.querySelectorAll('.btn-primary')[1];
+            const remedyText = document.getElementById('lungs-text');
+            const remedyTitle = document.querySelector('.remedy-title span:last-child');
+            
+            // تنظیم تایمر 30 روزه
+            const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+            currentState.endTime = new Date().getTime() + thirtyDays;
+            currentState.isActive = true;
+            
+            // نمایش روش فعلی
+            const currentRemedyIndex = currentState.currentIndex;
+            const currentRemedy = remedies.lungs[currentRemedyIndex];
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - شما اینجا هستید`;
+            
+            // به‌روزرسانی نمایش
+            timerDisplay.style.display = 'block';
+            startBtn.style.display = 'none';
+            successBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'none';
+            
+            // شروع تایمر
+            updateTimer();
+            currentState.timer = setInterval(updateTimer, 1000);
+            
+            saveData();
+        }
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = currentState.endTime - now;
+            
+            if (distance <= 0) {
+                clearInterval(currentState.timer);
+                document.getElementById('lungs-timer').innerHTML = '⏰ زمان به پایان رسیده است!';
+                document.querySelector('.btn-success').style.display = 'none';
+                document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+                currentState.isActive = false;
+                saveData();
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('lungs-timer').innerHTML = 
+                `⏰ زمان باقی‌مانده: ${days} روز ${hours} ساعت ${minutes} دقیقه ${seconds} ثانیه`;
+        }
+
+        function reportSuccess() {
+            const successDiv = document.getElementById('lungs-success');
+            successDiv.style.display = 'block';
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = '✅ عالیه! این روش برای شما موثر بوده. برای ادامه روش بعدی را شروع کنید.';
+            
+            document.querySelector('.btn-success').style.display = 'none';
+            document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+            
+            saveData();
+        }
+
+        function nextRemedy() {
+            currentState.currentIndex++;
+            if (currentState.currentIndex >= remedies.lungs.length) {
+                currentState.currentIndex = 0; // به ابتدای لیست برگردید
+            }
+            
+            // بازنشانی وضعیت
+            document.getElementById('lungs-timer').style.display = 'none';
+            document.querySelector('.btn-primary').style.display = 'inline-block';
+            document.querySelector('.btn-success').style.display = 'none';
+            document.querySelectorAll('.btn-primary')[1].style.display = 'none';
+            document.getElementById('lungs-success').style.display = 'none';
+            
+            // نمایش روش جدید
+            const remedyText = document.getElementById('lungs-text');
+            const remedyTitle = document.querySelector('.remedy-title span:last-child');
+            const currentRemedy = remedies.lungs[currentState.currentIndex];
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentState.currentIndex + 1} - شما اینجا هستید`;
+            
+            // به‌روزرسانی پیام روش‌های پنهان
+            const remaining = remedies.lungs.length - (currentState.currentIndex + 1);
+            document.getElementById('lungs-hidden').textContent = `🔒 ${remaining} روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود`;
+            
+            // پاک کردن تایمر قبلی
+            clearInterval(currentState.timer);
+            currentState.endTime = null;
+            currentState.isActive = false;
+            
+            saveData();
+        }
+
+        function restoreActiveState() {
+            if (currentState.isActive) {
+                const timerDisplay = document.getElementById('lungs-timer');
+                const startBtn = document.querySelector('.btn-primary');
+                const successBtn = document.querySelector('.btn-success');
+                const nextBtn = document.querySelectorAll('.btn-primary')[1];
+                const remedyText = document.getElementById('lungs-text');
+                const remedyTitle = document.querySelector('.remedy-title span:last-child');
+                
+                // نمایش روش فعلی
+                const currentRemedyIndex = currentState.currentIndex;
+                const currentRemedy = remedies.lungs[currentRemedyIndex];
+                remedyText.innerHTML = currentRemedy;
+                remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - شما اینجا هستید`;
+                
+                // به‌روزرسانی نمایش
+                timerDisplay.style.display = 'block';
+                startBtn.style.display = 'none';
+                successBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+                
+                // شروع تایمر
+                updateTimer();
+                currentState.timer = setInterval(updateTimer, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

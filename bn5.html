@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درمان چربی خون - دکتر آنلاین</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fbc2eb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #43e97b 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            padding: 25px 20px;
+        }
+
+        .remedy-section {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .remedy-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #43e97b 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+        }
+
+        .remedy-header h2 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .remedy-header p {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .current-remedy {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .remedy-title {
+            color: #ff6b6b;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remedy-number {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+
+        .remedy-text {
+            font-size: 0.95em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .timer-display {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            min-width: 100px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+            box-shadow: 0 8px 25px rgba(67, 233, 123, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+            padding: 18px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 0.95em;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(67, 233, 123, 0.3);
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hidden-remedies {
+            opacity: 0.3;
+            font-size: 0.8em;
+            color: #6c757d;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                border-radius: 25px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>❤️ درمان چربی خون</h1>
+            <p>موثرترین روش‌های طبیعی کاهش کلسترول و تری‌گلیسیرید</p>
+        </div>
+
+        <div class="main-content">
+            <div class="remedy-section" id="cholesterol">
+                <div class="current-remedy">
+                    <div class="remedy-title">
+                        <span class="remedy-number">1</span>
+                        <span>روش اول - شما اینجا هستید</span>
+                    </div>
+                    <div class="remedy-text" id="cholesterol-text">برای شروع، دکمه زیر را بزنید</div>
+                    <div class="timer-display" id="cholesterol-timer" style="display: none;">⏰ زمان باقی‌مانده: <span></span></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="startTreatment('cholesterol')">شروع روش ۱</button>
+                        <button class="btn btn-success" onclick="reportSuccess('cholesterol')" style="display: none;">خوب شدم ✓</button>
+                        <button class="btn btn-primary" onclick="nextRemedy('cholesterol')" style="display: none;">روش بعدی</button>
+                    </div>
+                    <div id="cholesterol-success" style="display: none;"></div>
+                </div>
+                <div class="hidden-remedies" id="cholesterol-hidden">
+                    🔒 ۲۹ روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const remedies = {
+            cholesterol: [
+                "🍋 **آب ولرم با لیمو و عسل**: هر صبح ناشتا یک لیوان آب ولرم با آب نصف لیمو و یک قاشق چایخوری عسل طبیعی بنوشید. این ترکیب به کاهش کلسترول کمک می‌کند.",
+                "🌿 **دمنوش چای سبز و زنجبیل**: ۲ قاشق چایخوری چای سبز + ۱ قاشق چایخوری زنجبیل رنده شده در یک لیوان آب جوش، روزی ۳ فنجان.",
+                "🍎 **سرکه سیب و عسل**: ۱ قاشق غذاخوری سرکه سیب طبیعی + ۱ قاشق چایخوری عسل در یک لیوان آب، قبل از هر وعده غذایی.",
+                "💧 **نوشیدن آب کافی**: روزانه حداقل ۸ لیوان آب بنوشید. این کار به کاهش غلظت خون کمک می‌کند.",
+                "🥒 **آب سبزیجات کاهنده چربی**: هر روز یک لیوان آب ترکیبی از کرفس، خیار، جعفری و لیمو بنوشید.",
+                "🌱 **عرق‌های گیاهی مفید**: عرق کاسنی + عرق خارشتر + عرق زنیان، روزی ۳ استکان ترکیب مساوی میل کنید.",
+                "🍵 **دمنوش دارچین و عسل**: ۱ قاشق چایخوری پودر دارچین + ۱ قاشق عسل در یک لیوان آب جوش، صبح ناشتا.",
+                "🥗 **سالاد کاهو و کلم**: قبل از ناهار و شام یک ظرف بزرگ سالاد کاهو و کلم با آبلیمو و کمی روغن زیتون مصرف کنید.",
+                "🌰 **مغزهای مفید برای چربی خون**: روزانه ۵ عدد بادام + ۳ عدد گردو + ۱ قاشق تخم کتان مصرف کنید.",
+                "🍋 **لیموترش و عسل**: صبح ناشتا آب یک لیموترش + ۱ قاشق عسل در آب ولرم میل کنید.",
+                "🌿 **دمنوش گزنه و بابونه**: ۱ قاشق گزنه + ۱ قاشق بابونه در آب جوش، روزی ۲ فنجان.",
+                "🍇 **آب انگور و سیب**: روزی یک لیوان آب انگور قرمز + سیب بدون شکر بنوشید.",
+                "🥕 **هویج و اسفناج**: آب هویج و اسفناج تازه با کمی زنجبیل، روزی یک لیوان.",
+                "🌶️ **فلفل قرمز و لیمو**: نصف قاشق چایخوری فلفل قرمز + آب لیمو در یک لیوان آب، قبل از غذا.",
+                "🍃 **پودر سیر و عسل**: ۱ قاشق چایخوری پودر سیر + ۱ قاشق عسل، صبحانه میل کنید.",
+                "💚 **سبوس جو دوسر**: ۱ قاشق سبوس جو در ماست یا سالاد، روزانه مصرف کنید.",
+                "🌿 **شربت زنجبیل و لیمو**: زنجبیل رنده شده + آب لیمو + کمی عسل در آب، روزی یک لیوان.",
+                "🍎 **سیب و دارچین**: روزانه ۲ عدد سیب با کمی دارچین میل کنید.",
+                "🌰 **تخم کتان و ماست**: ۱ قاشق تخم کتان در ماست ریخته، قبل از غذا مصرف کنید.",
+                "🍵 **چای اولانگ**: روزی ۳ فنجان چای اولانگ بنوشید که برای کاهش چربی خون مفید است.",
+                "💧 **آب کرفس و خیار**: روزی یک لیوان آب کرفس و خیار تازه با کمی نعناع.",
+                "🌿 **دمنوش برگ زیتون**: ۱ قاشق برگ زیتون خشک در آب جوش، روزی ۲ فنجان.",
+                "🍋 **آب لیمو و جعفری**: آب لیمو + چند شاخه جعفری در آب، صبح ناشتا.",
+                "🥬 **سبزیجات بخارپز**: روزانه یک ظرف سبزیجات بخارپز شده مصرف کنید.",
+                "🌰 **بادام زمینی خام**: روزانه یک مشت بادام زمینی خام مصرف کنید.",
+                "🍎 **سرکه سیب و دارچین**: ۱ قاشق سرکه سیب + کمی دارچین در آب، قبل از غذا.",
+                "🌿 **دمنوش پونه و نعنا**: ۱ قاشق پونه + ۱ قاشق نعنا در آب جوش، روزی ۱ فنجان.",
+                "💧 **آب آناناس و خیار**: آب آناناس تازه + خیار + نعناع، روزی یک لیوان.",
+                "🍵 **چای ترش**: روزی ۲ فنجان چای ترش (hibiscus) بنوشید که برای کاهش چربی خون عالی است.",
+                "🌱 **عرق شوید و کاسنی**: عرق شوید + عرق کاسنی، روزی ۲ استکان ترکیب مساوی."
+            ]
+        };
+
+        let currentState = { currentIndex: 0, timer: null, endTime: null, isActive: false };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+        });
+
+        function loadSavedData() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('cholesterolData') || '{}');
+                if (saved.currentIndex !== undefined) currentState.currentIndex = saved.currentIndex;
+                if (saved.endTime && new Date().getTime() < saved.endTime) {
+                    currentState.endTime = saved.endTime;
+                    restoreActiveState();
+                }
+            } catch (e) {
+                console.log('No saved data found');
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('cholesterolData', JSON.stringify(currentState));
+        }
+
+        function startTreatment() {
+            const timerDisplay = document.getElementById('cholesterol-timer');
+            const startBtn = document.querySelector('.btn-primary');
+            const successBtn = document.querySelector('.btn-success');
+            const nextBtn = document.querySelectorAll('.btn-primary')[1];
+            const remedyText = document.getElementById('cholesterol-text');
+            const remedyTitle = document.querySelector('.remedy-title span:last-child');
+            
+            // تنظیم تایمر 30 روزه
+            const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+            currentState.endTime = new Date().getTime() + thirtyDays;
+            currentState.isActive = true;
+            
+            // نمایش روش فعلی
+            const currentRemedyIndex = currentState.currentIndex;
+            const currentRemedy = remedies.cholesterol[currentRemedyIndex];
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - شما اینجا هستید`;
+            
+            // به‌روزرسانی نمایش
+            timerDisplay.style.display = 'block';
+            startBtn.style.display = 'none';
+            successBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'none';
+            
+            // شروع تایمر
+            updateTimer();
+            currentState.timer = setInterval(updateTimer, 1000);
+            
+            saveData();
+        }
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = currentState.endTime - now;
+            
+            if (distance <= 0) {
+                clearInterval(currentState.timer);
+                document.getElementById('cholesterol-timer').innerHTML = '⏰ زمان به پایان رسیده است!';
+                document.querySelector('.btn-success').style.display = 'none';
+                document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('cholesterol-timer').innerHTML = 
+                `⏰ زمان باقی‌مانده: ${days} روز ${hours} ساعت ${minutes} دقیقه ${seconds} ثانیه`;
+        }
+
+        function reportSuccess() {
+            const successDiv = document.getElementById('cholesterol-success');
+            successDiv.style.display = 'block';
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = '🎉 تبریک! شما این مرحله را با موفقیت پشت سر گذاشتید. برای ادامه روی دکمه "روش بعدی" کلیک کنید.';
+            
+            document.querySelector('.btn-success').style.display = 'none';
+            document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+        }
+
+        function nextRemedy() {
+            currentState.currentIndex++;
+            if (currentState.currentIndex >= remedies.cholesterol.length) {
+                currentState.currentIndex = 0;
+            }
+            
+            // پاک کردن وضعیت فعلی
+            clearInterval(currentState.timer);
+            currentState.endTime = null;
+            currentState.isActive = false;
+            
+            // بازنشانی نمایش
+            document.getElementById('cholesterol-timer').style.display = 'none';
+            document.querySelector('.btn-primary').style.display = 'inline-block';
+            document.querySelector('.btn-success').style.display = 'none';
+            document.querySelectorAll('.btn-primary')[1].style.display = 'none';
+            document.getElementById('cholesterol-success').style.display = 'none';
+            
+            // نمایش متن جدید
+            document.getElementById('cholesterol-text').innerHTML = 'برای شروع، دکمه زیر را بزنید';
+            document.querySelector('.remedy-title span:last-child').textContent = `روش ${currentState.currentIndex + 1} - شما اینجا هستید`;
+            
+            saveData();
+        }
+
+        function restoreActiveState() {
+            if (currentState.endTime && new Date().getTime() < currentState.endTime) {
+                const timerDisplay = document.getElementById('cholesterol-timer');
+                const startBtn = document.querySelector('.btn-primary');
+                const successBtn = document.querySelector('.btn-success');
+                const nextBtn = document.querySelectorAll('.btn-primary')[1];
+                const remedyText = document.getElementById('cholesterol-text');
+                const remedyTitle = document.querySelector('.remedy-title span:last-child');
+                
+                // نمایش روش فعلی
+                const currentRemedyIndex = currentState.currentIndex;
+                const currentRemedy = remedies.cholesterol[currentRemedyIndex];
+                remedyText.innerHTML = currentRemedy;
+                remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - شما اینجا هستید`;
+                
+                // به‌روزرسانی نمایش
+                timerDisplay.style.display = 'block';
+                startBtn.style.display = 'none';
+                successBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+                
+                // شروع تایمر
+                currentState.timer = setInterval(updateTimer, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

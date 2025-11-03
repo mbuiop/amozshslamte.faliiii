@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درمان سلامت معده - دکتر آنلاین</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #4facfe 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #4facfe 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            padding: 25px 20px;
+        }
+
+        .remedy-section {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .remedy-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #4facfe 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+        }
+
+        .remedy-header h2 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .remedy-header p {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .current-remedy {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .remedy-title {
+            color: #4facfe;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remedy-number {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+
+        .remedy-text {
+            font-size: 0.95em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .timer-display {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            min-width: 100px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+            box-shadow: 0 8px 25px rgba(67, 233, 123, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+            padding: 18px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 0.95em;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(67, 233, 123, 0.3);
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hidden-remedies {
+            opacity: 0.3;
+            font-size: 0.8em;
+            color: #6c757d;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                border-radius: 25px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 درمان سلامت معده</h1>
+            <p>موثرترین روش‌های طبیعی برای بهبود سلامت دستگاه گوارش</p>
+        </div>
+
+        <div class="main-content">
+            <div class="remedy-section" id="stomach">
+                <div class="current-remedy">
+                    <div class="remedy-title">
+                        <span class="remedy-number">1</span>
+                        <span>روش اول - شما اینجا هستید</span>
+                    </div>
+                    <div class="remedy-text" id="stomach-text">برای شروع، دکمه زیر را بزنید</div>
+                    <div class="timer-display" id="stomach-timer" style="display: none;">⏰ زمان باقی‌مانده: <span></span></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="startTreatment('stomach')">شروع روش ۱</button>
+                        <button class="btn btn-success" onclick="reportSuccess('stomach')" style="display: none;">خوب شدم ✓</button>
+                        <button class="btn btn-primary" onclick="nextRemedy('stomach')" style="display: none;">روش بعدی</button>
+                    </div>
+                    <div id="stomach-success" style="display: none;"></div>
+                </div>
+                <div class="hidden-remedies" id="stomach-hidden">
+                    🔒 ۲۹ روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const remedies = {
+            stomach: [
+                "🍯 **عسل و آب ولرم**: هر صبح ناشتا یک لیوان آب ولرم با یک قاشق عسل طبیعی بنوشید. این ترکیب به پاکسازی معده کمک می‌کند.",
+                "🌿 **دمنوش نعنا**: نوشیدن دمنوش نعنا پس از غذا به هضم بهتر و کاهش نفخ کمک می‌کند.",
+                "🍎 **سیب رنده شده**: مصرف سیب رنده شده برای تسکین معده‌درد و بهبود هضم مفید است.",
+                "💧 **آب زنجبیل**: نوشیدن آب زنجبیل تازه با عسل برای کاهش التهاب معده.",
+                "🥬 **ماست پروبیوتیک**: مصرف روزانه ماست پروبیوتیک برای تقویت باکتری‌های مفید روده.",
+                "🌰 **بذر کتان**: خیساندن یک قاشق بذر کتان در آب و نوشیدن آن برای بهبود گوارش.",
+                "🍌 **موز**: مصرف موز برای تسکین معده و بهبود هضم غذا.",
+                "🌱 **آلوئه ورا**: نوشیدن آب آلوئه ورا برای کاهش التهاب معده و روده.",
+                "🍚 **برنج سفید**: مصرف برنج ساده و بدون ادویه برای اسهال و ناراحتی معده.",
+                "🍃 **رازیانه**: جویدن دانه رازیانه پس از غذا برای کاهش نفخ و بهبود هضم.",
+                "🥕 **آب هویج**: نوشیدن آب هویج تازه برای بهبود سلامت معده.",
+                "💛 **زردچوبه**: اضافه کردن زردچوبه به غذاها به کاهش التهاب معده کمک می‌کند.",
+                "🍈 **خربزه**: مصرف خربزه برای پاکسازی معده و روده.",
+                "🥑 **آووکادو**: منبع چربی‌های سالم برای بهبود پوشش معده.",
+                "💧 **نوشیدن آب کافی**: روزانه حداقل ۸ لیوان آب برای سلامت دستگاه گوارش بنوشید.",
+                "🌿 **روغن نارگیل**: استفاده از روغن نارگیل برای پخت و پز به جای روغن‌های دیگر.",
+                "🍋 **آب لیمو ترش**: نوشیدن آب لیمو ترش تازه با آب ولرم برای پاکسازی معده.",
+                "🌰 **بادام**: مصرف بادام خام و خیس‌خورده برای بهبود گوارش.",
+                "🍎 **سرکه سیب**: یک قاشق سرکه سیب در آب برای بهبود هضم غذا.",
+                "🌶️ **زنجبیل و لیمو**: ترکیب زنجبیل تازه و آب لیمو برای کاهش حالت تهوع.",
+                "🍯 **عسل و دارچین**: مخلوط ۱ قاشق عسل و ½ قاشق پودر دارچین برای بهبود هضم.",
+                "💚 **چای بابونه**: نوشیدن چای بابونه برای آرامش معده و کاهش التهاب.",
+                "🌿 **شنبلیله**: خیساندن دانه شنبلیله و نوشیدن آب آن برای بهبود گوارش.",
+                "🥦 **کلم بروکلی**: سرشار از فیبر برای بهبود عملکرد روده.",
+                "🍠 **زردک**: مصرف زردک پخته برای تسکین معده.",
+                "🌰 **دانه کدو تنبل**: حاوی منیزیم که برای بهبود گوارش ضروری است.",
+                "🍒 **آلبالو**: ضد التهاب طبیعی برای معده و روده.",
+                "🌾 **جو دوسر**: مصرف روزانه جو دوسر برای بهبود هضم و کاهش اسید معده.",
+                "🧄 **سیر**: مصرف متعادل سیر برای تقویت سیستم گوارشی.",
+                "🍈 **آناناس**: حاوی آنزیم بروملین که به هضم پروتئین کمک می‌کند."
+            ]
+        };
+
+        let currentState = { currentIndex: 0, timer: null, endTime: null, isActive: false };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+        });
+
+        function loadSavedData() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('stomachData') || '{}');
+                if (saved.currentIndex !== undefined) currentState.currentIndex = saved.currentIndex;
+                if (saved.endTime && new Date().getTime() < saved.endTime) {
+                    currentState.endTime = saved.endTime;
+                    restoreActiveState();
+                }
+            } catch (e) {
+                console.log('No saved data found');
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('stomachData', JSON.stringify(currentState));
+        }
+
+        function startTreatment() {
+            const timerDisplay = document.getElementById('stomach-timer');
+            const startBtn = document.querySelector('.btn-primary');
+            const successBtn = document.querySelector('.btn-success');
+            const nextBtn = document.querySelectorAll('.btn-primary')[1];
+            const remedyText = document.getElementById('stomach-text');
+            const remedyTitle = document.querySelector('.remedy-title span:last-child');
+            
+            // تنظیم تایمر 30 روزه
+            const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+            currentState.endTime = new Date().getTime() + thirtyDays;
+            currentState.isActive = true;
+            
+            // نمایش روش فعلی
+            const currentRemedyIndex = currentState.currentIndex;
+            const currentRemedy = remedies.stomach[currentRemedyIndex];
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - شما اینجا هستید`;
+            
+            // به‌روزرسانی نمایش
+            timerDisplay.style.display = 'block';
+            startBtn.style.display = 'none';
+            successBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'none';
+            
+            // شروع تایمر
+            updateTimer();
+            currentState.timer = setInterval(updateTimer, 1000);
+            
+            saveData();
+        }
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = currentState.endTime - now;
+            
+            if (distance <= 0) {
+                clearInterval(currentState.timer);
+                document.getElementById('stomach-timer').innerHTML = '⏰ زمان به پایان رسیده است!';
+                document.querySelector('.btn-success').style.display = 'none';
+                document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('stomach-timer').innerHTML = 
+                `⏰ زمان باقی‌مانده: ${days} روز ${hours} ساعت ${minutes} دقیقه ${seconds} ثانیه`;
+        }
+
+        function reportSuccess() {
+            const successDiv = document.getElementById('stomach-success');
+            successDiv.style.display = 'block';
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = '🎉 تبریک! شما این مرحله را با موفقیت به پایان رساندید.';
+            
+            document.querySelector('.btn-success').style.display = 'none';
+            document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+            
+            clearInterval(currentState.timer);
+        }
+
+        function nextRemedy() {
+            currentState.currentIndex++;
+            if (currentState.currentIndex >= remedies.stomach.length) {
+                currentState.currentIndex = 0;
+            }
+            
+            const remedyText = document.getElementById('stomach-text');
+            const remedyTitle = document.querySelector('.remedy-title span:last-child');
+            const currentRemedy = remedies.stomach[currentState.currentIndex];
+            
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentState.currentIndex + 1} - شما اینجا هستید`;
+            
+            document.getElementById('stomach-timer').style.display = 'none';
+            document.querySelector('.btn-primary').style.display = 'inline-block';
+            document.querySelector('.btn-success').style.display = 'none';
+            document.querySelectorAll('.btn-primary')[1].style.display = 'none';
+            document.getElementById('stomach-success').style.display = 'none';
+            
+            clearInterval(currentState.timer);
+            currentState.endTime = null;
+            currentState.isActive = false;
+            
+            if (currentState.currentIndex > 0) {
+                document.getElementById('stomach-hidden').innerHTML = 
+                    `🔓 ${remedies.stomach.length - currentState.currentIndex - 1} روش دیگر باقی مانده`;
+            }
+            
+            saveData();
+        }
+
+        function restoreActiveState() {
+            if (currentState.endTime) {
+                const now = new Date().getTime();
+                if (now < currentState.endTime) {
+                    startTreatment();
+                } else {
+                    clearInterval(currentState.timer);
+                    document.getElementById('stomach-timer').innerHTML = '⏰ زمان به پایان رسیده است!';
+                    document.querySelector('.btn-success').style.display = 'none';
+                    document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

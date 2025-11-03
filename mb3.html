@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دنیای علوم</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #2c3e50;
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover, 
+        nav ul li a.active {
+            background-color: #3498db;
+        }
+
+        .content-section {
+            display: none;
+            margin: 2rem 0;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            padding: 15px;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>دنیای علوم</h1>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#" class="nav-link active" data-category="inventions">اختراعات</a></li>
+                <li><a href="#" class="nav-link" data-category="planets">سیارات</a></li>
+                <li><a href="#" class="nav-link" data-category="animals">حیوانات</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="inventions" class="content-section active">
+            <h2 class="section-title">اختراعات مهم جهان</h2>
+            <div class="cards-container" id="inventions-container">
+                <!-- کارت‌های اختراعات با JavaScript پر می‌شوند -->
+            </div>
+        </section>
+
+        <section id="planets" class="content-section">
+            <h2 class="section-title">سیارات و جهان</h2>
+            <div class="cards-container" id="planets-container">
+                <!-- کارت‌های سیارات با JavaScript پر می‌شوند -->
+            </div>
+        </section>
+
+        <section id="animals" class="content-section">
+            <h2 class="section-title">حیوانات و طبیعت</h2>
+            <div class="cards-container" id="animals-container">
+                <!-- کارت‌های حیوانات با JavaScript پر می‌شوند -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>دنیای علوم - مرجع اطلاعات علمی</p>
+        </div>
+    </footer>
+
+    <script>
+        // داده‌های کامل برای 100 اختراع
+        const inventionsData = [
+            {
+                id: 1,
+                title: "چرخ",
+                inventor: "تمدن بین‌النهرین",
+                year: "حدود 3500 قبل از میلاد",
+                description: "یکی از مهمترین اختراعات بشر که حمل و نقل و تولید را متحول کرد."
+            },
+            {
+                id: 2,
+                title: "چاپخانه",
+                inventor: "یوهانس گوتنبرگ",
+                year: "1440",
+                description: "دستگاهی برای چاپ انبوه کتاب و متون که دانش را برای همگان قابل دسترس کرد."
+            },
+            {
+                id: 3,
+                title: "تلفن",
+                inventor: "الکساندر گراهام بل",
+                year: "1876",
+                description: "وسیله‌ای برای انتقال صدا از طریق سیگنال‌های الکتریکی."
+            },
+            {
+                id: 4,
+                title: "لامپ رشتهای",
+                inventor: "توماس ادیسون",
+                year: "1879",
+                description: "منبع نور مصنوعی که با گرم کردن یک رشته تنگستن کار می‌کند."
+            },
+            {
+                id: 5,
+                title: "پنیسیلین",
+                inventor: "الکساندر فلمینگ",
+                year: "1928",
+                description: "اولین آنتی‌بیوتیک کشف شده که انقلابی در پزشکی ایجاد کرد."
+            },
+            {
+                id: 6,
+                title: "رایانه",
+                inventor: "چارلز بابیج",
+                year: "1822",
+                description: "دستگاهی برای پردازش خودکار اطلاعات و انجام محاسبات پیچیده."
+            },
+            {
+                id: 7,
+                title: "اینترنت",
+                inventor: "تیم برنرز لی",
+                year: "1989",
+                description: "شبکه جهانی که امکان ارتباط و تبادل اطلاعات را فراهم می‌کند."
+            },
+            {
+                id: 8,
+                title: "تلسکوپ",
+                inventor: "هانس لیپرشی",
+                year: "1608",
+                description: "وسیله‌ای برای مشاهده اجرام آسمانی دور دست."
+            },
+            {
+                id: 9,
+                title: "موتور بخار",
+                inventor: "جیمز وات",
+                year: "1765",
+                description: "موتوری که با استفاده از بخار آب کار می‌کند و انقلاب صنعتی را آغاز کرد."
+            },
+            {
+                id: 10,
+                title: "برق",
+                inventor: "بنجامین فرانکلین",
+                year: "1752",
+                description: "کشف نیروی الکتریسیته و کاربردهای گسترده آن در زندگی بشر."
+            },
+            {
+                id: 11,
+                title: "رادیو",
+                inventor: "گولیلمو مارکونی",
+                year: "1895",
+                description: "دستگاهی برای ارسال و دریافت امواج رادیویی و ارتباط بی‌سیم."
+            },
+            {
+                id: 12,
+                title: "تلویزیون",
+                inventor: "جان لوگی برد",
+                year: "1925",
+                description: "دستگاهی برای انتقال تصاویر متحرک و صدا از راه دور."
+            },
+            {
+                id: 13,
+                title: "هواپیما",
+                inventor: "برادران رایت",
+                year: "1903",
+                description: "وسیله‌ای برای پرواز در آسمان که مسافرت‌های طولانی را ممکن ساخت."
+            },
+            {
+                id: 14,
+                title: "اتومبیل",
+                inventor: "کارل بنز",
+                year: "1886",
+                description: "وسیله نقلیه موتوری که تحول عظیمی در حمل و نقل ایجاد کرد."
+            },
+            {
+                id: 15,
+                title: "راکت",
+                inventor: "رابرت گودارد",
+                year: "1926",
+                description: "وسیله‌ای برای سفر به فضا و کشف جهان‌های ناشناخته."
+            },
+            {
+                id: 16,
+                title: "دستگاه اشعه ایکس",
+                inventor: "ویلهلم رونتگن",
+                year: "1895",
+                description: "دستگاهی برای مشاهده داخل بدن بدون نیاز به جراحی."
+            },
+            {
+                id: 17,
+                title: "رادار",
+                inventor: "رابرت واتسون-وات",
+                year: "1935",
+                description: "سیستمی برای شناسایی اجسام از راه دور با استفاده از امواج رادیویی."
+            },
+            {
+                id: 18,
+                title: "ترانزیستور",
+                inventor: "جان باردین، والتر براتین، ویلیام شاکلی",
+                year: "1947",
+                description: "قطعه الکترونیکی که پایه و اساس تمام دستگاه‌های دیجیتال است."
+            },
+            {
+                id: 19,
+                title: "لیزر",
+                inventor: "تئودور مایمن",
+                year: "1960",
+                description: "دستگاهی که نور هم‌فاز و تک‌رنگ تولید می‌کند."
+            },
+            {
+                id: 20,
+                title: "ریزپردازنده",
+                inventor: "اینتل",
+                year: "1971",
+                description: "تراشه کامپیوتری که مغز دستگاه‌های الکترونیکی مدرن است."
+            },
+            {
+                id: 21,
+                title: "تلفن همراه",
+                inventor: "مارتین کوپر",
+                year: "1973",
+                description: "دستگاه ارتباطی بی‌سیم قابل حمل که انقلابی در ارتباطات ایجاد کرد."
+            },
+            {
+                id: 22,
+                title: "دستگاه MRI",
+                inventor: "ریموند دامادیان",
+                year: "1977",
+                description: "دستگاه تصویربرداری پزشکی با استفاده از میدان مغناطیسی."
+            },
+            {
+                id: 23,
+                title: "GPS",
+                inventor: "وزارت دفاع آمریکا",
+                year: "1978",
+                description: "سیستم موقعیت‌یابی جهانی با استفاده از ماهواره."
+            },
+            {
+                id: 24,
+                title: "دستگاه کپی",
+                inventor: "چستر کارلسون",
+                year: "1938",
+                description: "دستگاهی برای تکثیر اسناد و مدارک."
+            },
+            {
+                id: 25,
+                title: "مایکروویو",
+                inventor: "پرسی اسپنسر",
+                year: "1945",
+                description: "دستگاهی برای پخت و پز با استفاده از امواج مایکروویو."
+            },
+            {
+                id: 26,
+                title: "دستگاه ضبط صوت",
+                inventor: "توماس ادیسون",
+                year: "1877",
+                description: "دستگاهی برای ضبط و پخش صدا."
+            },
+            {
+                id: 27,
+                title: "دوربین عکاسی",
+                inventor: "لوئی داگر",
+                year: "1839",
+                description: "دستگاهی برای ثبت تصاویر روی سطح حساس به نور."
+            },
+            {
+                id: 28,
+                title: "یخچال",
+                inventor: "اولیور ایوانز",
+                year: "1805",
+                description: "دستگاهی برای خنک نگه داشتن مواد غذایی."
+            },
+            {
+                id: 29,
+                title: "ماشین حساب",
+                inventor: "بلز پاسکال",
+                year: "1642",
+                description: "دستگاهی برای انجام محاسبات ریاضی."
+            },
+            {
+                id: 30,
+                title: "دوچرخه",
+                inventor: "کارل فون دریس",
+                year: "1817",
+                description: "وسیله نقلیه دوچرخ که با نیروی پا حرکت می‌کند."
+            },
+            {
+                id: 31,
+                title: "پروتز",
+                inventor: " Ambroise Paré",
+                year: "1509",
+                description: "اندام مصنوعی برای جایگزینی اندام از دست رفته."
+            },
+            {
+                id: 32,
+                title: "ساعت مچی",
+                inventor: "پتر هنلین",
+                year: "1510",
+                description: "وسیله نمایش زمان که روی مچ بسته می‌شود."
+            },
+            {
+                id: 33,
+                title: "عینک",
+                inventor: "سالوینو د Armati",
+                year: "1286",
+                description: "وسیله برای اصلاح مشکلات بینایی."
+            },
+            {
+                id: 34,
+                title: "قطب نما",
+                inventor: "چینی‌ها",
+                year: "206 قبل از میلاد",
+                description: "وسیله برای تشخیص جهت‌های جغرافیایی."
+            },
+            {
+                id: 35,
+                title: "باروت",
+                inventor: "چینی‌ها",
+                year: "قرن 9",
+                description: "اولین ماده منفجره کشف شده."
+            },
+            {
+                id: 36,
+                title: "کاغذ",
+                inventor: "چینی‌ها",
+                year: "105 بعد از میلاد",
+                description: "ماده برای نوشتن و چاپ."
+            },
+            {
+                id: 37,
+                title: "قایق بادبانی",
+                inventor: "مصریان باستان",
+                year: "4000 قبل از میلاد",
+                description: "وسیله نقلیه آبی که با نیروی باد حرکت می‌کند."
+            },
+            {
+                id: 38,
+                title: "آسانسور",
+                inventor: "الیsha اوتیس",
+                year: "1852",
+                description: "وسیله برای جابجایی عمودی بین طبقات."
+            },
+            {
+                id: 39,
+                title: "پمپ بنزین",
+                inventor: "سیلوانوس بوور",
+                year: "1885",
+                description: "دستگاه برای توزیع سوخت خودروها."
+            },
+            {
+                id: 40,
+                title: "چراغ راهنمایی",
+                inventor: "لستر وایر",
+                year: "1912",
+                description: "وسیله برای کنترل ترافیک در تقاطع‌ها."
+            },
+            {
+                id: 41,
+                title: "زیپ",
+                inventor: "گیسون ساندبک",
+                year: "1913",
+                description: "وسیله برای اتصال دو لبه پارچه."
+            },
+            {
+                id: 42,
+                title: "پلاستیک",
+                inventor: "لئو بیکلند",
+                year: "1907",
+                description: "ماده مصنوعی با کاربردهای گسترده."
+            },
+            {
+                id: 43,
+                title: "نایلون",
+                inventor: "والاس کاروترز",
+                year: "1935",
+                description: "الیاف مصنوعی با استحکام بالا."
+            },
+            {
+                id: 44,
+                title: "ولکرو",
+                inventor: "ژرژ دو مسترال",
+                year: "1941",
+                description: "سیستم اتصال با قلاب و حلقه."
+            },
+            {
+                id: 45,
+                title: "ماوس کامپیوتر",
+                inventor: "داگلاس انگلبارت",
+                year: "1964",
+                description: "وسیله ورودی برای کنترل نشانگر روی صفحه نمایش."
+            },
+            {
+                id: 46,
+                title: "صفحه کلید",
+                inventor: "کریستوفر لatham شولز",
+                year: "1868",
+                description: "وسیله ورودی برای تایپ متن در کامپیوتر."
+            },
+            {
+                id: 47,
+                title: "مانیتور",
+                inventor: "کارل فردیناند براون",
+                year: "1897",
+                description: "صفحه نمایش برای مشاهده خروجی کامپیوتر."
+            },
+            {
+                id: 48,
+                title: "هارد دیسک",
+                inventor: "آی‌بی‌ام",
+                year: "1956",
+                description: "حافظه دائمی برای ذخیره اطلاعات کامپیوتر."
+            },
+            {
+                id: 49,
+                title: "فلش مموری",
+                inventor: "فوجیو ماسوکا",
+                year: "1980",
+                description: "حافظه قابل حمل برای ذخیره اطلاعات."
+            },
+            {
+                id: 50,
+                title: "دوربین دیجیتال",
+                inventor: "استیون ساسون",
+                year: "1975",
+                description: "دوربینی که تصاویر را به صورت دیجیتال ذخیره می‌کند."
+            },
+            {
+                id: 51,
+                title: "پخش کننده MP3",
+                inventor: "شرکت SaeHan",
+                year: "1998",
+                description: "دستگاه قابل حمل برای پخش فایل‌های صوتی."
+            },
+            {
+                id: 52,
+                title: "تبلت",
+                inventor: "آلن کی",
+                year: "1968",
+                description: "کامپیوتر قابل حمل با صفحه لمسی."
+            },
+            {
+                id: 53,
+                title: "واقعیت مجازی",
+                inventor: "ایوان ساترلند",
+                year: "1968",
+                description: "فناوری برای ایجاد محیط‌های شبیه‌سازی شده."
+            },
+            {
+                id: 54,
+                title: "چاپ سه بعدی",
+                inventor: "چاک هال",
+                year: "1983",
+                description: "فناوری برای ساخت اجسام سه بعدی لایه به لایه."
+            },
+            {
+                id: 55,
+                title: "ربات صنعتی",
+                inventor: "جرج دوول",
+                year: "1954",
+                description: "دستگاه خودکار برای انجام کارهای تکراری."
+            },
+            {
+                id: 56,
+                title: "ماشین لباسشویی",
+                inventor: "الیشا اوتیس",
+                year: "1858",
+                description: "دستگاهی برای شستشوی خودکار لباس‌ها."
+            },
+            {
+                id: 57,
+                title: "ماشین ظرفشویی",
+                inventor: "جوزفین کوچرن",
+                year: "1886",
+                description: "دستگاهی برای شستشوی خودکار ظروف."
+            },
+            {
+                id: 58,
+                title: "جاروبرقی",
+                inventor: "هوبرت سیسیل بوث",
+                year: "1901",
+                description: "دستگاهی برای تمیز کردن سطوح با مکش."
+            },
+            {
+                id: 59,
+                title: "اتو",
+                inventor: "هنری سیلی",
+                year: "1882",
+                description: "وسیله برای صاف کردن لباس‌ها با حرارت."
+            },
+            {
+                id: 60,
+                title: "توستر",
+                inventor: "شرکت General Electric",
+                year: "1905",
+                description: "دستگاهی برای برشته کردن نان."
+            },
+            {
+                id: 61,
+                title: "مخلوط کن",
+                inventor: "استفان پاپلاوسکی",
+                year: "1922",
+                description: "دستگاهی برای مخلوط کردن مواد غذایی."
+            },
+            {
+                id: 62,
+                title: "مایکروفون",
+                inventor: "امیل برلینر",
+                year: "1876",
+                description: "وسیله برای تبدیل صدا به سیگنال الکتریکی."
+            },
+            {
+                id: 63,
+                title: "بلندگو",
+                inventor: "ارنست ورمر",
+                year: "1877",
+                description: "وسیله برای تبدیل سیگنال الکتریکی به صدا."
+            },
+            {
+                id: 64,
+                title: "هدفون",
+                inventor: "ناتانیل بالدوین",
+                year: "1910",
+                description: "وسیله برای شنیدن صدا به صورت شخصی."
+            },
+            {
+                id: 65,
+                title: "پروژکتور",
+                inventor: "فرانسیس جنکینز",
+                year: "1894",
+                description: "دستگاهی برای نمایش تصاویر روی صفحه بزرگ."
+            },
+            {
+                id: 66,
+                title: "دستگاه فکس",
+                inventor: "الکساندر بین",
+                year: "1843",
+                description: "دستگاهی برای ارسال اسناد از راه دور."
+            },
+            {
+                id: 67,
+                title: "ماشین تحریر",
+                inventor: "کریستوفر لatham شولز",
+                year: "1868",
+                description: "دستگاهی برای تایپ متون."
+            },
+            {
+                id: 68,
+                title: "ماشین حساب جیبی",
+                inventor: "شرکت Texas Instruments",
+                year: "1967",
+                description: "ماشین حساب قابل حمل با باتری."
+            },
+            {
+                id: 69,
+                title: "ساعت دیجیتال",
+                inventor: "شرکت Hamilton Watch",
+                year: "1957",
+                description: "ساعتی که زمان را به صورت عددی نمایش می‌دهد."
+            },
+            {
+                id: 70,
+                title: "ماشین نوار کاست",
+                inventor: "شرکت فیلیپس",
+                year: "1963",
+                description: "دستگاهی برای ضبط و پخش صدا روی نوار مغناطیسی."
+            },
+            {
+                id: 71,
+                title: "دستگاه پخش CD",
+                inventor: "شرکت سونی و فیلیپس",
+                year: "1982",
+                description: "دستگاهی برای پخش دیسک‌های فشرده."
+            },
+            {
+                id: 72,
+                title: "دستگاه پخش DVD",
+                inventor: "شرکت توشیبا",
+                year: "1996",
+                description: "دستگاهی برای پخش دیسک‌های ویدئویی دیجیتال."
+            },
+            {
+                id: 73,
+                title: "دستگاه پخش Blu-ray",
+                inventor: "اتحادیه Blu-ray",
+                year: "2006",
+                description: "دستگاهی برای پخش دیسک‌های با کیفیت بالا."
+            },
+            {
+                id: 74,
+                title: "کنترل از راه دور",
+                inventor: "رابرت آدلر",
+                year: "1956",
+                description: "وسیله برای کنترل دستگاه‌ها از فاصله."
+            },
+            {
+                id: 75,
+                title: "دستگاه ATM",
+                inventor: "جان شپرد-بارون",
+                year: "1967",
+                description: "دستگاه خودپرداز برای انجام عملیات بانکی."
+            },
+            {
+                id: 76,
+                title: "کارت اعتباری",
+                inventor: "فرانک مکنامارا",
+                year: "1950",
+                description: "کارت برای پرداخت غیرنقدی."
+            },
+            {
+                id: 77,
+                title: "کد بارکد",
+                inventor: "نورمن وودلند",
+                year: "1952",
+                description: "سیستم برای شناسایی محصولات با کدهای خطی."
+            },
+            {
+                id: 78,
+                title: "اسکنر بارکد",
+                inventor: "نورمن وودلند",
+                year: "1952",
+                description: "دستگاهی برای خواندن کدهای بارکد."
+            },
+            {
+                id: 79,
+                title: "دستگاه POS",
+                inventor: "شرکت آی‌بی‌ام",
+                year: "1973",
+                description: "سیستم نقطه فروش برای ثبت تراکنش‌ها."
+            },
+            {
+                id: 80,
+                title: "دستگاه ECG",
+                inventor: "ویلم اینت هوون",
+                year: "1903",
+                description: "دستگاه برای ثبت فعالیت الکتریکی قلب."
+            },
+            {
+                id: 81,
+                title: "دستگاه دیالیز",
+                inventor: "ویلم کولف",
+                year: "1943",
+                description: "دستگاهی برای تصفیه خون بیماران کلیوی."
+            },
+            {
+                id: 82,
+                title: "پیس میکر",
+                inventor: "ویلسون گریت بچ",
+                year: "1958",
+                description: "دستگاهی برای تنظیم ضربان قلب."
+            },
+            {
+                id: 83,
+                title: "انسولین مصنوعی",
+                inventor: "فردریک بنتینگ و چارلز بست",
+                year: "1922",
+                description: "هورمون برای درمان بیماری دیابت."
+            },
+            {
+                id: 84,
+                title: "واکسن",
+                inventor: "ادوارد جنر",
+                year: "1796",
+                description: "ماده برای پیشگیری از بیماری‌های عفونی."
+            },
+            {
+                id: 85,
+                title: "بیهوشی",
+                inventor: "ویلیام مورتون",
+                year: "1846",
+                description: "مواد برای بی‌حس کردن در جراحی‌ها."
+            },
+            {
+                id: 86,
+                title: "آنتی بیوتیک",
+                inventor: "الکساندر فلمینگ",
+                year: "1928",
+                description: "دارو برای مبارزه با عفونت‌های باکتریایی."
+            },
+            {
+                id: 87,
+                title: "شیمی درمانی",
+                inventor: "سیدنی فاربر",
+                year: "1947",
+                description: "درمان سرطان با استفاده از داروهای شیمیایی."
+            },
+            {
+                id: 88,
+                title: "پرتو درمانی",
+                inventor: "امیل گرابه",
+                year: "1903",
+                description: "درمان سرطان با استفاده از پرتوهای یونیزان."
+            },
+            {
+                id: 89,
+                title: "آندوسکوپ",
+                inventor: "فیلیپ بوزینی",
+                year: "1806",
+                description: "دستگاه برای مشاهده داخل بدن."
+            },
+            {
+                id: 90,
+                title: "لاپاروسکوپ",
+                inventor: "جرج کلینینگ",
+                year: "1901",
+                description: "دستگاه برای جراحی‌های کم تهاجمی."
+            },
+            {
+                id: 91,
+                title: "اولتراسوند",
+                inventor: "ایان دونالد",
+                year: "1956",
+                description: "دستگاه تصویربرداری با استفاده از امواج صوتی."
+            },
+            {
+                id: 92,
+                title: "سی تی اسکن",
+                inventor: "گادفری هounsفیلد",
+                year: "1972",
+                description: "دستگاه تصویربرداری مقطعی با اشعه ایکس."
+            },
+            {
+                id: 93,
+                title: "پترن اسکن",
+                inventor: "جیمز رابرتسون",
+                year: "1949",
+                description: "دستگاه تصویربرداری با مواد رادیواکتیو."
+            },
+            {
+                id: 94,
+                title: "دستگاه نوار مغز",
+                inventor: "هانس برگر",
+                year: "1924",
+                description: "دستگاه برای ثبت فعالیت الکتریکی مغز."
+            },
+            {
+                id: 95,
+                title: "دستگاه فشار خون",
+                inventor: "سکیونه ریوا-روچی",
+                year: "1896",
+                description: "دستگاه برای اندازه‌گیری فشار خون."
+            },
+            {
+                id: 96,
+                title: "دماسنج",
+                inventor: "گابریل فارنهایت",
+                year: "1714",
+                description: "وسیله برای اندازه‌گیری دما."
+            },
+            {
+                id: 97,
+                title: "میکروسکوپ",
+                inventor: "زاخاریاس یانسن",
+                year: "1590",
+                description: "وسیله برای مشاهده اجسام بسیار کوچک."
+            },
+            {
+                id: 98,
+                title: "تلسکوپ",
+                inventor: "هانس لیپرشی",
+                year: "1608",
+                description: "وسیله برای مشاهده اجرام آسمانی."
+            },
+            {
+                id: 99,
+                title: "دستگاه سونوگرافی",
+                inventor: "ایان دونالد",
+                year: "1956",
+                description: "دستگاه تصویربرداری با امواج فراصوت."
+            },
+            {
+                id: 100,
+                title: "دستگاه پالس اکسیمتر",
+                inventor: "تاکائو آوئیاجی",
+                year: "1974",
+                description: "دستگاه برای اندازه‌گیری سطح اکسیژن خون."
+            }
+        ];
+
+        // داده‌های کامل برای 100 سیاره
+        const planetsData = [
+            {
+                id: 1,
+                title: "عطارد",
+                type: "سیاره سنگی",
+                composition: "عمدتاً از آهن (70٪) و مواد سیلیکاتی (30٪) تشکیل شده است.",
+                description: "نزدیکترین سیاره به خورشید و کوچکترین سیاره در منظومه شمسی."
+            },
+            {
+                id: 2,
+                title: "زهره",
+                type: "سیاره سنگی",
+                composition: "دارای پوسته سیلیکاتی و هسته آهن-نیکل با جو غلیظ دی اکسید کربن.",
+                description: "داغ‌ترین سیاره منظومه شمسی با اثر گلخانه‌ای شدید."
+            },
+            {
+                id: 3,
+                title: "زمین",
+                type: "سیاره سنگی",
+                composition: "عمدتاً از آهن، اکسیژن، سیلیکون و منیزیم تشکیل شده است.",
+                description: "سومین سیاره از خورشید و تنها جرم شناخته شده در جهان که حیات در آن وجود دارد."
+            },
+            {
+                id: 4,
+                title: "مریخ",
+                type: "سیاره سنگی",
+                composition: "سطح آن عمدتاً از بازالت با مقادیر زیادی اکسید آهن تشکیل شده.",
+                description: "سیاره‌ای با خاک قرمز رنگ که به سیاره سرخ معروف است."
+            },
+            {
+                id: 5,
+                title: "مشتری",
+                type: "غول گازی",
+                composition: "عمدتاً از هیدروژن (90٪) و هلیوم (10٪) تشکیل شده است.",
+                description: "بزرگترین سیاره در منظومه شمسی با طوفان عظیم به نام لکه سرخ بزرگ."
+            },
+            {
+                id: 6,
+                title: "زحل",
+                type: "غول گازی",
+                composition: "عمدتاً از هیدروژن و هلیوم با هسته‌ای از سنگ و فلز.",
+                description: "سیاره‌ای با حلقه‌های یخی معروف که آن را احاطه کرده‌اند."
+            },
+            {
+                id: 7,
+                title: "اورانوس",
+                type: "غول یخی",
+                composition: "عمدتاً از آب، متان و آمونیاک با هسته سنگی کوچک.",
+                description: "سیاره‌ای که به پهلو می‌چرخد و دارای حلقه‌های عمودی است."
+            },
+            {
+                id: 8,
+                title: "نپتون",
+                type: "غول یخی",
+                composition: "عمدتاً از آب، متان و آمونیاک با هسته سنگی.",
+                description: "سیاره‌ای با بادهای بسیار قوی که سریعترین در منظومه شمسی هستند."
+            },
+            {
+                id: 9,
+                title: "پلوتو",
+                type: "سیاره کوتوله",
+                composition: "عمدتاً از سنگ و یخ با سطحی از نیتروژن منجمد.",
+                description: "جرمی در کمربند کویپر که قبلاً به عنوان نهمین سیاره شناخته می‌شد."
+            },
+            {
+                id: 10,
+                title: "سرس",
+                type: "سیاره کوتوله",
+                composition: "عمدتاً از سنگ و یخ با لایه‌ای از آب مایع در زیر سطح.",
+                description: "بزرگترین جسم در کمربند سیارکی بین مریخ و مشتری."
+            },
+            {
+                id: 11,
+                title: "اریس",
+                type: "سیاره کوتوله",
+                composition: "سطح یخ‌زده از نیتروژن و متان با هسته سنگی.",
+                description: "دومین سیاره کوتوله بزرگ در منظومه شمسی."
+            },
+            {
+                id: 12,
+                title: "هاومیا",
+                type: "سیاره کوتوله",
+                composition: "سطح یخ‌زده با شکل بیضوی غیرعادی.",
+                description: "سیاره کوتوله‌ای با دوره چرخش بسیار سریع."
+            },
+            {
+                id: 13,
+                title: "ماکیماکی",
+                type: "سیاره کوتوله",
+                composition: "سطح یخ‌زده از نیتروژن و اتان.",
+                description: "سومین سیاره کوتوله بزرگ در منظومه شمسی."
+            },
+            {
+                id: 14,
+                title: "گانیمد",
+                type: "قمر مشتری",
+                composition: "عمدتاً از سنگ و یخ با هسته آهنی.",
+                description: "بزرگترین قمر در منظومه شمسی، حتی از عطارد بزرگتر است."
+            },
+            {
+                id: 15,
+                title: "تیتان",
+                type: "قمر زحل",
+                composition: "عمدتاً از یخ و سنگ با جو غلیظ نیتروژن.",
+                description: "تنها قمر در منظومه شمسی که دارای جو قابل توجه است."
+            },
+            {
+                id: 16,
+                title: "اروپا",
+                type: "قمر مشتری",
+                composition: "پوسته یخی با اقیانوس آب مایع در زیر سطح.",
+                description: "یکی از مکان‌های احتمالی برای وجود حیات در منظومه شمسی."
+            },
+            {
+                id: 17,
+                title: "کالیستو",
+                type: "قمر مشتری",
+                composition: "مخلوطی از یخ و سنگ با سطح بسیار قدیمی.",
+                description: "دومین قمر بزرگ مشتری با سطحی مملو از دهانه‌های برخوردی."
+            },
+            {
+                id: 18,
+                title: "آیو",
+                type: "قمر مشتری",
+                composition: "سطح سیلیکاتی با فعالیت آتشفشانی شدید.",
+                description: "فعال‌ترین جرم از نظر زمین‌شناختی در منظومه شمسی."
+            },
+            {
+                id: 19,
+                title: "تریتون",
+                type: "قمر نپتون",
+                composition: "سطح یخ‌زده از نیتروژن با هسته سنگی.",
+                description: "بزرگترین قمر نپتون که به عقب می‌چرخد."
+            },
+            {
+                id: 20,
+                title: "انسلادوس",
+                type: "قمر زحل",
+                composition: "پوسته یخی با اقیانوس آب مایع در زیر سطح.",
+                description: "قمری با فوران‌های آب از شکاف‌های سطحی."
+            },
+            {
+                id: 21,
+                title: "51 Pegasi b",
+                type: "سیاره فراخورشیدی",
+                composition: "غول گازی مشابه مشتری.",
+                description: "اولین سیاره فراخورشیدی کشف شده حول یک ستاره شبیه خورشید."
+            },
+            {
+                id: 22,
+                title: "HD 209458 b",
+                type: "سیاره فراخورشیدی",
+                composition: "غول گازی با جو در حال تبخیر.",
+                description: "اولین سیاره فراخورشیدی که جو آن مستقیماً مورد مطالعه قرار گرفت."
+            },
+            {
+                id: 23,
+                title: "Gliese 581 c",
+                type: "سیاره فراخورشیدی",
+                composition: "سیاره سنگی احتمالی.",
+                description: "یکی از اولین سیارات فراخورشیدی کشف شده در ناحیه قابل سکونت."
+            },
+            {
+                id: 24,
+                title: "Kepler-186f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "اولین سیاره زمین‌سان کشف شده در ناحیه قابل سکونت."
+            },
+            {
+                id: 25,
+                title: "TRAPPIST-1e",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "یکی از هفت سیاره زمین‌سان در سیستم TRAPPIST-1."
+            },
+            {
+                id: 26,
+                title: "پروکسیما قنطورس b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "نزدیکترین سیاره فراخورشیدی به زمین در ناحیه قابل سکونت."
+            },
+            {
+                id: 27,
+                title: "WASP-76b",
+                type: "سیاره فراخورشیدی",
+                composition: "غول گازی بسیار داغ.",
+                description: "سیاره‌ای با باران آهنی در سمت شب."
+            },
+            {
+                id: 28,
+                title: "HD 189733 b",
+                type: "سیاره فراخورشیدی",
+                composition: "غول گازی آبی.",
+                description: "سیاره‌ای با بادهای فوق‌العاده سریع و باران شیشه‌ای."
+            },
+            {
+                id: 29,
+                title: "55 Cancri e",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره الماسی.",
+                description: "سیاره فوق‌الزمینی با سطح احتمالی از گرافیت و الماس."
+            },
+            {
+                id: 30,
+                title: "K2-18b",
+                type: "سیاره فراخورشیدی",
+                composition: "سیاره سنگی یا مینی نپتون.",
+                description: "اولین سیاره فراخورشیدی با بخار آب در جو کشف شد."
+            },
+            {
+                id: 31,
+                title: "TOI-700 d",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره زمین‌سان در ناحیه قابل سکونت کشف شده توسط TESS."
+            },
+            {
+                id: 32,
+                title: "LHS 1140 b",
+                type: "سیاره فراخورشیدی",
+                composition: "سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 33,
+                title: "Teegarden's Star b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با شاخص شباهت زمینی بالا."
+            },
+            {
+                id: 34,
+                title: "GJ 357 d",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 35,
+                title: "K2-72e",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره زمین‌سان در ناحیه قابل سکونت."
+            },
+            {
+                id: 36,
+                title: "GJ 667 Cc",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 37,
+                title: "Kepler-452b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با نام مستعار 'زمین 2.0'."
+            },
+            {
+                id: 38,
+                title: "Kepler-438b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با شاخص شباهت زمینی بالا."
+            },
+            {
+                id: 39,
+                title: "Kepler-442b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره زمین‌سان در ناحیه قابل سکونت."
+            },
+            {
+                id: 40,
+                title: "Kepler-1649c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با اندازه و دمای مشابه زمین."
+            },
+            {
+                id: 41,
+                title: "Wolf 1061c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 42,
+                title: "HD 40307 g",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 43,
+                title: "Tau Ceti e",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت حول ستاره Tau Ceti."
+            },
+            {
+                id: 44,
+                title: "Tau Ceti f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت حول ستاره Tau Ceti."
+            },
+            {
+                id: 45,
+                title: "GJ 273b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 46,
+                title: "GJ 667 Cf",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت در سیستم سه ستاره‌ای."
+            },
+            {
+                id: 47,
+                title: "HD 85512 b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در لبه ناحیه قابل سکونت."
+            },
+            {
+                id: 48,
+                title: "GJ 581 g",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت با بحث‌های علمی ادامه‌دار."
+            },
+            {
+                id: 49,
+                title: "Kepler-22b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً اقیانوسی یا گازی.",
+                description: "اولین سیاره کشف شده توسط کپلر در ناحیه قابل سکونت."
+            },
+            {
+                id: 50,
+                title: "Kepler-62f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره زمین‌سان در ناحیه قابل سکونت."
+            },
+            {
+                id: 51,
+                title: "Kepler-69c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 52,
+                title: "Kepler-186f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "اولین سیاره زمین‌سان در ناحیه قابل سکونت."
+            },
+            {
+                id: 53,
+                title: "Kepler-283c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 54,
+                title: "Kepler-296f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 55,
+                title: "Kepler-438b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با شاخص شباهت زمینی بالا."
+            },
+            {
+                id: 56,
+                title: "Kepler-440b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 57,
+                title: "Kepler-441b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 58,
+                title: "Kepler-442b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره زمین‌سان در ناحیه قابل سکونت."
+            },
+            {
+                id: 59,
+                title: "Kepler-443b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 60,
+                title: "Kepler-452b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با نام مستعار 'زمین 2.0'."
+            },
+            {
+                id: 61,
+                title: "Kepler-1544b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 62,
+                title: "Kepler-1638b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 63,
+                title: "Kepler-1649c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با اندازه و دمای مشابه زمین."
+            },
+            {
+                id: 64,
+                title: "Kepler-1652b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 65,
+                title: "Kepler-1653b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 66,
+                title: "Kepler-186f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "اولین سیاره زمین‌سان در ناحیه قابل سکونت."
+            },
+            {
+                id: 67,
+                title: "Kepler-283c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 68,
+                title: "Kepler-296f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 69,
+                title: "Kepler-298d",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 70,
+                title: "Kepler-328b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 71,
+                title: "Kepler-438b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با شاخص شباهت زمینی بالا."
+            },
+            {
+                id: 72,
+                title: "Kepler-440b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 73,
+                title: "Kepler-441b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 74,
+                title: "Kepler-442b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره زمین‌سان در ناحیه قابل سکونت."
+            },
+            {
+                id: 75,
+                title: "Kepler-443b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 76,
+                title: "Kepler-452b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با نام مستعار 'زمین 2.0'."
+            },
+            {
+                id: 77,
+                title: "Kepler-1544b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 78,
+                title: "Kepler-1638b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 79,
+                title: "Kepler-1649c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره‌ای با اندازه و دمای مشابه زمین."
+            },
+            {
+                id: 80,
+                title: "Kepler-1652b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 81,
+                title: "Kepler-1653b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 82,
+                title: "GJ 667 Cc",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 83,
+                title: "GJ 667 Cf",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت در سیستم سه ستاره‌ای."
+            },
+            {
+                id: 84,
+                title: "GJ 667 Ce",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 85,
+                title: "HD 40307 g",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 86,
+                title: "HD 85512 b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در لبه ناحیه قابل سکونت."
+            },
+            {
+                id: 87,
+                title: "GJ 581 g",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت با بحث‌های علمی ادامه‌دار."
+            },
+            {
+                id: 88,
+                title: "GJ 581 d",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 89,
+                title: "GJ 581 c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "یکی از اولین سیارات فراخورشیدی کشف شده در ناحیه قابل سکونت."
+            },
+            {
+                id: 90,
+                title: "Tau Ceti e",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت حول ستاره Tau Ceti."
+            },
+            {
+                id: 91,
+                title: "Tau Ceti f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت حول ستاره Tau Ceti."
+            },
+            {
+                id: 92,
+                title: "GJ 273b",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 93,
+                title: "GJ 273c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 94,
+                title: "Wolf 1061c",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره فوق‌الزمینی در ناحیه قابل سکونت."
+            },
+            {
+                id: 95,
+                title: "Wolf 1061d",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "سیاره بالقوه قابل سکونت."
+            },
+            {
+                id: 96,
+                title: "TRAPPIST-1d",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "یکی از هفت سیاره زمین‌سان در سیستم TRAPPIST-1."
+            },
+            {
+                id: 97,
+                title: "TRAPPIST-1e",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "یکی از هفت سیاره زمین‌سان در سیستم TRAPPIST-1."
+            },
+            {
+                id: 98,
+                title: "TRAPPIST-1f",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "یکی از هفت سیاره زمین‌سان در سیستم TRAPPIST-1."
+            },
+            {
+                id: 99,
+                title: "TRAPPIST-1g",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "یکی از هفت سیاره زمین‌سان در سیستم TRAPPIST-1."
+            },
+            {
+                id: 100,
+                title: "TRAPPIST-1h",
+                type: "سیاره فراخورشیدی",
+                composition: "احتمالاً سیاره سنگی.",
+                description: "یکی از هفت سیاره زمین‌سان در سیستم TRAPPIST-1."
+            }
+        ];
+
+        // داده‌های کامل برای 100 حیوان
+        const animalsData = [
+            {
+                id: 1,
+                title: "پاندا",
+                status: "در معرض خطر",
+                benefit: "کمک به پراکنش دانه‌های گیاهان و حفظ تنوع زیستی.",
+                description: "خرس سیاه و سفید که عمدتاً از بامبو تغذیه می‌کند."
+            },
+            {
+                id: 2,
+                title: "فیل آفریقایی",
+                status: "آسیب‌پذیر",
+                benefit: "ایجاد مسیرهای جنگلی و پراکنش دانه‌های درختان.",
+                description: "بزرگترین پستاندار خشکی‌زی با خرطوم بلند و عاج‌های بزرگ."
+            },
+            {
+                id: 3,
+                title: "نهنگ آبی",
+                status: "در معرض خطر",
+                benefit: "کمک به چرخه مواد مغذی در اقیانوس‌ها.",
+                description: "بزرگترین حیوان روی زمین که در اقیانوس‌ها زندگی می‌کند."
+            },
+            {
+                id: 4,
+                title: "ببر",
+                status: "در معرض خطر",
+                benefit: "حفظ تعادل در جمعیت گیاهخواران و سلامت اکوسیستم.",
+                description: "بزرگترین گربه‌سان جهان با نوارهای سیاه مشخص روی بدن."
+            },
+            {
+                id: 5,
+                title: "کرگدن",
+                status: "در معرض خطر",
+                benefit: "کمک به شکل‌دهی چشم‌انداز و پراکنش دانه‌ها.",
+                description: "پستاندار بزرگ با شاخ‌های مشخص روی بینی."
+            },
+            {
+                id: 6,
+                title: "شاهین",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان و حشرات.",
+                description: "پرنده شکاری با بینایی فوق العاده و سرعت بالا در پرواز."
+            },
+            {
+                id: 7,
+                title: "دلفین",
+                status: "کمترین نگرانی",
+                benefit: "حفظ تعادل در زنجیره غذایی دریایی.",
+                description: "پستاندار دریایی باهوش با توانایی ارتباط پیچیده."
+            },
+            {
+                id: 8,
+                title: "کوالا",
+                status: "آسیب‌پذیر",
+                benefit: "کمک به سلامت جنگل‌های اکالیپتوس.",
+                description: "پستاندار کیسه‌دار استرالیایی که از برگ اکالیپتوس تغذیه می‌کند."
+            },
+            {
+                id: 9,
+                title: "پنگوئن",
+                status: "در معرض خطر",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم قطبی.",
+                description: "پرنده بی‌پرواز که در نیمکره جنوبی زندگی می‌کند."
+            },
+            {
+                id: 10,
+                title: "گوریل",
+                status: "در معرض خطر",
+                benefit: "کمک به پراکنش دانه‌ها و سلامت جنگل.",
+                description: "بزرگترین پستاندار نخستی‌سان با هوش بالا."
+            },
+            {
+                id: 11,
+                title: "اورانگوتان",
+                status: "در معرض خطر",
+                benefit: "کمک به پراکنش دانه‌های درختان میوه.",
+                description: "میمون بزرگ با موهای قرمز-قهوه‌ای که در جنگل‌های اندونزی زندگی می‌کند."
+            },
+            {
+                id: 12,
+                title: "شامپانزه",
+                status: "در معرض خطر",
+                benefit: "کمک به پراکنش دانه‌ها و کنترل حشرات.",
+                description: "نزدیکترین خویشاوند زنده به انسان با هوش بالا."
+            },
+            {
+                id: 13,
+                title: "بونوبو",
+                status: "در معرض خطر",
+                benefit: "کمک به پراکنش دانه‌ها و سلامت جنگل.",
+                description: "میمون بزرگ صلح‌طلب که در کنگو زندگی می‌کند."
+            },
+            {
+                id: 14,
+                title: "فیل آسیایی",
+                status: "در معرض خطر",
+                benefit: "ایجاد مسیرهای جنگلی و پراکنش دانه‌ها.",
+                description: "فیل کوچکتر از فیل آفریقایی با گوش‌های کوچکتر."
+            },
+            {
+                id: 15,
+                title: "کرگدن سوماترایی",
+                status: "به شدت در معرض خطر",
+                benefit: "کمک به شکل‌دهی چشم‌انداز جنگل.",
+                description: "کوچکترین گونه کرگدن با دو شاخ."
+            },
+            {
+                id: 16,
+                title: "کرگدن جاوه‌ای",
+                status: "به شدت در معرض خطر",
+                benefit: "کمک به سلامت اکوسیستم جنگلی.",
+                description: "یکی از نادرترین پستانداران بزرگ جهان."
+            },
+            {
+                id: 17,
+                title: "یوزپلنگ",
+                status: "آسیب‌پذیر",
+                benefit: "کنترل جمعیت گیاهخواران سریع.",
+                description: "سریعترین حیوان خشکی با توانایی دویدن تا 112 کیلومتر بر ساعت."
+            },
+            {
+                id: 18,
+                title: "پلنگ برفی",
+                status: "آسیب‌پذیر",
+                benefit: "کنترل جمعیت گیاهخواران کوهستانی.",
+                description: "گربه‌سان بزرگ با خز ضخیم که در کوهستان‌های مرتفع زندگی می‌کند."
+            },
+            {
+                id: 19,
+                title: "گرگ",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت گیاهخواران و سلامت اکوسیستم.",
+                description: "پستاندار شکاری اجتماعی با زندگی گروهی."
+            },
+            {
+                id: 20,
+                title: "روباه",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان و حشرات.",
+                description: "پستاندار کوچک با هوش بالا و توانایی سازگاری با محیط‌های مختلف."
+            },
+            {
+                id: 21,
+                title: "خرس قطبی",
+                status: "آسیب‌پذیر",
+                benefit: "کنترل جمعیت فوک‌ها و سلامت اکوسیستم قطبی.",
+                description: "بزرگترین گوشتخوار خشکی که در قطب شمال زندگی می‌کند."
+            },
+            {
+                id: 22,
+                title: "خرس گریزلی",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها و کنترل جمعیت جانوران.",
+                description: "خرس قهوه‌ای بزرگ که در آمریکای شمالی زندگی می‌کند."
+            },
+            {
+                id: 23,
+                title: "کانگورو",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها و سلامت چمنزارها.",
+                description: "پستاندار کیسه‌دار استرالیایی با پاهای قدرتمند برای پریدن."
+            },
+            {
+                id: 24,
+                title: "والابی",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها و سلامت اکوسیستم.",
+                description: "پستاندار کیسه‌دار کوچک شبیه کانگورو."
+            },
+            {
+                id: 25,
+                title: "کوالا",
+                status: "آسیب‌پذیر",
+                benefit: "کمک به سلامت جنگل‌های اکالیپتوس.",
+                description: "پستاندار کیسه‌دار استرالیایی که از برگ اکالیپتوس تغذیه می‌کند."
+            },
+            {
+                id: 26,
+                title: "وامبت",
+                status: "کمترین نگرانی",
+                benefit: "کمک به حاصلخیزی خاک با حفر tunnels.",
+                description: "پستاندار کیسه‌دار استرالیایی با بدن سنگین و پاهای کوتاه."
+            },
+            {
+                id: 27,
+                title: "پلاتیپوس",
+                status: "نزدیک تهدید",
+                benefit: "کنترل جمعیت حشرات آبزی.",
+                description: "پستاندار تخم‌گذار با منقار اردکی که در استرالیا زندگی می‌کند."
+            },
+            {
+                id: 28,
+                title: "اکیدنه",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت مورچه‌ها و موریانه‌ها.",
+                description: "پستاندار تخم‌گذار با بدن خاردار که در استرالیا و گینه نو زندگی می‌کند."
+            },
+            {
+                id: 29,
+                title: "آرمادیلو",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و کمک به حاصلخیزی خاک.",
+                description: "پستاندار با پوشش زرهی که در آمریکا زندگی می‌کند."
+            },
+            {
+                id: 30,
+                title: "تنبل",
+                status: "کمترین نگرانی",
+                benefit: "کمک به رشد جلبک‌ها و حشرات روی بدن خود.",
+                description: "پستاندار کندرو که در جنگل‌های آمریکای مرکزی و جنوبی زندگی می‌کند."
+            },
+            {
+                id: 31,
+                title: "مورچه‌خوار",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت مورچه‌ها و موریانه‌ها.",
+                description: "پستاندار با پوزه دراز و زبان چسبناک برای خوردن مورچه."
+            },
+            {
+                id: 32,
+                title: "پانگولین",
+                status: "به شدت در معرض خطر",
+                benefit: "کنترل جمعیت مورچه‌ها و موریانه‌ها.",
+                description: "پستاندار با پوشش فلس‌دار که در آسیا و آفریقا زندگی می‌کند."
+            },
+            {
+                id: 33,
+                title: "جگوار",
+                status: "نزدیک تهدید",
+                benefit: "کنترل جمعیت گیاهخواران و سلامت اکوسیستم.",
+                description: "بزرگترین گربه‌سان آمریکایی با خال‌های شبیه گل."
+            },
+            {
+                id: 34,
+                title: "پوما",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت گیاهخواران و سلامت اکوسیستم.",
+                description: "گربه‌سان بزرگ با بدن یکدست قهوه‌ای که در آمریکا زندگی می‌کند."
+            },
+            {
+                id: 35,
+                title: "لینکس",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان و خرگوش‌ها.",
+                description: "گربه‌سان متوسط با گوش‌های مثلثی و دم کوتاه."
+            },
+            {
+                id: 36,
+                title: "کاراکال",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان و پرندگان.",
+                description: "گربه‌سان متوسط با گوش‌های بلند و سیاه."
+            },
+            {
+                id: 37,
+                title: "سروال",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان و حشرات.",
+                description: "گربه‌سان با پاهای بلند و گوش‌های بزرگ."
+            },
+            {
+                id: 38,
+                title: "ببر بنگال",
+                status: "در معرض خطر",
+                benefit: "کنترل جمعیت گیاهخواران و سلامت اکوسیستم.",
+                description: "زیرگونه‌ای از ببر که در هند و بنگلادش زندگی می‌کند."
+            },
+            {
+                id: 39,
+                title: "ببر سیبری",
+                status: "در معرض خطر",
+                benefit: "کنترل جمعیت گیاهخواران و سلامت اکوسیستم.",
+                description: "بزرگترین گربه‌سان جهان که در شرق روسیه زندگی می‌کند."
+            },
+            {
+                id: 40,
+                title: "پلنگ آفریقایی",
+                status: "آسیب‌پذیر",
+                benefit: "کنترل جمعیت گیاهخواران و سلامت اکوسیستم.",
+                description: "گربه‌سان بزرگ با خال‌های گل‌شکل که در آفریقا زندگی می‌کند."
+            },
+            {
+                id: 41,
+                title: "شیر",
+                status: "آسیب‌پذیر",
+                benefit: "کنترل جمعیت گیاهخواران بزرگ و سلامت ساوانا.",
+                description: "گربه‌سان اجتماعی با یال در نرها که در آفریقا و هند زندگی می‌کند."
+            },
+            {
+                id: 42,
+                title: "فک",
+                status: "کمترین نگرانی",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم دریایی.",
+                description: "پستاندار دریایی با بدن دوکی شکل که در آب‌های سرد زندگی می‌کند."
+            },
+            {
+                id: 43,
+                title: "فک خزپوش",
+                status: "کمترین نگرانی",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم دریایی.",
+                description: "فک با پوشش خز ضخیم که برای شکار ارزش دارد."
+            },
+            {
+                id: 44,
+                title: "فیل دریایی",
+                status: "کمترین نگرانی",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم دریایی.",
+                description: "بزرگترین فک با بینی بزرگ در نرها."
+            },
+            {
+                id: 45,
+                title: "وال قاتل",
+                status: "داده ناکافی",
+                benefit: "کنترل جمعیت پستانداران دریایی و ماهی‌ها.",
+                description: "دلفین بزرگ سیاه و سفید که در تمام اقیانوس‌ها زندگی می‌کند."
+            },
+            {
+                id: 46,
+                title: "وال خاکستری",
+                status: "کمترین نگرانی",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم دریایی.",
+                description: "وال با مهاجرت طولانی‌ترین در میان پستانداران."
+            },
+            {
+                id: 47,
+                title: "وال اسپرم",
+                status: "آسیب‌پذیر",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم دریایی.",
+                description: "بزرگترین وال دندان‌دار با سر بزرگ."
+            },
+            {
+                id: 48,
+                title: "دلفین بینی بطری",
+                status: "کمترین نگرانی",
+                benefit: "حفظ تعادل در زنجیره غذایی دریایی.",
+                description: "دلفین باهوش با بینی بطری‌شکل."
+            },
+            {
+                id: 49,
+                title: "دلفین رودخانه‌ای",
+                status: "در معرض خطر",
+                benefit: "شاخص سلامت اکوسیستم‌های رودخانه‌ای.",
+                description: "دلفین کوچک که در رودخانه‌های شیرین زندگی می‌کند."
+            },
+            {
+                id: 50,
+                title: "ماناتی",
+                status: "آسیب‌پذیر",
+                benefit: "کنترل رشد گیاهان آبزی.",
+                description: "پستاندار دریایی گیاهخوار با بدن بزرگ و دم پارویی."
+            },
+            {
+                id: 51,
+                title: "دوگونگ",
+                status: "آسیب‌پذیر",
+                benefit: "کنترل رشد گیاهان آبزی.",
+                description: "پستاندار دریایی گیاهخوار با دم چنگالی."
+            },
+            {
+                id: 52,
+                title: "خرس آبی",
+                status: "کمترین نگرانی",
+                benefit: "شاخص سلامت محیط‌های آبی.",
+                description: "جانور میکروسکوپی با توانایی زنده ماندن در شرایط سخت."
+            },
+            {
+                id: 53,
+                title: "عقاب",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان و خرگوش‌ها.",
+                description: "پرنده شکاری بزرگ با بینایی قوی."
+            },
+            {
+                id: 54,
+                title: "عقاب طلایی",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت گیاهخواران کوچک.",
+                description: "عقاب بزرگ با پرهای قهوه‌ای طلایی."
+            },
+            {
+                id: 55,
+                title: "عقاب دریایی",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت ماهی‌ها و پرندگان آبزی.",
+                description: "عقاب بزرگ که در نزدیکی آب زندگی می‌کند."
+            },
+            {
+                id: 56,
+                title: "جغد",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان شب‌فعال.",
+                description: "پرنده شکاری شب‌فعال با چشمان بزرگ و گردن متحرک."
+            },
+            {
+                id: 57,
+                title: "جغد انبار",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان در مزارع.",
+                description: "جغد با صورت قلب‌شکل که در سراسر جهان یافت می‌شود."
+            },
+            {
+                id: 58,
+                title: "شاه بوف",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت جوندگان و خرگوش‌ها.",
+                description: "بزرگترین جغد با گوش‌های مشخص."
+            },
+            {
+                id: 59,
+                title: "پلیکان",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت ماهی‌ها و کمک به چرخه مواد مغذی.",
+                description: "پرنده آبزی با کیسه بزرگ زیر منقار."
+            },
+            {
+                id: 60,
+                title: "فلامینگو",
+                status: "کمترین نگرانی",
+                benefit: "کمک به چرخه مواد مغذی در تالاب‌ها.",
+                description: "پرنده با پاهای بلند و پرهای صورتی."
+            },
+            {
+                id: 61,
+                title: "پنگوئن امپراتور",
+                status: "نزدیک تهدید",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم قطبی.",
+                description: "بزرگترین پنگوئن که در قطب جنوب زندگی می‌کند."
+            },
+            {
+                id: 62,
+                title: "پنگوئن آدلی",
+                status: "کمترین نگرانی",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم قطبی.",
+                description: "پنگوئن کوچک با حلقه سفید دور چشم."
+            },
+            {
+                id: 63,
+                title: "آلباتروس",
+                status: "در معرض خطر",
+                benefit: "کمک به چرخه مواد مغذی در اقیانوس‌ها.",
+                description: "پرنده دریایی با بال‌های بسیار بلند."
+            },
+            {
+                id: 64,
+                title: "پافین",
+                status: "آسیب‌پذیر",
+                benefit: "کمک به چرخه مواد مغذی در اکوسیستم ساحلی.",
+                description: "پرنده دریایی با منقار رنگارنگ."
+            },
+            {
+                id: 65,
+                title: "مرغ مگس",
+                status: "کمترین نگرانی",
+                benefit: "گرده‌افشانی گل‌ها.",
+                description: "کوچکترین پرنده با توانایی پرواز در جا."
+            },
+            {
+                id: 66,
+                title: "طوطی",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها.",
+                description: "پرنده رنگارنگ با توانایی تقلید صدا."
+            },
+            {
+                id: 67,
+                title: "طوطی ماکائو",
+                status: "در معرض خطر",
+                benefit: "کمک به پراکنش دانه‌های درختان.",
+                description: "طوطی بزرگ با پرهای رنگارنگ."
+            },
+            {
+                id: 68,
+                title: "کاکادو",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها.",
+                description: "طوطی با کاکل مشخص روی سر."
+            },
+            {
+                id: 69,
+                title: "شترمرغ",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها و حشرات.",
+                description: "بزرگترین پرنده با توانایی دویدن سریع."
+            },
+            {
+                id: 70,
+                title: "ایمو",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها.",
+                description: "دومین پرنده بزرگ بومی استرالیا."
+            },
+            {
+                id: 71,
+                title: "کیوی",
+                status: "آسیب‌پذیر",
+                benefit: "کنترل جمعیت حشرات و کرم‌ها.",
+                description: "پرنده بی‌پرواز شب‌فعال بومی نیوزیلند."
+            },
+            {
+                id: 72,
+                title: "توکان",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها.",
+                description: "پرنده با منقار بزرگ و رنگارنگ."
+            },
+            {
+                id: 73,
+                title: "هوبره",
+                status: "آسیب‌پذیر",
+                benefit: "کمک به کنترل حشرات و پراکنش دانه‌ها.",
+                description: "پرنده بزرگ با نمایش جفت‌گیری چشمگیر."
+            },
+            {
+                id: 74,
+                title: "درنای whooping",
+                status: "در معرض خطر",
+                benefit: "شاخص سلامت تالاب‌ها.",
+                description: "بلندترین پرنده آمریکای شمالی با جمعیت کم."
+            },
+            {
+                id: 75,
+                title: "قوی گنگ",
+                status: "کمترین نگرانی",
+                benefit: "کمک به سلامت اکوسیستم‌های آبی.",
+                description: "قوی بزرگ با منقار نارنجی."
+            },
+            {
+                id: 76,
+                title: "اردک",
+                status: "کمترین نگرانی",
+                benefit: "کمک به کنترل گیاهان آبزی و حشرات.",
+                description: "پرنده آبزی با پاهای پرده‌دار."
+            },
+            {
+                id: 77,
+                title: "غاز",
+                status: "کمترین نگرانی",
+                benefit: "کمک به کنترل گیاهان و حشرات.",
+                description: "پرنده آبزی با گردن بلند."
+            },
+            {
+                id: 78,
+                title: "مرغ دریایی",
+                status: "کمترین نگرانی",
+                benefit: "کمک به چرخه مواد مغذی در سواحل.",
+                description: "پرنده دریایی با بال‌های بلند."
+            },
+            {
+                id: 79,
+                title: "پلیکان",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت ماهی‌ها.",
+                description: "پرنده آبزی با کیسه بزرگ زیر منقار."
+            },
+            {
+                id: 80,
+                title: "لکلک",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و جوندگان.",
+                description: "پرنده با پاها و گردن بلند."
+            },
+            {
+                id: 81,
+                title: "لکلک سفید",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و جوندگان.",
+                description: "لکلک بزرگ با پرهای سفید و سیاه."
+            },
+            {
+                id: 82,
+                title: "لکلک سیاه",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و ماهی‌ها.",
+                description: "لکلک با پرهای سیاه و منقار قرمز."
+            },
+            {
+                id: 83,
+                title: "مرغ شاخدار",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و دانه‌های علف‌های هرز.",
+                description: "پرنده با تاج استخوانی روی سر."
+            },
+            {
+                id: 84,
+                title: "قرقاول",
+                status: "کمترین نگرانی",
+                benefit: "کمک به کنترل حشرات و پراکنش دانه‌ها.",
+                description: "پرنده با دم بلند و رنگارنگ."
+            },
+            {
+                id: 85,
+                title: "بوقلمون",
+                status: "کمترین نگرانی",
+                benefit: "کمک به کنترل حشرات و علف‌های هرز.",
+                description: "پرنده بزرگ با دم بادبزنی."
+            },
+            {
+                id: 86,
+                title: "طاووس",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و خزندگان کوچک.",
+                description: "پرنده با دم رنگارنگ و چشم‌دار."
+            },
+            {
+                id: 87,
+                title: "کبوتر",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها.",
+                description: "پرنده با توانایی جهتیابی عالی."
+            },
+            {
+                id: 88,
+                title: "قمری",
+                status: "کمترین نگرانی",
+                benefit: "کمک به پراکنش دانه‌ها.",
+                description: "کبوتر کوچک با صدای نرم."
+            },
+            {
+                id: 89,
+                title: "دارکوب",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات چوب‌خوار.",
+                description: "پرنده با منقار قوی برای سوراخ کردن چوب."
+            },
+            {
+                id: 90,
+                title: "مرغ مینا",
+                status: "کمترین نگرانی",
+                benefit: "کمک به کنترل حشرات و پراکنش دانه‌ها.",
+                description: "پرنده با توانایی تقلید صدا."
+            },
+            {
+                id: 91,
+                title: "کلاغ",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و پاکسازی لاشه‌ها.",
+                description: "پرنده باهوش با پرهای سیاه."
+            },
+            {
+                id: 92,
+                title: "زاغ",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و پاکسازی لاشه‌ها.",
+                description: "کلاغ کوچک با پرهای خاکستری و سیاه."
+            },
+            {
+                id: 93,
+                title: "سار",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و پراکنش دانه‌ها.",
+                description: "پرنده اجتماعی با پرهای براق."
+            },
+            {
+                id: 94,
+                title: "چلچله",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات در حال پرواز.",
+                description: "پرنده کوچک با توانایی پرواز سریع."
+            },
+            {
+                id: 95,
+                title: "بلبل",
+                status: "کمترین نگرانی",
+                benefit: "کمک به کنترل حشرات و پراکنش دانه‌ها.",
+                description: "پرنده کوچک با آواز زیبا."
+            },
+            {
+                id: 96,
+                title: "چکاوک",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و دانه‌های علف‌های هرز.",
+                description: "پرنده کوچک با آواز در حال پرواز."
+            },
+            {
+                id: 97,
+                title: "سینه سرخ",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و کرم‌ها.",
+                description: "پرنده کوچک با سینه نارنجی."
+            },
+            {
+                id: 98,
+                title: "گنجشک",
+                status: "کمترین نگرانی",
+                benefit: "کنترل جمعیت حشرات و دانه‌های علف‌های هرز.",
+                description: "پرنده کوچک که در نزدیکی انسان زندگی می‌کند."
+            },
+            {
+                id: 99,
+                title: "سهره",
+                status: "کمترین نگرانی",
+                benefit: "کمک به کنترل دانه‌های علف‌های هرز.",
+                description: "پرنده کوچک با منقار مخروطی برای خوردن دانه."
+            },
+            {
+                id: 100,
+                title: "قناری",
+                status: "کمترین نگرانی",
+                benefit: "شاخص سلامت محیط‌های طبیعی.",
+                description: "پرنده کوچک با آواز زیبا که به عنوان حیوان خانگی محبوب است."
+            }
+        ];
+
+        // تابع برای تولید کارت‌ها
+        function generateCards(data, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                let cardContent = '';
+                
+                if (containerId === 'inventions-container') {
+                    cardContent = `
+                        <div class="card-header">
+                            <h3>${item.title}</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>مخترع:</strong> ${item.inventor}</p>
+                            <p><strong>سال اختراع:</strong> ${item.year}</p>
+                            <p>${item.description}</p>
+                        </div>
+                    `;
+                } else if (containerId === 'planets-container') {
+                    cardContent = `
+                        <div class="card-header">
+                            <h3>${item.title}</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>نوع:</strong> ${item.type}</p>
+                            <p><strong>ترکیبات:</strong> ${item.composition}</p>
+                            <p>${item.description}</p>
+                        </div>
+                    `;
+                } else if (containerId === 'animals-container') {
+                    cardContent = `
+                        <div class="card-header">
+                            <h3>${item.title}</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>وضعیت حفاظت:</strong> ${item.status}</p>
+                            <p><strong>مفید برای طبیعت:</strong> ${item.benefit}</p>
+                            <p>${item.description}</p>
+                        </div>
+                    `;
+                }
+                
+                card.innerHTML = cardContent;
+                container.appendChild(card);
+            });
+        }
+
+        // تابع برای تغییر بخش فعال
+        function setActiveSection(category) {
+            // مخفی کردن همه بخش‌ها
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // فعال کردن بخش انتخاب شده
+            document.getElementById(category).classList.add('active');
+            
+            // به‌روزرسانی لینک‌های ناوبری
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.category === category) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // اجرای کد پس از لود شدن صفحه
+        document.addEventListener('DOMContentLoaded', function() {
+            // تولید کارت‌های اولیه
+            generateCards(inventionsData, 'inventions-container');
+            generateCards(planetsData, 'planets-container');
+            generateCards(animalsData, 'animals-container');
+            
+            // اضافه کردن رویداد به لینک‌های ناوبری
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.dataset.category;
+                    setActiveSection(category);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
