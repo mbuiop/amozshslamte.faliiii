@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم سیگنال‌دهی پیشرفته</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d72b4 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 3D Background Effects */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-cube {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 6px;
+            animation: float 25s infinite ease-in-out;
+            opacity: 0.3;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
+            25% { transform: translateY(-120px) rotateX(90deg) rotateY(45deg); }
+            50% { transform: translateY(-240px) rotateX(180deg) rotateY(90deg); }
+            75% { transform: translateY(-120px) rotateX(270deg) rotateY(135deg); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            color: #f0f8ff;
+        }
+
+        /* Template Selection */
+        .template-section {
+            margin-bottom: 25px;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .template-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .template-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .template-card.active {
+            background: rgba(255, 255, 255, 1);
+            border-color: #2a5298;
+            box-shadow: 0 8px 25px rgba(42, 82, 152, 0.3);
+        }
+
+        .template-card h3 {
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .template-weights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .weight-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .weight-value {
+            color: #2a5298;
+            font-weight: 600;
+        }
+
+        /* Input Form */
+        .input-form {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #333;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 15px rgba(42, 82, 152, 0.3);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        /* Generate Button */
+        .generate-btn {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.4);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ff6b7a, #ff4757);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 150px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        /* Signal Result */
+        .signal-result {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .signal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .signal-direction {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .buy-strong { color: #00ff88; text-shadow: 0 0 15px rgba(0, 255, 136, 0.5); }
+        .buy-medium { color: #66ff99; }
+        .sell-strong { color: #ff4757; text-shadow: 0 0 15px rgba(255, 71, 87, 0.5); }
+        .sell-medium { color: #ff6b7a; }
+        .neutral { color: #ffd700; }
+
+        .signal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .signal-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .signal-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .signal-item h3 {
+            color: #f0f8ff;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+        }
+
+        .signal-item .value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .indicator-analysis {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .indicator-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #ffffff;
+        }
+
+        .indicator-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+
+        .indicator-details {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            line-height: 1.4;
+            color: #f0f8ff;
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffffff, #f0f8ff);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* History Section */
+        .history-section {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header p {
+                font-size: 0.8rem;
+            }
+            
+            .signal-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .template-card {
+                padding: 12px;
+            }
+            
+            .input-form {
+                padding: 15px 10px;
+            }
+            
+            .signal-result {
+                padding: 15px 10px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top: 3px solid #ffffff;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Glow Effects */
+        .glow {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Template Selection Buttons */
+        .template-type-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .template-type-btn {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .template-type-btn.active {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+        }
+
+        .template-type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Background Animation -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 سیستم سیگنال‌دهی پیشرفته</h1>
+            <p>تحلیل هوشمند بازار با الگوریتم‌های پیشرفته و وزن‌دهی دقیق</p>
+        </div>
+
+        <!-- Template Type Selection -->
+        <div class="template-type-buttons">
+            <button class="template-type-btn active" id="btn100" onclick="switchTemplateType('100')">قالب‌های 0-100</button>
+            <button class="template-type-btn" id="btn500" onclick="switchTemplateType('500')">قالب‌های 0-500</button>
+        </div>
+
+        <!-- Template Selection -->
+        <div class="template-section" id="templateSection100">
+            <h2 class="section-title">🎯 انتخاب قالب تحلیل (0-100)</h2>
+            <div class="template-grid" id="templateGrid100">
+                <!-- Templates will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="template-section" id="templateSection500" style="display: none;">
+            <h2 class="section-title">🎯 انتخاب قالب تحلیل (0-500)</h2>
+            <div class="template-grid" id="templateGrid500">
+                <!-- Templates will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Input Form -->
+        <div class="input-form" id="inputForm" style="display: none;">
+            <h2 class="section-title">📊 ورود اطلاعات تکنیکال</h2>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>💰 نماد ارز (Symbol)</label>
+                    <input type="text" id="symbol" placeholder="BTCUSDT" style="text-transform: uppercase;">
+                </div>
+                <div class="input-group">
+                    <label>💵 قیمت فعلی (Current Price)</label>
+                    <input type="number" id="currentPrice" step="0.000001" placeholder="47500">
+                </div>
+                <div class="input-group">
+                    <label>📈 مقاومت (Resistance)</label>
+                    <input type="number" id="resistance" step="0.000001" placeholder="50000">
+                </div>
+                <div class="input-group">
+                    <label>📉 حمایت (Support)</label>
+                    <input type="number" id="support" step="0.000001" placeholder="45000">
+                </div>
+                <div class="input-group">
+                    <label>📊 RSI (0-100)</label>
+                    <input type="number" id="rsi" min="0" max="100" placeholder="45">
+                </div>
+                <div class="input-group">
+                    <label>📈 EMA20</label>
+                    <input type="number" id="ema20" step="0.000001" placeholder="47000">
+                </div>
+                <div class="input-group">
+                    <label>📈 EMA50</label>
+                    <input type="number" id="ema50" step="0.000001" placeholder="46000">
+                </div>
+                <div class="input-group">
+                    <label>🔵 Upper Band</label>
+                    <input type="number" id="upper" step="0.000001" placeholder="52000">
+                </div>
+                <div class="input-group">
+                    <label>⚡ MACD</label>
+                    <input type="number" id="macd" step="0.000001" placeholder="150">
+                </div>
+                <!-- New Indicators -->
+                <div class="input-group">
+                    <label>📊 K (استوکاستیک)</label>
+                    <input type="number" id="stochK" min="0" max="100" placeholder="45">
+                </div>
+                <div class="input-group">
+                    <label>📈 D (استوکاستیک)</label>
+                    <input type="number" id="stochD" min="0" max="100" placeholder="40">
+                </div>
+                <div class="input-group">
+                    <label>📉 J (استوکاستیک)</label>
+                    <input type="number" id="stochJ" min="0" max="100" placeholder="55">
+                </div>
+                <div class="input-group">
+                    <label>📊 DIF (MACD)</label>
+                    <input type="number" id="dif" step="0.000001" placeholder="0.05">
+                </div>
+                <div class="input-group">
+                    <label>📈 DEA (MACD)</label>
+                    <input type="number" id="dea" step="0.000001" placeholder="0.03">
+                </div>
+                <div class="input-group">
+                    <label>📊 تنکان سن (Ichimoku)</label>
+                    <input type="number" id="tenkan" step="0.000001" placeholder="48000">
+                </div>
+                <div class="input-group">
+                    <label>📈 کیجون سن (Ichimoku)</label>
+                    <input type="number" id="kijun" step="0.000001" placeholder="47500">
+                </div>
+                <div class="input-group">
+                    <label>📊 سنکو اسپن A (Ichimoku)</label>
+                    <input type="number" id="senkouA" step="0.000001" placeholder="48500">
+                </div>
+                <div class="input-group">
+                    <label>📈 سنکو اسپن B (Ichimoku)</label>
+                    <input type="number" id="senkouB" step="0.000001" placeholder="49000">
+                </div>
+                <div class="input-group">
+                    <label>📊 چیکو اسپن (Ichimoku)</label>
+                    <input type="number" id="chikou" step="0.000001" placeholder="47300">
+                </div>
+            </div>
+            <button class="generate-btn" onclick="generateSignal()">
+                🎯 تولید سیگنال
+            </button>
+            <button class="reset-btn" onclick="resetForm()">
+                🔄 شروع مجدد
+            </button>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; font-size: 0.9rem;">در حال تحلیل...</p>
+        </div>
+
+        <!-- Signal Result -->
+        <div class="signal-result" id="signalResult" style="display: none;">
+            <!-- Signal content will be generated by JavaScript -->
+        </div>
+
+        <!-- History -->
+        <div class="history-section">
+            <h2 class="section-title">📈 تاریخچه سیگنال‌ها</h2>
+            <div id="historyContainer">
+                <p style="text-align: center; opacity: 0.7; font-size: 0.9rem;">هنوز سیگنالی تولید نشده است</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Advanced Trading Bot Class
+        class AdvancedTradingBot {
+            constructor() {
+                // قالب‌های 0-100
+                this.templates100 = {
+                    "قالب یک": {"rsi": 25, "ema20": 20, "ema50": 18, "upper": 15, "macd": 22, "stoch": 20, "dif": 15, "dea": 15, "ichimoku": 30},
+                    "قالب دو": {"rsi": 30, "ema20": 25, "ema50": 20, "upper": 12, "macd": 13, "stoch": 18, "dif": 12, "dea": 12, "ichimoku": 25},
+                    "قالب سه": {"rsi": 22, "ema20": 28, "ema50": 25, "upper": 10, "macd": 15, "stoch": 22, "dif": 18, "dea": 18, "ichimoku": 28},
+                    "قالب چهار": {"rsi": 35, "ema20": 15, "ema50": 30, "upper": 8, "macd": 12, "stoch": 15, "dif": 10, "dea": 10, "ichimoku": 20},
+                    "قالب پنج": {"rsi": 28, "ema20": 22, "ema50": 22, "upper": 14, "macd": 14, "stoch": 20, "dif": 16, "dea": 16, "ichimoku": 24}
+                };
+                
+                // قالب‌های 0-500
+                this.templates500 = {
+                    "قالب شش": {"rsi": 125, "ema20": 120, "ema50": 118, "upper": 115, "macd": 122, "stoch": 120, "dif": 115, "dea": 115, "ichimoku": 130},
+                    "قالب هفت": {"rsi": 130, "ema20": 125, "ema50": 120, "upper": 112, "macd": 113, "stoch": 118, "dif": 112, "dea": 112, "ichimoku": 125},
+                    "قالب هشت": {"rsi": 122, "ema20": 128, "ema50": 125, "upper": 110, "macd": 115, "stoch": 122, "dif": 118, "dea": 118, "ichimoku": 128},
+                    "قالب نه": {"rsi": 135, "ema20": 115, "ema50": 130, "upper": 108, "macd": 112, "stoch": 115, "dif": 110, "dea": 110, "ichimoku": 120},
+                    "قالب ده": {"rsi": 128, "ema20": 122, "ema50": 122, "upper": 114, "macd": 114, "stoch": 120, "dif": 116, "dea": 116, "ichimoku": 124}
+                };
+                
+                this.selectedTemplate = null;
+                this.selectedTemplateType = "100"; // Default to 0-100 templates
+                this.signalHistory = [];
+                this.initializeTemplates();
+                this.createFloatingCubes();
+            }
+
+            createFloatingCubes() {
+                const bgAnimation = document.getElementById('bgAnimation');
+                for (let i = 0; i < 12; i++) {
+                    const cube = document.createElement('div');
+                    cube.className = 'floating-cube';
+                    cube.style.left = Math.random() * 100 + '%';
+                    cube.style.top = Math.random() * 100 + '%';
+                    cube.style.animationDelay = Math.random() * 25 + 's';
+                    cube.style.animationDuration = (20 + Math.random() * 10) + 's';
+                    bgAnimation.appendChild(cube);
+                }
+            }
+
+            initializeTemplates() {
+                const templateGrid100 = document.getElementById('templateGrid100');
+                const templateGrid500 = document.getElementById('templateGrid500');
+                
+                // Initialize 0-100 templates
+                Object.entries(this.templates100).forEach(([name, weights]) => {
+                    const card = document.createElement('div');
+                    card.className = 'template-card';
+                    card.onclick = () => this.selectTemplate(name, card, "100");
+                    
+                    card.innerHTML = `
+                        <h3>${name}</h3>
+                        <div class="template-weights">
+                            <div class="weight-item">
+                                <span>📊 RSI:</span>
+                                <span class="weight-value">${weights.rsi}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📈 EMA20:</span>
+                                <span class="weight-value">${weights.ema20}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📈 EMA50:</span>
+                                <span class="weight-value">${weights.ema50}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>🔵 Upper:</span>
+                                <span class="weight-value">${weights.upper}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>⚡ MACD:</span>
+                                <span class="weight-value">${weights.macd}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📊 Stochastic:</span>
+                                <span class="weight-value">${weights.stoch}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📈 DIF/DEA:</span>
+                                <span class="weight-value">${weights.dif + weights.dea}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📊 Ichimoku:</span>
+                                <span class="weight-value">${weights.ichimoku}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    templateGrid100.appendChild(card);
+                });
+                
+                // Initialize 0-500 templates
+                Object.entries(this.templates500).forEach(([name, weights]) => {
+                    const card = document.createElement('div');
+                    card.className = 'template-card';
+                    card.onclick = () => this.selectTemplate(name, card, "500");
+                    
+                    card.innerHTML = `
+                        <h3>${name}</h3>
+                        <div class="template-weights">
+                            <div class="weight-item">
+                                <span>📊 RSI:</span>
+                                <span class="weight-value">${weights.rsi}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📈 EMA20:</span>
+                                <span class="weight-value">${weights.ema20}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📈 EMA50:</span>
+                                <span class="weight-value">${weights.ema50}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>🔵 Upper:</span>
+                                <span class="weight-value">${weights.upper}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>⚡ MACD:</span>
+                                <span class="weight-value">${weights.macd}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📊 Stochastic:</span>
+                                <span class="weight-value">${weights.stoch}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📈 DIF/DEA:</span>
+                                <span class="weight-value">${weights.dif + weights.dea}</span>
+                            </div>
+                            <div class="weight-item">
+                                <span>📊 Ichimoku:</span>
+                                <span class="weight-value">${weights.ichimoku}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    templateGrid500.appendChild(card);
+                });
+            }
+
+            selectTemplate(templateName, cardElement, templateType) {
+                // Clear all active templates
+                document.querySelectorAll('.template-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                
+                // Set the selected template as active
+                cardElement.classList.add('active');
+                this.selectedTemplate = templateName;
+                this.selectedTemplateType = templateType;
+                
+                // Show the input form
+                document.getElementById('inputForm').style.display = 'block';
+                document.getElementById('inputForm').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            calculateRsiSignal(rsiValue, weight) {
+                if (rsiValue < 30) return weight * 1.0;
+                else if (rsiValue < 40) return weight * 0.6;
+                else if (rsiValue > 70) return weight * -1.0;
+                else if (rsiValue > 60) return weight * -0.6;
+                else return 0;
+            }
+
+            calculateEmaSignal(ema20, ema50, currentPrice, weight) {
+                const emaDiff = ((ema20 - ema50) / ema50) * 100;
+                const priceToEma20 = ((currentPrice - ema20) / ema20) * 100;
+                
+                if (ema20 > ema50 && priceToEma20 > 0) {
+                    const signalStrength = Math.min(Math.abs(emaDiff) / 2, 1.0);
+                    return weight * signalStrength;
+                } else if (ema20 < ema50 && priceToEma20 < 0) {
+                    const signalStrength = Math.min(Math.abs(emaDiff) / 2, 1.0);
+                    return weight * -signalStrength;
+                } else {
+                    return weight * (ema20 > ema50 ? 0.2 : -0.2);
+                }
+            }
+
+            calculateUpperBandSignal(currentPrice, upperBand, weight) {
+                const distanceRatio = (upperBand - currentPrice) / upperBand * 100;
+                
+                if (distanceRatio < 2) return weight * -0.9;
+                else if (distanceRatio < 5) return weight * -0.6;
+                else if (distanceRatio > 15) return weight * 0.7;
+                else return weight * 0.2;
+            }
+
+            calculateMacdSignal(macdLine, signalLine, histogram, weight) {
+                const macdDiff = macdLine - signalLine;
+                
+                if (macdDiff > 0 && histogram > 0) {
+                    const signalStrength = Math.min(Math.abs(macdDiff) * 10, 1.0);
+                    return weight * signalStrength;
+                } else if (macdDiff < 0 && histogram < 0) {
+                    const signalStrength = Math.min(Math.abs(macdDiff) * 10, 1.0);
+                    return weight * -signalStrength;
+                } else {
+                    return weight * (macdDiff > 0 ? 0.1 : -0.1);
+                }
+            }
+
+            calculateStochSignal(stochK, stochD, stochJ, weight) {
+                if (stochK < 20 && stochD < 20 && stochJ < 20) return weight * 1.0;
+                else if (stochK > 80 && stochD > 80 && stochJ > 80) return weight * -1.0;
+                else if (stochK < 30 && stochD < 30) return weight * 0.6;
+                else if (stochK > 70 && stochD > 70) return weight * -0.6;
+                else if (stochK > stochD && stochJ > 50) return weight * 0.3;
+                else if (stochK < stochD && stochJ < 50) return weight * -0.3;
+                else return 0;
+            }
+
+            calculateDifDeaSignal(dif, dea, weight) {
+                const diff = dif - dea;
+                
+                if (diff > 0 && dif > 0) return weight * 1.0;
+                else if (diff < 0 && dif < 0) return weight * -1.0;
+                else if (diff > 0) return weight * 0.5;
+                else if (diff < 0) return weight * -0.5;
+                else return 0;
+            }
+
+            calculateIchimokuSignal(currentPrice, tenkan, kijun, senkouA, senkouB, chikou, weight) {
+                let signal = 0;
+                
+                // قیمت بالاتر از ابر
+                if (currentPrice > Math.max(senkouA, senkouB)) signal += 0.4;
+                // قیمت پایین‌تر از ابر
+                else if (currentPrice < Math.min(senkouA, senkouB)) signal -= 0.4;
+                
+                // تنکان سن بالاتر از کیجون سن
+                if (tenkan > kijun) signal += 0.3;
+                // تنکان سن پایین‌تر از کیجون سن
+                else if (tenkan < kijun) signal -= 0.3;
+                
+                // چیکو اسپن بالاتر از قیمت 26 دوره قبل
+                if (chikou > currentPrice) signal += 0.3;
+                // چیکو اسپن پایین‌تر از قیمت 26 دوره قبل
+                else if (chikou < currentPrice) signal -= 0.3;
+                
+                return weight * signal;
+            }
+
+            calculateSupportResistanceSignal(currentPrice, support, resistance, weight) {
+                const supportDistance = ((currentPrice - support) / currentPrice) * 100;
+                const resistanceDistance = ((resistance - currentPrice) / currentPrice) * 100;
+                
+                if (supportDistance < 2) return weight * 0.8;
+                else if (resistanceDistance < 2) return weight * -0.8;
+                else if (supportDistance < 5) return weight * 0.4;
+                else if (resistanceDistance < 5) return weight * -0.4;
+                else return 0;
+            }
+
+            generateSignal() {
+                // Show loading
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('signalResult').style.display = 'none';
+                
+                // Simulate processing time
+                setTimeout(() => {
+                    try {
+                        // Get input values
+                        const symbol = document.getElementById('symbol').value || 'BTCUSDT';
+                        const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 47500;
+                        const resistance = parseFloat(document.getElementById('resistance').value) || 50000;
+                        const support = parseFloat(document.getElementById('support').value) || 45000;
+                        const rsi = parseFloat(document.getElementById('rsi').value) || 45;
+                        const ema20 = parseFloat(document.getElementById('ema20').value) || 47000;
+                        const ema50 = parseFloat(document.getElementById('ema50').value) || 46000;
+                        const upper = parseFloat(document.getElementById('upper').value) || 52000;
+                        const macd = parseFloat(document.getElementById('macd').value) || 150;
+                        
+                        // New indicators
+                        const stochK = parseFloat(document.getElementById('stochK').value) || 45;
+                        const stochD = parseFloat(document.getElementById('stochD').value) || 40;
+                        const stochJ = parseFloat(document.getElementById('stochJ').value) || 55;
+                        const dif = parseFloat(document.getElementById('dif').value) || 0.05;
+                        const dea = parseFloat(document.getElementById('dea').value) || 0.03;
+                        const tenkan = parseFloat(document.getElementById('tenkan').value) || 48000;
+                        const kijun = parseFloat(document.getElementById('kijun').value) || 47500;
+                        const senkouA = parseFloat(document.getElementById('senkouA').value) || 48500;
+                        const senkouB = parseFloat(document.getElementById('senkouB').value) || 49000;
+                        const chikou = parseFloat(document.getElementById('chikou').value) || 47300;
+                        
+                        // Get weights from selected template
+                        let weights;
+                        if (this.selectedTemplateType === "100") {
+                            weights = this.templates100[this.selectedTemplate];
+                        } else {
+                            weights = this.templates500[this.selectedTemplate];
+                        }
+                        
+                        // Calculate signals for each indicator
+                        const rsiSignal = this.calculateRsiSignal(rsi, weights.rsi);
+                        const emaSignal = this.calculateEmaSignal(ema20, ema50, currentPrice, weights.ema20 + weights.ema50);
+                        const upperSignal = this.calculateUpperBandSignal(currentPrice, upper, weights.upper);
+                        const macdSignal = this.calculateMacdSignal(dif, dea, macd, weights.macd);
+                        const stochSignal = this.calculateStochSignal(stochK, stochD, stochJ, weights.stoch);
+                        const difDeaSignal = this.calculateDifDeaSignal(dif, dea, weights.dif + weights.dea);
+                        const ichimokuSignal = this.calculateIchimokuSignal(currentPrice, tenkan, kijun, senkouA, senkouB, chikou, weights.ichimoku);
+                        const srSignal = this.calculateSupportResistanceSignal(currentPrice, support, resistance, 100);
+                        
+                        // Calculate total signal
+                        let totalSignal = rsiSignal + emaSignal + upperSignal + macdSignal + stochSignal + difDeaSignal + ichimokuSignal + srSignal;
+                        
+                        // Normalize signal based on template type
+                        if (this.selectedTemplateType === "500") {
+                            totalSignal = totalSignal / 5;
+                        }
+                        
+                        // Calculate signal strength and direction
+                        let signalStrength = Math.min(Math.abs(totalSignal) / 100, 1.0);
+                        let signalDirection = totalSignal > 0 ? 'BUY' : 'SELL';
+                        
+                        // Calculate entry, take profit, and stop loss
+                        const entryPrice = currentPrice;
+                        const takeProfit = signalDirection === 'BUY' ? 
+                            (entryPrice * 1.05).toFixed(2) : 
+                            (entryPrice * 0.95).toFixed(2);
+                        const stopLoss = signalDirection === 'BUY' ? 
+                            (entryPrice * 0.93).toFixed(2) : 
+                            (entryPrice * 1.07).toFixed(2);
+                        
+                        // Generate signal result
+                        this.displaySignalResult({
+                            symbol,
+                            signalDirection,
+                            signalStrength,
+                            entryPrice,
+                            takeProfit,
+                            stopLoss,
+                            currentPrice,
+                            rsi,
+                            ema20,
+                            ema50,
+                            upper,
+                            macd,
+                            stochK,
+                            stochD,
+                            stochJ,
+                            dif,
+                            dea,
+                            tenkan,
+                            kijun,
+                            senkouA,
+                            senkouB,
+                            chikou,
+                            resistance,
+                            support,
+                            weights
+                        });
+                        
+                        // Add to history
+                        this.addToHistory({
+                            symbol,
+                            signalDirection,
+                            signalStrength,
+                            entryPrice,
+                            takeProfit,
+                            stopLoss,
+                            timestamp: new Date().toLocaleString('fa-IR')
+                        });
+                        
+                    } catch (error) {
+                        console.error('Error generating signal:', error);
+                        alert('خطا در تولید سیگنال. لطفاً دوباره تلاش کنید.');
+                    }
+                    
+                    // Hide loading
+                    document.getElementById('loading').style.display = 'none';
+                }, 1500);
+            }
+
+            displaySignalResult(data) {
+                const signalResult = document.getElementById('signalResult');
+                
+                // Determine signal class based on direction and strength
+                let signalClass = 'neutral';
+                if (data.signalDirection === 'BUY') {
+                    signalClass = data.signalStrength > 0.7 ? 'buy-strong' : 'buy-medium';
+                } else if (data.signalDirection === 'SELL') {
+                    signalClass = data.signalStrength > 0.7 ? 'sell-strong' : 'sell-medium';
+                }
+                
+                // Format signal strength as percentage
+                const signalStrengthPercent = Math.round(data.signalStrength * 100);
+                
+                // Create result HTML
+                signalResult.innerHTML = `
+                    <div class="signal-header">
+                        <h2>سیگنال ${data.symbol}</h2>
+                        <div class="signal-direction ${signalClass}">
+                            ${data.signalDirection === 'BUY' ? '🟢 خرید قوی' : '🔴 فروش قوی'}
+                        </div>
+                        <p>قدرت سیگنال: ${signalStrengthPercent}%</p>
+                    </div>
+                    
+                    <div class="signal-grid">
+                        <div class="signal-item">
+                            <h3>💰 قیمت ورود</h3>
+                            <div class="value">${data.entryPrice} $</div>
+                        </div>
+                        <div class="signal-item">
+                            <h3>🎯 حد سود (5%)</h3>
+                            <div class="value">${data.takeProfit} $</div>
+                        </div>
+                        <div class="signal-item">
+                            <h3>🛑 حد ضرر (7%)</h3>
+                            <div class="value">${data.stopLoss} $</div>
+                        </div>
+                        <div class="signal-item">
+                            <h3>📊 قدرت سیگنال</h3>
+                            <div class="value">${signalStrengthPercent}%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-section">
+                        <h3 class="section-title">📈 تحلیل تکنیکال</h3>
+                        <div class="indicator-analysis">
+                            <div class="indicator-card">
+                                <div class="indicator-title">📊 RSI: ${data.rsi}</div>
+                                <div class="indicator-details">
+                                    وزن: ${data.weights.rsi} - 
+                                    ${data.rsi < 30 ? 'اشباع فروش' : data.rsi > 70 ? 'اشباع خرید' : 'خنثی'}
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${data.rsi}%;"></div>
+                                </div>
+                            </div>
+                            <div class="indicator-card">
+                                <div class="indicator-title">📈 EMA: ${data.ema20} / ${data.ema50}</div>
+                                <div class="indicator-details">
+                                    وزن: ${data.weights.ema20 + data.weights.ema50} - 
+                                    ${data.ema20 > data.ema50 ? 'روند صعودی' : 'روند نزولی'}
+                                </div>
+                            </div>
+                            <div class="indicator-card">
+                                <div class="indicator-title">🔵 Upper Band: ${data.upper}</div>
+                                <div class="indicator-details">
+                                    وزن: ${data.weights.upper} - 
+                                    ${data.currentPrice > data.upper ? 'بالای باند' : 'زیر باند'}
+                                </div>
+                            </div>
+                            <div class="indicator-card">
+                                <div class="indicator-title">⚡ MACD: ${data.macd}</div>
+                                <div class="indicator-details">
+                                    وزن: ${data.weights.macd} - 
+                                    ${data.macd > 0 ? 'مثبت' : 'منفی'}
+                                </div>
+                            </div>
+                            <div class="indicator-card">
+                                <div class="indicator-title">📊 Stochastic: K=${data.stochK}, D=${data.stochD}, J=${data.stochJ}</div>
+                                <div class="indicator-details">
+                                    وزن: ${data.weights.stoch} - 
+                                    ${data.stochK < 20 ? 'اشباع فروش' : data.stochK > 80 ? 'اشباع خرید' : 'خنثی'}
+                                </div>
+                            </div>
+                            <div class="indicator-card">
+                                <div class="indicator-title">📈 DIF/DEA: ${data.dif} / ${data.dea}</div>
+                                <div class="indicator-details">
+                                    وزن: ${data.weights.dif + data.weights.dea} - 
+                                    ${data.dif > data.dea ? 'سیگنال خرید' : 'سیگنال فروش'}
+                                </div>
+                            </div>
+                            <div class="indicator-card">
+                                <div class="indicator-title">📊 Ichimoku Cloud</div>
+                                <div class="indicator-details">
+                                    وزن: ${data.weights.ichimoku} - 
+                                    ${data.currentPrice > Math.max(data.senkouA, data.senkouB) ? 'بالای ابر' : 'زیر ابر'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Show result
+                signalResult.style.display = 'block';
+                signalResult.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            addToHistory(signal) {
+                this.signalHistory.unshift(signal);
+                
+                // Keep only last 5 signals
+                if (this.signalHistory.length > 5) {
+                    this.signalHistory.pop();
+                }
+                
+                // Update history display
+                const historyContainer = document.getElementById('historyContainer');
+                
+                if (this.signalHistory.length === 0) {
+                    historyContainer.innerHTML = '<p style="text-align: center; opacity: 0.7; font-size: 0.9rem;">هنوز سیگنالی تولید نشده است</p>';
+                    return;
+                }
+                
+                historyContainer.innerHTML = '';
+                this.signalHistory.forEach(signal => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    let signalClass = 'neutral';
+                    if (signal.signalDirection === 'BUY') {
+                        signalClass = signal.signalStrength > 0.7 ? 'buy-strong' : 'buy-medium';
+                    } else if (signal.signalDirection === 'SELL') {
+                        signalClass = signal.signalStrength > 0.7 ? 'sell-strong' : 'sell-medium';
+                    }
+                    
+                    historyItem.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>${signal.symbol}</strong>
+                                <span class="${signalClass}">${signal.signalDirection === 'BUY' ? '🟢 خرید' : '🔴 فروش'}</span>
+                            </div>
+                            <div style="font-size: 0.8rem; opacity: 0.7;">${signal.timestamp}</div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px;">
+                            <div style="font-size: 0.75rem;">ورود: ${signal.entryPrice}$</div>
+                            <div style="font-size: 0.75rem;">سود: ${signal.takeProfit}$</div>
+                            <div style="font-size: 0.75rem;">ضرر: ${signal.stopLoss}$</div>
+                        </div>
+                    `;
+                    
+                    historyContainer.appendChild(historyItem);
+                });
+            }
+        }
+
+        // Global functions
+        function switchTemplateType(type) {
+            const btn100 = document.getElementById('btn100');
+            const btn500 = document.getElementById('btn500');
+            const section100 = document.getElementById('templateSection100');
+            const section500 = document.getElementById('templateSection500');
+            
+            if (type === '100') {
+                btn100.classList.add('active');
+                btn500.classList.remove('active');
+                section100.style.display = 'block';
+                section500.style.display = 'none';
+            } else {
+                btn100.classList.remove('active');
+                btn500.classList.add('active');
+                section100.style.display = 'none';
+                section500.style.display = 'block';
+            }
+        }
+
+        function generateSignal() {
+            if (!window.tradingBot.selectedTemplate) {
+                alert('لطفاً یک قالب انتخاب کنید');
+                return;
+            }
+            
+            window.tradingBot.generateSignal();
+        }
+
+        function resetForm() {
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            document.getElementById('inputForm').style.display = 'none';
+            document.getElementById('signalResult').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+            
+            window.tradingBot.selectedTemplate = null;
+        }
+
+        // Initialize the trading bot when the page loads
+        window.onload = function() {
+            window.tradingBot = new AdvancedTradingBot();
+        };
+    </script>
+</body>
+</html>
