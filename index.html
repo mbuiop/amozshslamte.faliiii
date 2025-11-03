@@ -77,10 +77,40 @@
             font-weight: 800;
         }
 
+        .header-message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
         .header-controls {
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
         .notification-bell {
@@ -981,6 +1011,18 @@
             .main-content {
                 padding-bottom: 70px;
             }
+            
+            .top-header {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .header-message {
+                order: 3;
+                width: 100%;
+                text-align: center;
+                margin-top: 5px;
+            }
         }
 
         @media (max-width: 360px) {
@@ -995,6 +1037,11 @@
             .main-content {
                 padding: 10px;
             }
+            
+            .header-btn {
+                font-size: 0.7em;
+                padding: 5px 8px;
+            }
         }
     </style>
 </head>
@@ -1003,9 +1050,20 @@
         <div class="top-header">
             <div class="logo">
                 <div class="logo-icon">🚀</div>
-                <div class="logo-text">کاربران گرامی خوش امدید ازما حمایت کنید</div>
+                <div class="logo-text">سیستم حسابداری پیشرفته</div>
             </div>
+            
+            <div class="header-message">
+                💰 به سیستم مدیریت مالی هوشمند خوش آمدید
+            </div>
+            
             <div class="header-controls">
+                <a href="mn.html" class="header-btn">
+                    📈 سیگنال ترید
+                </a>
+                <a href="mb.html" class="header-btn">
+                    💰 صرافی
+                </a>
                 <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
                 <div class="dropdown-menu" id="dropdownMenu">
                     <div class="dropdown-item" onclick="showSection('employees')">
@@ -1047,7 +1105,7 @@
                 </div>
                 <a href="mk.html" class="notification-bell">
                     <div class="notification-dot"></div>
-                    🔔اطلاعیه
+                    🔔 اطلاعیه
                 </a>
             </div>
         </div>
