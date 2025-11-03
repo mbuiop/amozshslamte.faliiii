@@ -22,6 +22,8 @@
             --teal: #1abc9c;
             --gold: #f1c40f;
             --check-color: #9b59b6;
+            --ai-color: #9c27b0;
+            --whale-color: #0097a7;
         }
         
         * {
@@ -111,6 +113,22 @@
         .header-btn:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-1px);
+        }
+
+        .header-btn.ai {
+            background: rgba(156, 39, 176, 0.3);
+        }
+
+        .header-btn.ai:hover {
+            background: rgba(156, 39, 176, 0.5);
+        }
+
+        .header-btn.whale {
+            background: rgba(0, 151, 167, 0.3);
+        }
+
+        .header-btn.whale:hover {
+            background: rgba(0, 151, 167, 0.5);
         }
 
         .notification-bell {
@@ -371,6 +389,16 @@
         .btn-orange {
             background: linear-gradient(135deg, #e67e22, #d35400);
             box-shadow: 0 3px 12px rgba(230, 126, 34, 0.4);
+        }
+
+        .btn-ai {
+            background: linear-gradient(135deg, var(--ai-color), #7b1fa2);
+            box-shadow: 0 3px 12px rgba(156, 39, 176, 0.4);
+        }
+
+        .btn-whale {
+            background: linear-gradient(135deg, var(--whale-color), #006978);
+            box-shadow: 0 3px 12px rgba(0, 151, 167, 0.4);
         }
 
         .success-message {
@@ -1058,11 +1086,17 @@
             </div>
             
             <div class="header-controls">
-                <a href="m.html" class="header-btn">
+                <a href="mn.html" class="header-btn">
                     📈 سیگنال ترید
                 </a>
-                <a href="https://www.toobit.com/fa/register?invite_code=5EQpCT" class="header-btn">
+                <a href="mb.html" class="header-btn">
                     💰 صرافی
+                </a>
+                <a href="ai.html" class="header-btn ai">
+                    🤖 هوش مصنوعی
+                </a>
+                <a href="whales.html" class="header-btn whale">
+                    🐋 نهنگ‌ها
                 </a>
                 <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
                 <div class="dropdown-menu" id="dropdownMenu">
