@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم پیشرفته بودجه‌بندی</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #219653;
+            --secondary: #3498db;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --purple: #9b59b6;
+            --teal: #1abc9c;
+            --gold: #f1c40f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--dark), #34495e);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2em;
+        }
+
+        .logo-text {
+            font-size: 1.5em;
+            font-weight: 800;
+        }
+
+        .header-subtitle {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.9em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 800;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 3px 12px rgba(39, 174, 96, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            box-shadow: 0 3px 12px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+            box-shadow: 0 3px 12px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            box-shadow: 0 3px 12px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-teal {
+            background: linear-gradient(135deg, var(--teal), #16a085);
+            box-shadow: 0 3px 12px rgba(26, 188, 156, 0.4);
+        }
+
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 12px 0;
+            font-weight: 700;
+            box-shadow: 0 3px 12px rgba(46, 204, 113, 0.5);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .budget-list {
+            margin-top: 20px;
+        }
+
+        .budget-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-right: 3px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .budget-item:hover {
+            transform: translateX(-3px);
+        }
+
+        .budget-details {
+            flex: 1;
+        }
+
+        .budget-title {
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--dark);
+            font-size: 1em;
+        }
+
+        .budget-meta {
+            font-size: 0.8em;
+            color: #7f8c8d;
+        }
+
+        .budget-amount {
+            font-weight: 800;
+            font-size: 1.1em;
+        }
+
+        .income {
+            color: var(--primary);
+        }
+
+        .expense {
+            color: var(--danger);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .summary-card h3 {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            color: #7f8c8d;
+        }
+
+        .summary-card .amount {
+            font-size: 1.5em;
+            font-weight: 800;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            height: 300px;
+        }
+
+        .budget-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .budget-control-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s;
+        }
+
+        .budget-control-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(52, 152, 219, 0.4);
+        }
+
+        .budget-control-btn.danger {
+            background: var(--danger);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .progress-container {
+            margin: 15px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-select {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">💰</div>
+                <div class="logo-text">سیستم پیشرفته بودجه‌بندی</div>
+            </div>
+            <div class="header-subtitle">مدیریت هوشمند بودجه ماهانه و سالانه</div>
+        </div>
+
+        <div class="main-content">
+            <!-- خلاصه آماری -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h3>بودجه کل</h3>
+                    <div class="amount" id="total-budget">0 تومان</div>
+                </div>
+                <div class="summary-card">
+                    <h3>هزینه کل</h3>
+                    <div class="amount" id="total-expense">0 تومان</div>
+                </div>
+                <div class="summary-card">
+                    <h3>موجودی</h3>
+                    <div class="amount" id="total-balance">0 تومان</div>
+                </div>
+            </div>
+
+            <!-- نمودار بودجه -->
+            <div class="chart-container">
+                <canvas id="budgetChart"></canvas>
+            </div>
+
+            <!-- فیلترها -->
+            <div class="filter-controls">
+                <select id="filter-year" class="filter-select">
+                    <option value="all">همه سال‌ها</option>
+                </select>
+                <select id="filter-month" class="filter-select">
+                    <option value="all">همه ماه‌ها</option>
+                </select>
+                <button class="btn btn-secondary" onclick="applyFilters()">اعمال فیلتر</button>
+            </div>
+
+            <!-- فرم ایجاد بودجه -->
+            <div class="form-container">
+                <h2 class="section-title">📅 ایجاد بودجه جدید</h2>
+                <div class="form-group">
+                    <label for="budget-month">ماه:</label>
+                    <select id="budget-month">
+                        <option value="1">فروردین</option>
+                        <option value="2">اردیبهشت</option>
+                        <option value="3">خرداد</option>
+                        <option value="4">تیر</option>
+                        <option value="5">مرداد</option>
+                        <option value="6">شهریور</option>
+                        <option value="7">مهر</option>
+                        <option value="8">آبان</option>
+                        <option value="9">آذر</option>
+                        <option value="10">دی</option>
+                        <option value="11">بهمن</option>
+                        <option value="12">اسفند</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="budget-year">سال:</label>
+                    <input type="number" id="budget-year" placeholder="۱۴۰۳" value="1403">
+                </div>
+                <div class="form-group">
+                    <label for="budget-income">درآمد پیش‌بینی شده (تومان):</label>
+                    <input type="number" id="budget-income" placeholder="درآمد ماهانه">
+                </div>
+                <div class="form-group">
+                    <label for="budget-expenses">هزینه‌های پیش‌بینی شده (تومان):</label>
+                    <input type="number" id="budget-expenses" placeholder="هزینه‌های ماهانه">
+                </div>
+                <div class="form-group">
+                    <label for="budget-notes">یادداشت‌ها (اختیاری):</label>
+                    <textarea id="budget-notes" rows="3" placeholder="یادداشت‌های مربوط به بودجه"></textarea>
+                </div>
+                <button class="btn btn-teal" onclick="createBudget()"><span>💾</span> ثبت بودجه</button>
+            </div>
+
+            <!-- لیست بودجه‌ها -->
+            <div class="form-container">
+                <h2 class="section-title">📊 بودجه‌های ثبت شده</h2>
+                <div id="budget-list" class="budget-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <div>هنوز هیچ بودجه‌ای ثبت نشده است</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // متغیرهای سیستم
+        let budgetData = JSON.parse(localStorage.getItem('budgetData')) || [];
+        let budgetChart = null;
+
+        // بارگذاری داده‌ها هنگام لود صفحه
+        window.onload = function() {
+            renderBudget();
+            updateSummary();
+            initBudgetChart();
+            populateFilterOptions();
+            
+            // تنظیم تاریخ امروز به عنوان پیش‌فرض
+            const today = new Date();
+            const persianYear = today.getFullYear() - 621; // تبدیل به سال شمسی
+            document.getElementById('budget-year').value = persianYear;
+        };
+
+        // ایجاد بودجه جدید
+        function createBudget() {
+            const month = document.getElementById('budget-month').value;
+            const year = parseInt(document.getElementById('budget-year').value) || 1403;
+            const income = parseInt(document.getElementById('budget-income').value) || 0;
+            const expenses = parseInt(document.getElementById('budget-expenses').value) || 0;
+            const notes = document.getElementById('budget-notes').value;
+            
+            if (income <= 0 || expenses <= 0) {
+                alert('لطفاً مقادیر معتبر برای درآمد و هزینه وارد کنید');
+                return;
+            }
+            
+            // بررسی تکراری نبودن بودجه برای ماه و سال مشخص
+            const existingBudget = budgetData.find(b => b.month == month && b.year == year);
+            if (existingBudget) {
+                if (!confirm(`بودجه برای ${getMonthName(month)} ${year} از قبل وجود دارد. آیا می‌خواهید آن را به‌روزرسانی کنید؟`)) {
+                    return;
+                }
+                // حذف بودجه قدیم
+                budgetData = budgetData.filter(b => !(b.month == month && b.year == year));
+            }
+            
+            const balance = income - expenses;
+            const budget = {
+                id: Date.now(), 
+                month, 
+                year, 
+                income, 
+                expenses, 
+                balance, 
+                notes,
+                actualIncome: 0,
+                actualExpenses: 0,
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            budgetData.push(budget);
+            saveBudgetData();
+            renderBudget();
+            updateSummary();
+            updateBudgetChart();
+            populateFilterOptions();
+            showSuccessMessage('بودجه با موفقیت ثبت شد');
+            
+            // پاک کردن فرم
+            document.getElementById('budget-income').value = '';
+            document.getElementById('budget-expenses').value = '';
+            document.getElementById('budget-notes').value = '';
+        }
+
+        // نمایش لیست بودجه‌ها
+        function renderBudget() {
+            const container = document.getElementById('budget-list');
+            container.innerHTML = '';
+            
+            if (budgetData.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><div>هنوز هیچ بودجه‌ای ثبت نشده است</div></div>';
+                return;
+            }
+            
+            // مرتب‌سازی بودجه‌ها بر اساس سال و ماه
+            const sortedBudgets = [...budgetData].sort((a, b) => {
+                if (a.year !== b.year) return b.year - a.year;
+                return b.month - a.month;
+            });
+            
+            sortedBudgets.forEach(budget => {
+                const monthNames = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+                const budgetElement = document.createElement('div');
+                budgetElement.className = 'budget-item';
+                
+                // محاسبه درصد استفاده از بودجه
+                const usagePercentage = budget.expenses > 0 ? Math.min(100, (budget.actualExpenses / budget.expenses) * 100) : 0;
+                const balancePercentage = budget.income > 0 ? Math.min(100, (budget.actualIncome / budget.income) * 100) : 0;
+                
+                budgetElement.innerHTML = `
+                    <div class="budget-details">
+                        <div class="budget-title">بودجه ${monthNames[budget.month - 1]} ${budget.year}</div>
+                        <div class="budget-meta">
+                            درآمد: ${budget.income.toLocaleString()} تومان | 
+                            هزینه: ${budget.expenses.toLocaleString()} تومان |
+                            موجودی: ${budget.balance.toLocaleString()} تومان
+                            ${budget.notes ? `<br>یادداشت: ${budget.notes}` : ''}
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>پیشرفت درآمد: ${balancePercentage.toFixed(1)}%</span>
+                                <span>${budget.actualIncome.toLocaleString()} / ${budget.income.toLocaleString()} تومان</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${balancePercentage}%; background: ${balancePercentage >= 100 ? 'var(--success)' : 'var(--primary)'}"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>مصرف بودجه: ${usagePercentage.toFixed(1)}%</span>
+                                <span>${budget.actualExpenses.toLocaleString()} / ${budget.expenses.toLocaleString()} تومان</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${usagePercentage}%; background: ${usagePercentage >= 100 ? 'var(--danger)' : 'var(--secondary)'}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="budget-amount ${budget.balance >= 0 ? 'income' : 'expense'}">
+                        ${budget.balance >= 0 ? '+' : ''}${budget.balance.toLocaleString()} تومان
+                        <div class="budget-controls">
+                            <button class="budget-control-btn" onclick="editBudget(${budget.id})">ویرایش</button>
+                            <button class="budget-control-btn" onclick="updateActuals(${budget.id})">ثبت واقعی</button>
+                            <button class="budget-control-btn danger" onclick="deleteBudget(${budget.id})">حذف</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(budgetElement);
+            });
+        }
+
+        // به‌روزرسانی خلاصه آماری
+        function updateSummary() {
+            const totalBudget = budgetData.reduce((sum, budget) => sum + budget.income, 0);
+            const totalExpense = budgetData.reduce((sum, budget) => sum + budget.expenses, 0);
+            const totalBalance = budgetData.reduce((sum, budget) => sum + budget.balance, 0);
+            
+            document.getElementById('total-budget').textContent = totalBudget.toLocaleString() + ' تومان';
+            document.getElementById('total-expense').textContent = totalExpense.toLocaleString() + ' تومان';
+            document.getElementById('total-balance').textContent = totalBalance.toLocaleString() + ' تومان';
+        }
+
+        // ذخیره داده‌ها در localStorage
+        function saveBudgetData() {
+            localStorage.setItem('budgetData', JSON.stringify(budgetData));
+        }
+
+        // حذف بودجه
+        function deleteBudget(id) {
+            if (confirm('آیا از حذف این بودجه اطمینان دارید؟')) {
+                budgetData = budgetData.filter(budget => budget.id !== id);
+                saveBudgetData();
+                renderBudget();
+                updateSummary();
+                updateBudgetChart();
+                showSuccessMessage('بودجه با موفقیت حذف شد');
+            }
+        }
+
+        // ویرایش بودجه
+        function editBudget(id) {
+            const budget = budgetData.find(b => b.id === id);
+            if (budget) {
+                document.getElementById('budget-month').value = budget.month;
+                document.getElementById('budget-year').value = budget.year;
+                document.getElementById('budget-income').value = budget.income;
+                document.getElementById('budget-expenses').value = budget.expenses;
+                document.getElementById('budget-notes').value = budget.notes || '';
+                
+                // حذف بودجه قدیم
+                budgetData = budgetData.filter(b => b.id !== id);
+                renderBudget();
+                updateSummary();
+                showSuccessMessage('اطلاعات بودجه برای ویرایش بارگذاری شد');
+            }
+        }
+
+        // ثبت مقادیر واقعی
+        function updateActuals(id) {
+            const budget = budgetData.find(b => b.id === id);
+            if (budget) {
+                const actualIncome = prompt(`درآمد واقعی برای ${getMonthName(budget.month)} ${budget.year} را وارد کنید:`, budget.actualIncome || '');
+                const actualExpenses = prompt(`هزینه واقعی برای ${getMonthName(budget.month)} ${budget.year} را وارد کنید:`, budget.actualExpenses || '');
+                
+                if (actualIncome !== null && actualExpenses !== null) {
+                    budget.actualIncome = parseInt(actualIncome) || 0;
+                    budget.actualExpenses = parseInt(actualExpenses) || 0;
+                    saveBudgetData();
+                    renderBudget();
+                    updateSummary();
+                    updateBudgetChart();
+                    showSuccessMessage('مقادیر واقعی با موفقیت ثبت شد');
+                }
+            }
+        }
+
+        // نمایش پیام موفقیت
+        function showSuccessMessage(message) {
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = message;
+            
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertBefore(successMessage, mainContent.firstChild);
+            
+            setTimeout(() => {
+                if (successMessage.parentElement) {
+                    successMessage.remove();
+                }
+            }, 3000);
+        }
+
+        // نام ماه
+        function getMonthName(month) {
+            const monthNames = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+            return monthNames[month - 1] || 'نامشخص';
+        }
+
+        // نمودار بودجه
+        function initBudgetChart() {
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            budgetChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'درآمد پیش‌بینی شده',
+                            data: [],
+                            backgroundColor: 'rgba(39, 174, 96, 0.7)',
+                            borderColor: 'rgba(39, 174, 96, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'هزینه پیش‌بینی شده',
+                            data: [],
+                            backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                            borderColor: 'rgba(231, 76, 60, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'درآمد واقعی',
+                            data: [],
+                            backgroundColor: 'rgba(46, 204, 113, 0.7)',
+                            borderColor: 'rgba(46, 204, 113, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'هزینه واقعی',
+                            data: [],
+                            backgroundColor: 'rgba(230, 126, 34, 0.7)',
+                            borderColor: 'rgba(230, 126, 34, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' تومان';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            rtl: true,
+                            labels: {
+                                font: {
+                                    family: 'Tahoma'
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.parsed.y.toLocaleString() + ' تومان';
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            updateBudgetChart();
+        }
+
+        // به‌روزرسانی نمودار بودجه
+        function updateBudgetChart() {
+            if (!budgetChart) return;
+            
+            // مرتب‌سازی بودجه‌ها بر اساس سال و ماه
+            const sortedBudgets = [...budgetData].sort((a, b) => {
+                if (a.year !== b.year) return a.year - b.year;
+                return a.month - b.month;
+            });
+            
+            const labels = sortedBudgets.map(b => `${getMonthName(b.month)} ${b.year}`);
+            const incomeData = sortedBudgets.map(b => b.income);
+            const expenseData = sortedBudgets.map(b => b.expenses);
+            const actualIncomeData = sortedBudgets.map(b => b.actualIncome);
+            const actualExpenseData = sortedBudgets.map(b => b.actualExpenses);
+            
+            budgetChart.data.labels = labels;
+            budgetChart.data.datasets[0].data = incomeData;
+            budgetChart.data.datasets[1].data = expenseData;
+            budgetChart.data.datasets[2].data = actualIncomeData;
+            budgetChart.data.datasets[3].data = actualExpenseData;
+            budgetChart.update();
+        }
+
+        // پر کردن گزینه‌های فیلتر
+        function populateFilterOptions() {
+            const yearSelect = document.getElementById('filter-year');
+            const monthSelect = document.getElementById('filter-month');
+            
+            // پاک کردن گزینه‌های فعلی (به جز گزینه "همه")
+            while (yearSelect.children.length > 1) {
+                yearSelect.removeChild(yearSelect.lastChild);
+            }
+            while (monthSelect.children.length > 1) {
+                monthSelect.removeChild(monthSelect.lastChild);
+            }
+            
+            // استخراج سال‌های منحصر به فرد
+            const years = [...new Set(budgetData.map(b => b.year))].sort((a, b) => b - a);
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+            
+            // ماه‌ها همیشه ثابت هستند
+            const monthNames = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+            monthNames.forEach((name, index) => {
+                const option = document.createElement('option');
+                option.value = index + 1;
+                option.textContent = name;
+                monthSelect.appendChild(option);
+            });
+        }
+
+        // اعمال فیلترها
+        function applyFilters() {
+            const selectedYear = document.getElementById('filter-year').value;
+            const selectedMonth = document.getElementById('filter-month').value;
+            
+            let filteredData = budgetData;
+            
+            if (selectedYear !== 'all') {
+                filteredData = filteredData.filter(b => b.year == selectedYear);
+            }
+            
+            if (selectedMonth !== 'all') {
+                filteredData = filteredData.filter(b => b.month == selectedMonth);
+            }
+            
+            renderFilteredBudget(filteredData);
+        }
+
+        // نمایش بودجه‌های فیلتر شده
+        function renderFilteredBudget(filteredData) {
+            const container = document.getElementById('budget-list');
+            container.innerHTML = '';
+            
+            if (filteredData.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><div>هیچ بودجه‌ای با معیارهای انتخاب شده یافت نشد</div></div>';
+                return;
+            }
+            
+            filteredData.forEach(budget => {
+                const monthNames = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+                const budgetElement = document.createElement('div');
+                budgetElement.className = 'budget-item';
+                
+                // محاسبه درصد استفاده از بودجه
+                const usagePercentage = budget.expenses > 0 ? Math.min(100, (budget.actualExpenses / budget.expenses) * 100) : 0;
+                const balancePercentage = budget.income > 0 ? Math.min(100, (budget.actualIncome / budget.income) * 100) : 0;
+                
+                budgetElement.innerHTML = `
+                    <div class="budget-details">
+                        <div class="budget-title">بودجه ${monthNames[budget.month - 1]} ${budget.year}</div>
+                        <div class="budget-meta">
+                            درآمد: ${budget.income.toLocaleString()} تومان | 
+                            هزینه: ${budget.expenses.toLocaleString()} تومان |
+                            موجودی: ${budget.balance.toLocaleString()} تومان
+                            ${budget.notes ? `<br>یادداشت: ${budget.notes}` : ''}
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>پیشرفت درآمد: ${balancePercentage.toFixed(1)}%</span>
+                                <span>${budget.actualIncome.toLocaleString()} / ${budget.income.toLocaleString()} تومان</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${balancePercentage}%; background: ${balancePercentage >= 100 ? 'var(--success)' : 'var(--primary)'}"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>مصرف بودجه: ${usagePercentage.toFixed(1)}%</span>
+                                <span>${budget.actualExpenses.toLocaleString()} / ${budget.expenses.toLocaleString()} تومان</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${usagePercentage}%; background: ${usagePercentage >= 100 ? 'var(--danger)' : 'var(--secondary)'}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="budget-amount ${budget.balance >= 0 ? 'income' : 'expense'}">
+                        ${budget.balance >= 0 ? '+' : ''}${budget.balance.toLocaleString()} تومان
+                        <div class="budget-controls">
+                            <button class="budget-control-btn" onclick="editBudget(${budget.id})">ویرایش</button>
+                            <button class="budget-control-btn" onclick="updateActuals(${budget.id})">ثبت واقعی</button>
+                            <button class="budget-control-btn danger" onclick="deleteBudget(${budget.id})">حذف</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(budgetElement);
+            });
+        }
+    </script>
+</body>
+</html>

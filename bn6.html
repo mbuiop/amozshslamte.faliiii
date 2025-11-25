@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درمان قند خون - دکتر آنلاین</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #b91d73 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #5ee7df 0%, #b490ca 50%, #5ee7df 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            padding: 25px 20px;
+        }
+
+        .remedy-section {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .remedy-header {
+            background: linear-gradient(135deg, #5ee7df 0%, #b490ca 50%, #5ee7df 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(94, 231, 223, 0.3);
+        }
+
+        .remedy-header h2 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .remedy-header p {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .current-remedy {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .remedy-title {
+            color: #b490ca;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remedy-number {
+            background: linear-gradient(135deg, #5ee7df, #b490ca);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+
+        .remedy-text {
+            font-size: 0.95em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .timer-display {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            min-width: 100px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #5ee7df, #b490ca);
+            color: white;
+            box-shadow: 0 8px 25px rgba(94, 231, 223, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 18px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 0.95em;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hidden-remedies {
+            opacity: 0.3;
+            font-size: 0.8em;
+            color: #6c757d;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                border-radius: 25px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩸 درمان قند خون</h1>
+            <p>روش‌های طبیعی کنترل و کاهش قند خون</p>
+        </div>
+
+        <div class="main-content">
+            <div class="remedy-section" id="diabetes">
+                <div class="current-remedy">
+                    <div class="remedy-title">
+                        <span class="remedy-number">1</span>
+                        <span>روش اول - شما اینجا هستید</span>
+                    </div>
+                    <div class="remedy-text" id="diabetes-text">برای شروع، دکمه زیر را بزنید</div>
+                    <div class="timer-display" id="diabetes-timer" style="display: none;">⏰ زمان باقی‌مانده: <span></span></div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="startTreatment('diabetes')">شروع روش ۱</button>
+                        <button class="btn btn-success" onclick="reportSuccess('diabetes')" style="display: none;">خوب شدم ✓</button>
+                        <button class="btn btn-primary" onclick="nextRemedy('diabetes')" style="display: none;">روش بعدی</button>
+                    </div>
+                    <div id="diabetes-success" style="display: none;"></div>
+                </div>
+                <div class="hidden-remedies" id="diabetes-hidden">
+                    🔒 ۲۹ روش دیگر پس از تمام کردن روش فعلی نمایش داده می‌شود
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const remedies = {
+            diabetes: [
+                "🌿 **دمنوش برگ انبه**: ۱۰ عدد برگ انبه تازه در ۲ لیوان آب جوشانده، صاف کرده و روزی یک فنجان بنوشید.",
+                "🍃 **شنبلیله**: یک قاشق چایخوری دانه شنبلیله را شب در آب خیس کرده، صبح ناشتا میل کنید.",
+                "🍶 **سرکه سیب**: ۲ قاشق غذاخوری سرکه سیب در یک لیوان آب، قبل از غذا میل کنید.",
+                "🌰 **بادام هندی**: روزانه ۱۰ عدد بادام هندی خام مصرف کنید.",
+                "🥒 **خیار و گشنیز**: آب ۲ عدد خیار + یک مشت گشنیز در مخلوط‌کن، روزی یک لیوان بنوشید.",
+                "🍋 **آب لیمو ترش**: صبح ناشتا آب یک لیمو ترش در یک لیوان آب ولرم میل کنید.",
+                "🌱 **دمنوش برگ کاری**: ۱۰ عدد برگ کاری تازه در آب جوش، روزی یک فنجان بنوشید.",
+                "🥗 **اسفناج و کلم**: روزانه یک پیمانه اسفناج و کلم خام یا بخارپز مصرف کنید.",
+                "🍯 **عسل و دارچین**: ۱ قاشق عسل + نصف قاشق دارچین در آب ولرم، صبح ناشتا بنوشید.",
+                "🌰 **گردو**: روزانه ۳ عدد گردوی تازه مصرف کنید.",
+                "🍎 **سیب سبز**: روزانه ۱ عدد سیب سبز با پوست میل کنید.",
+                "🍵 **چای سبز**: روزی ۲ فنجان چای سبز بدون شکر بنوشید.",
+                "🌿 **ریحان مقدس (تولسی)**: ۵ برگ ریحان مقدس صبح ناشتا بجوید.",
+                "🥕 **هویج و کرفس**: آب ۲ عدد هویج + ۲ ساقه کرفس، روزی یک لیوان بنوشید.",
+                "🍈 **خربزه تلخ (کاریلا)**: آب خربزه تلخ تازه، هفته‌ای ۳ بار مصرف کنید.",
+                "🌰 **تخم کتان**: روزانه ۱ قاشق غذاخوری تخم کتان آسیاب شده مصرف کنید.",
+                "🍓 **توت فرنگی و بلوبری**: روزانه یک پیمانه توت فرنگی و بلوبری تازه میل کنید.",
+                "🌱 **دمنوش بابونه**: ۱ قاشق چایخوری بابونه در آب جوش، روزی یک فنجان بنوشید.",
+                "🍶 **ماست پروبیوتیک**: روزانه یک لیوان ماست پروبیوتیک طبیعی مصرف کنید.",
+                "🍋 **زردچوبه و آب**: نصف قاشق چایخوری زردچوبه در یک لیوان آب گرم، روزی یک بار.",
+                "🌿 **آلوئه ورا**: یک قاشق غذاخوری ژل آلوئه ورا تازه، روزی دو بار مصرف کنید.",
+                "🥬 **کلم بروکلی**: روزانه یک پیمانه کلم بروکلی بخارپز شده میل کنید.",
+                "🍊 **پرتقال**: روزانه ۱ عدد پرتقال تازه با پوست سفید داخلی مصرف کنید.",
+                "🌰 **پسته خام**: روزانه یک مشت پسته خام بدون نمک مصرف کنید.",
+                "🍵 **چای اوولونگ**: روزی یک فنجان چای اوولونگ بنوشید.",
+                "🌱 **دمنوش برگ زیتون**: ۱۰ عدد برگ زیتون در آب جوش، روزی یک فنجان بنوشید.",
+                "🍇 **انگور فرنگی سیاه (آملا)**: پودر آملا را با آب ولرم، صبح ناشتا میل کنید.",
+                "🥒 **خیار و نعنا**: آب ۲ عدد خیار + چند برگ نعنا، روزی یک لیوان بنوشید.",
+                "🌿 **زنجبیل**: یک قاشق چایخوری زنجبیل رنده شده در آب جوش، روزی یک فنجان.",
+                "🍎 **سیب و دارچین**: یک عدد سیب رنده شده با کمی دارچین، روزانه مصرف کنید."
+            ]
+        };
+
+        let currentState = { currentIndex: 0, timer: null, endTime: null, isActive: false };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+        });
+
+        function loadSavedData() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('diabetesData') || '{}');
+                if (saved.currentIndex !== undefined) currentState.currentIndex = saved.currentIndex;
+                if (saved.endTime && new Date().getTime() < saved.endTime) {
+                    currentState.endTime = saved.endTime;
+                    restoreActiveState();
+                }
+            } catch (e) {
+                console.log('No saved data found');
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('diabetesData', JSON.stringify(currentState));
+        }
+
+        function startTreatment() {
+            const timerDisplay = document.getElementById('diabetes-timer');
+            const startBtn = document.querySelector('.btn-primary');
+            const successBtn = document.querySelector('.btn-success');
+            const nextBtn = document.querySelectorAll('.btn-primary')[1];
+            const remedyText = document.getElementById('diabetes-text');
+            const remedyTitle = document.querySelector('.remedy-title span:last-child');
+            
+            // تنظیم تایمر 30 روزه
+            const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+            currentState.endTime = new Date().getTime() + thirtyDays;
+            currentState.isActive = true;
+            
+            // نمایش روش فعلی
+            const currentRemedyIndex = currentState.currentIndex;
+            const currentRemedy = remedies.diabetes[currentRemedyIndex];
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - شما اینجا هستید`;
+            
+            // به‌روزرسانی نمایش
+            timerDisplay.style.display = 'block';
+            startBtn.style.display = 'none';
+            successBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'none';
+            
+            // شروع تایمر
+            updateTimer();
+            currentState.timer = setInterval(updateTimer, 1000);
+            
+            saveData();
+        }
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = currentState.endTime - now;
+            
+            if (distance <= 0) {
+                clearInterval(currentState.timer);
+                document.getElementById('diabetes-timer').innerHTML = '⏰ زمان به پایان رسیده است!';
+                document.querySelector('.btn-success').style.display = 'none';
+                document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('diabetes-timer').innerHTML = `⏰ زمان باقی‌مانده: ${days} روز ${hours} ساعت ${minutes} دقیقه ${seconds} ثانیه`;
+        }
+
+        function reportSuccess() {
+            const successDiv = document.getElementById('diabetes-success');
+            successDiv.style.display = 'block';
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = '✅ تبریک! شما این مرحله را با موفقیت به پایان رساندید. برای ادامه روی دکمه "روش بعدی" کلیک کنید.';
+            
+            document.querySelector('.btn-success').style.display = 'none';
+            document.querySelectorAll('.btn-primary')[1].style.display = 'inline-block';
+        }
+
+        function nextRemedy() {
+            currentState.currentIndex++;
+            if (currentState.currentIndex >= remedies.diabetes.length) {
+                currentState.currentIndex = 0;
+            }
+            
+            saveData();
+            location.reload();
+        }
+
+        function restoreActiveState() {
+            const timerDisplay = document.getElementById('diabetes-timer');
+            const startBtn = document.querySelector('.btn-primary');
+            const successBtn = document.querySelector('.btn-success');
+            const nextBtn = document.querySelectorAll('.btn-primary')[1];
+            const remedyText = document.getElementById('diabetes-text');
+            const remedyTitle = document.querySelector('.remedy-title span:last-child');
+            
+            const currentRemedyIndex = currentState.currentIndex;
+            const currentRemedy = remedies.diabetes[currentRemedyIndex];
+            remedyText.innerHTML = currentRemedy;
+            remedyTitle.textContent = `روش ${currentRemedyIndex + 1} - شما اینجا هستید`;
+            
+            timerDisplay.style.display = 'block';
+            startBtn.style.display = 'none';
+            successBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'none';
+            
+            currentState.timer = setInterval(updateTimer, 1000);
+        }
+    </script>
+</body>
+</html>

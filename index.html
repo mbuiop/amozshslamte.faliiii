@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سیستم مدیریت مالی حرفه‌ای</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        :root {
+            --primary: #2E7D32;
+            --secondary: #4CAF50;
+            --accent: #8BC34A;
+            --success: #388E3C;
+            --warning: #F57C00;
+            --danger: #D32F2F;
+            --dark: #1A1A1A;
+            --light: #F5F5F5;
+            --surface: rgba(255, 255, 255, 0.95);
+            --card-bg: #1A1A1A;
+        }
+
+        body {
+            background: 
+                linear-gradient(rgba(46, 125, 50, 0.9), rgba(76, 175, 80, 0.9)),
+                url('m.jpg') center/cover fixed;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            touch-action: manipulation;
+        }
+
+        /* کانتینر اصلی */
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* هدر */
+        .app-header {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            padding: 45px 15px 10px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .date-time {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .date {
+            font-size: 10px;
+            color: #64748b;
+            margin-bottom: 1px;
+        }
+
+        .time {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* منوی همبرگر */
+        .hamburger-btn {
+            position: absolute;
+            top: 35px;
+            left: 15px;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            transition: all 0.2s ease;
+            z-index: 100;
+            box-shadow: 0 3px 10px rgba(46, 125, 50, 0.3);
+        }
+
+        .hamburger-btn:active {
+            transform: scale(1.05);
+        }
+
+        .hamburger-line {
+            width: 16px;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        /* قالب‌های بالایی */
+        .top-cards {
+            display: flex;
+            gap: 10px;
+            padding: 0 15px;
+            margin-bottom: 12px;
+        }
+
+        .top-card {
+            flex: 1;
+            height: 70px;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .top-card:nth-child(1) {
+            background-image: url('m1.jpg');
+        }
+
+        .top-card:nth-child(2) {
+            background-image: url('m2.jpg');
+        }
+
+        /* محتوای اصلی */
+        .app-content {
+            padding: 0 15px;
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 60px;
+        }
+
+        /* ۶ دکمه در ۳ ردیف */
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .grid-btn {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 12px 6px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            min-height: 70px;
+        }
+
+        .grid-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .grid-btn:active {
+            transform: translateY(-4px) scale(1.02);
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 8px 20px rgba(139, 195, 74, 0.4);
+        }
+
+        .grid-btn:active::before {
+            opacity: 1;
+        }
+
+        .grid-btn:active .btn-icon {
+            transform: scale(1.1) rotate(5deg);
+            color: white;
+        }
+
+        .btn-icon {
+            font-size: 20px;
+            color: var(--accent);
+            transition: all 0.2s ease;
+        }
+
+        .btn-text {
+            font-weight: 700;
+            font-size: 10px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* منوی کشویی */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            height: 100%;
+            background: var(--surface);
+            backdrop-filter: blur(30px);
+            box-shadow: 8px 0 30px rgba(0,0,0,0.15);
+            z-index: 99;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 70px 15px 80px;
+            overflow-y: auto;
+        }
+
+        .slide-menu.active {
+            left: 0;
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(46, 125, 50, 0.08);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: var(--dark);
+            border: 1px solid rgba(46, 125, 50, 0.15);
+        }
+
+        .menu-item:active {
+            transform: translateX(5px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.25);
+        }
+
+        .menu-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            background: rgba(255,255,255,0.9);
+            color: var(--primary);
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:active .menu-icon {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .menu-text {
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* ناوبری پایین */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 101;
+            box-shadow: 0 -3px 12px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            text-decoration: none;
+            color: #BDBDBD;
+            min-width: 50px;
+        }
+
+        .nav-btn.active {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--accent);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-2px);
+            color: var(--accent);
+        }
+
+        .nav-icon {
+            font-size: 14px;
+        }
+
+        .nav-label {
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        /* لودینگ رنگین‌کمانی */
+        .rainbow-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .rainbow-loading.active {
+            display: flex;
+        }
+
+        .rainbow-spinner {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--primary),
+                var(--secondary),
+                var(--accent),
+                var(--success),
+                var(--primary)
+            );
+            position: relative;
+            animation: rainbowSpin 2s linear infinite;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .rainbow-spinner::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+        }
+
+        @keyframes rainbowSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* پیام همگانی */
+        .announcement-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2001;
+            padding: 12px;
+        }
+
+        .announcement-modal.active {
+            display: flex;
+        }
+
+        .announcement-card {
+            background: var(--surface);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 320px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .announcement-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 12px;
+            text-align: center;
+            color: white;
+        }
+
+        .announcement-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .announcement-subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .announcement-body {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .announcement-icon {
+            font-size: 35px;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .announcement-message {
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .announcement-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .announcement-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 7px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+        .announcement-btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .announcement-btn-primary:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4);
+        }
+
+        .announcement-btn-secondary {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--dark);
+        }
+
+        .announcement-btn-secondary:active {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* جلوگیری از زوم */
+        @media (max-width: 768px) {
+            body {
+                touch-action: pan-x pan-y;
+            }
+            
+            .slide-menu {
+                padding-bottom: 80px;
+            }
+        }
+
+        /* انیمیشن‌های ورود */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
+        .delay-5 { animation-delay: 0.5s; opacity: 0; }
+        .delay-6 { animation-delay: 0.6s; opacity: 0; }
+        
+        /* استایل‌های جدید برای بهبود ظاهر */
+        .header-content {
+            margin-top: 3px;
+            text-align: center;
+            padding: 0 30px;
+        }
+        
+        .app-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+        
+        .app-subtitle {
+            font-size: 11px;
+            color: #64748b;
+        }
+        
+        /* بهبود اسکرول */
+        .app-content::-webkit-scrollbar {
+            width: 2px;
+        }
+        
+        .app-content::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 1px;
+        }
+        
+        .app-content::-webkit-scrollbar-thumb {
+            background: rgba(76, 175, 80, 0.5);
+            border-radius: 1px;
+        }
+        
+        .app-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(76, 175, 80, 0.7);
+        }
+        
+        .slide-menu::-webkit-scrollbar {
+            width: 2px;
+        }
+        
+        .slide-menu::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 1px;
+        }
+        
+        .slide-menu::-webkit-scrollbar-thumb {
+            background: rgba(76, 175, 80, 0.5);
+            border-radius: 1px;
+        }
+
+        /* تنظیمات فونت برای نمایش بهتر */
+        .menu-text, .btn-text, .nav-label {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- صداها -->
+    <audio id="startupSound" preload="auto">
+        <source src="m.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="buttonSound" preload="auto">
+        <source src="m.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- لودینگ رنگین‌کمانی -->
+    <div class="rainbow-loading" id="rainbowLoading">
+        <div class="rainbow-spinner"></div>
+        <div class="loading-text">سیستم مدیریت مالی در حال بارگذاری...</div>
+    </div>
+
+    <!-- پیام همگانی -->
+    <div class="announcement-modal" id="announcementModal">
+        <div class="announcement-card">
+            <div class="announcement-header">
+                <div class="announcement-title">پیام همگانی</div>
+                <div class="announcement-subtitle">به روزرسانی سیستم</div>
+            </div>
+            <div class="announcement-body">
+                <div class="announcement-icon">📢</div>
+                <div class="announcement-message">
+                    باسلام و خسته نباشید کاربران گرامی سیستم به صورت اتومات بروزرسانی شد در صورت مشکل یا تغیرات در سیستم عذرخواهی میکنیم از سیستم استفاده رایگان کنید باتشکر در صورت تمایل از ما حمایت کنید داوطلبانه با تشکر
+                </div>
+                <div class="announcement-actions">
+                    <button class="announcement-btn announcement-btn-secondary" id="announcementLater">بعداً</button>
+                    <button class="announcement-btn announcement-btn-primary" id="announcementClose">متوجه شدم</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- کانتینر اصلی -->
+    <div class="app-container">
+        <!-- هدر -->
+        <header class="app-header">
+            <div class="status-bar">
+                <div class="date-time">
+                    <div class="date" id="currentDate">سه‌شنبه ۳ دی ۱۴۰۳</div>
+                    <div class="time" id="currentTime">۱۴:۳۰</div>
+                </div>
+                <div>حسابدار حرفه‌ای</div>
+            </div>
+
+            <!-- دکمه همبرگر در سمت چپ -->
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+
+            <div class="header-content">
+                <h1 class="app-title slide-up">مدیریت مالی</h1>
+                <p class="app-subtitle slide-up delay-1">سیستم جامع حسابداری و مالی</p>
+            </div>
+
+            <!-- قالب‌های بالایی -->
+            <div class="top-cards">
+                <div class="top-card slide-up delay-2"></div>
+                <div class="top-card slide-up delay-3"></div>
+            </div>
+        </header>
+
+        <!-- محتوای اصلی -->
+        <main class="app-content">
+            <!-- ۶ دکمه در ۳ ردیف -->
+            <div class="buttons-grid">
+                <a href="m4.html" class="grid-btn slide-up delay-1" onclick="handleButtonClick(event, 'm4.html')">
+                    <div class="btn-icon">💰</div>
+                    <div class="btn-text">مدیریت مالی</div>
+                </a>
+                <a href="m2.html" class="grid-btn slide-up delay-2" onclick="handleButtonClick(event, 'm2.html')">
+                    <div class="btn-icon">⏳️</div>
+                    <div class="btn-text">تولید</div>
+                </a>
+                <a href="m3.html" class="grid-btn slide-up delay-3" onclick="handleButtonClick(event, 'm3.html')">
+                    <div class="btn-icon">👥</div>
+                    <div class="btn-text">کارمندان</div>
+                </a>
+                <a href="m5.html" class="grid-btn slide-up delay-4" onclick="handleButtonClick(event, 'm5.html')">
+                    <div class="btn-icon">🧮</div>
+                    <div class="btn-text">مالیات</div>
+                </a>
+                <a href="m6.html" class="grid-btn slide-up delay-5" onclick="handleButtonClick(event, 'm6.html')">
+                    <div class="btn-icon">📄</div>
+                    <div class="btn-text">فاکتور</div>
+                </a>
+                <a href="m7.html" class="grid-btn slide-up delay-6" onclick="handleButtonClick(event, 'm7.html')">
+                    <div class="btn-icon">📝</div>
+                    <div class="btn-text">مدریت چک</div>
+                </a>
+            </div>
+        </main>
+
+        <!-- ناوبری پایین -->
+        <nav class="bottom-nav">
+            <a href="m20.html" class="nav-btn active" onclick="handleButtonClick(event, 'm20.html')">
+                <div class="nav-icon">💵</div>
+                <div class="nav-label">سیگنال ترید</div>
+            </a>
+            <a href="m40.html" class="nav-btn" onclick="handleButtonClick(event, 'm40.html')">
+                <div class="nav-icon">📈</div>
+                <div class="nav-label">بوجه بندی</div>
+            </a>
+            <a href="m8.html" class="nav-btn" onclick="handleButtonClickbackdrop-f, 'm8.html')">
+                <div class="nav-icon">🎖</div>
+                <div class="nav-label">بازی</div>
+            </a>
+        </nav>
+    </div>
+
+    <!-- منوی کشویی - اکنون از سمت چپ باز می‌شود -->
+    <div class="slide-menu" id="slideMenu">
+        <div class="menu-items">
+            <a href="m90.html" class="menu-item" onclick="handleButtonClick(event, 'm90.html')">
+                <div class="menu-icon"></div>
+                <div class="menu-text">تاریخ</div>
+            </a>
+            <a href="m100.html" class="menu-item" onclick="handleButtonClick(event, 'm100.html')">
+                <div class="menu-icon">📄</div>
+                <div class="menu-text">علوم</div>
+            </a>
+            <a href="m99.html" class="menu-item" onclick="handleButtonClick(event, 'm99.html')">
+                <div class="menu-icon"></div>
+                <div class="menu-text">شیمی</div>
+            </a>
+            <a href="m30.html" class="menu-item" onclick="handleButtonClick(event, 'm30.html')">
+                <div class="menu-icon">🩺</div>
+                <div class="menu-text">جامع خدمات</div>
+            </a>
+            <a href="m9.html" class="menu-item" onclick="handleButtonClick(event, 'm9.html')">
+                <div class="menu-icon">₿</div>
+                <div class="menu-text">سبد خرید ارز</div>
+            </a>
+            <a href="m10.html" class="menu-item" onclick="handleButtonClick(event, 'm10.html')">
+                <div class="menu-icon">💸</div>
+                <div class="menu-text">راه کسب درآمد</div>
+            </a>
+            <a href="https://hyperdash.info/?utm_source=chatgpt.com" class="menu-item" onclick="handleButtonClick(event, 'https://hyperdash.info/?utm_source=chatgpt.com')">
+                <div class="menu-icon">🐳</div>
+                <div class="menu-text">نهنگ ارزدیجتال</div>
+            </a>
+            <a href="https://www.toobit.com/fa/register?invite_code=5EQpCT" class="menu-item" onclick="handleButtonClick(event, 'https://www.toobit.com/fa/register?invite_code=5EQpCT')">
+                <div class="menu-icon">📥📤</div>
+                <div class="menu-text">صرافی</div>
+            </a>
+            <a href="m11.html" class="menu-item" onclick="handleButtonClick(event, 'm11.html')">
+                <div class="menu-icon">❓️</div>
+                <div class="menu-text">راهنمایی</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // مدیریت لودینگ اولیه
+        window.addEventListener('load', function() {
+            // پخش صدای شروع
+            const startupSound = document.getElementById('startupSound');
+            try {
+                startupSound.volume = 0.7;
+                startupSound.play().catch(e => {
+                    console.log('پخش خودکار صدا مسدود شده، کاربر باید با صفحه تعامل کند');
+                });
+            } catch (error) {
+                console.log('خطا در پخش صدا:', error);
+            }
+            
+            setTimeout(() => {
+                document.getElementById('rainbowLoading').classList.remove('active');
+                checkAnnouncement();
+            }, 2000);
+        });
+
+        // مدیریت کلیک روی دکمه‌ها
+        function handleButtonClick(event, targetUrl) {
+            event.preventDefault();
+            
+            // پخش صدای دکمه
+            const buttonSound = document.getElementById('buttonSound');
+            try {
+                buttonSound.currentTime = 0;
+                buttonSound.volume = 0.7;
+                buttonSound.play().catch(e => {
+                    console.log('پخش صدا مسدود شده');
+                });
+            } catch (error) {
+                console.log('خطا در پخش صدای دکمه:', error);
+            }
+            
+            // نمایش لودینگ
+            const loading = document.getElementById('rainbowLoading');
+            loading.classList.add('active');
+            
+            setTimeout(() => {
+                loading.classList.remove('active');
+                
+                // بررسی نوع لینک
+                if (targetUrl.startsWith('http')) {
+                    // لینک خارجی - باز کردن در تب جدید
+                    window.open(targetUrl, '_blank');
+                } else {
+                    // لینک داخلی - هدایت در همین پنجره
+                    window.location.href = targetUrl;
+                }
+            }, 1500);
+        }
+
+        // مدیریت زمان و تاریخ
+        function updateDateTime() {
+            const now = new Date();
+            
+            // زمان
+            const timeString = now.toLocaleTimeString('fa-IR', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+            document.getElementById('currentTime').textContent = timeString;
+            
+            // تاریخ
+            const dateString = now.toLocaleDateString('fa-IR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('currentDate').textContent = dateString;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // مدیریت منوی کشویی
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const slideMenu = document.getElementById('slideMenu');
+
+        hamburgerBtn.addEventListener('click', function() {
+            slideMenu.classList.toggle('active');
+            
+            // پخش صدای دکمه برای منوی همبرگر
+            const buttonSound = document.getElementById('buttonSound');
+            try {
+                buttonSound.currentTime = 0;
+                buttonSound.volume = 0.7;
+                buttonSound.play().catch(e => {
+                    console.log('پخش صدا مسدود شده');
+                });
+            } catch (error) {
+                console.log('خطا در پخش صدای دکمه:', error);
+            }
+        });
+
+        // بستن منو با کلیک خارج
+        document.addEventListener('click', function(event) {
+            if (!hamburgerBtn.contains(event.target) && !slideMenu.contains(event.target)) {
+                slideMenu.classList.remove('active');
+            }
+        });
+
+        // مدیریت ناوبری پایین
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // مدیریت پیام همگانی
+        function checkAnnouncement() {
+            const lastShown = localStorage.getItem('announcementLastShown');
+            const now = new Date().getTime();
+            const oneDay = 24 * 60 * 60 * 1000; // 24 ساعت به میلی‌ثانیه
+            
+            // اگر قبلاً نمایش داده نشده یا 24 ساعت گذشته
+            if (!lastShown || (now - parseInt(lastShown)) > oneDay) {
+                setTimeout(() => {
+                    document.getElementById('announcementModal').classList.add('active');
+                }, 500);
+            }
+        }
+
+        // بستن پیام همگانی
+        document.getElementById('announcementClose').addEventListener('click', function() {
+            document.getElementById('announcementModal').classList.remove('active');
+            localStorage.setItem('announcementLastShown', new Date().getTime().toString());
+            
+            // پخش صدای دکمه
+            const buttonSound = document.getElementById('buttonSound');
+            try {
+                buttonSound.currentTime = 0;
+                buttonSound.volume = 0.7;
+                buttonSound.play().catch(e => {
+                    console.log('پخش صدا مسدود شده');
+                });
+            } catch (error) {
+                console.log('خطا در پخش صدای دکمه:', error);
+            }
+        });
+
+        document.getElementById('announcementLater').addEventListener('click', function() {
+            document.getElementById('announcementModal').classList.remove('active');
+            // برای دکمه "بعداً" هم زمان را ذخیره می‌کنیم تا 24 ساعت بعد نمایش داده شود
+            localStorage.setItem('announcementLastShown', new Date().getTime().toString());
+            
+            // پخش صدای دکمه
+            const buttonSound = document.getElementById('buttonSound');
+            try {
+                buttonSound.currentTime = 0;
+                buttonSound.volume = 0.7;
+                buttonSound.play().catch(e => {
+                    console.log('پخش صدا مسدود شده');
+                });
+            } catch (error) {
+                console.log('خطا در پخش صدای دکمه:', error);
+            }
+        });
+
+        // فعال کردن صداها با اولین تعامل کاربر
+        document.addEventListener('click', function enableAudio() {
+            const startupSound = document.getElementById('startupSound');
+            const buttonSound = document.getElementById('buttonSound');
+            
+            // تلاش برای پخش و توقف سریع برای فعال کردن صداها
+            startupSound.play().then(() => {
+                startupSound.pause();
+                startupSound.currentTime = 0;
+            }).catch(e => {});
+            
+            buttonSound.play().then(() => {
+                buttonSound.pause();
+                buttonSound.currentTime = 0;
+            }).catch(e => {});
+            
+            // حذف event listener پس از اولین اجرا
+            document.removeEventListener('click', enableAudio);
+        });
+
+        // جلوگیری از زوم
+        document.addEventListener('touchmove', function(e) {
+            if (e.scale !== 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+        
+        // بهبود عملکرد لمسی
+        document.addEventListener('touchstart', function() {}, {passive: true});
+    </script>
+</body>
+</html>

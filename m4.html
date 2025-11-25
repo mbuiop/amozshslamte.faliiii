@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 مدیریت مالی - سیستم حسابداری</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #00b894;
+            --primary-dark: #00a085;
+            --secondary: #2d3436;
+            --accent: #0984e3;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --success: #27ae60;
+            --dark: #2d3436;
+            --light: #dfe6e9;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --rainbow: linear-gradient(90deg, #ff7675, #fd79a8, #74b9ff, #55efc4, #ffeaa7, #ff7675);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            min-height: calc(100vh - 40px);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border: 1px solid #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .form-title {
+            font-size: 1.2em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.9em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #fafafa;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
+        }
+
+        .btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 16px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 800;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--rainbow);
+            background-size: 200% 100%;
+            animation: rainbow-loading 1.5s linear infinite;
+        }
+
+        @keyframes rainbow-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+            animation: slideIn 0.5s ease-out;
+            font-size: 0.9em;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin: 20px 0;
+            height: 280px;
+        }
+
+        .transaction-list {
+            margin-top: 20px;
+        }
+
+        .transaction-item {
+            background: white;
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-right: 5px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .transaction-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .transaction-details {
+            flex: 1;
+        }
+
+        .transaction-title {
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: var(--dark);
+            font-size: 0.95em;
+        }
+
+        .transaction-meta {
+            font-size: 0.8em;
+            color: #7f8c8d;
+        }
+
+        .transaction-amount {
+            font-weight: 800;
+            font-size: 1.1em;
+        }
+
+        .income {
+            color: var(--success);
+        }
+
+        .expense {
+            color: var(--danger);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-card h3 {
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            color: #7f8c8d;
+        }
+
+        .summary-card .amount {
+            font-size: 1.4em;
+            font-weight: 800;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-state .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 1em;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                min-height: calc(100vh - 20px);
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .summary-cards {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.3em;
+            }
+            
+            .back-btn {
+                top: 15px;
+                right: 15px;
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+            
+            .chart-container {
+                height: 250px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">
+                <span>←</span> بازگشت
+            </a>
+            <h1>💰 مدیریت مالی</h1>
+            <p>ثبت و مدیریت درآمدها و هزینه‌های مالی</p>
+        </div>
+
+        <div class="content">
+            <!-- کارت خلاصه مالی -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h3>کل درآمد</h3>
+                    <div class="amount income" id="total-income">0 تومان</div>
+                </div>
+                <div class="summary-card">
+                    <h3>کل هزینه</h3>
+                    <div class="amount expense" id="total-expense">0 تومان</div>
+                </div>
+            </div>
+
+            <!-- فرم ثبت تراکنش -->
+            <div class="form-container">
+                <h2 class="form-title">➕ ثبت تراکنش جدید</h2>
+                <div class="form-group">
+                    <label for="finance-type">نوع تراکنش:</label>
+                    <select id="finance-type">
+                        <option value="income">درآمد</option>
+                        <option value="expense">هزینه</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="finance-amount">مبلغ (تومان):</label>
+                    <input type="number" id="finance-amount" placeholder="مبلغ را وارد کنید">
+                </div>
+                <div class="form-group">
+                    <label for="finance-description">توضیحات:</label>
+                    <input type="text" id="finance-description" placeholder="شرح تراکنش">
+                </div>
+                <div class="form-group">
+                    <label for="finance-category">دسته‌بندی:</label>
+                    <select id="finance-category">
+                        <option value="salary">حقوق</option>
+                        <option value="business">کسب و کار</option>
+                        <option value="investment">سرمایه‌گذاری</option>
+                        <option value="food">خوراکی</option>
+                        <option value="transport">حمل و نقل</option>
+                        <option value="shopping">خرید</option>
+                        <option value="bills">قبض</option>
+                        <option value="entertainment">سرگرمی</option>
+                        <option value="health">سلامت</option>
+                        <option value="other">متفرقه</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="addFinanceTransaction()">
+                    <span>💾</span> ثبت تراکنش
+                </button>
+            </div>
+
+            <!-- نمودار مالی -->
+            <div class="form-container">
+                <h2 class="form-title">📊 نمودار مالی</h2>
+                <div class="chart-container">
+                    <canvas id="financeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- لیست تراکنش‌ها -->
+            <div class="form-container">
+                <h2 class="form-title">📋 تاریخچه تراکنش‌ها</h2>
+                <div class="transaction-list" id="finance-transactions">
+                    <!-- تراکنش‌ها اینجا نمایش داده می‌شوند -->
+                </div>
+                <button class="btn btn-danger" onclick="clearFinanceData()" style="margin-top: 15px;">
+                    <span>🗑️</span> حذف تمام تراکنش‌ها
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // # متغیرهای سیستم
+        let financeTransactions = JSON.parse(localStorage.getItem('financeTransactions')) || [];
+        let financeChart = null;
+
+        // # بارگذاری داده‌ها هنگام لود صفحه
+        window.onload = function() {
+            renderFinanceTransactions();
+            updateSummaryCards();
+            initFinanceChart();
+        };
+
+        // # افزودن تراکنش مالی
+        function addFinanceTransaction() {
+            const button = event.target;
+            addLoading(button);
+            
+            setTimeout(() => {
+                const type = document.getElementById('finance-type').value;
+                const amount = parseInt(document.getElementById('finance-amount').value);
+                const description = document.getElementById('finance-description').value;
+                const category = document.getElementById('finance-category').value;
+                
+                if (!amount || !description) { 
+                    showErrorMessage('لطفاً تمام فیلدها را پر کنید'); 
+                    return; 
+                }
+                
+                if (amount <= 0) {
+                    showErrorMessage('مبلغ باید بزرگتر از صفر باشد');
+                    return;
+                }
+                
+                const transaction = {
+                    id: Date.now(), 
+                    type, 
+                    amount, 
+                    description, 
+                    category, 
+                    date: new Date().toLocaleDateString('fa-IR'),
+                    timestamp: new Date().getTime()
+                };
+                
+                financeTransactions.unshift(transaction); // اضافه کردن به ابتدای آرایه
+                saveFinanceData(); 
+                renderFinanceTransactions(); 
+                updateSummaryCards();
+                updateFinanceChart(); 
+                showSuccessMessage('تراکنش با موفقیت ثبت شد');
+                
+                // ریست کردن فرم
+                document.getElementById('finance-amount').value = ''; 
+                document.getElementById('finance-description').value = '';
+            }, 800);
+        }
+
+        // # نمایش تراکنش‌ها
+        function renderFinanceTransactions() {
+            const container = document.getElementById('finance-transactions');
+            container.innerHTML = '';
+            
+            if (financeTransactions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📝</div>
+                        <p>هنوز هیچ تراکنشی ثبت نشده است</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // مرتب‌سازی بر اساس تاریخ (جدیدترین اول)
+            const sortedTransactions = [...financeTransactions].sort((a, b) => b.timestamp - a.timestamp);
+            
+            sortedTransactions.forEach(transaction => {
+                const transactionEl = document.createElement('div');
+                transactionEl.className = 'transaction-item';
+                transactionEl.innerHTML = `
+                    <div class="transaction-details">
+                        <div class="transaction-title">${transaction.description}</div>
+                        <div class="transaction-meta">${transaction.date} | ${getCategoryName(transaction.category)}</div>
+                    </div>
+                    <div class="transaction-amount ${transaction.type}">
+                        ${transaction.type === 'income' ? '+' : '-'} ${transaction.amount.toLocaleString()} تومان
+                        <div style="margin-top: 5px;">
+                            <button class="delete-btn" onclick="deleteTransaction(${transaction.id})" style="background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 0.8em;">حذف</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(transactionEl);
+            });
+        }
+
+        // # حذف یک تراکنش
+        function deleteTransaction(id) {
+            if (confirm('آیا از حذف این تراکنش اطمینان دارید؟')) {
+                financeTransactions = financeTransactions.filter(transaction => transaction.id !== id);
+                saveFinanceData();
+                renderFinanceTransactions();
+                updateSummaryCards();
+                updateFinanceChart();
+                showSuccessMessage('تراکنش با موفقیت حذف شد');
+            }
+        }
+
+        // # حذف تمام تراکنش‌ها
+        function clearFinanceData() {
+            if (confirm('آیا از حذف تمام تراکنش‌های مالی اطمینان دارید؟ این عمل غیرقابل بازگشت است.')) {
+                const button = event.target;
+                addLoading(button);
+                
+                setTimeout(() => {
+                    financeTransactions = []; 
+                    saveFinanceData(); 
+                    renderFinanceTransactions(); 
+                    updateSummaryCards();
+                    updateFinanceChart(); 
+                    showSuccessMessage('تمام تراکنش‌های مالی حذف شدند');
+                }, 800);
+            }
+        }
+
+        // # به‌روزرسانی کارت‌های خلاصه
+        function updateSummaryCards() {
+            const totalIncome = financeTransactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+                
+            const totalExpense = financeTransactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+                
+            document.getElementById('total-income').textContent = totalIncome.toLocaleString() + ' تومان';
+            document.getElementById('total-expense').textContent = totalExpense.toLocaleString() + ' تومان';
+        }
+
+        // # نام دسته‌بندی
+        function getCategoryName(category) {
+            const categories = {
+                'salary': 'حقوق',
+                'business': 'کسب و کار', 
+                'investment': 'سرمایه‌گذاری',
+                'food': 'خوراکی',
+                'transport': 'حمل و نقل',
+                'shopping': 'خرید',
+                'bills': 'قبض',
+                'entertainment': 'سرگرمی',
+                'health': 'سلامت',
+                'other': 'متفرقه'
+            };
+            return categories[category] || 'سایر';
+        }
+
+        // # ذخیره داده‌ها
+        function saveFinanceData() { 
+            try {
+                localStorage.setItem('financeTransactions', JSON.stringify(financeTransactions)); 
+            } catch(e) {
+                console.error('خطا در ذخیره داده‌های مالی:', e);
+                showErrorMessage('خطا در ذخیره داده‌ها. فضای ذخیره‌سازی پر شده است.');
+            }
+        }
+
+        // # نمودار مالی
+        function initFinanceChart() {
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            financeChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['درآمد', 'هزینه'], 
+                    datasets: [{
+                        data: [0, 0], 
+                        backgroundColor: ['#00b894', '#e74c3c'], 
+                        borderWidth: 3, 
+                        borderColor: '#fff',
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom', 
+                            rtl: true, 
+                            labels: {
+                                font: {
+                                    family: 'Vazir, Tahoma',
+                                    size: 12
+                                }, 
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            rtl: true,
+                            bodyFont: {
+                                family: 'Vazir, Tahoma'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+                                    return `${label}: ${value.toLocaleString()} تومان (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+            updateFinanceChart();
+        }
+        
+        function updateFinanceChart() {
+            if (!financeChart) return;
+            
+            const totalIncome = financeTransactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+                
+            const totalExpense = financeTransactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+                
+            financeChart.data.datasets[0].data = [totalIncome, totalExpense];
+            financeChart.update();
+        }
+
+        // # سیستم لودینگ
+        function addLoading(element) {
+            element.classList.add('loading');
+            setTimeout(() => {
+                element.classList.remove('loading');
+            }, 1500);
+        }
+
+        // # پیام موفقیت
+        function showSuccessMessage(message) {
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) { existingMessage.remove(); }
+            
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = message;
+            
+            const content = document.querySelector('.content');
+            content.insertBefore(successMessage, content.firstChild);
+            
+            setTimeout(() => { 
+                if (successMessage.parentElement) { 
+                    successMessage.remove(); 
+                } 
+            }, 3000);
+        }
+
+        // # پیام خطا
+        function showErrorMessage(message) {
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'success-message';
+            errorMessage.style.background = 'var(--danger)';
+            errorMessage.textContent = message;
+            
+            const content = document.querySelector('.content');
+            content.insertBefore(errorMessage, content.firstChild);
+            
+            setTimeout(() => { 
+                if (errorMessage.parentElement) { 
+                    errorMessage.remove(); 
+                } 
+            }, 3000);
+        }
+
+        // # تحلیل مالی پیشرفته
+        function getFinancialAnalysis() {
+            const totalIncome = financeTransactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+                
+            const totalExpense = financeTransactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+                
+            const netProfit = totalIncome - totalExpense;
+            const savingsRate = totalIncome > 0 ? (netProfit / totalIncome) * 100 : 0;
+            
+            return {
+                totalIncome,
+                totalExpense,
+                netProfit,
+                savingsRate: Math.round(savingsRate)
+            };
+        }
+
+        // # صادرات داده‌ها
+        function exportFinancialData() {
+            const dataStr = JSON.stringify(financeTransactions, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'financial-data-' + new Date().toISOString().split('T')[0] + '.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            showSuccessMessage('داده‌های مالی با موفقیت صادر شد');
+        }
+    </script>
+</body>
+</html>

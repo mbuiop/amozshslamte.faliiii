@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧾 مدیریت چک و سفته - سیستم حسابداری</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #00b894;
+            --primary-dark: #00a085;
+            --secondary: #2d3436;
+            --accent: #0984e3;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --success: #27ae60;
+            --purple: #9b59b6;
+            --check-color: #8e44ad;
+            --dark: #2d3436;
+            --light: #dfe6e9;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --rainbow: linear-gradient(90deg, #ff7675, #fd79a8, #74b9ff, #55efc4, #ffeaa7, #ff7675);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            min-height: calc(100vh - 40px);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border: 1px solid #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .form-title {
+            font-size: 1.2em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.9em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #fafafa;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
+        }
+
+        .btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 16px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 800;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--rainbow);
+            background-size: 200% 100%;
+            animation: rainbow-loading 1.5s linear infinite;
+        }
+
+        @keyframes rainbow-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, var(--check-color), #8e44ad);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.3);
+        }
+
+        .btn-check:hover {
+            box-shadow: 0 8px 20px rgba(142, 68, 173, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+            animation: slideIn 0.5s ease-out;
+            font-size: 0.9em;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-message {
+            background: linear-gradient(135deg, var(--accent), #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 6px 18px rgba(52, 152, 219, 0.3);
+            text-align: center;
+            border: 2px solid white;
+        }
+
+        .info-title {
+            font-size: 1.1em;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .info-content {
+            font-size: 0.9em;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+
+        .transaction-list {
+            margin-top: 20px;
+        }
+
+        .transaction-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-right: 5px solid var(--check-color);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .transaction-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .transaction-item.overdue {
+            border-right-color: var(--danger);
+            background: linear-gradient(135deg, #fff, #ffeaea);
+            animation: pulse-alert 2s infinite;
+        }
+
+        .transaction-item.due-soon {
+            border-right-color: var(--warning);
+            background: linear-gradient(135deg, #fff, #fff9e6);
+        }
+
+        .transaction-item.completed {
+            border-right-color: var(--success);
+            background: linear-gradient(135deg, #fff, #f0fff4);
+            opacity: 0.8;
+        }
+
+        @keyframes pulse-alert {
+            0% { box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3); }
+            50% { box-shadow: 0 5px 20px rgba(231, 76, 60, 0.6); }
+            100% { box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3); }
+        }
+
+        .transaction-details {
+            flex: 1;
+        }
+
+        .transaction-title {
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .transaction-meta {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+
+        .transaction-amount {
+            font-weight: 800;
+            font-size: 1.1em;
+            text-align: left;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .status-pending {
+            background: var(--warning);
+            color: white;
+        }
+
+        .status-completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-overdue {
+            background: var(--danger);
+            color: white;
+        }
+
+        .check-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 700;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .control-btn.complete {
+            background: var(--success);
+            color: white;
+        }
+
+        .control-btn.edit {
+            background: var(--accent);
+            color: white;
+        }
+
+        .control-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+            border-top: 4px solid var(--check-color);
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-card.total {
+            border-top-color: var(--check-color);
+        }
+
+        .summary-card.pending {
+            border-top-color: var(--warning);
+        }
+
+        .summary-card.overdue {
+            border-top-color: var(--danger);
+        }
+
+        .summary-card.completed {
+            border-top-color: var(--success);
+        }
+
+        .summary-card h3 {
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            color: #7f8c8d;
+        }
+
+        .summary-card .amount {
+            font-size: 1.4em;
+            font-weight: 800;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin: 20px 0;
+            height: 300px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-state .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 1em;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+
+        .filter-tab.active {
+            background: var(--check-color);
+            color: white;
+            border-color: var(--check-color);
+        }
+
+        .filter-tab:hover {
+            transform: translateY(-2px);
+        }
+
+        .reminder-section {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(253, 203, 110, 0.3);
+        }
+
+        .reminder-title {
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reminder-list {
+            margin-top: 15px;
+        }
+
+        .reminder-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reminder-details {
+            flex: 1;
+        }
+
+        .reminder-issuer {
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .reminder-date {
+            font-size: 0.8em;
+            color: #7f8c8d;
+        }
+
+        .reminder-amount {
+            font-weight: 800;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                min-height: calc(100vh - 20px);
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .summary-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .check-controls {
+                flex-direction: column;
+            }
+            
+            .control-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.3em;
+            }
+            
+            .back-btn {
+                top: 15px;
+                right: 15px;
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+            
+            .chart-container {
+                height: 250px;
+                padding: 15px;
+            }
+            
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-tabs {
+                justify-content: center;
+            }
+            
+            .filter-tab {
+                flex: 1;
+                text-align: center;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-btn">
+                <span>←</span> بازگشت
+            </a>
+            <h1>🧾 مدیریت چک و سفته</h1>
+            <p>پیگیری و مدیریت اسناد مالی دریافتی و پرداختی</p>
+        </div>
+
+        <div class="content">
+            <!-- کارت‌های خلاصه -->
+            <div class="summary-cards">
+                <div class="summary-card total">
+                    <h3>💰 کل مبلغ چک‌ها</h3>
+                    <div class="amount" id="total-amount">0 تومان</div>
+                </div>
+                <div class="summary-card pending">
+                    <h3>⏳ در انتظار</h3>
+                    <div class="amount" id="pending-amount">0 تومان</div>
+                </div>
+                <div class="summary-card overdue">
+                    <h3>🚨 معوقه</h3>
+                    <div class="amount" id="overdue-amount">0 تومان</div>
+                </div>
+                <div class="summary-card completed">
+                    <h3>✅ وصول شده</h3>
+                    <div class="amount" id="completed-amount">0 تومان</div>
+                </div>
+            </div>
+
+            <!-- تب‌های فیلتر -->
+            <div class="filter-tabs">
+                <div class="filter-tab active" onclick="filterChecks('all')">همه</div>
+                <div class="filter-tab" onclick="filterChecks('pending')">در انتظار</div>
+                <div class="filter-tab" onclick="filterChecks('overdue')">معوقه</div>
+                <div class="filter-tab" onclick="filterChecks('completed')">وصول شده</div>
+                <div class="filter-tab" onclick="filterChecks('due-soon')">نزدیک سررسید</div>
+            </div>
+
+            <!-- فرم ثبت چک/سفته -->
+            <div class="form-container">
+                <h2 class="form-title">➕ ثبت سند جدید</h2>
+                
+                <div class="form-group">
+                    <label for="check-type">نوع سند:</label>
+                    <select id="check-type">
+                        <option value="check">چک</option>
+                        <option value="promissory">سفته</option>
+                        <option value="bill">برات</option>
+                        <option value="other">سایر</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="check-amount">مبلغ (تومان):</label>
+                    <input type="number" id="check-amount" placeholder="مبلغ سند">
+                </div>
+                
+                <div class="form-group">
+                    <label for="check-due-date">تاریخ سررسید:</label>
+                    <input type="date" id="check-due-date">
+                </div>
+
+                <div class="form-group">
+                    <label for="check-issuer">صادرکننده:</label>
+                    <input type="text" id="check-issuer" placeholder="نام صادرکننده">
+                </div>
+
+                <div class="form-group">
+                    <label for="check-recipient">ذینفع:</label>
+                    <input type="text" id="check-recipient" placeholder="نام ذینفع">
+                </div>
+
+                <div class="form-group">
+                    <label for="check-bank">نام بانک (برای چک):</label>
+                    <input type="text" id="check-bank" placeholder="نام بانک صادرکننده">
+                </div>
+
+                <div class="form-group">
+                    <label for="check-number">شماره چک/سند:</label>
+                    <input type="text" id="check-number" placeholder="شماره سند">
+                </div>
+
+                <div class="form-group">
+                    <label for="check-description">توضیحات:</label>
+                    <textarea id="check-description" rows="3" placeholder="توضیحات اضافی"></textarea>
+                </div>
+
+                <button class="btn btn-check" onclick="addCheck()">
+                    <span>💾</span> ثبت سند
+                </button>
+            </div>
+
+            <!-- بخش یادآوری سررسید -->
+            <div class="reminder-section" id="reminder-section" style="display: none;">
+                <div class="reminder-title">
+                    <span>⏰</span> یادآوری سررسید نزدیک
+                </div>
+                <div class="reminder-list" id="reminder-list">
+                    <!-- لیست یادآوری‌ها -->
+                </div>
+            </div>
+
+            <!-- نمودار تحلیل -->
+            <div class="form-container">
+                <h2 class="form-title">📊 تحلیل چک‌ها و سفته‌ها</h2>
+                <div class="chart-container">
+                    <canvas id="checksChart"></canvas>
+                </div>
+            </div>
+
+            <!-- لیست چک‌ها و سفته‌ها -->
+            <div class="form-container">
+                <h2 class="form-title">📋 لیست اسناد مالی</h2>
+                <div class="transaction-list" id="checks-list">
+                    <!-- چک‌ها و سفته‌ها اینجا نمایش داده می‌شوند -->
+                </div>
+                
+                <button class="btn btn-danger" onclick="clearAllChecks()" style="margin-top: 15px;">
+                    <span>🗑️</span> حذف تمام چک‌ها و سفته‌ها
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // # متغیرهای سیستم
+        let checks = JSON.parse(localStorage.getItem('checks')) || [];
+        let checksChart = null;
+        let currentFilter = 'all';
+
+        // # بارگذاری داده‌ها هنگام لود صفحه
+        window.onload = function() {
+            renderChecks();
+            updateSummaryCards();
+            initChecksChart();
+            checkDueDates();
+            
+            // تنظیم تاریخ پیش‌فرض برای امروز
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('check-due-date').value = today;
+        };
+
+        // # افزودن چک/سفته جدید
+        function addCheck() {
+            const button = event.target;
+            addLoading(button);
+            
+            setTimeout(() => {
+                const type = document.getElementById('check-type').value;
+                const amount = parseInt(document.getElementById('check-amount').value);
+                const dueDate = document.getElementById('check-due-date').value;
+                const issuer = document.getElementById('check-issuer').value;
+                const recipient = document.getElementById('check-recipient').value;
+                const bank = document.getElementById('check-bank').value;
+                const number = document.getElementById('check-number').value;
+                const description = document.getElementById('check-description').value;
+                
+                if (!amount || !dueDate || !issuer) { 
+                    showErrorMessage('لطفاً فیلدهای ضروری را پر کنید'); 
+                    return; 
+                }
+                
+                if (amount <= 0) {
+                    showErrorMessage('مبلغ باید بزرگتر از صفر باشد');
+                    return;
+                }
+                
+                // بررسی تاریخ سررسید
+                const today = new Date();
+                const due = new Date(dueDate);
+                let status = 'pending';
+                
+                if (due < today) {
+                    status = 'overdue';
+                }
+                
+                const check = {
+                    id: Date.now(),
+                    type,
+                    amount,
+                    dueDate,
+                    issuer,
+                    recipient: recipient || 'ندارد',
+                    bank: bank || 'ندارد',
+                    number: number || 'ندارد',
+                    description: description || 'بدون توضیح',
+                    status,
+                    date: new Date().toLocaleDateString('fa-IR'),
+                    timestamp: new Date().getTime(),
+                    created: new Date().toISOString()
+                };
+                
+                checks.unshift(check);
+                saveChecks();
+                renderChecks();
+                updateSummaryCards();
+                updateChecksChart();
+                checkDueDates();
+                showSuccessMessage('سند با موفقیت ثبت شد');
+                
+                // ریست کردن فرم
+                document.getElementById('check-amount').value = '';
+                document.getElementById('check-issuer').value = '';
+                document.getElementById('check-recipient').value = '';
+                document.getElementById('check-bank').value = '';
+                document.getElementById('check-number').value = '';
+                document.getElementById('check-description').value = '';
+                
+            }, 800);
+        }
+
+        // # نمایش چک‌ها و سفته‌ها
+        function renderChecks() {
+            const container = document.getElementById('checks-list');
+            container.innerHTML = '';
+            
+            if (checks.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📝</div>
+                        <p>هنوز هیچ چک یا سفته‌ای ثبت نشده است</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let filteredChecks = checks;
+            
+            // اعمال فیلتر
+            if (currentFilter !== 'all') {
+                filteredChecks = checks.filter(check => {
+                    if (currentFilter === 'due-soon') {
+                        return isDueSoon(check.dueDate) && check.status !== 'completed';
+                    }
+                    return check.status === currentFilter;
+                });
+            }
+            
+            // مرتب‌سازی بر اساس تاریخ سررسید
+            filteredChecks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+            
+            filteredChecks.forEach(check => {
+                const checkEl = document.createElement('div');
+                checkEl.className = `transaction-item ${check.status} ${isDueSoon(check.dueDate) && check.status !== 'completed' ? 'due-soon' : ''}`;
+                
+                const daysUntilDue = getDaysUntilDue(check.dueDate);
+                let statusText = '';
+                let statusClass = '';
+                
+                if (check.status === 'completed') {
+                    statusText = 'وصول شده';
+                    statusClass = 'status-completed';
+                } else if (check.status === 'overdue') {
+                    statusText = 'معوقه';
+                    statusClass = 'status-overdue';
+                } else if (daysUntilDue <= 3) {
+                    statusText = 'نزدیک سررسید';
+                    statusClass = 'status-overdue';
+                } else {
+                    statusText = 'در انتظار';
+                    statusClass = 'status-pending';
+                }
+                
+                checkEl.innerHTML = `
+                    <div class="transaction-details">
+                        <div class="transaction-title">
+                            <span>${getTypeIcon(check.type)}</span>
+                            ${getTypeName(check.type)} - ${check.issuer}
+                        </div>
+                        <div class="transaction-meta">
+                            <div>شماره: ${check.number} | بانک: ${check.bank}</div>
+                            <div>سررسید: ${formatDate(check.dueDate)} | ذینفع: ${check.recipient}</div>
+                            <div>${check.description}</div>
+                        </div>
+                        <div class="status-badge ${statusClass}">${statusText}</div>
+                        <div class="check-controls">
+                            ${check.status !== 'completed' ? `
+                                <button class="control-btn complete" onclick="markAsCompleted(${check.id})">
+                                    <span>✅</span> وصول شده
+                                </button>
+                            ` : ''}
+                            <button class="control-btn edit" onclick="editCheck(${check.id})">
+                                <span>✏️</span> ویرایش
+                            </button>
+                            <button class="control-btn delete" onclick="deleteCheck(${check.id})">
+                                <span>🗑️</span> حذف
+                            </button>
+                        </div>
+                    </div>
+                    <div class="transaction-amount">
+                        ${check.amount.toLocaleString()} تومان
+                        ${daysUntilDue > 0 && check.status !== 'completed' ? `
+                            <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 5px;">
+                                ${daysUntilDue} روز تا سررسید
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                container.appendChild(checkEl);
+            });
+        }
+
+        // # علامت‌گذاری به عنوان وصول شده
+        function markAsCompleted(id) {
+            if (confirm('آیا این سند را به عنوان وصول شده علامت‌گذاری می‌کنید؟')) {
+                checks = checks.map(check => 
+                    check.id === id ? { ...check, status: 'completed' } : check
+                );
+                saveChecks();
+                renderChecks();
+                updateSummaryCards();
+                updateChecksChart();
+                showSuccessMessage('سند با موفقیت به عنوان وصول شده علامت‌گذاری شد');
+            }
+        }
+
+        // # ویرایش چک
+        function editCheck(id) {
+            const check = checks.find(c => c.id === id);
+            if (check) {
+                // پر کردن فرم با اطلاعات چک
+                document.getElementById('check-type').value = check.type;
+                document.getElementById('check-amount').value = check.amount;
+                document.getElementById('check-due-date').value = check.dueDate;
+                document.getElementById('check-issuer').value = check.issuer;
+                document.getElementById('check-recipient').value = check.recipient;
+                document.getElementById('check-bank').value = check.bank;
+                document.getElementById('check-number').value = check.number;
+                document.getElementById('check-description').value = check.description;
+                
+                // حذف چک از لیست
+                checks = checks.filter(c => c.id !== id);
+                saveChecks();
+                renderChecks();
+                updateSummaryCards();
+                
+                showSuccessMessage('اطلاعات سند برای ویرایش بارگذاری شد');
+                
+                // اسکرول به بالای فرم
+                document.querySelector('.form-container').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+        }
+
+        // # حذف چک
+        function deleteCheck(id) {
+            if (confirm('آیا از حذف این سند اطمینان دارید؟')) {
+                checks = checks.filter(check => check.id !== id);
+                saveChecks();
+                renderChecks();
+                updateSummaryCards();
+                updateChecksChart();
+                showSuccessMessage('سند با موفقیت حذف شد');
+            }
+        }
+
+        // # حذف تمام چک‌ها
+        function clearAllChecks() {
+            if (confirm('آیا از حذف تمام چک‌ها و سفته‌ها اطمینان دارید؟ این عمل غیرقابل بازگشت است.')) {
+                const button = event.target;
+                addLoading(button);
+                
+                setTimeout(() => {
+                    checks = []; 
+                    saveChecks(); 
+                    renderChecks(); 
+                    updateSummaryCards();
+                    updateChecksChart();
+                    document.getElementById('reminder-section').style.display = 'none';
+                    showSuccessMessage('تمام چک‌ها و سفته‌ها حذف شدند');
+                }, 800);
+            }
+        }
+
+        // # فیلتر کردن چک‌ها
+        function filterChecks(filter) {
+            currentFilter = filter;
+            
+            // به‌روزرسانی تب‌های فعال
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderChecks();
+        }
+
+        // # به‌روزرسانی کارت‌های خلاصه
+        function updateSummaryCards() {
+            const totalAmount = checks.reduce((sum, check) => sum + check.amount, 0);
+            const pendingAmount = checks.filter(check => check.status === 'pending').reduce((sum, check) => sum + check.amount, 0);
+            const overdueAmount = checks.filter(check => check.status === 'overdue').reduce((sum, check) => sum + check.amount, 0);
+            const completedAmount = checks.filter(check => check.status === 'completed').reduce((sum, check) => sum + check.amount, 0);
+            
+            document.getElementById('total-amount').textContent = totalAmount.toLocaleString() + ' تومان';
+            document.getElementById('pending-amount').textContent = pendingAmount.toLocaleString() + ' تومان';
+            document.getElementById('overdue-amount').textContent = overdueAmount.toLocaleString() + ' تومان';
+            document.getElementById('completed-amount').textContent = completedAmount.toLocaleString() + ' تومان';
+        }
+
+        // # بررسی سررسیدها
+        function checkDueDates() {
+            const today = new Date();
+            const dueSoonChecks = checks.filter(check => {
+                if (check.status === 'completed') return false;
+                
+                const dueDate = new Date(check.dueDate);
+                const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                return daysUntilDue <= 7 && daysUntilDue >= 0;
+            });
+            
+            if (dueSoonChecks.length > 0) {
+                document.getElementById('reminder-section').style.display = 'block';
+                const reminderList = document.getElementById('reminder-list');
+                reminderList.innerHTML = '';
+                
+                dueSoonChecks.forEach(check => {
+                    const daysUntilDue = getDaysUntilDue(check.dueDate);
+                    const reminderItem = document.createElement('div');
+                    reminderItem.className = 'reminder-item';
+                    reminderItem.innerHTML = `
+                        <div class="reminder-details">
+                            <div class="reminder-issuer">${check.issuer} - ${getTypeName(check.type)}</div>
+                            <div class="reminder-date">سررسید: ${formatDate(check.dueDate)} (${daysUntilDue} روز دیگر)</div>
+                        </div>
+                        <div class="reminder-amount">${check.amount.toLocaleString()} تومان</div>
+                    `;
+                    reminderList.appendChild(reminderItem);
+                });
+            } else {
+                document.getElementById('reminder-section').style.display = 'none';
+            }
+            
+            // به‌روزرسانی وضعیت چک‌های معوقه
+            checks = checks.map(check => {
+                if (check.status === 'completed') return check;
+                
+                const dueDate = new Date(check.dueDate);
+                if (dueDate < today) {
+                    return { ...check, status: 'overdue' };
+                }
+                return check;
+            });
+            
+            saveChecks();
+        }
+
+        // # نمودار چک‌ها
+        function initChecksChart() {
+            const ctx = document.getElementById('checksChart').getContext('2d');
+            checksChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['در انتظار', 'معوقه', 'وصول شده'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: ['#f39c12', '#e74c3c', '#27ae60'],
+                        borderWidth: 3,
+                        borderColor: '#fff',
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            rtl: true,
+                            labels: {
+                                font: {
+                                    family: 'Vazir, Tahoma',
+                                    size: 12
+                                },
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            rtl: true,
+                            bodyFont: {
+                                family: 'Vazir, Tahoma'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+                                    return `${label}: ${value} سند (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+            updateChecksChart();
+        }
+        
+        function updateChecksChart() {
+            if (!checksChart) return;
+            
+            const pendingCount = checks.filter(check => check.status === 'pending').length;
+            const overdueCount = checks.filter(check => check.status === 'overdue').length;
+            const completedCount = checks.filter(check => check.status === 'completed').length;
+            
+            checksChart.data.datasets[0].data = [pendingCount, overdueCount, completedCount];
+            checksChart.update();
+        }
+
+        // # توابع کمکی
+        function getTypeName(type) {
+            const types = {
+                'check': 'چک',
+                'promissory': 'سفته',
+                'bill': 'برات',
+                'other': 'سند دیگر'
+            };
+            return types[type] || 'سند';
+        }
+
+        function getTypeIcon(type) {
+            const icons = {
+                'check': '🧾',
+                'promissory': '📄',
+                'bill': '📑',
+                'other': '📝'
+            };
+            return icons[type] || '📝';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fa-IR');
+        }
+
+        function getDaysUntilDue(dueDate) {
+            const today = new Date();
+            const due = new Date(dueDate);
+            const diffTime = due - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        function isDueSoon(dueDate) {
+            const daysUntilDue = getDaysUntilDue(dueDate);
+            return daysUntilDue <= 7 && daysUntilDue >= 0;
+        }
+
+        // # ذخیره داده‌ها
+        function saveChecks() { 
+            try {
+                localStorage.setItem('checks', JSON.stringify(checks)); 
+            } catch(e) {
+                console.error('خطا در ذخیره داده‌های چک:', e);
+                showErrorMessage('خطا در ذخیره داده‌ها. فضای ذخیره‌سازی پر شده است.');
+            }
+        }
+
+        // # سیستم لودینگ
+        function addLoading(element) {
+            element.classList.add('loading');
+            setTimeout(() => {
+                element.classList.remove('loading');
+            }, 1500);
+        }
+
+        // # پیام موفقیت
+        function showSuccessMessage(message) {
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) { existingMessage.remove(); }
+            
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = message;
+            
+            const content = document.querySelector('.content');
+            content.insertBefore(successMessage, content.firstChild);
+            
+            setTimeout(() => { 
+                if (successMessage.parentElement) { 
+                    successMessage.remove(); 
+                } 
+            }, 4000);
+        }
+
+        // # پیام خطا
+        function showErrorMessage(message) {
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'success-message';
+            errorMessage.style.background = 'var(--danger)';
+            errorMessage.textContent = message;
+            
+            const content = document.querySelector('.content');
+            content.insertBefore(errorMessage, content.firstChild);
+            
+            setTimeout(() => { 
+                if (errorMessage.parentElement) { 
+                    errorMessage.remove(); 
+                } 
+            }, 4000);
+        }
+
+        // # ویژگی جدید: گزارش ماهانه
+        function generateMonthlyReport() {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+            
+            const monthlyChecks = checks.filter(check => {
+                const checkDate = new Date(check.created);
+                return checkDate.getMonth() === currentMonth && 
+                       checkDate.getFullYear() === currentYear;
+            });
+            
+            const totalAmount = monthlyChecks.reduce((sum, check) => sum + check.amount, 0);
+            const completedAmount = monthlyChecks.filter(check => check.status === 'completed').reduce((sum, check) => sum + check.amount, 0);
+            
+            return {
+                totalChecks: monthlyChecks.length,
+                totalAmount,
+                completedAmount,
+                completionRate: monthlyChecks.length > 0 ? Math.round((completedAmount / totalAmount) * 100) : 0
+            };
+        }
+
+        // # ویژگی جدید: تحلیل ریسک
+        function getRiskAnalysis() {
+            const highRiskChecks = checks.filter(check => 
+                check.status !== 'completed' && 
+                getDaysUntilDue(check.dueDate) <= 3
+            );
+            
+            const highRiskAmount = highRiskChecks.reduce((sum, check) => sum + check.amount, 0);
+            const totalPendingAmount = checks.filter(check => check.status !== 'completed').reduce((sum, check) => sum + check.amount, 0);
+            
+            const riskPercentage = totalPendingAmount > 0 ? Math.round((highRiskAmount / totalPendingAmount) * 100) : 0;
+            
+            return {
+                highRiskCount: highRiskChecks.length,
+                highRiskAmount,
+                riskPercentage,
+                riskLevel: riskPercentage > 30 ? 'بالا' : riskPercentage > 15 ? 'متوسط' : 'کم'
+            };
+        }
+    </script>
+</body>
+</html>

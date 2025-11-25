@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سبد خرید ارز دیجیتال</title>
+    <style>
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #219653;
+            --secondary: #3498db;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --purple: #9b59b6;
+            --teal: #1abc9c;
+            --gold: #f1c40f;
+            --orange: #e67e22;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-header {
+            background: linear-gradient(135deg, var(--dark), #34495e);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 1.3em;
+        }
+
+        .logo-text {
+            font-size: 0.9em;
+            font-weight: 800;
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
+        }
+
+        .form-title {
+            font-size: 1.1em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--dark);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.8em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 12px;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 3px 12px rgba(39, 174, 96, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.6);
+        }
+
+        .btn-orange {
+            background: linear-gradient(135deg, var(--orange), #d35400);
+            box-shadow: 0 3px 12px rgba(230, 126, 34, 0.4);
+        }
+
+        .btn-teal {
+            background: linear-gradient(135deg, var(--teal), #16a085);
+            box-shadow: 0 3px 12px rgba(26, 188, 156, 0.4);
+        }
+
+        .info-message {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 12px 0;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            text-align: center;
+            border: 1px solid white;
+        }
+
+        .info-title {
+            font-size: 1em;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .info-content {
+            font-size: 0.85em;
+            line-height: 1.4;
+            opacity: 0.95;
+        }
+
+        .crypto-list {
+            margin-top: 15px;
+        }
+
+        .crypto-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-right: 3px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .crypto-details {
+            flex: 1;
+        }
+
+        .crypto-name {
+            font-weight: 800;
+            font-size: 0.9em;
+            margin-bottom: 4px;
+        }
+
+        .crypto-symbol {
+            font-size: 0.7em;
+            color: #7f8c8d;
+        }
+
+        .crypto-description {
+            font-size: 0.7em;
+            margin-top: 5px;
+            color: #7f8c8d;
+        }
+
+        .crypto-price {
+            font-weight: 800;
+            font-size: 1em;
+            color: var(--success);
+        }
+
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 12px 0;
+            font-weight: 700;
+            box-shadow: 0 3px 12px rgba(46, 204, 113, 0.5);
+            animation: slideIn 0.5s ease-out;
+            font-size: 0.8em;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                margin: 15px auto;
+                min-height: calc(100vh - 30px);
+                border-radius: 15px;
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-header">
+            <div class="logo">
+                <div class="logo-icon">₿</div>
+                <div class="logo-text">سبد خرید ارز دیجیتال</div>
+            </div>
+            <a href="index.html" class="header-btn">🔙 بازگشت</a>
+        </div>
+
+        <div class="main-content">
+            <div class="form-container">
+                <h2 class="form-title">₿ سبد خرید ارز دیجیتال</h2>
+                <div class="info-message">
+                    <div class="info-title">💡 استراتژی معاملاتی پیشنهادی</div>
+                    <div class="info-content"><strong>روش ۲٪:</strong> هر ارز اگر ۲٪ کاهش قیمت داشت، ۲۰ میلیون تومان بخرید. وقتی ۲٪ افزایش قیمت داشت، بفروشید. این روند را هر روز تکرار کنید.</div>
+                </div>
+                <div class="form-group">
+                    <label for="crypto-investment-amount">مبلغ سرمایه‌گذاری برای هر ارز (تومان):</label>
+                    <input type="number" id="crypto-investment-amount" placeholder="۲۰۰۰۰۰۰۰" value="20000000">
+                </div>
+                <button class="btn btn-orange" onclick="generateCryptoRecommendations()">
+                    <span>🎯</span> دریافت پیشنهادات امروز
+                </button>
+                <div style="text-align: center; margin: 15px 0;">
+                    <a href="https://tabdeal.org/auth/register-req?refcode=1btx55" target="_blank" class="btn btn-teal">
+                        <span>💳</span> ثبت‌نام در صرافی تبادل
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <h2 class="form-title">📊 پیشنهادات سرمایه‌گذاری امروز</h2>
+                <div class="crypto-list" id="crypto-recommendations"></div>
+            </div>
+
+            <div class="form-container">
+                <h2 class="form-title">💰 ۲۰۰ ارز دیجیتال برتر</h2>
+                <div class="crypto-list" id="crypto-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // داده‌های ارزهای دیجیتال
+        const cryptoCurrencies = [
+            // ارزهای پرپتانسیل (50 ارز)
+            { name: "بیت‌کوین", symbol: "BTC", category: "پرپتانسیل", potential: "عالی", description: "اولین و معروف‌ترین ارز دیجیتال جهان با بیشترین ارزش بازار و پذیرش گسترده" },
+            { name: "اتریوم", symbol: "ETH", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم قراردادهای هوشمند با اکوسیستم گسترده برنامه‌های غیرمتمرکز" },
+            { name: "پولکادات", symbol: "DOT", category: "پرپتانسیل", potential: "عالی", description: "پروتکلی برای اتصال بلاکچین‌های مختلف و ایجاد اینترنت بلاکچین‌ها" },
+            { name: "سولانا", symbol: "SOL", category: "پرپتانسیل", potential: "عالی", description: "بلاکچین پرسرعت با توانایی پردازش هزاران تراکنش در ثانیه" },
+            { name: "کازماس", symbol: "ATOM", category: "پرپتانسیل", potential: "عالی", description: "شبکه‌ای از بلاکچین‌های مستقل که می‌توانند با یکدیگر تعامل داشته باشند" },
+            { name: "کاردانو", symbol: "ADA", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین مبتنی بر تحقیقات علمی با تمرکز بر امنیت و پایداری" },
+            { name: "آوالانچ", symbol: "AVAX", category: "پرپتانسیل", potential: "عالی", description: "پلتفرمی برای راه‌اندازی برنامه‌های غیرمتمرکز و بلاکچین‌های سازمانی" },
+            { name: "لایه ۲ اتریوم", symbol: "MATIC", category: "پرپتانسیل", potential: "عالی", description: "راه‌حل مقیاس‌پذیری برای اتریوم با سرعت بالا و هزینه کم" },
+            { name: "چین لینک", symbol: "LINK", category: "پرپتانسیل", potential: "عالی", description: "شبکه اوراکل غیرمتمرکز که داده‌های دنیای واقعی را به بلاکچین متصل می‌کند" },
+            { name: "یونی سوآپ", symbol: "UNI", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی بزرگترین صرافی غیرمتمرکز در فضای دیفای" },
+            { name: "بایننس کوین", symbol: "BNB", category: "پرپتانسیل", potential: "عالی", description: "توکن بومی صرافی بایننس با کاربردهای گسترده در اکوسیستم بایننس" },
+            { name: "ریپل", symbol: "XRP", category: "پرپتانسیل", potential: "عالی", description: "پروتکل پرداخت دیجیتال برای انتقال سریع و کم‌هزینه پول بین بانک‌ها" },
+            { name: "دوج‌کوین", symbol: "DOGE", category: "پرپتانسیل", potential: "عالی", description: "ارز دیجیتال مبتنی بر میم با جامعه قوی و پذیرش گسترده" },
+            { name: "لایت‌کوین", symbol: "LTC", category: "پرپتانسیل", potential: "عالی", description: "ارز دیجیتال با تراکنش‌های سریع‌تر و کارمزد کمتر نسبت به بیت‌کوین" },
+            { name: "استلار", symbol: "XLM", category: "پرپتانسیل", potential: "عالی", description: "شبکه پرداخت غیرمتمرکز برای انتقال سریع و کم‌هزینه پول در سطح جهانی" },
+            { name: "ترون", symbol: "TRX", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم محتوای سرگرمی غیرمتمرکز با تمرکز بر صنعت سرگرمی" },
+            { name: "ایاس", symbol: "EOS", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین برای برنامه‌های غیرمتمرکز با مقیاس‌پذیری بالا" },
+            { name: "نئو", symbol: "NEO", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین چینی با هدف ایجاد اقتصاد هوشمند مبتنی بر دارایی‌های دیجیتال" },
+            { name: "وچین", symbol: "VET", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم ردیابی زنجیره تأمین مبتنی بر بلاکچین برای کسب‌وکارها" },
+            { name: "تزوس", symbol: "XTZ", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین با مکانیزم حاکمیت on-chain و قابلیت ارتقای خودکار" },
+            { name: "الگوراند", symbol: "ALGO", category: "پرپتانسیل", potential: "عالی", description: "بلاکچین با الگوریتم اجماع Pure Proof-of-Stake برای برنامه‌های مالی" },
+            { name: "فیلم", symbol: "FIL", category: "پرپتانسیل", potential: "عالی", description: "شبکه ذخیره‌سازی غیرمتمرکز برای ذخیره‌سازی ابری مبتنی بر بلاکچین" },
+            { name: "سایبروژ", symbol: "CRO", category: "پرپتانسیل", potential: "عالی", description: "توکن بومی صرافی Crypto.com با کاربردهای مختلف در اکوسیستم" },
+            { name: "مونرو", symbol: "XMR", category: "پرپتانسیل", potential: "عالی", description: "ارز دیجیتال با تمرکز بر حریم خصوصی و ناشناس بودن تراکنش‌ها" },
+            { name: "دش", symbol: "DASH", category: "پرپتانسیل", potential: "عالی", description: "ارز دیجیتال با تمرکز بر حریم خصوصی و سرعت بالای تراکنش‌ها" },
+            { name: "زی کش", symbol: "ZEC", category: "پرپتانسیل", potential: "عالی", description: "ارز دیجیتال با قابلیت تراکنش‌های کاملاً خصوصی و شفاف" },
+            { name: "کامپوند", symbol: "COMP", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی پروتکل وام‌دهی غیرمتمرکز کامپوند" },
+            { name: "آوه", symbol: "AAVE", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی پروتکل وام‌دهی غیرمتمرکز آوه" },
+            { name: "سوشی سوآپ", symbol: "SUSHI", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی صرافی غیرمتمرکز سوشی سوآپ" },
+            { name: "پنکیک سوآپ", symbol: "CAKE", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی صرافی غیرمتمرکز پنکیک سوآپ روی بایننس اسمارت چین" },
+            { name: "فانتوم", symbol: "FTM", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین با تمرکز بر قراردادهای هوشمند و برنامه‌های غیرمتمرکز" },
+            { name: "هارمونی", symbol: "ONE", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین با تمرکز بر ایجاد اقتصاد غیرمتمرکز و بازی‌ها" },
+            { name: "آربیتروم", symbol: "ARB", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی راه‌حل لایه ۲ آربیتروم برای اتریوم" },
+            { name: "اپتیمسم", symbol: "OP", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی راه‌حل لایه ۲ اپتیمسم برای اتریوم" },
+            { name: "ایمیوتبل ایکس", symbol: "IMX", category: "پرپتانسیل", potential: "عالی", description: "پروتکل لایه ۲ برای معاملات NFT روی اتریوم" },
+            { name: "استارک‌نت", symbol: "STRK", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی راه‌حل لایه ۲ استارک‌نت برای اتریوم" },
+            { name: "سویپر", symbol: "SWPR", category: "پرپتانسیل", potential: "عالی", description: "توکن حاکمیتی صرافی غیرمتمرکز سویپر" },
+            { name: "رنک", symbol: "RNDR", category: "پرپتانسیل", potential: "عالی", description: "شبکه رندر غیرمتمرکز برای پردازش گرافیکی" },
+            { name: "گالا", symbol: "GALA", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بازی‌های غیرمتمرکز مبتنی بر بلاکچین" },
+            { name: "ایلاندمارشال", symbol: "IMX", category: "پرپتانسیل", potential: "عالی", description: "پروتکل لایه ۲ برای معاملات NFT روی اتریوم" },
+            { name: "آپسیس", symbol: "APT", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین با تمرکز بر امنیت و مقیاس‌پذیری" },
+            { name: "سویتو", symbol: "SUI", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین با تمرکز بر حریم خصوصی و مقیاس‌پذیری" },
+            { name: "نیار", symbol: "NEAR", category: "پرپتانسیل", potential: "عالی", description: "پلتفرم بلاکچین با تمرکز بر توسعه برنامه‌های غیرمتمرکز" },
+            { name: "فلو", symbol: "FLOW", category: "پرپتانسیل", potential: "عالی", description: "بلاکچین با تمرکز بر بازی‌ها، برنامه‌ها و دارایی‌های دیجیتال" },
+            { name: "کادنا", symbol: "KDA", category: "پرپتانسیل", potential: "عالی", description: "بلاکچین با معماری چندزنجیره‌ای برای مقیاس‌پذیری بالا" },
+            { name: "مینا", symbol: "MINA", category: "پرپتانسیل", potential: "عالی", description: "بلاکچین سبک‌وزن با سایز ثابت بدون نیاز به ذخیره‌سازی کل تاریخچه" },
+            { name: "سیلکو", symbol: "SLK", category: "پرپتانسیل", potential: "عالی", description: "پروتکل حریم خصوصی برای تراکنش‌های ناشناس در بلاکچین" },
+            { name: "رادیکل", symbol: "RAD", category: "پرپتانسیل", potential: "عالی", description: "پروتکل حاکمیت غیرمتمرکز برای مدیریت جامعه" },
+            { name: "یو اس دی کوین", symbol: "USDC", category: "پرپتانسیل", potential: "عالی", description: "استیبل‌کوین با پشتوانه دلار آمریکا و شفافیت کامل" },
+            { name: "تدر", symbol: "USDT", category: "پرپتانسیل", potential: "عالی", description: "استیبل‌کوین با پشتوانه دلار آمریکا و بیشترین حجم معاملات" },
+
+            // ارزهای متوسط (50 ارز)
+            { name: "شیبا اینو", symbol: "SHIB", category: "متوسط", potential: "خوب", description: "توکن مبتنی بر اتریوم با جامعه بزرگ و شناخته شده به عنوان 'قاتل دوج‌کوین'" },
+            { name: "دای", symbol: "DAI", category: "متوسط", potential: "خوب", description: "استیبل‌کوین غیرمتمرکز با پشتوانه وثیقه‌های بیش از حد" },
+            { name: "بت", symbol: "BAT", category: "متوسط", potential: "خوب", description: "توکن پاداش مرورگر بریو برای تبلیغات و محتوای آنلاین" },
+            { name: "انجین", symbol: "ENJ", category: "متوسط", potential: "خوب", description: "پلتفرم توکن‌سازی برای آیتم‌های درون بازی‌های ویدیویی" },
+            { name: "دسنترالند", symbol: "MANA", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی دنیای مجازی غیرمتمرکز دسنترالند" },
+            { name: "سندباکس", symbol: "SAND", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی پلتفرم بازی‌سازی و دنیای مجازی سندباکس" },
+            { name: "اکسی اینفینیتی", symbol: "AXS", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی بازی بلاکچین اکسی اینفینیتی" },
+            { name: "اتریوم کلاسیک", symbol: "ETC", category: "متوسط", potential: "خوب", description: "نسخه اصلی اتریوم که پس از هارد فورک جدا شد" },
+            { name: "ویت‌کوین", symbol: "WTC", category: "متوسط", potential: "خوب", description: "پلتفرم اینترنت اشیاء مبتنی بر بلاکچین" },
+            { name: "آیوتا", symbol: "IOTA", category: "متوسط", potential: "خوب", description: "پروتکل اینترنت اشیاء بدون کارمزد و مقیاس‌پذیر" },
+            { name: "نانو", symbol: "NANO", category: "متوسط", potential: "خوب", description: "ارز دیجیتال با تراکنش‌های فوری و بدون کارمزد" },
+            { name: "هولو", symbol: "HOT", category: "متوسط", potential: "خوب", description: "توکن پروتکل هولوچین برای برنامه‌های غیرمتمرکز" },
+            { name: "بیت‌تورنت", symbol: "BTT", category: "متوسط", potential: "خوب", description: "توکن پلتفرم اشتراک‌گذاری فایل بیت‌تورنت" },
+            { name: "اتریوم نیم", symbol: "ENS", category: "متوسط", potential: "خوب", description: "سرویس نام غیرمتمرکز برای آدرس‌های اتریوم" },
+            { name: "لープ رینگ", symbol: "LRC", category: "متوسط", potential: "خوب", description: "پروتکل لایه ۲ برای معاملات غیرمتمرکز روی اتریوم" },
+            { name: "کیکو", symbol: "KSM", category: "متوسط", potential: "خوب", description: "شبکه آزمایشی پولکادات برای تست ویژگی‌های جدید" },
+            { name: "ریو", symbol: "REV", category: "متوسط", potential: "خوب", description: "پروتکل حریم خصوصی برای تراکنش‌های ناشناس" },
+            { name: "اورک", symbol: "ORK", category: "متوسط", potential: "خوب", description: "پروتکل حریم خصوصی برای تراکنش‌های ناشناس" },
+            { name: "سایبروژ", symbol: "CRO", category: "متوسط", potential: "خوب", description: "توکن بومی صرافی Crypto.com با کاربردهای مختلف در اکوسیستم" },
+            { name: "کوانت", symbol: "QNT", category: "متوسط", potential: "خوب", description: "پروتکل اتصال بلاکچین‌ها و شبکه‌ها به یکدیگر" },
+            { name: "چیلیز", symbol: "CHZ", category: "متوسط", potential: "خوب", description: "پلتفرم توکن‌سازی برای صنعت ورزش و سرگرمی" },
+            { name: "اتچ توکن", symbol: "ATT", category: "متوسط", potential: "خوب", description: "توکن پلتفرم محتوای بزرگسالان مبتنی بر بلاکچین" },
+            { name: "آمپل فورث", symbol: "AMP", category: "متوسط", potential: "خوب", description: "توکن وثیقه برای تسهیل تراکنش‌های فوری و قابل تأیید" },
+            { name: "رن", symbol: "REN", category: "متوسط", potential: "خوب", description: "پروتکل نقدینگی بین زنجیره‌ای برای دارایی‌های دیجیتال" },
+            { name: "سیویک", symbol: "CVC", category: "متوسط", potential: "خوب", description: "پروتکل هویت غیرمتمرکز برای تأیید هویت دیجیتال" },
+            { name: "گلم", symbol: "GLM", category: "متوسط", potential: "خوب", description: "پروتکل بازار غیرمتمرکز برای منابع محاسباتی" },
+            { name: "نومریس", symbol: "NMR", category: "متوسط", potential: "خوب", description: "توکن پلتفرم پیش‌بینی بازار Numerai" },
+            { name: "ریپل", symbol: "XRP", category: "متوسط", potential: "خوب", description: "پروتکل پرداخت دیجیتال برای انتقال سریع و کم‌هزینه پول بین بانک‌ها" },
+            { name: "استلار", symbol: "XLM", category: "متوسط", potential: "خوب", description: "شبکه پرداخت غیرمتمرکز برای انتقال سریع و کم‌هزینه پول در سطح جهانی" },
+            { name: "ترون", symbol: "TRX", category: "متوسط", potential: "خوب", description: "پلتفرم محتوای سرگرمی غیرمتمرکز با تمرکز بر صنعت سرگرمی" },
+            { name: "ایاس", symbol: "EOS", category: "متوسط", potential: "خوب", description: "پلتفرم بلاکچین برای برنامه‌های غیرمتمرکز با مقیاس‌پذیری بالا" },
+            { name: "نئو", symbol: "NEO", category: "متوسط", potential: "خوب", description: "پلتفرم بلاکچین چینی با هدف ایجاد اقتصاد هوشمند مبتنی بر دارایی‌های دیجیتال" },
+            { name: "وچین", symbol: "VET", category: "متوسط", potential: "خوب", description: "پلتفرم ردیابی زنجیره تأمین مبتنی بر بلاکچین برای کسب‌وکارها" },
+            { name: "تزوس", symbol: "XTZ", category: "متوسط", potential: "خوب", description: "پلتفرم بلاکچین با مکانیزم حاکمیت on-chain و قابلیت ارتقای خودکار" },
+            { name: "الگوراند", symbol: "ALGO", category: "متوسط", potential: "خوب", description: "بلاکچین با الگوریتم اجماع Pure Proof-of-Stake برای برنامه‌های مالی" },
+            { name: "فیلم", symbol: "FIL", category: "متوسط", potential: "خوب", description: "شبکه ذخیره‌سازی غیرمتمرکز برای ذخیره‌سازی ابری مبتنی بر بلاکچین" },
+            { name: "سایبروژ", symbol: "CRO", category: "متوسط", potential: "خوب", description: "توکن بومی صرافی Crypto.com با کاربردهای مختلف در اکوسیستم" },
+            { name: "مونرو", symbol: "XMR", category: "متوسط", potential: "خوب", description: "ارز دیجیتال با تمرکز بر حریم خصوصی و ناشناس بودن تراکنش‌ها" },
+            { name: "دش", symbol: "DASH", category: "متوسط", potential: "خوب", description: "ارز دیجیتال با تمرکز بر حریم خصوصی و سرعت بالای تراکنش‌ها" },
+            { name: "زی کش", symbol: "ZEC", category: "متوسط", potential: "خوب", description: "ارز دیجیتال با قابلیت تراکنش‌های کاملاً خصوصی و شفاف" },
+            { name: "کامپوند", symbol: "COMP", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی پروتکل وام‌دهی غیرمتمرکز کامپوند" },
+            { name: "آوه", symbol: "AAVE", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی پروتکل وام‌دهی غیرمتمرکز آوه" },
+            { name: "سوشی سوآپ", symbol: "SUSHI", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی صرافی غیرمتمرکز سوشی سوآپ" },
+            { name: "پنکیک سوآپ", symbol: "CAKE", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی صرافی غیرمتمرکز پنکیک سوآپ روی بایننس اسمارت چین" },
+            { name: "فانتوم", symbol: "FTM", category: "متوسط", potential: "خوب", description: "پلتفرم بلاکچین با تمرکز بر قراردادهای هوشمند و برنامه‌های غیرمتمرکز" },
+            { name: "هارمونی", symbol: "ONE", category: "متوسط", potential: "خوب", description: "پلتفرم بلاکچین با تمرکز بر ایجاد اقتصاد غیرمتمرکز و بازی‌ها" },
+            { name: "آربیتروم", symbol: "ARB", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی راه‌حل لایه ۲ آربیتروم برای اتریوم" },
+            { name: "اپتیمسم", symbol: "OP", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی راه‌حل لایه ۲ اپتیمسم برای اتریوم" },
+            { name: "ایمیوتبل ایکس", symbol: "IMX", category: "متوسط", potential: "خوب", description: "پروتکل لایه ۲ برای معاملات NFT روی اتریوم" },
+            { name: "استارک‌نت", symbol: "STRK", category: "متوسط", potential: "خوب", description: "توکن حاکمیتی راه‌حل لایه ۲ استارک‌نت برای اتریوم" },
+
+            // سایر ارزها (100 ارز)
+            { name: "بیت‌کوین کش", symbol: "BCH", category: "سایر", potential: "متوسط", description: "فورک بیت‌کوین با بلوک‌های بزرگتر برای تراکنش‌های بیشتر" },
+            { name: "بیت‌کوین اس وی", symbol: "BSV", category: "سایر", potential: "متوسط", description: "فورک بیت‌کوین کش با تمرکز بر مقیاس‌پذیری و ثبات" },
+            { name: "دوج‌کوین", symbol: "DOGE", category: "سایر", potential: "متوسط", description: "ارز دیجیتال مبتنی بر میم با جامعه قوی و پذیرش گسترده" },
+            { name: "شیبا اینو", symbol: "SHIB", category: "سایر", potential: "متوسط", description: "توکن مبتنی بر اتریوم با جامعه بزرگ و شناخته شده به عنوان 'قاتل دوج‌کوین'" },
+            { name: "دای", symbol: "DAI", category: "سایر", potential: "متوسط", description: "استیبل‌کوین غیرمتمرکز با پشتوانه وثیقه‌های بیش از حد" },
+            { name: "بت", symbol: "BAT", category: "سایر", potential: "متوسط", description: "توکن پاداش مرورگر بریو برای تبلیغات و محتوای آنلاین" },
+            { name: "انجین", symbol: "ENJ", category: "سایر", potential: "متوسط", description: "پلتفرم توکن‌سازی برای آیتم‌های درون بازی‌های ویدیویی" },
+            { name: "دسنترالند", symbol: "MANA", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی دنیای مجازی غیرمتمرکز دسنترالند" },
+            { name: "سندباکس", symbol: "SAND", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی پلتفرم بازی‌سازی و دنیای مجازی سندباکس" },
+            { name: "اکسی اینفینیتی", symbol: "AXS", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی بازی بلاکچین اکسی اینفینیتی" },
+            { name: "اتریوم کلاسیک", symbol: "ETC", category: "سایر", potential: "متوسط", description: "نسخه اصلی اتریوم که پس از هارد فورک جدا شد" },
+            { name: "ویت‌کوین", symbol: "WTC", category: "سایر", potential: "متوسط", description: "پلتفرم اینترنت اشیاء مبتنی بر بلاکچین" },
+            { name: "آیوتا", symbol: "IOTA", category: "سایر", potential: "متوسط", description: "پروتکل اینترنت اشیاء بدون کارمزد و مقیاس‌پذیر" },
+            { name: "نانو", symbol: "NANO", category: "سایر", potential: "متوسط", description: "ارز دیجیتال با تراکنش‌های فوری و بدون کارمزد" },
+            { name: "هولو", symbol: "HOT", category: "سایر", potential: "متوسط", description: "توکن پروتکل هولوچین برای برنامه‌های غیرمتمرکز" },
+            { name: "بیت‌تورنت", symbol: "BTT", category: "سایر", potential: "متوسط", description: "توکن پلتفرم اشتراک‌گذاری فایل بیت‌تورنت" },
+            { name: "اتریوم نیم", symbol: "ENS", category: "سایر", potential: "متوسط", description: "سرویس نام غیرمتمرکز برای آدرس‌های اتریوم" },
+            { name: "لープ رینگ", symbol: "LRC", category: "سایر", potential: "متوسط", description: "پروتکل لایه ۲ برای معاملات غیرمتمرکز روی اتریوم" },
+            { name: "کیکو", symbol: "KSM", category: "سایر", potential: "متوسط", description: "شبکه آزمایشی پولکادات برای تست ویژگی‌های جدید" },
+            { name: "ریو", symbol: "REV", category: "سایر", potential: "متوسط", description: "پروتکل حریم خصوصی برای تراکنش‌های ناشناس" },
+            { name: "اورک", symbol: "ORK", category: "سایر", potential: "متوسط", description: "پروتکل حریم خصوصی برای تراکنش‌های ناشناس" },
+            { name: "سایبروژ", symbol: "CRO", category: "سایر", potential: "متوسط", description: "توکن بومی صرافی Crypto.com با کاربردهای مختلف در اکوسیستم" },
+            { name: "کوانت", symbol: "QNT", category: "سایر", potential: "متوسط", description: "پروتکل اتصال بلاکچین‌ها و شبکه‌ها به یکدیگر" },
+            { name: "چیلیز", symbol: "CHZ", category: "سایر", potential: "متوسط", description: "پلتفرم توکن‌سازی برای صنعت ورزش و سرگرمی" },
+            { name: "اتچ توکن", symbol: "ATT", category: "سایر", potential: "متوسط", description: "توکن پلتفرم محتوای بزرگسالان مبتنی بر بلاکچین" },
+            { name: "آمپل فورث", symbol: "AMP", category: "سایر", potential: "متوسط", description: "توکن وثیقه برای تسهیل تراکنش‌های فوری و قابل تأیید" },
+            { name: "رن", symbol: "REN", category: "سایر", potential: "متوسط", description: "پروتکل نقدینگی بین زنجیره‌ای برای دارایی‌های دیجیتال" },
+            { name: "سیویک", symbol: "CVC", category: "سایر", potential: "متوسط", description: "پروتکل هویت غیرمتمرکز برای تأیید هویت دیجیتال" },
+            { name: "گلم", symbol: "GLM", category: "سایر", potential: "متوسط", description: "پروتکل بازار غیرمتمرکز برای منابع محاسباتی" },
+            { name: "نومریس", symbol: "NMR", category: "سایر", potential: "متوسط", description: "توکن پلتفرم پیش‌بینی بازار Numerai" },
+            { name: "ریپل", symbol: "XRP", category: "سایر", potential: "متوسط", description: "پروتکل پرداخت دیجیتال برای انتقال سریع و کم‌هزینه پول بین بانک‌ها" },
+            { name: "استلار", symbol: "XLM", category: "سایر", potential: "متوسط", description: "شبکه پرداخت غیرمتمرکز برای انتقال سریع و کم‌هزینه پول در سطح جهانی" },
+            { name: "ترون", symbol: "TRX", category: "سایر", potential: "متوسط", description: "پلتفرم محتوای سرگرمی غیرمتمرکز با تمرکز بر صنعت سرگرمی" },
+            { name: "ایاس", symbol: "EOS", category: "سایر", potential: "متوسط", description: "پلتفرم بلاکچین برای برنامه‌های غیرمتمرکز با مقیاس‌پذیری بالا" },
+            { name: "نئو", symbol: "NEO", category: "سایر", potential: "متوسط", description: "پلتفرم بلاکچین چینی با هدف ایجاد اقتصاد هوشمند مبتنی بر دارایی‌های دیجیتال" },
+            { name: "وچین", symbol: "VET", category: "سایر", potential: "متوسط", description: "پلتفرم ردیابی زنجیره تأمین مبتنی بر بلاکچین برای کسب‌وکارها" },
+            { name: "تزوس", symbol: "XTZ", category: "سایر", potential: "متوسط", description: "پلتفرم بلاکچین با مکانیزم حاکمیت on-chain و قابلیت ارتقای خودکار" },
+            { name: "الگوراند", symbol: "ALGO", category: "سایر", potential: "متوسط", description: "بلاکچین با الگوریتم اجماع Pure Proof-of-Stake برای برنامه‌های مالی" },
+            { name: "فیلم", symbol: "FIL", category: "سایر", potential: "متوسط", description: "شبکه ذخیره‌سازی غیرمتمرکز برای ذخیره‌سازی ابری مبتنی بر بلاکچین" },
+            { name: "سایبروژ", symbol: "CRO", category: "سایر", potential: "متوسط", description: "توکن بومی صرافی Crypto.com با کاربردهای مختلف در اکوسیستم" },
+            { name: "مونرو", symbol: "XMR", category: "سایر", potential: "متوسط", description: "ارز دیجیتال با تمرکز بر حریم خصوصی و ناشناس بودن تراکنش‌ها" },
+            { name: "دش", symbol: "DASH", category: "سایر", potential: "متوسط", description: "ارز دیجیتال با تمرکز بر حریم خصوصی و سرعت بالای تراکنش‌ها" },
+            { name: "زی کش", symbol: "ZEC", category: "سایر", potential: "متوسط", description: "ارز دیجیتال با قابلیت تراکنش‌های کاملاً خصوصی و شفاف" },
+            { name: "کامپوند", symbol: "COMP", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی پروتکل وام‌دهی غیرمتمرکز کامپوند" },
+            { name: "آوه", symbol: "AAVE", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی پروتکل وام‌دهی غیرمتمرکز آوه" },
+            { name: "سوشی سوآپ", symbol: "SUSHI", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی صرافی غیرمتمرکز سوشی سوآپ" },
+            { name: "پنکیک سوآپ", symbol: "CAKE", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی صرافی غیرمتمرکز پنکیک سوآپ روی بایننس اسمارت چین" },
+            { name: "فانتوم", symbol: "FTM", category: "سایر", potential: "متوسط", description: "پلتفرم بلاکچین با تمرکز بر قراردادهای هوشمند و برنامه‌های غیرمتمرکز" },
+            { name: "هارمونی", symbol: "ONE", category: "سایر", potential: "متوسط", description: "پلتفرم بلاکچین با تمرکز بر ایجاد اقتصاد غیرمتمرکز و بازی‌ها" },
+            { name: "آربیتروم", symbol: "ARB", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی راه‌حل لایه ۲ آربیتروم برای اتریوم" },
+            { name: "اپتیمسم", symbol: "OP", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی راه‌حل لایه ۲ اپتیمسم برای اتریوم" },
+            { name: "ایمیوتبل ایکس", symbol: "IMX", category: "سایر", potential: "متوسط", description: "پروتکل لایه ۲ برای معاملات NFT روی اتریوم" },
+            { name: "استارک‌نت", symbol: "STRK", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی راه‌حل لایه ۲ استارک‌نت برای اتریوم" },
+            { name: "سویپر", symbol: "SWPR", category: "سایر", potential: "متوسط", description: "توکن حاکمیتی صرافی غیرمتمرکز سویپر" },
+            { name: "رنک", symbol: "RNDR", category: "سایر", potential: "متوسط", description: "شبکه رندر غیرمتمرکز برای پردازش گرافیکی" },
+            { name: "گالا", symbol: "GALA", category: "سایر", potential: "متوسط", description: "پلتفرم بازی‌های غیرمتمرکز مبتنی بر بلاکچین" },
+            { name: "ایلاندمارشال", symbol: "IMX", category: "سایر", potential: "متوسط", description: "پروتکل لایه ۲ برای معاملات NFT روی اتریوم" },
+            { name: "آپسیس", symbol: "APT", category: "سایر", potential: "متوسط", description: "پلتفرم بلاکچین با تمرکز بر امنیت و مقیاس‌پذیری" },
+            { name: "سویتو", symbol: "SUI", category: "سایر", potential: "متوسط", description: "پلتفرم بلاکچین با تمرکز بر حریم خصوصی و مقیاس‌پذیری" },
+            { name: "نیار", symbol: "NEAR", category: "سایر", potential: "متوسط", description: "پلتفرم بلاکچین با تمرکز بر توسعه برنامه‌های غیرمتمرکز" },
+            { name: "فلو", symbol: "FLOW", category: "سایر", potential: "متوسط", description: "بلاکچین با تمرکز بر بازی‌ها، برنامه‌ها و دارایی‌های دیجیتال" },
+            { name: "کادنا", symbol: "KDA", category: "سایر", potential: "متوسط", description: "بلاکچین با معماری چندزنجیره‌ای برای مقیاس‌پذیری بالا" },
+            { name: "مینا", symbol: "MINA", category: "سایر", potential: "متوسط", description: "بلاکچین سبک‌وزن با سایز ثابت بدون نیاز به ذخیره‌سازی کل تاریخچه" },
+            { name: "سیلکو", symbol: "SLK", category: "سایر", potential: "متوسط", description: "پروتکل حریم خصوصی برای تراکنش‌های ناشناس در بلاکچین" },
+            { name: "رادیکل", symbol: "RAD", category: "سایر", potential: "متوسط", description: "پروتکل حاکمیت غیرمتمرکز برای مدیریت جامعه" },
+            { name: "یو اس دی کوین", symbol: "USDC", category: "سایر", potential: "متوسط", description: "استیبل‌کوین با پشتوانه دلار آمریکا و شفافیت کامل" },
+            { name: "تدر", symbol: "USDT", category: "سایر", potential: "متوسط", description: "استیبل‌کوین با پشتوانه دلار آمریکا و بیشترین حجم معاملات" },
+            { name: "بایننس یو اس دی", symbol: "BUSD", category: "سایر", potential: "متوسط", description: "استیبل‌کوین با پشتوانه دلار آمریکا صادر شده توسط بایننس" },
+            { name: "تر", symbol: "TRU", category: "سایر", potential: "متوسط", description: "پروتکل اعتبارسنجی غیرمتمرکز برای داده‌های دنیای واقعی" },
+            { name: "یو اس دی پی", symbol: "USDP", category: "سایر", potential: "متوسط", description: "استیبل‌کوین با پشتوانه دلار آمریکا صادر شده توسط Paxos" },
+            { name: "جمس", symbol: "GMS", category: "سایر", potential: "متوسط", description: "توکن پلتفرم بازی‌های غیرمتمرکز" },
+            { name: "رپد بیت‌کوین", symbol: "WBTC", category: "سایر", potential: "متوسط", description: "توکن بیت‌کوین روی شبکه اتریوم" },
+            { name: "رپد اتریوم", symbol: "WETH", category: "سایر", potential: "متوسط", description: "توکن اتریوم روی شبکه اتریوم" },
+            { name: "رپد سولانا", symbol: "WSOL", category: "سایر", potential: "متوسط", description: "توکن سولانا روی شبکه اتریوم" },
+            { name: "رپد پولکادات", symbol: "WDOT", category: "سایر", potential: "متوسط", description: "توکن پولکادات روی شبکه اتریوم" },
+            { name: "رپد کازماس", symbol: "WATOM", category: "سایر", potential: "متوسط", description: "توکن کازماس روی شبکه اتریوم" },
+            { name: "رپد کاردانو", symbol: "WADA", category: "سایر", potential: "متوسط", description: "توکن کاردانو روی شبکه اتریوم" },
+            { name: "رپد آوالانچ", symbol: "WAVAX", category: "سایر", potential: "متوسط", description: "توکن آوالانچ روی شبکه اتریوم" },
+            { name: "رپد لایه ۲ اتریوم", symbol: "WMATIC", category: "سایر", potential: "متوسط", description: "توکن لایه ۲ اتریوم روی شبکه اتریوم" },
+            { name: "رپد چین لینک", symbol: "WLINK", category: "سایر", potential: "متوسط", description: "توکن چین لینک روی شبکه اتریوم" },
+            { name: "رپد یونی سوآپ", symbol: "WUNI", category: "سایر", potential: "متوسط", description: "توکن یونی سوآپ روی شبکه اتریوم" },
+            { name: "رپد بایننس کوین", symbol: "WBNB", category: "سایر", potential: "متوسط", description: "توکن بایننس کوین روی شبکه اتریوم" },
+            { name: "رپد ریپل", symbol: "WXRP", category: "سایر", potential: "متوسط", description: "توکن ریپل روی شبکه اتریوم" },
+            { name: "رپد دوج‌کوین", symbol: "WDOGE", category: "سایر", potential: "متوسط", description: "توکن دوج‌کوین روی شبکه اتریوم" },
+            { name: "رپد لایت‌کوین", symbol: "WLTC", category: "سایر", potential: "متوسط", description: "توکن لایت‌کوین روی شبکه اتریوم" },
+            { name: "رپد استلار", symbol: "WXLM", category: "سایر", potential: "متوسط", description: "توکن استلار روی شبکه اتریوم" },
+            { name: "رپد ترون", symbol: "WTRX", category: "سایر", potential: "متوسط", description: "توکن ترون روی شبکه اتریوم" },
+            { name: "رپد ایاس", symbol: "WEOS", category: "سایر", potential: "متوسط", description: "توکن ایاس روی شبکه اتریوم" },
+            { name: "رپد نئو", symbol: "WNEO", category: "سایر", potential: "متوسط", description: "توکن نئو روی شبکه اتریوم" },
+            { name: "رپد وچین", symbol: "WVET", category: "سایر", potential: "متوسط", description: "توکن وچین روی شبکه اتریوم" },
+            { name: "رپد تزوس", symbol: "WXTZ", category: "سایر", potential: "متوسط", description: "توکن تزوس روی شبکه اتریوم" },
+            { name: "رپد الگوراند", symbol: "WALGO", category: "سایر", potential: "متوسط", description: "توکن الگوراند روی شبکه اتریوم" },
+            { name: "رپد فیلم", symbol: "WFIL", category: "سایر", potential: "متوسط", description: "توکن فیلم روی شبکه اتریوم" },
+            { name: "رپد سایبروژ", symbol: "WCRO", category: "سایر", potential: "متوسط", description: "توکن سایبروژ روی شبکه اتریوم" },
+            { name: "رپد مونرو", symbol: "WXMR", category: "سایر", potential: "متوسط", description: "توکن مونرو روی شبکه اتریوم" },
+            { name: "رپد دش", symbol: "WDASH", category: "سایر", potential: "متوسط", description: "توکن دش روی شبکه اتریوم" },
+            { name: "رپد زی کش", symbol: "WZEC", category: "سایر", potential: "متوسط", description: "توکن زی کش روی شبکه اتریوم" },
+            { name: "رپد کامپوند", symbol: "WCOMP", category: "سایر", potential: "متوسط", description: "توکن کامپوند روی شبکه اتریوم" },
+            { name: "رپد آوه", symbol: "WAAVE", category: "سایر", potential: "متوسط", description: "توکن آوه روی شبکه اتریوم" },
+            { name: "رپد سوشی سوآپ", symbol: "WSUSHI", category: "سایر", potential: "متوسط", description: "توکن سوشی سوآپ روی شبکه اتریوم" },
+            { name: "رپد پنکیک سوآپ", symbol: "WCAKE", category: "سایر", potential: "متوسط", description: "توکن پنکیک سوآپ روی شبکه اتریوم" },
+            { name: "رپد فانتوم", symbol: "WFTM", category: "سایر", potential: "متوسط", description: "توکن فانتوم روی شبکه اتریوم" },
+            { name: "رپد هارمونی", symbol: "WONE", category: "سایر", potential: "متوسط", description: "توکن هارمونی روی شبکه اتریوم" },
+            { name: "رپد آربیتروم", symbol: "WARB", category: "سایر", potential: "متوسط", description: "توکن آربیتروم روی شبکه اتریوم" },
+            { name: "رپد اپتیمسم", symbol: "WOP", category: "سایر", potential: "متوسط", description: "توکن اپتیمسم روی شبکه اتریوم" },
+            { name: "رپد ایمیوتبل ایکس", symbol: "WIMX", category: "سایر", potential: "متوسط", description: "توکن ایمیوتبل ایکس روی شبکه اتریوم" },
+            { name: "رپد استارک‌نت", symbol: "WSTRK", category: "سایر", potential: "متوسط", description: "توکن استارک‌نت روی شبکه اتریوم" },
+            { name: "رپد سویپر", symbol: "WSWPR", category: "سایر", potential: "متوسط", description: "توکن سویپر روی شبکه اتریوم" },
+            { name: "رپد رنک", symbol: "WRNDR", category: "سایر", potential: "متوسط", description: "توکن رنک روی شبکه اتریوم" },
+            { name: "رپد گالا", symbol: "WGALA", category: "سایر", potential: "متوسط", description: "توکن گالا روی شبکه اتریوم" },
+            { name: "رپد ایلاندمارشال", symbol: "WIMX", category: "سایر", potential: "متوسط", description: "توکن ایلاندمارشال روی شبکه اتریوم" },
+            { name: "رپد آپسیس", symbol: "WAPT", category: "سایر", potential: "متوسط", description: "توکن آپسیس روی شبکه اتریوم" },
+            { name: "رپد سویتو", symbol: "WSUI", category: "سایر", potential: "متوسط", description: "توکن سویتو روی شبکه اتریوم" },
+            { name: "رپد نیار", symbol: "WNEAR", category: "سایر", potential: "متوسط", description: "توکن نیار روی شبکه اتریوم" },
+            { name: "رپد فلو", symbol: "WFLOW", category: "سایر", potential: "متوسط", description: "توکن فلو روی شبکه اتریوم" },
+            { name: "رپد کادنا", symbol: "WKDA", category: "سایر", potential: "متوسط", description: "توکن کادنا روی شبکه اتریوم" },
+            { name: "رپد مینا", symbol: "WMINA", category: "سایر", potential: "متوسط", description: "توکن مینا روی شبکه اتریوم" },
+            { name: "رپد سیلکو", symbol: "WSLK", category: "سایر", potential: "متوسط", description: "توکن سیلکو روی شبکه اتریوم" },
+            { name: "رپد رادیکل", symbol: "WRAD", category: "سایر", potential: "متوسط", description: "توکن رادیکل روی شبکه اتریوم" }
+        ];
+
+        // نمایش لیست ارزهای دیجیتال هنگام لود صفحه
+        window.onload = function() {
+            displayCryptoList();
+        };
+
+        // نمایش لیست ارزهای دیجیتال
+        function displayCryptoList() {
+            const cryptoContainer = document.getElementById('crypto-list');
+            cryptoContainer.innerHTML = '';
+            
+            const groupedCryptos = {};
+            cryptoCurrencies.forEach(crypto => {
+                if (!groupedCryptos[crypto.category]) {
+                    groupedCryptos[crypto.category] = [];
+                }
+                groupedCryptos[crypto.category].push(crypto);
+            });
+            
+            Object.keys(groupedCryptos).forEach(category => {
+                const categoryTitle = document.createElement('h3');
+                categoryTitle.style.margin = '15px 0 10px';
+                categoryTitle.style.color = 'var(--dark)';
+                categoryTitle.textContent = `دسته‌بندی: ${category}`;
+                cryptoContainer.appendChild(categoryTitle);
+                
+                groupedCryptos[category].forEach(crypto => {
+                    const cryptoElement = document.createElement('div');
+                    cryptoElement.className = 'crypto-item';
+                    cryptoElement.innerHTML = `
+                        <div class="crypto-details">
+                            <div class="crypto-name">${crypto.name}</div>
+                            <div class="crypto-symbol">${crypto.symbol} - پتانسیل: ${crypto.potential}</div>
+                            <div class="crypto-description">${crypto.description}</div>
+                        </div>
+                        <div class="crypto-price">
+                            ${crypto.category === 'پرپتانسیل' ? '⭐' : crypto.category === 'متوسط' ? '🔹' : '🔸'}
+                        </div>
+                    `;
+                    cryptoContainer.appendChild(cryptoElement);
+                });
+            });
+        }
+
+        // تولید پیشنهادات سرمایه‌گذاری
+        function generateCryptoRecommendations() {
+            const investmentAmount = parseInt(document.getElementById('crypto-investment-amount').value) || 20000000;
+            const today = new Date().toLocaleDateString('fa-IR');
+            
+            const todayRecommendations = [
+                { name: "بیت‌کوین", symbol: "BTC", action: "خرید", reason: "کاهش ۲٪ در ۲۴ ساعت گذشته", amount: investmentAmount },
+                { name: "اتریوم", symbol: "ETH", action: "خرید", reason: "کاهش ۱.۸٪ در ۲۴ ساعت گذشته", amount: investmentAmount },
+                { name: "پولکادات", symbol: "DOT", action: "خرید", reason: "کاهش ۲.۲٪ در ۲۴ ساعت گذشته", amount: investmentAmount },
+                { name: "سولانا", symbol: "SOL", action: "فروش", reason: "افزایش ۲.۵٪ در ۲۴ ساعت گذشته", amount: investmentAmount },
+                { name: "کازماس", symbol: "ATOM", action: "خرید", reason: "کاهش ۱.۹٪ در ۲۴ ساعت گذشته", amount: investmentAmount }
+            ];
+            
+            const recommendationsContainer = document.getElementById('crypto-recommendations');
+            recommendationsContainer.innerHTML = '';
+            
+            const title = document.createElement('h3');
+            title.style.margin = '0 0 15px';
+            title.style.color = 'var(--dark)';
+            title.style.textAlign = 'center';
+            title.innerHTML = `📈 پیشنهادات سرمایه‌گذاری - ${today}`;
+            recommendationsContainer.appendChild(title);
+            
+            const strategyInfo = document.createElement('div');
+            strategyInfo.className = 'info-message';
+            strategyInfo.innerHTML = `
+                <div class="info-title">🎯 استراتژی معاملاتی ۲٪</div>
+                <div class="info-content">
+                    <strong>روش کار:</strong><br>
+                    • هر ارز اگر ۲٪ کاهش قیمت داشت، ${investmentAmount.toLocaleString()} تومان بخرید<br>
+                    • وقتی ۲٪ افزایش قیمت داشت، بفروشید<br>
+                    • این روند را هر روز تکرار کنید<br>
+                    • صرافی پیشنهادی: <a href="https://tabdeal.org/auth/register-req?refcode=1btx55" target="_blank">تبادل (Tabdeal)</a>
+                </div>
+            `;
+            recommendationsContainer.appendChild(strategyInfo);
+            
+            todayRecommendations.forEach(crypto => {
+                const cryptoElement = document.createElement('div');
+                cryptoElement.className = 'crypto-item';
+                cryptoElement.style.borderRightColor = crypto.action === 'خرید' ? 'var(--success)' : 'var(--danger)';
+                cryptoElement.innerHTML = `
+                    <div class="crypto-details">
+                        <div class="crypto-name">${crypto.name} (${crypto.symbol})</div>
+                        <div class="crypto-symbol">عمل: ${crypto.action} | دلیل: ${crypto.reason}</div>
+                    </div>
+                    <div class="crypto-price" style="color: ${crypto.action === 'خرید' ? 'var(--success)' : 'var(--danger)'}">
+                        ${crypto.action === 'خرید' ? '🟢' : '🔴'} ${crypto.amount.toLocaleString()} تومان
+                    </div>
+                `;
+                recommendationsContainer.appendChild(cryptoElement);
+            });
+            
+            showSuccessMessage('پیشنهادات سرمایه‌گذاری امروز تولید شد');
+        }
+
+        // نمایش پیام موفقیت
+        function showSuccessMessage(message) {
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = message;
+            
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertBefore(successMessage, mainContent.firstChild);
+            
+            setTimeout(() => {
+                if (successMessage.parentElement) {
+                    successMessage.remove();
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

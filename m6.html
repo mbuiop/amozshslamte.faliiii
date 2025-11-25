@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم ایجاد فاکتور حرفه‌ای</title>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #219653;
+            --secondary: #3498db;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --purple: #9b59b6;
+            --teal: #1abc9c;
+            --gold: #f1c40f;
+            --orange: #e67e22;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-header {
+            background: linear-gradient(135deg, var(--dark), #34495e);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 1.3em;
+        }
+
+        .logo-text {
+            font-size: 0.9em;
+            font-weight: 800;
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
+        }
+
+        .form-title {
+            font-size: 1.1em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--dark);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.8em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 12px;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 3px 12px rgba(39, 174, 96, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.6);
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, var(--purple), #8e44ad);
+            box-shadow: 0 3px 12px rgba(155, 89, 182, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+            box-shadow: 0 3px 12px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            box-shadow: 0 3px 12px rgba(231, 76, 60, 0.4);
+        }
+
+        .add-cost-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s;
+        }
+
+        .add-cost-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(52, 152, 219, 0.4);
+        }
+
+        .add-cost-btn.danger {
+            background: var(--danger);
+        }
+
+        .signature-pad {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            margin-bottom: 12px;
+            height: 150px;
+            width: 100%;
+        }
+
+        .invoice-preview {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .invoice-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .invoice-items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 0.8em;
+        }
+
+        .invoice-items th, .invoice-items td {
+            border: 1px solid #e0e0e0;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .invoice-items th {
+            background: #f5f5f5;
+            font-weight: 700;
+        }
+
+        .invoice-total {
+            text-align: left;
+            font-weight: 800;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .invoice-signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .signature-box {
+            text-align: center;
+            width: 45%;
+        }
+
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-top: 40px;
+            padding-top: 5px;
+        }
+
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 12px 0;
+            font-weight: 700;
+            box-shadow: 0 3px 12px rgba(46, 204, 113, 0.5);
+            animation: slideIn 0.5s ease-out;
+            font-size: 0.8em;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-message {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 12px 0;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            text-align: center;
+            border: 1px solid white;
+        }
+
+        .info-title {
+            font-size: 1em;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .info-content {
+            font-size: 0.85em;
+            line-height: 1.4;
+            opacity: 0.95;
+        }
+
+        .tax-calculations {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-right: 2px solid var(--primary);
+        }
+
+        .tax-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.8em;
+        }
+
+        .invoice-item-row {
+            margin-bottom: 8px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                margin: 15px auto;
+                min-height: calc(100vh - 30px);
+                border-radius: 15px;
+                overflow: hidden;
+            }
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .invoice-preview {
+                box-shadow: none;
+                border: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-header">
+            <div class="logo">
+                <div class="logo-icon">🧾</div>
+                <div class="logo-text">سیستم ایجاد فاکتور حرفه‌ای</div>
+            </div>
+            <a href="index.html" class="header-btn">🔙 بازگشت</a>
+        </div>
+
+        <div class="main-content">
+            <div class="form-container">
+                <h2 class="form-title">🧾 ایجاد فاکتور جدید</h2>
+                
+                <div class="form-group">
+                    <label for="invoice-type">نوع فاکتور:</label>
+                    <select id="invoice-type">
+                        <option value="sale">فروش</option>
+                        <option value="purchase">خرید</option>
+                        <option value="proforma">پیش‌فاکتور</option>
+                        <option value="return">برگشت از فروش</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="invoice-number">شماره فاکتور:</label>
+                    <input type="text" id="invoice-number" placeholder="شماره فاکتور (اختیاری)" value="FA-1403-001">
+                </div>
+
+                <div class="form-group">
+                    <label for="invoice-date">تاریخ فاکتور:</label>
+                    <input type="date" id="invoice-date">
+                </div>
+
+                <div class="form-group">
+                    <label for="invoice-due-date">تاریخ سررسید:</label>
+                    <input type="date" id="invoice-due-date">
+                </div>
+
+                <div class="form-group">
+                    <label for="invoice-seller">فروشنده:</label>
+                    <input type="text" id="invoice-seller" placeholder="نام فروشنده / شرکت" value="شرکت نمونه تجارت">
+                </div>
+
+                <div class="form-group">
+                    <label for="seller-tax-id">شناسه ملی/کد اقتصادی فروشنده:</label>
+                    <input type="text" id="seller-tax-id" placeholder="کد اقتصادی فروشنده" value="12345678901">
+                </div>
+
+                <div class="form-group">
+                    <label for="seller-address">آدرس فروشنده:</label>
+                    <textarea id="seller-address" rows="2" placeholder="آدرس کامل فروشنده">تهران، خیابان نمونه، پلاک ۱۲۳</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="seller-phone">تلفن فروشنده:</label>
+                    <input type="text" id="seller-phone" placeholder="شماره تماس فروشنده" value="021-12345678">
+                </div>
+
+                <div class="form-group">
+                    <label for="invoice-buyer">خریدار:</label>
+                    <input type="text" id="invoice-buyer" placeholder="نام خریدار / شرکت" value="شرکت کالای برتر">
+                </div>
+
+                <div class="form-group">
+                    <label for="buyer-tax-id">شناسه ملی/کد اقتصادی خریدار:</label>
+                    <input type="text" id="buyer-tax-id" placeholder="کد اقتصادی خریدار" value="98765432109">
+                </div>
+
+                <div class="form-group">
+                    <label for="buyer-address">آدرس خریدار:</label>
+                    <textarea id="buyer-address" rows="2" placeholder="آدرس کامل خریدار">اصفهان، خیابان مرکزی، پلاک ۴۵۶</textarea>
+                </div>
+
+                <h3 style="margin: 20px 0 10px; color: var(--dark);">🛍️ اقلام فاکتور</h3>
+                
+                <div id="invoice-items">
+                    <div class="invoice-item-row">
+                        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 8px; margin-bottom: 8px; align-items: center;">
+                            <input type="text" placeholder="نام کالا / خدمت" class="item-name" value="لپ‌تاپ تجاری">
+                            <input type="number" placeholder="تعداد" class="item-quantity" value="2" min="1">
+                            <input type="number" placeholder="قیمت واحد" class="item-price" value="25000000">
+                            <input type="number" placeholder="تخفیف %" class="item-discount" value="5" min="0" max="100">
+                            <button type="button" class="add-cost-btn danger" onclick="removeInvoiceItem(this)">✕</button>
+                        </div>
+                        <textarea class="item-description" placeholder="توضیحات کالا (اختیاری)" rows="2" style="width: 100%; margin-top: 5px; font-size: 0.8em;">لپ‌تاپ ۱۵ اینچی، Core i7، 16GB RAM</textarea>
+                    </div>
+                </div>
+
+                <button type="button" class="add-cost-btn" onclick="addInvoiceItem()" style="margin-bottom: 15px;">
+                    <span>➕</span> افزودن کالای جدید
+                </button>
+
+                <div class="form-group">
+                    <label for="payment-terms">شرایط پرداخت:</label>
+                    <select id="payment-terms">
+                        <option value="cash">نقدی</option>
+                        <option value="check">چک</option>
+                        <option value="installment">اقساط</option>
+                        <option value="transfer">کارت به کارت</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="invoice-notes">توضیحات و شرایط:</label>
+                    <textarea id="invoice-notes" rows="3" placeholder="توضیحات اضافی، شرایط گارانتی، نحوه تحویل و ...">کالاها ظرف ۳ روز کاری آماده تحویل می‌باشد. گارانتی ۱۸ ماهه</textarea>
+                </div>
+
+                <h3 style="margin: 20px 0 10px; color: var(--dark);">✍️ امضاها</h3>
+                
+                <div class="signature-pad-container">
+                    <label>امضای فروشنده:</label>
+                    <canvas class="signature-pad" id="seller-signature-pad"></canvas>
+                    <div style="display: flex; gap: 8px; margin-bottom: 15px;">
+                        <button type="button" class="add-cost-btn danger" onclick="clearSellerSignature()">
+                            <span>🗑️</span> پاک کردن امضا
+                        </button>
+                        <button type="button" class="add-cost-btn" onclick="loadSampleSignature()">
+                            <span>📝</span> امضای نمونه
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="seller-stamp">مهر فروشنده (URL تصویر):</label>
+                    <input type="text" id="seller-stamp" placeholder="آدرس تصویر مهر شرکت (اختیاری)">
+                </div>
+
+                <button class="btn btn-purple" onclick="generateInvoice()">
+                    <span>🧾</span> ایجاد و پیش‌نمایش فاکتور
+                </button>
+
+                <button class="btn btn-warning no-print" onclick="saveInvoiceTemplate()" style="margin-top: 10px;">
+                    <span>💾</span> ذخیره قالب فاکتور
+                </button>
+
+                <button class="btn btn-danger no-print" onclick="clearInvoiceForm()" style="margin-top: 10px;">
+                    <span>🗑️</span> پاک کردن فرم
+                </button>
+            </div>
+
+            <div class="invoice-preview no-print" id="invoice-preview" style="display: none;">
+                <!-- پیش‌نمایش فاکتور در اینجا نمایش داده می‌شود -->
+            </div>
+
+            <div class="form-container no-print" id="invoice-actions" style="display: none;">
+                <h2 class="form-title">📥 اقدامات فاکتور</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="btn" onclick="downloadInvoiceAsPDF()">
+                        <span>📥</span> دانلود PDF
+                    </button>
+                    <button class="btn btn-purple" onclick="printInvoice()">
+                        <span>🖨️</span> چاپ فاکتور
+                    </button>
+                    <button class="btn btn-warning" onclick="sendInvoiceByEmail()">
+                        <span>📧</span> ارسال ایمیل
+                    </button>
+                    <button class="btn" onclick="saveInvoiceToHistory()">
+                        <span>💾</span> ذخیره در تاریخچه
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-container no-print">
+                <h2 class="form-title">💡 راهنمای ایجاد فاکتور</h2>
+                <div class="info-message">
+                    <div class="info-title">نکات مهم برای فاکتورهای معتبر</div>
+                    <div class="info-content">
+                        • شماره فاکتور باید منحصر به فرد باشد<br>
+                        • اطلاعات فروشنده و خریدار باید کامل باشد<br>
+                        • برای فاکتورهای بالای ۱۰ میلیون امضا الزامی است<br>
+                        • فاکتورها به مدت ۱۰ سال باید archiv شوند
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // متغیرهای سیستم
+        let sellerSignaturePad = null;
+        let currentInvoice = null;
+        let invoiceCounter = parseInt(localStorage.getItem('invoiceCounter')) || 1;
+
+        // بارگذاری اولیه
+        window.onload = function() {
+            initializeSignaturePad();
+            setDefaultDates();
+            loadInvoiceTemplates();
+        };
+
+        // تنظیم تاریخ‌های پیش‌فرض
+        function setDefaultDates() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('invoice-date').value = today;
+            
+            // تاریخ سررسید ۷ روز بعد
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 7);
+            document.getElementById('invoice-due-date').value = dueDate.toISOString().split('T')[0];
+        }
+
+        // راه‌اندازی پد امضا
+        function initializeSignaturePad() {
+            const canvas = document.getElementById('seller-signature-pad');
+            if (canvas) {
+                sellerSignaturePad = new SignaturePad(canvas, {
+                    backgroundColor: 'white',
+                    penColor: 'rgb(0, 0, 0)',
+                    minWidth: 1,
+                    maxWidth: 3
+                });
+                
+                // تنظیم سایز کانواس
+                canvas.style.width = '100%';
+                canvas.style.height = '150px';
+            }
+        }
+
+        // پاک کردن امضای فروشنده
+        function clearSellerSignature() {
+            if (sellerSignaturePad) {
+                sellerSignaturePad.clear();
+            }
+        }
+
+        // بارگذاری امضای نمونه
+        function loadSampleSignature() {
+            if (sellerSignaturePad) {
+                // در یک سیستم واقعی، اینجا امضای از پیش ذخیره شده بارگذاری می‌شود
+                showSuccessMessage('امضای نمونه بارگذاری شد (در نسخه واقعی، امضای ذخیره شده بارگذاری می‌شود)');
+            }
+        }
+
+        // افزودن آیتم جدید به فاکتور
+        function addInvoiceItem() {
+            const itemsContainer = document.getElementById('invoice-items');
+            const itemRow = document.createElement('div');
+            itemRow.className = 'invoice-item-row';
+            itemRow.innerHTML = `
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 8px; margin-bottom: 8px; align-items: center;">
+                    <input type="text" placeholder="نام کالا / خدمت" class="item-name">
+                    <input type="number" placeholder="تعداد" class="item-quantity" value="1" min="1">
+                    <input type="number" placeholder="قیمت واحد" class="item-price">
+                    <input type="number" placeholder="تخفیف %" class="item-discount" value="0" min="0" max="100">
+                    <button type="button" class="add-cost-btn danger" onclick="removeInvoiceItem(this)">✕</button>
+                </div>
+                <textarea class="item-description" placeholder="توضیحات کالا (اختیاری)" rows="2" style="width: 100%; margin-top: 5px; font-size: 0.8em;"></textarea>
+            `;
+            itemsContainer.appendChild(itemRow);
+        }
+
+        // حذف آیتم از فاکتور
+        function removeInvoiceItem(button) {
+            if (document.querySelectorAll('.invoice-item-row').length > 1) {
+                button.closest('.invoice-item-row').remove();
+            } else {
+                alert('فاکتور باید حداقل یک آیتم داشته باشد');
+            }
+        }
+
+        // تولید فاکتور
+        function generateInvoice() {
+            // جمع‌آوری اطلاعات پایه
+            const type = document.getElementById('invoice-type').value;
+            const number = document.getElementById('invoice-number').value || `FA-1403-${invoiceCounter.toString().padStart(3, '0')}`;
+            const date = document.getElementById('invoice-date').value;
+            const dueDate = document.getElementById('invoice-due-date').value;
+            const seller = document.getElementById('invoice-seller').value;
+            const sellerTaxId = document.getElementById('seller-tax-id').value;
+            const sellerAddress = document.getElementById('seller-address').value;
+            const sellerPhone = document.getElementById('seller-phone').value;
+            const buyer = document.getElementById('invoice-buyer').value;
+            const buyerTaxId = document.getElementById('buyer-tax-id').value;
+            const buyerAddress = document.getElementById('buyer-address').value;
+            const paymentTerms = document.getElementById('payment-terms').value;
+            const notes = document.getElementById('invoice-notes').value;
+
+            if (!seller || !buyer) {
+                alert('لطفاً اطلاعات فروشنده و خریدار را وارد کنید');
+                return;
+            }
+
+            // جمع‌آوری آیتم‌ها
+            const items = [];
+            let subtotal = 0;
+            let totalDiscount = 0;
+            
+            document.querySelectorAll('.invoice-item-row').forEach(row => {
+                const name = row.querySelector('.item-name').value;
+                const quantity = parseInt(row.querySelector('.item-quantity').value) || 0;
+                const price = parseInt(row.querySelector('.item-price').value) || 0;
+                const discount = parseInt(row.querySelector('.item-discount').value) || 0;
+                const description = row.querySelector('.item-description').value;
+
+                if (name && quantity > 0 && price > 0) {
+                    const itemTotal = quantity * price;
+                    const itemDiscount = (itemTotal * discount) / 100;
+                    const itemNet = itemTotal - itemDiscount;
+                    
+                    subtotal += itemTotal;
+                    totalDiscount += itemDiscount;
+                    
+                    items.push({
+                        name,
+                        quantity,
+                        price,
+                        discount,
+                        description,
+                        total: itemTotal,
+                        discountAmount: itemDiscount,
+                        net: itemNet
+                    });
+                }
+            });
+
+            if (items.length === 0) {
+                alert('لطفاً حداقل یک کالا به فاکتور اضافه کنید');
+                return;
+            }
+
+            // محاسبات مالیاتی
+            const taxRate = 9; // 9% مالیات بر ارزش افزوده
+            const taxAmount = (subtotal - totalDiscount) * taxRate / 100;
+            const totalAmount = subtotal - totalDiscount + taxAmount;
+
+            // امضا
+            let sellerSignature = null;
+            if (sellerSignaturePad && !sellerSignaturePad.isEmpty()) {
+                sellerSignature = sellerSignaturePad.toDataURL();
+            }
+
+            // ذخیره اطلاعات فاکتور
+            currentInvoice = {
+                id: Date.now(),
+                type,
+                number,
+                date,
+                dueDate,
+                seller: {
+                    name: seller,
+                    taxId: sellerTaxId,
+                    address: sellerAddress,
+                    phone: sellerPhone
+                },
+                buyer: {
+                    name: buyer,
+                    taxId: buyerTaxId,
+                    address: buyerAddress
+                },
+                items,
+                subtotal,
+                totalDiscount,
+                taxRate,
+                taxAmount,
+                totalAmount,
+                paymentTerms,
+                notes,
+                sellerSignature,
+                createdAt: new Date().toLocaleDateString('fa-IR')
+            };
+
+            // نمایش پیش‌نمایش
+            displayInvoicePreview(currentInvoice);
+            document.getElementById('invoice-actions').style.display = 'block';
+            
+            showSuccessMessage('فاکتور با موفقیت ایجاد شد');
+        }
+
+        // نمایش پیش‌نمایش فاکتور
+        function displayInvoicePreview(invoice) {
+            const previewContainer = document.getElementById('invoice-preview');
+            
+            const typeNames = {
+                'sale': 'فروش',
+                'purchase': 'خرید',
+                'proforma': 'پیش‌فاکتور',
+                'return': 'برگشت از فروش'
+            };
+
+            const paymentTermsNames = {
+                'cash': 'نقدی',
+                'check': 'چک',
+                'installment': 'اقساط',
+                'transfer': 'کارت به کارت'
+            };
+
+            let itemsHtml = '';
+            invoice.items.forEach((item, index) => {
+                itemsHtml += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td style="text-align: right;">
+                            <div><strong>${item.name}</strong></div>
+                            ${item.description ? `<div style="font-size: 0.7em; color: #666; margin-top: 3px;">${item.description}</div>` : ''}
+                        </td>
+                        <td>${item.quantity.toLocaleString()}</td>
+                        <td>${item.price.toLocaleString()}</td>
+                        <td>${item.discount}%</td>
+                        <td>${item.discountAmount.toLocaleString()}</td>
+                        <td>${item.net.toLocaleString()}</td>
+                    </tr>
+                `;
+            });
+
+            previewContainer.innerHTML = `
+                <div class="invoice-header">
+                    <h2>فاکتور ${typeNames[invoice.type]}</h2>
+                    <p><strong>شماره:</strong> ${invoice.number} | <strong>تاریخ:</strong> ${formatDate(invoice.date)}</p>
+                    ${invoice.dueDate ? `<p><strong>تاریخ سررسید:</strong> ${formatDate(invoice.dueDate)}</p>` : ''}
+                </div>
+
+                <div class="invoice-details">
+                    <div>
+                        <h4>فروشنده:</h4>
+                        <p><strong>${invoice.seller.name}</strong></p>
+                        ${invoice.seller.taxId ? `<p>کد اقتصادی: ${invoice.seller.taxId}</p>` : ''}
+                        ${invoice.seller.address ? `<p>آدرس: ${invoice.seller.address}</p>` : ''}
+                        ${invoice.seller.phone ? `<p>تلفن: ${invoice.seller.phone}</p>` : ''}
+                    </div>
+                    <div>
+                        <h4>خریدار:</h4>
+                        <p><strong>${invoice.buyer.name}</strong></p>
+                        ${invoice.buyer.taxId ? `<p>کد اقتصادی: ${invoice.buyer.taxId}</p>` : ''}
+                        ${invoice.buyer.address ? `<p>آدرس: ${invoice.buyer.address}</p>` : ''}
+                    </div>
+                </div>
+
+                <table class="invoice-items">
+                    <thead>
+                        <tr>
+                            <th>ردیف</th>
+                            <th>شرح کالا / خدمت</th>
+                            <th>تعداد</th>
+                            <th>قیمت واحد (تومان)</th>
+                            <th>تخفیف %</th>
+                            <th>مبلغ تخفیف (تومان)</th>
+                            <th>جمع (تومان)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itemsHtml}
+                    </tbody>
+                </table>
+
+                <div class="tax-calculations">
+                    <div class="tax-row">
+                        <span>جمع کل:</span>
+                        <span>${invoice.subtotal.toLocaleString()} تومان</span>
+                    </div>
+                    <div class="tax-row">
+                        <span>تخفیف:</span>
+                        <span>${invoice.totalDiscount.toLocaleString()} تومان</span>
+                    </div>
+                    <div class="tax-row">
+                        <span>مالیات بر ارزش افزوده (${invoice.taxRate}%):</span>
+                        <span>${invoice.taxAmount.toLocaleString()} تومان</span>
+                    </div>
+                    <div class="tax-row" style="border-top: 1px solid #ddd; padding-top: 5px; font-weight: bold;">
+                        <span>مبلغ قابل پرداخت:</span>
+                        <span>${invoice.totalAmount.toLocaleString()} تومان</span>
+                    </div>
+                </div>
+
+                ${invoice.notes ? `
+                    <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                        <strong>توضیحات:</strong> ${invoice.notes}
+                    </div>
+                ` : ''}
+
+                <div style="margin-top: 15px;">
+                    <strong>شرایط پرداخت:</strong> ${paymentTermsNames[invoice.paymentTerms]}
+                </div>
+
+                <div class="invoice-signatures">
+                    <div class="signature-box">
+                        <div>امضا و مهر فروشنده</div>
+                        ${invoice.sellerSignature ? 
+                            `<img src="${invoice.sellerSignature}" style="max-width: 200px; max-height: 80px; margin-top: 10px; border: 1px solid #ccc;">` : 
+                            '<div class="signature-line"></div>'
+                        }
+                    </div>
+                    <div class="signature-box">
+                        <div>امضا خریدار</div>
+                        <div class="signature-line"></div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px; font-size: 0.8em; color: #666;">
+                    این فاکتور به صورت الکترونیکی صادر شده و نیاز به مهر و امضای فیزیکی ندارد
+                </div>
+            `;
+
+            previewContainer.style.display = 'block';
+            
+            // اسکرول به بخش پیش‌نمایش
+            previewContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // دانلود فاکتور به صورت PDF
+        function downloadInvoiceAsPDF() {
+            if (!currentInvoice) {
+                alert('لطفاً ابتدا فاکتور را ایجاد کنید');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const invoiceContent = document.getElementById('invoice-preview');
+            
+            html2canvas(invoiceContent, { 
+                scale: 2, 
+                useCORS: true, 
+                logging: false,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const pageHeight = 290;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 10;
+
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                doc.save(`فاکتور_${currentInvoice.number}.pdf`);
+                showSuccessMessage('فاکتور با موفقیت دانلود شد');
+            }).catch(error => {
+                console.error('خطا در ایجاد PDF:', error);
+                alert('خطا در ایجاد فایل PDF. لطفاً دوباره تلاش کنید.');
+            });
+        }
+
+        // چاپ فاکتور
+        function printInvoice() {
+            const invoiceContent = document.getElementById('invoice-preview').innerHTML;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html dir="rtl">
+                <head>
+                    <title>چاپ فاکتور ${currentInvoice.number}</title>
+                    <style>
+                        body { 
+                            font-family: Tahoma, Arial, sans-serif; 
+                            margin: 20px;
+                            color: #000;
+                        }
+                        .invoice-header { text-align: center; margin-bottom: 20px; }
+                        .invoice-details { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                        th, td { border: 1px solid #000; padding: 8px; text-align: center; }
+                        th { background-color: #f0f0f0; }
+                        .tax-calculations { background: #f8f8f8; padding: 10px; margin: 10px 0; }
+                        .invoice-signatures { display: flex; justify-content: space-between; margin-top: 40px; }
+                        .signature-line { border-top: 1px solid #000; margin-top: 60px; }
+                        @media print {
+                            body { margin: 0; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${invoiceContent}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // ارسال فاکتور از طریق ایمیل
+        function sendInvoiceByEmail() {
+            const email = prompt('لطفاً آدرس ایمیل دریافت کننده را وارد کنید:');
+            if (email) {
+                // در یک سیستم واقعی، اینجا API ایمیل فراخوانی می‌شود
+                showSuccessMessage(`فاکتور به آدرس ${email} ارسال خواهد شد (در نسخه واقعی، ایمیل ارسال می‌شود)`);
+            }
+        }
+
+        // ذخیره فاکتور در تاریخچه
+        function saveInvoiceToHistory() {
+            if (!currentInvoice) {
+                alert('لطفاً ابتدا فاکتور را ایجاد کنید');
+                return;
+            }
+
+            const invoices = JSON.parse(localStorage.getItem('invoices')) || [];
+            invoices.push(currentInvoice);
+            localStorage.setItem('invoices', JSON.stringify(invoices));
+            
+            // افزایش شمارنده فاکتور
+            invoiceCounter++;
+            localStorage.setItem('invoiceCounter', invoiceCounter.toString());
+            
+            showSuccessMessage('فاکتور در تاریخچه ذخیره شد');
+        }
+
+        // ذخیره قالب فاکتور
+        function saveInvoiceTemplate() {
+            const template = {
+                seller: document.getElementById('invoice-seller').value,
+                sellerTaxId: document.getElementById('seller-tax-id').value,
+                sellerAddress: document.getElementById('seller-address').value,
+                sellerPhone: document.getElementById('seller-phone').value,
+                paymentTerms: document.getElementById('payment-terms').value
+            };
+            
+            localStorage.setItem('invoiceTemplate', JSON.stringify(template));
+            showSuccessMessage('قالب فاکتور ذخیره شد');
+        }
+
+        // بارگذاری قالب‌های فاکتور
+        function loadInvoiceTemplates() {
+            const template = JSON.parse(localStorage.getItem('invoiceTemplate'));
+            if (template) {
+                document.getElementById('invoice-seller').value = template.seller || '';
+                document.getElementById('seller-tax-id').value = template.sellerTaxId || '';
+                document.getElementById('seller-address').value = template.sellerAddress || '';
+                document.getElementById('seller-phone').value = template.sellerPhone || '';
+                document.getElementById('payment-terms').value = template.paymentTerms || 'cash';
+            }
+        }
+
+        // پاک کردن فرم
+        function clearInvoiceForm() {
+            if (confirm('آیا از پاک کردن تمام اطلاعات فرم اطمینان دارید؟')) {
+                document.getElementById('invoice-items').innerHTML = '';
+                document.getElementById('invoice-buyer').value = '';
+                document.getElementById('buyer-tax-id').value = '';
+                document.getElementById('buyer-address').value = '';
+                document.getElementById('invoice-notes').value = '';
+                clearSellerSignature();
+                
+                // افزودن یک آیتم خالی
+                addInvoiceItem();
+                
+                showSuccessMessage('فرم با موفقیت پاک شد');
+            }
+        }
+
+        // فرمت تاریخ
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fa-IR');
+        }
+
+        // نمایش پیام موفقیت
+        function showSuccessMessage(message) {
+            const existingMessage = document.querySelector('.success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = message;
+            
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertBefore(successMessage, mainContent.firstChild);
+            
+            setTimeout(() => {
+                if (successMessage.parentElement) {
+                    successMessage.remove();
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
