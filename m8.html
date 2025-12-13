@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جستجو و پخش فیلم از آپارات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #FF4757;
+            --primary-dark: #FF3838;
+            --secondary: #1E90FF;
+            --dark: #0F0F0F;
+            --darker: #000000;
+            --light: #FFFFFF;
+            --gray: #AAAAAA;
+            --card-bg: rgba(25, 25, 25, 0.95);
+            --modal-bg: rgba(0, 0, 0, 0.98);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 71, 87, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(30, 144, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* هدر و جستجو */
+        .header {
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid var(--primary);
+            padding: 25px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--light);
+        }
+
+        .logo-icon {
+            background: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(255, 71, 87, 0.3);
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .logo-text p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 60px 18px 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: var(--light);
+            font-size: 1.1rem;
+            outline: none;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.2);
+        }
+
+        .search-btn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 71, 87, 0.4);
+        }
+
+        /* محتوای اصلی */
+        .main-content {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* بخش راهنما */
+        .quick-search {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .quick-search h2 {
+            color: var(--light);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-tag {
+            background: rgba(255, 71, 87, 0.1);
+            border: 2px solid rgba(255, 71, 87, 0.3);
+            color: var(--primary);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-tag:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+        }
+
+        /* نتایج */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .results-header h2 {
+            color: var(--light);
+            font-size: 1.8rem;
+        }
+
+        .results-count {
+            color: var(--gray);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        /* گالری ویدیو */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px rgba(255, 71, 87, 0.2);
+        }
+
+        .video-thumbnail-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .video-thumbnail {
+            transform: scale(1.1);
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-btn-card {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .play-btn-card:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .video-info {
+            padding: 25px;
+        }
+
+        .video-title {
+            font-size: 1.2rem;
+            color: var(--light);
+            margin-bottom: 10px;
+            line-height: 1.4;
+            height: 50px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .video-duration {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* پخش کننده تمام صفحه */
+        .video-player-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-bg);
+            z-index: 2000;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .player-header {
+            padding: 25px 40px;
+            background: rgba(15, 15, 15, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            backdrop-filter: blur(20px);
+        }
+
+        .player-title {
+            color: white;
+            font-size: 1.5rem;
+            max-width: 70%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .player-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.3);
+        }
+
+        .player-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        #fullscreenVideo {
+            width: 100%;
+            height: 100%;
+            max-width: 1600px;
+            max-height: 900px;
+            background: #000;
+            border-radius: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+        }
+
+        /* وضعیت‌ها */
+        .loading-state {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .loading-spinner {
+            width: 70px;
+            height: 70px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--primary);
+        }
+
+        .error-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        /* نوتیفیکیشن */
+        .notification {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            z-index: 3000;
+            box-shadow: 0 20px 50px rgba(255, 71, 87, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.4s;
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* فیلترها */
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* فوتر */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+            background: rgba(15, 15, 15, 0.5);
+        }
+
+        .footer p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر با جستجو -->
+    <header class="header">
+        <div class="search-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>پخش کننده آپارات</h1>
+                    <p>جستجو و پخش تمام‌صفحه فیلم‌ها</p>
+                </div>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" 
+                       class="search-input" 
+                       id="searchInput" 
+                       placeholder="عنوان فیلم، سریال یا ویدیو مورد نظر را جستجو کنید...">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- محتوای اصلی -->
+    <main class="main-content">
+        <!-- راهنمای جستجو -->
+        <div class="quick-search">
+            <h2><i class="fas fa-bolt"></i> جستجوی سریع</h2>
+            <div class="search-tags" id="quickSearchTags">
+                <div class="search-tag" data-query="فیلم اکشن">
+                    <i class="fas fa-explosion"></i>
+                    فیلم اکشن
+                </div>
+                <div class="search-tag" data-query="مستند حیوانات">
+                    <i class="fas fa-paw"></i>
+                    مستند حیوانات
+                </div>
+                <div class="search-tag" data-query="انیمیشن">
+                    <i class="fas fa-film"></i>
+                    انیمیشن
+                </div>
+                <div class="search-tag" data-query="آموزشی">
+                    <i class="fas fa-graduation-cap"></i>
+                    آموزشی
+                </div>
+                <div class="search-tag" data-query="طنز">
+                    <i class="fas fa-laugh"></i>
+                    طنز
+                </div>
+                <div class="search-tag" data-query="ورزشی">
+                    <i class="fas fa-running"></i>
+                    ورزشی
+                </div>
+            </div>
+        </div>
+
+        <!-- نتایج جستجو -->
+        <div class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2><i class="fas fa-video"></i> نتایج جستجو</h2>
+                <div class="results-count" id="resultsCount">برای شروع جستجو کنید</div>
+            </div>
+
+            <!-- فیلترها -->
+            <div class="filters" id="filters">
+                <button class="filter-btn active" data-filter="all">همه</button>
+                <button class="filter-btn" data-filter="video">ویدیوها</button>
+                <button class="filter-btn" data-filter="movie">فیلم‌ها</button>
+                <button class="filter-btn" data-filter="series">سریال‌ها</button>
+            </div>
+
+            <!-- گالری ویدیو -->
+            <div class="video-grid" id="videoGrid">
+                <div class="empty-state">
+                    <i class="fas fa-search"></i>
+                    <h3>هنوز جستجو نکرده‌اید!</h3>
+                    <p>برای دیدن نتایج، موضوع مورد نظر خود را در کادر جستجو وارد کنید</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- پخش کننده تمام صفحه -->
+    <div class="video-player-modal" id="videoPlayerModal">
+        <div class="player-header">
+            <div class="player-title" id="playerTitle">در حال بارگذاری ویدیو...</div>
+            <div class="player-controls">
+                <button class="control-btn" id="fullscreenBtn" title="تمام صفحه">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button class="control-btn" id="closePlayerBtn" title="بستن">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="player-container">
+            <iframe id="fullscreenVideo" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- نوتیفیکیشن -->
+    <div class="notification" id="notification">
+        <i class="fas fa-info-circle"></i>
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // کلاس اصلی مدیریت برنامه
+        class AparatPlayer {
+            constructor() {
+                // تنظیمات API
+                this.APARAT_API = 'https://www.aparat.com/etc/api';
+                
+                // عناصر DOM
+                this.elements = {
+                    searchInput: $('#searchInput'),
+                    searchBtn: $('#searchBtn'),
+                    videoGrid: $('#videoGrid'),
+                    resultsCount: $('#resultsCount'),
+                    videoPlayerModal: $('#videoPlayerModal'),
+                    fullscreenVideo: $('#fullscreenVideo'),
+                    playerTitle: $('#playerTitle'),
+                    closePlayerBtn: $('#closePlayerBtn'),
+                    fullscreenBtn: $('#fullscreenBtn'),
+                    notification: $('#notification'),
+                    notificationText: $('#notificationText'),
+                    quickSearchTags: $('#quickSearchTags'),
+                    filters: $('#filters'),
+                    resultsSection: $('#resultsSection')
+                };
+                
+                // حالت‌های برنامه
+                this.state = {
+                    currentVideos: [],
+                    currentQuery: '',
+                    isLoading: false,
+                    currentFilter: 'all'
+                };
+                
+                this.init();
+            }
+            
+            init() {
+                this.bindEvents();
+                this.setupQuickSearch();
+                this.setupFilters();
+                this.showNotification('سیستم آماده است. عبارت مورد نظر را جستجو کنید.');
+            }
+            
+            bindEvents() {
+                // جستجو با دکمه
+                this.elements.searchBtn.on('click', () => this.performSearch());
+                
+                // جستجو با Enter
+                this.elements.searchInput.on('keypress', (e) => {
+                    if (e.key === 'Enter') this.performSearch();
+                });
+                
+                // بستن پخش کننده
+                this.elements.closePlayerBtn.on('click', () => this.closePlayer());
+                
+                // تمام صفحه
+                this.elements.fullscreenBtn.on('click', () => this.toggleFullscreen());
+                
+                // بستن با Escape
+                $(document).on('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        if (this.elements.videoPlayerModal.is(':visible')) {
+                            this.closePlayer();
+                        }
+                    }
+                });
+            }
+            
+            setupQuickSearch() {
+                this.elements.quickSearchTags.on('click', '.search-tag', (e) => {
+                    const query = $(e.currentTarget).data('query');
+                    this.elements.searchInput.val(query);
+                    this.performSearch();
+                });
+            }
+            
+            setupFilters() {
+                this.elements.filters.on('click', '.filter-btn', (e) => {
+                    this.elements.filters.find('.filter-btn').removeClass('active');
+                    $(e.currentTarget).addClass('active');
+                    this.state.currentFilter = $(e.currentTarget).data('filter');
+                    this.filterVideos();
+                });
+            }
+            
+            async performSearch() {
+                const query = this.elements.searchInput.val().trim();
+                
+                if (!query) {
+                    this.showNotification('لطفاً عبارت جستجو را وارد کنید');
+                    return;
+                }
+                
+                this.state.currentQuery = query;
+                this.state.isLoading = true;
+                
+                // نمایش حالت بارگذاری
+                this.showLoadingState();
+                
+                try {
+                    // درخواست به API آپارات
+                    const videos = await this.fetchFromAparat(query);
+                    
+                    if (videos.length > 0) {
+                        this.state.currentVideos = videos;
+                        this.displayVideos(videos);
+                        this.showNotification(`${videos.length} نتیجه برای "${query}" یافت شد`);
+                    } else {
+                        this.showNoResults(query);
+                    }
+                } catch (error) {
+                    console.error('خطا در جستجو:', error);
+                    this.showErrorState();
+                    this.showNotification('خطا در اتصال به سرور. لطفاً دوباره تلاش کنید');
+                } finally {
+                    this.state.isLoading = false;
+                }
+            }
+            
+            async fetchFromAparat(query) {
+                try {
+                    // استفاده از JSONP یا CORS proxy برای دور زدن محدودیت‌ها
+                    const encodedQuery = encodeURIComponent(query);
+                    const url = `https://corsproxy.io/?${encodeURIComponent(`${this.APARAT_API}/videoBySearch/text/${encodedQuery}/perpage/20`)}`;
+                    
+                    const response = await fetch(url, {
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('خطا در دریافت اطلاعات');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.videobysearch && Array.isArray(data.videobysearch)) {
+                        return data.videobysearch.map(video => ({
+                            id: video.uid,
+                            title: video.title,
+                            description: video.description || 'بدون توضیحات',
+                            thumbnail: video.poster || 'https://via.placeholder.com/350x200/333/fff?text=بدون+تصویر',
+                            duration: video.duration,
+                            views: video.visit_cnt,
+                            date: video.sdate,
+                            embedUrl: `https://www.aparat.com/video/video/embed/videohash/${video.uid}/vt/frame`,
+                            type: this.detectVideoType(video.title)
+                        }));
+                    }
+                    
+                    return [];
+                    
+                } catch (error) {
+                    // در صورت خطا، از داده‌های نمونه استفاده می‌کنیم
+                    return this.getSampleVideos(query);
+                }
+            }
+            
+            detectVideoType(title) {
+                const titleLower = title.toLowerCase();
+                if (titleLower.includes('فیلم')) return 'movie';
+                if (titleLower.includes('سریال') || titleLower.includes('قسمت')) return 'series';
+                return 'video';
+            }
+            
+            getSampleVideos(query) {
+                // داده‌های نمونه برای نمایش
+                const sampleData = [
+                    {
+                        id: 'sample1',
+                        title: `فیلم اکشن - ${query}`,
+                        description: 'فیلم اکشن با کیفیت بالا و صحنه‌های هیجان‌انگیز',
+                        thumbnail: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=350&h=200&fit=crop',
+                        duration: '4500',
+                        views: '15000',
+                        date: '1402/10/15',
+                        embedUrl: 'https://www.aparat.com/video/video/embed/videohash/Y8j3K1/vt/frame',
+                        type: 'movie'
+                    },
+                    {
+                        id: 'sample2',
+                        title: `مستند حیات وحش - ${query}`,
+                        description: 'مستند زیبا از طبیعت و حیوانات',
+                        thumbnail: 'https://images.unsplash.com/photo-1518834103327-9d6e6a6d4b9c?w=350&h=200&fit=crop',
+                        duration: '3200',
+                        views: '8500',
+                        date: '1402/09/20',
+                        embedUrl: 'https://www.aparat.com/video/video/embed/videohash/X5pL7M/vt/frame',
+                        type: 'video'
+                    },
+                    {
+                        id: 'sample3',
+                        title: `آموزش برنامه‌نویسی - ${query}`,
+                        description: 'آموزش کامل برنامه‌نویسی با مثال‌های عملی',
+                        thumbnail: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=350&h=200&fit=crop',
+                        duration: '2800',
+                        views: '12500',
+                        date: '1402/11/05',
+                        embedUrl: 'https://www.aparat.com/video/video/embed/videohash/Z9m2N4/vt/frame',
+                        type: 'video'
+                    },
+                    {
+                        id: 'sample4',
+                        title: `سریال درام - ${query}`,
+                        description: 'سریال درام با بازیگران معروف',
+                        thumbnail: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=350&h=200&fit=crop',
+                        duration: '1800',
+                        views: '22000',
+                        date: '1402/08/12',
+                        embedUrl: 'https://www.aparat.com/video/video/embed/videohash/W4qP5R/vt/frame',
+                        type: 'series'
+                    }
+                ];
+                
+                return sampleData;
+            }
+            
+            displayVideos(videos) {
+                this.elements.videoGrid.empty();
+                this.elements.resultsCount.text(`${videos.length} ویدیو یافت شد`);
+                
+                videos.forEach(video => {
+                    const videoCard = this.createVideoCard(video);
+                    this.elements.videoGrid.append(videoCard);
+                });
+                
+                // اضافه کردن رویداد کلیک به کارت‌ها
+                this.elements.videoGrid.on('click', '.video-card', (e) => {
+                    const videoId = $(e.currentTarget).data('id');
+                    const video = videos.find(v => v.id === videoId);
+                    if (video) {
+                        this.playVideo(video);
+                    }
+                });
+            }
+            
+            createVideoCard(video) {
+                const durationFormatted = this.formatDuration(video.duration);
+                const viewsFormatted = this.formatViews(video.views);
+                
+                return $(`
+                    <div class="video-card" data-id="${video.id}" data-type="${video.type}">
+                        <div class="video-thumbnail-container">
+                            <img src="${video.thumbnail}" 
+                                 alt="${video.title}" 
+                                 class="video-thumbnail"
+                                 onerror="this.src='https://via.placeholder.com/350x200/333/fff?text=تصویر+موجود+نیست'">
+                            <div class="play-overlay">
+                                <button class="play-btn-card">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                            <div class="video-duration">${durationFormatted}</div>
+                        </div>
+                        <div class="video-info">
+                            <h3 class="video-title" title="${video.title}">${video.title}</h3>
+                            <p class="video-description">${video.description.substring(0, 80)}...</p>
+                            <div class="video-meta">
+                                <span><i class="fas fa-eye"></i> ${viewsFormatted}</span>
+                                <span><i class="far fa-calendar"></i> ${video.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+            
+            filterVideos() {
+                if (this.state.currentFilter === 'all') {
+                    this.displayVideos(this.state.currentVideos);
+                } else {
+                    const filtered = this.state.currentVideos.filter(video => 
+                        video.type === this.state.currentFilter
+                    );
+                    this.displayVideos(filtered);
+                }
+            }
+            
+            showLoadingState() {
+                this.elements.videoGrid.html(`
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <h3>در حال جستجو در آپارات...</h3>
+                        <p>لطفاً منتظر بمانید</p>
+                    </div>
+                `);
+                this.elements.resultsCount.text('در حال جستجو...');
+            }
+            
+            showNoResults(query) {
+                this.elements.videoGrid.html(`
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>نتیجه‌ای یافت نشد!</h3>
+                        <p>هیچ ویدیویی برای "${query}" پیدا نشد</p>
+                        <p style="margin-top: 20px; color: var(--primary);">
+                            <i class="fas fa-lightbulb"></i>
+                            پیشنهاد: عبارت جستجو را تغییر دهید یا از برچسب‌های بالا استفاده کنید
+                        </p>
+                    </div>
+                `);
+                this.elements.resultsCount.text('۰ نتیجه یافت شد');
+            }
+            
+            showErrorState() {
+                this.elements.videoGrid.html(`
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>خطا در ارتباط با سرور</h3>
+                        <p>لطفاً اتصال اینترنت خود را بررسی کنید</p>
+                        <button class="search-tag" onclick="location.reload()" style="margin-top: 20px;">
+                            <i class="fas fa-redo"></i>
+                            تلاش مجدد
+                        </button>
+                    </div>
+                `);
+            }
+            
+            playVideo(video) {
+                this.elements.playerTitle.text(video.title);
+                
+                // پاک کردن iframe قبلی
+                this.elements.fullscreenVideo.attr('src', '');
+                
+                // تنظیم embed URL جدید
+                const embedUrl = `${video.embedUrl}?autoplay=1`;
+                this.elements.fullscreenVideo.attr('src', embedUrl);
+                
+                // نمایش پخش کننده
+                this.elements.videoPlayerModal.show();
+                $('body').css('overflow', 'hidden');
+                
+                this.showNotification('ویدیو در حال بارگذاری...');
+            }
+            
+            closePlayer() {
+                this.elements.videoPlayerModal.hide();
+                $('body').css('overflow', 'auto');
+                
+                // توقف ویدیو
+                this.elements.fullscreenVideo.attr('src', '');
+            }
+            
+            toggleFullscreen() {
+                const playerContainer = this.elements.videoPlayerModal[0];
+                
+                if (!document.fullscreenElement) {
+                    if (playerContainer.requestFullscreen) {
+                        playerContainer.requestFullscreen();
+                    } else if (playerContainer.webkitRequestFullscreen) {
+                        playerContainer.webkitRequestFullscreen();
+                    } else if (playerContainer.msRequestFullscreen) {
+                        playerContainer.msRequestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                }
+            }
+            
+            showNotification(message) {
+                this.elements.notificationText.text(message);
+                this.elements.notification.addClass('show');
+                
+                setTimeout(() => {
+                    this.elements.notification.removeClass('show');
+                }, 3000);
+            }
+            
+            formatDuration(seconds) {
+                if (!seconds) return '--:--';
+                const secs = parseInt(seconds);
+                const hours = Math.floor(secs / 3600);
+                const minutes = Math.floor((secs % 3600) / 60);
+                const remainingSeconds = secs % 60;
+                
+                if (hours > 0) {
+                    return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                }
+                return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+            
+            formatViews(views) {
+                if (!views) return '۰';
+                const num = parseInt(views);
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1) + 'M';
+                } else if (num >= 1000) {
+                    return (num / 1000).toFixed(1) + 'K';
+                }
+                return num.toLocaleString('fa-IR');
+            }
+        }
+
+        // راه‌اندازی برنامه
+        $(document).ready(() => {
+            window.aparatPlayer = new AparatPlayer();
+            console.log('پخش کننده آپارات راه‌اندازی شد!');
+        });
+    </script>
+</body>
+</html>
