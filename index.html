@@ -233,6 +233,14 @@
             line-height: 1.2;
         }
 
+        /* ۴ دکمه جدید در وسط */
+        .middle-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
         /* منوی کشویی */
         .slide-menu {
             position: fixed;
@@ -549,6 +557,8 @@
         .delay-4 { animation-delay: 0.4s; opacity: 0; }
         .delay-5 { animation-delay: 0.5s; opacity: 0; }
         .delay-6 { animation-delay: 0.6s; opacity: 0; }
+        .delay-7 { animation-delay: 0.7s; opacity: 0; }
+        .delay-8 { animation-delay: 0.8s; opacity: 0; }
         
         /* استایل‌های جدید برای بهبود ظاهر */
         .header-content {
@@ -631,7 +641,7 @@
                 <div class="announcement-subtitle">به روزرسانی سیستم</div>
             </div>
             <div class="announcement-body">
-                کاربران گرامی به زودی برنامه نویسی تقویم والپیپر پالت رنگ به اپلیکیشن اضافه میشه هیچ داده هیچ چیزی تغیر نخواهد شد فقد چیدمان و دکمه های مدرن ایجاد خواهد شد کاربران می‌تواند در بخش مایکت یا بازار با ما در تماس باشه و سیستم هایکه به درد کاربران میخوره سفارشی ایجاد میشه این اپلیکیشن رایگان در اختیار شما قرارگرفته نهایت استفاده را ببرید درصورت راضی بودن توبازارمایکت پنج ستاره ونظرخوب بدهید باتشکر نیازبه حمایت شما کاربران داریم ممنون میشم حمایت کنیدازماتادیده بشه اپلیکیشن ما تشکرازهمه شما
+                کاربران عزیز درصورت تمایل از ما حمایت مالی کنید به خاطر سرور اجراع کننده هزینه زیاد دارد درصورت تمایل داوطلبانه هیچ اجباری نیست از ما حمایت کنید برا حمایت 5892101187322777
                 </div>
                 <div class="announcement-actions">
                     <button class="announcement-btn announcement-btn-secondary" id="announcementLater">بعداً</button>
@@ -701,6 +711,26 @@
                     <div class="btn-text">مدریت چک</div>
                 </a>
             </div>
+
+            <!-- ۴ دکمه جدید در وسط -->
+            <div class="middle-buttons">
+                <a href="y1.html" class="grid-btn slide-up delay-1" onclick="handleButtonClick(event, 'y1.html')">
+                    <div class="btn-icon">🎨</div>
+                    <div class="btn-text">والپیپر</div>
+                </a>
+                <a href="y1.html" class="grid-btn slide-up delay-2" onclick="handleButtonClick(event, 'y1.html')">
+                    <div class="btn-icon">🎨</div>
+                    <div class="btn-text">پالت</div>
+                </a>
+                <a href="y1.html" class="grid-btn slide-up delay-3" onclick="handleButtonClick(event, 'y1.html')">
+                    <div class="btn-icon">💻</div>
+                    <div class="btn-text">برنامه نویسی</div>
+                </a>
+                <a href="y1.html" class="grid-btn slide-up delay-4" onclick="handleButtonClick(event, 'y1.html')">
+                    <div class="btn-icon">🔄</div>
+                    <div class="btn-text">تبدیل</div>
+                </a>
+            </div>
         </main>
 
         <!-- ناوبری پایین -->
@@ -713,7 +743,7 @@
                 <div class="nav-icon">📈</div>
                 <div class="nav-label">بوجه بندی</div>
             </a>
-            <a href="m8.html" class="nav-btn" onclick="handleButtonClickbackdrop-f, 'm8.html')">
+            <a href="m8.html" class="nav-btn" onclick="handleButtonClick(event, 'm8.html')">
                 <div class="nav-icon">🎖</div>
                 <div class="nav-label">بازی</div>
             </a>
