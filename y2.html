@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماشین حساب حرفه‌ای</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00b894;
+            --primary-dark: #00a085;
+            --secondary: #0984e3;
+            --secondary-dark: #0770c4;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f9f9f9;
+            --gray: #636e72;
+            --gray-light: #dfe6e9;
+            --error: #d63031;
+            --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            --border-radius: 24px;
+            --border-radius-sm: 16px;
+            --border-radius-xs: 10px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', 'IRANSans', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--gray-light);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .logo-icon {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        h1 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-align: center;
+        }
+        
+        .calculator-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--gray-light);
+        }
+        
+        .calculator-display {
+            background: var(--light);
+            border-radius: var(--border-radius-xs);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid var(--gray-light);
+            text-align: left;
+            direction: ltr;
+        }
+        
+        .calculation {
+            font-size: 0.9rem;
+            color: var(--gray);
+            height: 20px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .result {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            height: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        
+        .calc-btn {
+            padding: 20px 10px;
+            border: none;
+            border-radius: var(--border-radius-xs);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        .calc-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .calc-btn.number {
+            background: white;
+            border: 2px solid var(--gray-light);
+        }
+        
+        .calc-btn.operator {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            color: white;
+        }
+        
+        .calc-btn.function {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+        }
+        
+        .calc-btn.equals {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .calc-btn.clear {
+            background: linear-gradient(135deg, #ff7675, var(--error));
+            color: white;
+        }
+        
+        .calc-btn.zero {
+            grid-column: span 2;
+        }
+        
+        .footer {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.85rem;
+            padding: 20px 0;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 480px) {
+            .calculator-buttons {
+                gap: 10px;
+            }
+            
+            .calc-btn {
+                padding: 18px 8px;
+                font-size: 1.1rem;
+            }
+            
+            .result {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h1>ماشین حساب حرفه‌ای</h1>
+            </div>
+        </div>
+        
+        <div class="calculator-card">
+            <div class="calculator-display">
+                <div class="calculation" id="calc-calculation">0</div>
+                <div class="result" id="calc-result">0</div>
+            </div>
+            
+            <div class="calculator-buttons">
+                <button class="calc-btn clear" data-action="clear">C</button>
+                <button class="calc-btn function" data-action="clear-entry">CE</button>
+                <button class="calc-btn function" data-action="backspace">⌫</button>
+                <button class="calc-btn operator" data-action="divide">÷</button>
+                
+                <button class="calc-btn number" data-number="7">7</button>
+                <button class="calc-btn number" data-number="8">8</button>
+                <button class="calc-btn number" data-number="9">9</button>
+                <button class="calc-btn operator" data-action="multiply">×</button>
+                
+                <button class="calc-btn number" data-number="4">4</button>
+                <button class="calc-btn number" data-number="5">5</button>
+                <button class="calc-btn number" data-number="6">6</button>
+                <button class="calc-btn operator" data-action="subtract">−</button>
+                
+                <button class="calc-btn number" data-number="1">1</button>
+                <button class="calc-btn number" data-number="2">2</button>
+                <button class="calc-btn number" data-number="3">3</button>
+                <button class="calc-btn operator" data-action="add">+</button>
+                
+                <button class="calc-btn number zero" data-number="0">0</button>
+                <button class="calc-btn number" data-action="decimal">.</button>
+                <button class="calc-btn equals" data-action="equals">=</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>ماشین حساب حرفه‌ای | طراحی شده برای محاسبات روزمره</p>
+            <p>© 2024 - کلیه حقوق محفوظ است</p>
+        </div>
+    </div>
+    
+    <script>
+        class Calculator {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.currentValue = '0';
+                this.previousValue = null;
+                this.operation = null;
+                this.waitingForNewValue = false;
+                this.calculation = '';
+            }
+            
+            clearEntry() {
+                this.currentValue = '0';
+            }
+            
+            backspace() {
+                if (this.currentValue.length > 1) {
+                    this.currentValue = this.currentValue.slice(0, -1);
+                } else {
+                    this.currentValue = '0';
+                }
+            }
+            
+            inputNumber(number) {
+                if (this.waitingForNewValue) {
+                    this.currentValue = number;
+                    this.waitingForNewValue = false;
+                } else {
+                    this.currentValue = this.currentValue === '0' ? number : this.currentValue + number;
+                }
+            }
+            
+            inputDecimal() {
+                if (this.waitingForNewValue) {
+                    this.currentValue = '0.';
+                    this.waitingForNewValue = false;
+                } else if (!this.currentValue.includes('.')) {
+                    this.currentValue += '.';
+                }
+            }
+            
+            setOperation(op) {
+                if (this.previousValue !== null && !this.waitingForNewValue) {
+                    this.calculate();
+                }
+                
+                this.operation = op;
+                this.previousValue = this.currentValue;
+                this.waitingForNewValue = true;
+                
+                // به‌روزرسانی نمایش عملیات
+                const opSymbol = this.getOperationSymbol(op);
+                this.calculation = `${this.previousValue} ${opSymbol}`;
+            }
+            
+            getOperationSymbol(op) {
+                switch(op) {
+                    case 'add': return '+';
+                    case 'subtract': return '−';
+                    case 'multiply': return '×';
+                    case 'divide': return '÷';
+                    default: return '';
+                }
+            }
+            
+            calculate() {
+                if (this.previousValue === null || this.operation === null) return;
+                
+                const prev = parseFloat(this.previousValue);
+                const current = parseFloat(this.currentValue);
+                let result;
+                
+                switch(this.operation) {
+                    case 'add':
+                        result = prev + current;
+                        break;
+                    case 'subtract':
+                        result = prev - current;
+                        break;
+                    case 'multiply':
+                        result = prev * current;
+                        break;
+                    case 'divide':
+                        result = current !== 0 ? prev / current : 'خطا';
+                        break;
+                    default:
+                        return;
+                }
+                
+                // به‌روزرسانی نمایش عملیات
+                const opSymbol = this.getOperationSymbol(this.operation);
+                this.calculation = `${this.previousValue} ${opSymbol} ${this.currentValue} =`;
+                
+                // نمایش نتیجه
+                this.currentValue = result.toString();
+                this.operation = null;
+                this.previousValue = null;
+                this.waitingForNewValue = true;
+            }
+            
+            getCurrentValue() {
+                return this.currentValue;
+            }
+            
+            getCalculation() {
+                return this.calculation;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculator = new Calculator();
+            setupCalculatorListeners(calculator);
+        });
+        
+        function setupCalculatorListeners(calculator) {
+            // دکمه‌های اعداد
+            document.querySelectorAll('.calc-btn[data-number]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const number = this.dataset.number;
+                    calculator.inputNumber(number);
+                    updateCalculatorDisplay(calculator);
+                });
+            });
+            
+            // دکمه نقطه اعشار
+            document.querySelector('.calc-btn[data-action="decimal"]').addEventListener('click', function() {
+                calculator.inputDecimal();
+                updateCalculatorDisplay(calculator);
+            });
+            
+            // دکمه‌های عملیات
+            document.querySelectorAll('.calc-btn.operator').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.dataset.action;
+                    calculator.setOperation(action);
+                    updateCalculatorDisplay(calculator);
+                });
+            });
+            
+            // دکمه مساوی
+            document.querySelector('.calc-btn[data-action="equals"]').addEventListener('click', function() {
+                calculator.calculate();
+                updateCalculatorDisplay(calculator);
+            });
+            
+            // دکمه Clear
+            document.querySelector('.calc-btn[data-action="clear"]').addEventListener('click', function() {
+                calculator.reset();
+                updateCalculatorDisplay(calculator);
+            });
+            
+            // دکمه Clear Entry
+            document.querySelector('.calc-btn[data-action="clear-entry"]').addEventListener('click', function() {
+                calculator.clearEntry();
+                updateCalculatorDisplay(calculator);
+            });
+            
+            // دکمه Backspace
+            document.querySelector('.calc-btn[data-action="backspace"]').addEventListener('click', function() {
+                calculator.backspace();
+                updateCalculatorDisplay(calculator);
+            });
+            
+            // کلیدهای کیبورد
+            document.addEventListener('keydown', function(event) {
+                const key = event.key;
+                
+                if (key >= '0' && key <= '9') {
+                    calculator.inputNumber(key);
+                    updateCalculatorDisplay(calculator);
+                } else if (key === '.') {
+                    calculator.inputDecimal();
+                    updateCalculatorDisplay(calculator);
+                } else if (key === '+') {
+                    calculator.setOperation('add');
+                    updateCalculatorDisplay(calculator);
+                } else if (key === '-') {
+                    calculator.setOperation('subtract');
+                    updateCalculatorDisplay(calculator);
+                } else if (key === '*' || key === '×') {
+                    calculator.setOperation('multiply');
+                    updateCalculatorDisplay(calculator);
+                } else if (key === '/' || key === '÷') {
+                    calculator.setOperation('divide');
+                    updateCalculatorDisplay(calculator);
+                } else if (key === 'Enter' || key === '=') {
+                    calculator.calculate();
+                    updateCalculatorDisplay(calculator);
+                    event.preventDefault();
+                } else if (key === 'Escape') {
+                    calculator.reset();
+                    updateCalculatorDisplay(calculator);
+                } else if (key === 'Backspace') {
+                    calculator.backspace();
+                    updateCalculatorDisplay(calculator);
+                }
+            });
+        }
+        
+        function updateCalculatorDisplay(calculator) {
+            document.getElementById('calc-result').textContent = calculator.getCurrentValue();
+            document.getElementById('calc-calculation').textContent = calculator.getCalculation() || '0';
+        }
+    </script>
+</body>
+</html>

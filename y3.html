@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبدیل تاریخ چهارگانه | شمسی، میلادی، قمری، جلالی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00b894;
+            --primary-dark: #00a085;
+            --primary-light: #e8f6f3;
+            --secondary: #0984e3;
+            --secondary-dark: #0770c4;
+            --tertiary: #a29bfe;
+            --tertiary-dark: #6c5ce7;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f9f9f9;
+            --gray: #636e72;
+            --gray-light: #dfe6e9;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --error: #d63031;
+            --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            --border-radius: 24px;
+            --border-radius-sm: 16px;
+            --border-radius-xs: 10px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', 'IRANSans', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--gray-light);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary), var(--tertiary));
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        h1 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-align: center;
+        }
+        
+        .description {
+            color: var(--gray);
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .converter-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--gray-light);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            color: var(--dark);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .card-title i {
+            color: var(--primary);
+        }
+        
+        .calendar-type-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .calendar-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 16px 12px;
+            border: 2px solid var(--gray-light);
+            background: white;
+            border-radius: var(--border-radius-xs);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .calendar-btn.active {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(0, 184, 148, 0.1);
+        }
+        
+        .calendar-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .input-section {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 16px 12px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius-xs);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23636e72' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 12px center;
+            background-size: 16px;
+            padding-left: 40px;
+            text-align: center;
+            font-family: inherit;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.15);
+        }
+        
+        input {
+            background-image: none;
+            padding-left: 12px;
+            direction: ltr;
+        }
+        
+        .month-days {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 6px;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: var(--border-radius-xs);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 2px solid var(--gray-light);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-light);
+        }
+        
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
+            border: 2px solid var(--gray-light);
+            transition: var(--transition);
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .result-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        
+        .result-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .result-date {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 4px;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .result-details {
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 24px;
+            right: 50%;
+            transform: translateX(50%);
+            background: var(--success);
+            color: white;
+            padding: 16px 24px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            animation: slideDown 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            max-width: 90%;
+            width: auto;
+        }
+        
+        @keyframes slideDown {
+            from { top: -100px; opacity: 0; }
+            to { top: 24px; opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+        
+        .footer {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.85rem;
+            padding: 20px 0;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-type-selector {
+                flex-direction: column;
+            }
+            
+            .calendar-btn {
+                min-width: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .date-inputs {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .result-date {
+                font-size: 1.2rem;
+            }
+        }
+        
+        .shamsi-bg { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+        .miladi-bg { background: linear-gradient(135deg, var(--secondary), var(--secondary-dark)); }
+        .ghamari-bg { background: linear-gradient(135deg, #e17055, #d63031); }
+        .jalali-bg { background: linear-gradient(135deg, var(--tertiary), var(--tertiary-dark)); }
+        
+        .shamsi-border { border-color: var(--primary); }
+        .miladi-border { border-color: var(--secondary); }
+        .ghamari-border { border-color: #e17055; }
+        .jalali-border { border-color: var(--tertiary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h1>تبدیل تاریخ چهارگانه</h1>
+            </div>
+            <p class="description">تبدیل کامل بین تقویم‌های شمسی، میلادی، قمری و جلالی</p>
+        </div>
+        
+        <div class="converter-card">
+            <div class="card-title">
+                <i class="fas fa-exchange-alt"></i>
+                <span>انتخاب نوع تقویم ورودی</span>
+            </div>
+            
+            <div class="calendar-type-selector">
+                <button class="calendar-btn active" data-type="shamsi">
+                    <i class="fas fa-sun"></i>
+                    <span>شمسی (هجری شمسی)</span>
+                </button>
+                <button class="calendar-btn" data-type="miladi">
+                    <i class="fas fa-globe"></i>
+                    <span>میلادی (گرگوری)</span>
+                </button>
+                <button class="calendar-btn" data-type="ghamari">
+                    <i class="fas fa-moon"></i>
+                    <span>قمری (هجری قمری)</span>
+                </button>
+                <button class="calendar-btn" data-type="jalali">
+                    <i class="fas fa-star"></i>
+                    <span>جلالی (شمسی قدیم)</span>
+                </button>
+            </div>
+            
+            <div class="input-section">
+                <div class="input-label" id="input-label">تاریخ شمسی را وارد کنید</div>
+                <div class="date-inputs">
+                    <div class="input-group">
+                        <input type="number" id="input-year" placeholder="سال" min="1200" max="1500" value="1403">
+                        <div class="month-days">مثال: ۱۴۰۳</div>
+                    </div>
+                    <div class="input-group">
+                        <select id="input-month">
+                            <option value="">ماه</option>
+                        </select>
+                        <div class="month-days" id="input-month-days">انتخاب ماه</div>
+                    </div>
+                    <div class="input-group">
+                        <select id="input-day">
+                            <option value="">روز</option>
+                        </select>
+                        <div class="month-days">انتخاب روز</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-secondary" id="btn-today">
+                    <i class="fas fa-history"></i>
+                    تاریخ امروز
+                </button>
+                <button class="btn btn-primary" id="btn-convert">
+                    <i class="fas fa-calculator"></i>
+                    تبدیل تاریخ
+                </button>
+            </div>
+            
+            <div class="results-container">
+                <!-- شمسی -->
+                <div class="result-card shamsi-border">
+                    <div class="result-header">
+                        <div class="result-title">
+                            <div class="result-icon shamsi-bg">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <span>شمسی (هجری شمسی)</span>
+                        </div>
+                    </div>
+                    <div class="result-date" id="result-shamsi">-</div>
+                    <div class="result-details" id="result-shamsi-details">-</div>
+                </div>
+                
+                <!-- میلادی -->
+                <div class="result-card miladi-border">
+                    <div class="result-header">
+                        <div class="result-title">
+                            <div class="result-icon miladi-bg">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <span>میلادی (گرگوری)</span>
+                        </div>
+                    </div>
+                    <div class="result-date" id="result-miladi">-</div>
+                    <div class="result-details" id="result-miladi-details">-</div>
+                </div>
+                
+                <!-- قمری -->
+                <div class="result-card ghamari-border">
+                    <div class="result-header">
+                        <div class="result-title">
+                            <div class="result-icon ghamari-bg">
+                                <i class="fas fa-moon"></i>
+                            </div>
+                            <span>قمری (هجری قمری)</span>
+                        </div>
+                    </div>
+                    <div class="result-date" id="result-ghamari">-</div>
+                    <div class="result-details" id="result-ghamari-details">-</div>
+                </div>
+                
+                <!-- جلالی -->
+                <div class="result-card jalali-border">
+                    <div class="result-header">
+                        <div class="result-title">
+                            <div class="result-icon jalali-bg">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>جلالی (شمسی قدیم)</span>
+                        </div>
+                    </div>
+                    <div class="result-date" id="result-jalali">-</div>
+                    <div class="result-details" id="result-jalali-details">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>تبدیل کامل تاریخ چهارگانه | شمسی، میلادی، قمری، جلالی</p>
+            <p>© 2024 - طراحی شده با الگوریتم‌های دقیق نجومی</p>
+        </div>
+    </div>
+    
+    <script>
+        class DateConverter {
+            constructor() {
+                this.weekdays = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"];
+                this.persianMonths = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
+                this.gregorianMonths = ["ژانویه", "فوریه", "مارس", "آوریل", "مه", "ژوئن", "ژوئیه", "آگوست", "سپتامبر", "اکتبر", "نوامبر", "دسامبر"];
+                this.hijriMonths = ["محرم", "صفر", "ربیع‌الاول", "ربیع‌الثانی", "جمادی‌الاول", "جمادی‌الثانی", "رجب", "شعبان", "رمضان", "شوال", "ذی‌القعده", "ذی‌الحجه"];
+                this.jalaliMonths = ["حمل", "ثور", "جوزا", "سرطان", "اسد", "سنبله", "میزان", "عقرب", "قوس", "جدی", "دلو", "حوت"];
+            }
+            
+            // ---------- محاسبات شمسی ----------
+            isPersianLeapYear(year) {
+                return (((year + 12) % 33) % 4) === 1;
+            }
+            
+            getPersianMonthDays(year, month) {
+                if (month <= 6) return 31;
+                if (month <= 11) return 30;
+                return this.isPersianLeapYear(year) ? 30 : 29;
+            }
+            
+            // ---------- محاسبات میلادی ----------
+            isGregorianLeapYear(year) {
+                return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+            }
+            
+            getGregorianMonthDays(year, month) {
+                const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                if (month === 2 && this.isGregorianLeapYear(year)) return 29;
+                return days[month - 1];
+            }
+            
+            // ---------- محاسبات قمری ----------
+            getHijriMonthDays(year, month) {
+                const days = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
+                // سال قمری کبیسه - اضافه کردن یک روز به ماه ذی الحجه
+                if (month === 12 && this.isHijriLeapYear(year)) return 30;
+                return days[month - 1];
+            }
+            
+            isHijriLeapYear(year) {
+                return ((year * 11) + 14) % 30 < 11;
+            }
+            
+            // ---------- تبدیل شمسی به میلادی ----------
+            persianToGregorian(pYear, pMonth, pDay) {
+                let dayOfYear = 0;
+                for (let i = 1; i < pMonth; i++) {
+                    dayOfYear += this.getPersianMonthDays(pYear, i);
+                }
+                dayOfYear += pDay - 1;
+                
+                let jy = pYear + 979;
+                let jDayNo = dayOfYear + 365 * (jy - 1) + Math.floor((jy - 1) / 33) * 8 + Math.floor(((jy - 1) % 33) + 3) / 4 + 79;
+                
+                let gDayNo = jDayNo - 79;
+                let gy = 1600 + 400 * Math.floor(gDayNo / 146097);
+                gDayNo = gDayNo % 146097;
+                
+                let leap = true;
+                if (gDayNo >= 36525) {
+                    gDayNo--;
+                    gy += 100 * Math.floor(gDayNo / 36524);
+                    gDayNo = gDayNo % 36524;
+                    
+                    if (gDayNo >= 365) {
+                        gDayNo++;
+                    } else {
+                        leap = false;
+                    }
+                }
+                
+                gy += 4 * Math.floor(gDayNo / 1461);
+                gDayNo %= 1461;
+                
+                if (gDayNo >= 366) {
+                    leap = false;
+                    gDayNo--;
+                    gy += Math.floor(gDayNo / 365);
+                    gDayNo = gDayNo % 365;
+                }
+                
+                let gm = 1;
+                while (gDayNo >= this.getGregorianMonthDays(gy, gm)) {
+                    gDayNo -= this.getGregorianMonthDays(gy, gm);
+                    gm++;
+                }
+                
+                let gd = gDayNo + 1;
+                
+                const date = new Date(gy, gm - 1, gd);
+                const weekday = this.weekdays[date.getDay()];
+                
+                return {
+                    year: gy,
+                    month: gm,
+                    day: gd,
+                    monthName: this.gregorianMonths[gm - 1],
+                    weekday: weekday,
+                    formatted: `${gd} ${this.gregorianMonths[gm - 1]} ${gy}`,
+                    numeric: `${gy}/${gm}/${gd}`
+                };
+            }
+            
+            // ---------- تبدیل میلادی به شمسی ----------
+            gregorianToPersian(gYear, gMonth, gDay) {
+                let gy = gYear - 1600;
+                let gm = gMonth - 1;
+                let gd = gDay - 1;
+                
+                let gDayNo = 365 * gy + Math.floor((gy + 3) / 4) - Math.floor((gy + 99) / 100) + Math.floor((gy + 399) / 400);
+                
+                for (let i = 0; i < gm; i++) {
+                    gDayNo += this.getGregorianMonthDays(gYear, i + 1);
+                }
+                
+                gDayNo += gd;
+                
+                let jDayNo = gDayNo + 79;
+                let jy = Math.floor((jDayNo - 1) / 1461) * 4;
+                jDayNo = (jDayNo - 1) % 1461;
+                
+                if (jDayNo >= 366) {
+                    jy += Math.floor((jDayNo - 1) / 365);
+                    jDayNo = (jDayNo - 1) % 365;
+                }
+                
+                let jm, jd;
+                if (jDayNo < 31) {
+                    jm = 1; jd = jDayNo + 1;
+                } else if (jDayNo < 62) {
+                    jm = 2; jd = jDayNo - 30;
+                } else if (jDayNo < 93) {
+                    jm = 3; jd = jDayNo - 61;
+                } else if (jDayNo < 124) {
+                    jm = 4; jd = jDayNo - 92;
+                } else if (jDayNo < 155) {
+                    jm = 5; jd = jDayNo - 123;
+                } else if (jDayNo < 186) {
+                    jm = 6; jd = jDayNo - 154;
+                } else if (jDayNo < 216) {
+                    jm = 7; jd = jDayNo - 185;
+                } else if (jDayNo < 246) {
+                    jm = 8; jd = jDayNo - 215;
+                } else if (jDayNo < 276) {
+                    jm = 9; jd = jDayNo - 245;
+                } else if (jDayNo < 306) {
+                    jm = 10; jd = jDayNo - 275;
+                } else if (jDayNo < 336) {
+                    jm = 11; jd = jDayNo - 305;
+                } else {
+                    jm = 12; jd = jDayNo - 335;
+                }
+                
+                let py = jy - 979;
+                let pm = jm;
+                let pd = jd;
+                
+                if (pm > 10 || (pm === 10 && pd > 10 && py % 4 === 3)) {
+                    py += 1;
+                }
+                
+                const maxDays = this.getPersianMonthDays(py, pm);
+                if (pd > maxDays) pd = maxDays;
+                
+                const date = new Date(gYear, gMonth - 1, gDay);
+                const weekday = this.weekdays[date.getDay()];
+                
+                return {
+                    year: py,
+                    month: pm,
+                    day: pd,
+                    monthName: this.persianMonths[pm - 1],
+                    weekday: weekday,
+                    formatted: `${pd} ${this.persianMonths[pm - 1]} ${py}`,
+                    numeric: `${py}/${pm}/${pd}`
+                };
+            }
+            
+            // ---------- تبدیل شمسی به قمری ----------
+            persianToHijri(pYear, pMonth, pDay) {
+                // ابتدا به میلادی تبدیل کنیم
+                const gregorian = this.persianToGregorian(pYear, pMonth, pDay);
+                
+                // سپس میلادی به قمری
+                return this.gregorianToHijri(gregorian.year, gregorian.month, gregorian.day);
+            }
+            
+            // ---------- تبدیل میلادی به قمری ----------
+            gregorianToHijri(gYear, gMonth, gDay) {
+                // الگوریتم محاسبه تاریخ قمری
+                const date = new Date(gYear, gMonth - 1, gDay);
+                const startDate = new Date(622, 6, 16); // آغاز هجرت
+                
+                const diffMs = date - startDate;
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                
+                let hy = Math.floor(diffDays / 354.367) + 1;
+                let remainingDays = diffDays % 354.367;
+                
+                let hm = 1;
+                let hd = 1;
+                
+                // محاسبه ماه و روز
+                let monthDays = 0;
+                for (hm = 1; hm <= 12; hm++) {
+                    monthDays = this.getHijriMonthDays(hy, hm);
+                    if (remainingDays < monthDays) {
+                        hd = Math.floor(remainingDays) + 1;
+                        break;
+                    }
+                    remainingDays -= monthDays;
+                }
+                
+                // محاسبه روز هفته
+                const weekday = this.weekdays[date.getDay()];
+                
+                return {
+                    year: hy,
+                    month: hm,
+                    day: hd,
+                    monthName: this.hijriMonths[hm - 1],
+                    weekday: weekday,
+                    formatted: `${hd} ${this.hijriMonths[hm - 1]} ${hy}`,
+                    numeric: `${hy}/${hm}/${hd}`
+                };
+            }
+            
+            // ---------- تبدیل قمری به شمسی ----------
+            hijriToPersian(hYear, hMonth, hDay) {
+                // ابتدا به میلادی تبدیل
+                const gregorian = this.hijriToGregorian(hYear, hMonth, hDay);
+                
+                // سپس میلادی به شمسی
+                return this.gregorianToPersian(gregorian.year, gregorian.month, gregorian.day);
+            }
+            
+            // ---------- تبدیل قمری به میلادی ----------
+            hijriToGregorian(hYear, hMonth, hDay) {
+                // محاسبه تاریخ میلادی از تاریخ قمری
+                const startDate = new Date(622, 6, 16);
+                let totalDays = 0;
+                
+                // محاسبه روزهای سال‌های کامل
+                for (let y = 1; y < hYear; y++) {
+                    totalDays += this.isHijriLeapYear(y) ? 355 : 354;
+                }
+                
+                // محاسبه روزهای ماه‌های کامل
+                for (let m = 1; m < hMonth; m++) {
+                    totalDays += this.getHijriMonthDays(hYear, m);
+                }
+                
+                // اضافه کردن روزها
+                totalDays += hDay - 1;
+                
+                // محاسبه تاریخ میلادی
+                const resultDate = new Date(startDate.getTime() + totalDays * 24 * 60 * 60 * 1000);
+                
+                const gy = resultDate.getFullYear();
+                const gm = resultDate.getMonth() + 1;
+                const gd = resultDate.getDate();
+                const weekday = this.weekdays[resultDate.getDay()];
+                
+                return {
+                    year: gy,
+                    month: gm,
+                    day: gd,
+                    monthName: this.gregorianMonths[gm - 1],
+                    weekday: weekday,
+                    formatted: `${gd} ${this.gregorianMonths[gm - 1]} ${gy}`,
+                    numeric: `${gy}/${gm}/${gd}`
+                };
+            }
+            
+            // ---------- جلالی (شمسی قدیم) ----------
+            // تفاوت جلالی با شمسی فعلی فقط در نام ماه‌هاست
+            persianToJalali(pYear, pMonth, pDay) {
+                return {
+                    year: pYear,
+                    month: pMonth,
+                    day: pDay,
+                    monthName: this.jalaliMonths[pMonth - 1],
+                    weekday: this.getWeekdayFromPersian(pYear, pMonth, pDay),
+                    formatted: `${pDay} ${this.jalaliMonths[pMonth - 1]} ${pYear}`,
+                    numeric: `${pYear}/${pMonth}/${pDay}`
+                };
+            }
+            
+            getWeekdayFromPersian(pYear, pMonth, pDay) {
+                const gregorian = this.persianToGregorian(pYear, pMonth, pDay);
+                const date = new Date(gregorian.year, gregorian.month - 1, gregorian.day);
+                return this.weekdays[date.getDay()];
+            }
+            
+            // ---------- تاریخ امروز ----------
+            getToday() {
+                const now = new Date();
+                const gYear = now.getFullYear();
+                const gMonth = now.getMonth() + 1;
+                const gDay = now.getDate();
+                
+                const persianDate = this.gregorianToPersian(gYear, gMonth, gDay);
+                const hijriDate = this.gregorianToHijri(gYear, gMonth, gDay);
+                const jalaliDate = this.persianToJalali(persianDate.year, persianDate.month, persianDate.day);
+                
+                return {
+                    gregorian: {
+                        year: gYear,
+                        month: gMonth,
+                        day: gDay,
+                        weekday: this.weekdays[now.getDay()],
+                        formatted: `${gDay} ${this.gregorianMonths[gMonth - 1]} ${gYear}`
+                    },
+                    persian: persianDate,
+                    hijri: hijriDate,
+                    jalali: jalaliDate
+                };
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateConverter = new DateConverter();
+            
+            // پرکردن انتخابگرها
+            populateSelectors(dateConverter);
+            
+            // نمایش تاریخ امروز
+            showToday(dateConverter);
+            
+            // تنظیم رویدادها
+            setupEventListeners(dateConverter);
+        });
+        
+        function populateSelectors(dateConverter) {
+            // ماه‌ها
+            const monthSelect = document.getElementById('input-month');
+            
+            // حذف گزینه‌های قبلی (به جز اولین گزینه)
+            while (monthSelect.options.length > 1) {
+                monthSelect.remove(1);
+            }
+            
+            // اضافه کردن ماه‌های شمسی (پیش‌فرض)
+            dateConverter.persianMonths.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = index + 1;
+                option.textContent = month;
+                monthSelect.appendChild(option);
+            });
+            
+            // روزها
+            const daySelect = document.getElementById('input-day');
+            for (let day = 1; day <= 31; day++) {
+                const option = document.createElement('option');
+                option.value = day;
+                option.textContent = day;
+                daySelect.appendChild(option);
+            }
+            
+            // تنظیم مقادیر پیش‌فرض
+            monthSelect.value = 1;
+            daySelect.value = 1;
+        }
+        
+        function showToday(dateConverter) {
+            const today = dateConverter.getToday();
+            
+            // تنظیم در فیلدهای ورودی (شمسی پیش‌فرض)
+            document.getElementById('input-year').value = today.persian.year;
+            document.getElementById('input-month').value = today.persian.month;
+            document.getElementById('input-day').value = today.persian.day;
+            
+            // بروزرسانی روزهای ماه
+            updateMonthDays(dateConverter);
+            
+            // تبدیل و نمایش
+            convertAllDates(dateConverter);
+            
+            showNotification('تاریخ امروز تنظیم شد');
+        }
+        
+        function updateMonthDays(dateConverter) {
+            const calendarType = document.querySelector('.calendar-btn.active').dataset.type;
+            const year = parseInt(document.getElementById('input-year').value);
+            const month = parseInt(document.getElementById('input-month').value);
+            
+            if (!year || !month) return;
+            
+            let days;
+            switch(calendarType) {
+                case 'shamsi':
+                case 'jalali':
+                    days = dateConverter.getPersianMonthDays(year, month);
+                    break;
+                case 'miladi':
+                    days = dateConverter.getGregorianMonthDays(year, month);
+                    break;
+                case 'ghamari':
+                    days = dateConverter.getHijriMonthDays(year, month);
+                    break;
+                default:
+                    days = 31;
+            }
+            
+            document.getElementById('input-month-days').textContent = `${days} روز`;
+            updateDayOptions('input-day', days);
+        }
+        
+        function updateDayOptions(selectId, maxDays) {
+            const select = document.getElementById(selectId);
+            const currentValue = select.value;
+            
+            // حذف گزینه‌های موجود (به جز اولین گزینه)
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            
+            // اضافه کردن روزهای جدید
+            for (let day = 1; day <= maxDays; day++) {
+                const option = document.createElement('option');
+                option.value = day;
+                option.textContent = day;
+                select.appendChild(option);
+            }
+            
+            // بازگرداندن مقدار قبلی اگر معتبر باشد
+            if (currentValue && parseInt(currentValue) <= maxDays) {
+                select.value = currentValue;
+            } else if (currentValue > maxDays) {
+                select.value = maxDays;
+            } else {
+                select.value = 1;
+            }
+        }
+        
+        function setupEventListeners(dateConverter) {
+            // دکمه‌های انتخاب نوع تقویم
+            document.querySelectorAll('.calendar-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.calendar-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const type = this.dataset.type;
+                    updateInputLabels(type);
+                    populateMonthOptions(dateConverter, type);
+                    updateMonthDays(dateConverter);
+                });
+            });
+            
+            // دکمه امروز
+            document.getElementById('btn-today').addEventListener('click', function() {
+                showToday(dateConverter);
+            });
+            
+            // دکمه تبدیل
+            document.getElementById('btn-convert').addEventListener('click', function() {
+                convertAllDates(dateConverter);
+            });
+            
+            // رویدادهای تغییر فیلدها
+            document.getElementById('input-year').addEventListener('input', () => updateMonthDays(dateConverter));
+            document.getElementById('input-month').addEventListener('change', () => updateMonthDays(dateConverter));
+            document.getElementById('input-day').addEventListener('change', () => {
+                // برای به‌روزرسانی فوری هنگام تغییر روز
+                setTimeout(() => convertAllDates(dateConverter), 100);
+            });
+        }
+        
+        function updateInputLabels(type) {
+            const label = document.getElementById('input-label');
+            const yearInput = document.getElementById('input-year');
+            
+            switch(type) {
+                case 'shamsi':
+                    label.textContent = 'تاریخ شمسی را وارد کنید';
+                    yearInput.min = '1200';
+                    yearInput.max = '1500';
+                    yearInput.placeholder = 'سال شمسی';
+                    break;
+                case 'miladi':
+                    label.textContent = 'تاریخ میلادی را وارد کنید';
+                    yearInput.min = '1900';
+                    yearInput.max = '2100';
+                    yearInput.placeholder = 'سال میلادی';
+                    break;
+                case 'ghamari':
+                    label.textContent = 'تاریخ قمری را وارد کنید';
+                    yearInput.min = '1300';
+                    yearInput.max = '1600';
+                    yearInput.placeholder = 'سال قمری';
+                    break;
+                case 'jalali':
+                    label.textContent = 'تاریخ جلالی را وارد کنید';
+                    yearInput.min = '1200';
+                    yearInput.max = '1500';
+                    yearInput.placeholder = 'سال جلالی';
+                    break;
+            }
+        }
+        
+        function populateMonthOptions(dateConverter, type) {
+            const monthSelect = document.getElementById('input-month');
+            const currentValue = monthSelect.value;
+            
+            // حذف گزینه‌های موجود (به جز اولین گزینه)
+            while (monthSelect.options.length > 1) {
+                monthSelect.remove(1);
+            }
+            
+            let months;
+            switch(type) {
+                case 'shamsi':
+                    months = dateConverter.persianMonths;
+                    break;
+                case 'miladi':
+                    months = dateConverter.gregorianMonths;
+                    break;
+                case 'ghamari':
+                    months = dateConverter.hijriMonths;
+                    break;
+                case 'jalali':
+                    months = dateConverter.jalaliMonths;
+                    break;
+                default:
+                    months = dateConverter.persianMonths;
+            }
+            
+            // اضافه کردن ماه‌های جدید
+            months.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = index + 1;
+                option.textContent = month;
+                monthSelect.appendChild(option);
+            });
+            
+            // بازگرداندن مقدار قبلی اگر معتبر باشد
+            if (currentValue && parseInt(currentValue) <= months.length) {
+                monthSelect.value = currentValue;
+            } else {
+                monthSelect.value = 1;
+            }
+        }
+        
+        function convertAllDates(dateConverter) {
+            const calendarType = document.querySelector('.calendar-btn.active').dataset.type;
+            const year = parseInt(document.getElementById('input-year').value);
+            const month = parseInt(document.getElementById('input-month').value);
+            const day = parseInt(document.getElementById('input-day').value);
+            
+            if (!year || !month || !day) {
+                showNotification('لطفاً تاریخ را کامل وارد کنید', 'error');
+                return;
+            }
+            
+            let persianDate, gregorianDate, hijriDate, jalaliDate;
+            
+            // تبدیل بر اساس نوع تقویم ورودی
+            switch(calendarType) {
+                case 'shamsi':
+                    // ورودی شمسی است
+                    persianDate = {
+                        year, month, day,
+                        monthName: dateConverter.persianMonths[month - 1],
+                        weekday: dateConverter.getWeekdayFromPersian(year, month, day),
+                        formatted: `${day} ${dateConverter.persianMonths[month - 1]} ${year}`,
+                        numeric: `${year}/${month}/${day}`
+                    };
+                    gregorianDate = dateConverter.persianToGregorian(year, month, day);
+                    hijriDate = dateConverter.persianToHijri(year, month, day);
+                    jalaliDate = dateConverter.persianToJalali(year, month, day);
+                    break;
+                    
+                case 'miladi':
+                    // ورودی میلادی است
+                    gregorianDate = {
+                        year, month, day,
+                        monthName: dateConverter.gregorianMonths[month - 1],
+                        weekday: dateConverter.weekdays[new Date(year, month - 1, day).getDay()],
+                        formatted: `${day} ${dateConverter.gregorianMonths[month - 1]} ${year}`,
+                        numeric: `${year}/${month}/${day}`
+                    };
+                    persianDate = dateConverter.gregorianToPersian(year, month, day);
+                    hijriDate = dateConverter.gregorianToHijri(year, month, day);
+                    jalaliDate = dateConverter.persianToJalali(persianDate.year, persianDate.month, persianDate.day);
+                    break;
+                    
+                case 'ghamari':
+                    // ورودی قمری است
+                    hijriDate = {
+                        year, month, day,
+                        monthName: dateConverter.hijriMonths[month - 1],
+                        weekday: dateConverter.weekdays[new Date().getDay()], // محاسبه ساده
+                        formatted: `${day} ${dateConverter.hijriMonths[month - 1]} ${year}`,
+                        numeric: `${year}/${month}/${day}`
+                    };
+                    gregorianDate = dateConverter.hijriToGregorian(year, month, day);
+                    persianDate = dateConverter.hijriToPersian(year, month, day);
+                    jalaliDate = dateConverter.persianToJalali(persianDate.year, persianDate.month, persianDate.day);
+                    break;
+                    
+                case 'jalali':
+                    // ورودی جلالی است (همان شمسی با نام ماه‌های متفاوت)
+                    jalaliDate = {
+                        year, month, day,
+                        monthName: dateConverter.jalaliMonths[month - 1],
+                        weekday: dateConverter.getWeekdayFromPersian(year, month, day),
+                        formatted: `${day} ${dateConverter.jalaliMonths[month - 1]} ${year}`,
+                        numeric: `${year}/${month}/${day}`
+                    };
+                    // جلالی همان شمسی است
+                    persianDate = {
+                        year, month, day,
+                        monthName: dateConverter.persianMonths[month - 1],
+                        weekday: jalaliDate.weekday,
+                        formatted: `${day} ${dateConverter.persianMonths[month - 1]} ${year}`,
+                        numeric: `${year}/${month}/${day}`
+                    };
+                    gregorianDate = dateConverter.persianToGregorian(year, month, day);
+                    hijriDate = dateConverter.persianToHijri(year, month, day);
+                    break;
+            }
+            
+            // نمایش نتایج
+            displayResults(persianDate, gregorianDate, hijriDate, jalaliDate);
+            
+            showNotification('تاریخ با موفقیت تبدیل شد');
+        }
+        
+        function displayResults(shamsi, miladi, ghamari, jalali) {
+            // شمسی
+            document.getElementById('result-shamsi').textContent = shamsi.formatted;
+            document.getElementById('result-shamsi-details').textContent = 
+                `${shamsi.weekday} | ${shamsi.numeric}`;
+            
+            // میلادی
+            document.getElementById('result-miladi').textContent = miladi.formatted;
+            document.getElementById('result-miladi-details').textContent = 
+                `${miladi.weekday} | ${miladi.numeric}`;
+            
+            // قمری
+            document.getElementById('result-ghamari').textContent = ghamari.formatted;
+            document.getElementById('result-ghamari-details').textContent = 
+                `${ghamari.weekday} | ${ghamari.numeric}`;
+            
+            // جلالی
+            document.getElementById('result-jalali').textContent = jalali.formatted;
+            document.getElementById('result-jalali-details').textContent = 
+                `${jalali.weekday} | ${jalali.numeric}`;
+        }
+        
+        function showNotification(message, type = 'success') {
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.background = type === 'error' ? 'var(--error)' : 'var(--success)';
+            
+            notification.innerHTML = `
+                <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
