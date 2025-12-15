@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پخش‌کننده حرفه‌ای m.txt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #8b5cf6;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            border-radius: 2px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        .player-container {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .song-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .song-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 10px;
+        }
+
+        .song-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            color: var(--gray);
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+        }
+
+        .song-number {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .song-source {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin: 25px 0;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            outline: none;
+        }
+
+        .audio-player::-webkit-media-controls-panel {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 12px;
+        }
+
+        .controls-section {
+            margin: 30px 0;
+        }
+
+        .main-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .secondary-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 10px 25px rgba(59, 130, 246, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+            transition-duration: 0.1s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            min-width: 180px;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            min-width: 120px;
+            padding: 12px 20px;
+        }
+
+        .btn-icon {
+            font-size: 1.2rem;
+        }
+
+        .progress-container {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            border-radius: 4px;
+            position: relative;
+            transition: width 0.1s linear;
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .progress-bar:hover .progress::after {
+            opacity: 1;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(59, 130, 246, 0.2);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fecaca;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 25px;
+            border-radius: 16px;
+            margin-top: 20px;
+        }
+
+        .volume-slider {
+            flex-grow: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+            border: 2px solid var(--primary);
+        }
+
+        .key-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 0.85rem;
+            color: var(--gray);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .key {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin: 0 3px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--light);
+        }
+
+        /* رسپانسیو */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .player-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .main-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .key-hint {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .song-title {
+                font-size: 1.3rem;
+            }
+            
+            .song-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            
+            .btn-primary {
+                padding: 15px 25px;
+            }
+        }
+
+        /* حالت پخش */
+        .playing .song-title {
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+            to { text-shadow: 0 0 20px rgba(59, 130, 246, 0.6); }
+        }
+
+        /* اسکرول بار */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-music"></i> پخش‌کننده حرفه‌ای</h1>
+            <p class="subtitle">هر خط از فایل m.txt = یک آهنگ جدید</p>
+        </header>
+
+        <main class="player-container">
+            <!-- Loading State -->
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>در حال بارگذاری لیست آهنگ‌ها...</p>
+            </div>
+
+            <!-- Error Display -->
+            <div class="error" id="error"></div>
+
+            <!-- Song Info -->
+            <div class="song-info" id="songInfo" style="display: none;">
+                <div class="song-title" id="songTitle">آماده پخش</div>
+                <div class="song-meta">
+                    <span class="song-number" id="songNumber">
+                        <i class="fas fa-play-circle"></i> آهنگ 0/0
+                    </span>
+                    <span class="song-source" id="songSource">از m.txt</span>
+                </div>
+            </div>
+
+            <!-- Audio Player -->
+            <audio class="audio-player" id="audioPlayer" controls autoplay>
+                مرورگر شما از پخش صدا پشتیبانی نمی‌کند
+            </audio>
+
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progressContainer" style="display: none;">
+                <div class="progress-bar" onclick="seek(event)">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+            </div>
+
+            <!-- Volume Control -->
+            <div class="volume-control" id="volumeControl" style="display: none;">
+                <i class="fas fa-volume-down" id="volumeIcon"></i>
+                <input type="range" class="volume-slider" id="volumeSlider" 
+                       min="0" max="1" step="0.01" value="0.7">
+                <i class="fas fa-volume-up"></i>
+                <span id="volumeText" style="min-width: 40px;">70%</span>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls-section">
+                <div class="main-controls" id="mainControls" style="display: none;">
+                    <button class="btn btn-secondary" onclick="prevSong()">
+                        <i class="fas fa-step-backward btn-icon"></i>
+                        قبلی
+                    </button>
+                    
+                    <button class="btn btn-primary" onclick="playPause()" id="playBtn">
+                        <i class="fas fa-play btn-icon" id="playIcon"></i>
+                        <span id="playText">پخش</span>
+                    </button>
+                    
+                    <button class="btn btn-secondary" onclick="nextSong()">
+                        <i class="fas fa-step-forward btn-icon"></i>
+                        بعدی
+                    </button>
+                </div>
+
+                <div class="secondary-controls" id="secondaryControls" style="display: none;">
+                    <button class="btn btn-secondary" onclick="shufflePlaylist()" id="shuffleBtn">
+                        <i class="fas fa-random btn-icon"></i>
+                        تصادفی
+                    </button>
+                    
+                    <button class="btn btn-secondary" onclick="repeatToggle()" id="repeatBtn">
+                        <i class="fas fa-redo btn-icon"></i>
+                        تکرار
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-container" id="statsContainer" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSongs">0</div>
+                    <div class="stat-label">کل آهنگ‌ها</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="currentSongNum">0</div>
+                    <div class="stat-label">آهنگ فعلی</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="playlistStatus">آماده</div>
+                    <div class="stat-label">وضعیت</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Keyboard Hints -->
+    <div class="key-hint">
+        <div style="margin-bottom: 8px; color: var(--primary);">
+            <i class="fas fa-keyboard"></i> راهنمای کلیدها
+        </div>
+        <div><span class="key">Space</span> پخش/توقف</div>
+        <div><span class="key">←</span> <span class="key">→</span> جابجایی آهنگ</div>
+        <div><span class="key">R</span> تکرار <span class="key">S</span> تصادفی</div>
+    </div>
+
+    <script>
+        // ============ تنظیمات اصلی ============
+        const config = {
+            autoplay: true,
+            defaultVolume: 0.7,
+            saveState: true
+        };
+
+        // ============ متغیرهای حالت ============
+        let songs = [];
+        let currentIndex = 0;
+        let isPlaying = false;
+        let isRepeat = false;
+        let isShuffled = false;
+        let originalOrder = [];
+
+        // ============ عناصر DOM ============
+        const elements = {
+            loading: document.getElementById('loading'),
+            error: document.getElementById('error'),
+            songInfo: document.getElementById('songInfo'),
+            songTitle: document.getElementById('songTitle'),
+            songNumber: document.getElementById('songNumber'),
+            songSource: document.getElementById('songSource'),
+            audioPlayer: document.getElementById('audioPlayer'),
+            progressContainer: document.getElementById('progressContainer'),
+            progress: document.getElementById('progress'),
+            currentTime: document.getElementById('currentTime'),
+            duration: document.getElementById('duration'),
+            volumeControl: document.getElementById('volumeControl'),
+            volumeSlider: document.getElementById('volumeSlider'),
+            volumeText: document.getElementById('volumeText'),
+            volumeIcon: document.getElementById('volumeIcon'),
+            mainControls: document.getElementById('mainControls'),
+            playBtn: document.getElementById('playBtn'),
+            playIcon: document.getElementById('playIcon'),
+            playText: document.getElementById('playText'),
+            secondaryControls: document.getElementById('secondaryControls'),
+            shuffleBtn: document.getElementById('shuffleBtn'),
+            repeatBtn: document.getElementById('repeatBtn'),
+            statsContainer: document.getElementById('statsContainer'),
+            totalSongs: document.getElementById('totalSongs'),
+            currentSongNum: document.getElementById('currentSongNum'),
+            playlistStatus: document.getElementById('playlistStatus')
+        };
+
+        // ============ راه‌اندازی اولیه ============
+        document.addEventListener('DOMContentLoaded', initializePlayer);
+
+        async function initializePlayer() {
+            try {
+                // بارگذاری تنظیمات ذخیره شده
+                loadSettings();
+                
+                // بارگذاری لیست آهنگ‌ها
+                await loadPlaylist();
+                
+                // تنظیم رویدادها
+                setupEventListeners();
+                
+                // پخش اولین آهنگ
+                if (songs.length > 0) {
+                    loadSong(currentIndex);
+                }
+                
+            } catch (error) {
+                showError(`خطا در راه‌اندازی: ${error.message}`);
+            }
+        }
+
+        // ============ بارگذاری لیست آهنگ‌ها ============
+        async function loadPlaylist() {
+            try {
+                const response = await fetch('m.txt');
+                if (!response.ok) throw new Error('فایل m.txt پیدا نشد');
+                
+                const text = await response.text();
+                songs = text.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line && (
+                        line.includes('.mp3') || 
+                        line.includes('.m4a') || 
+                        line.includes('.wav') ||
+                        line.includes('.ogg')
+                    ));
+                
+                if (songs.length === 0) throw new Error('هیچ آهنگی در فایل پیدا نشد');
+                
+                originalOrder = [...songs];
+                showPlayerUI();
+                updateStats();
+                
+            } catch (error) {
+                hideLoading();
+                showError(`خطا در بارگذاری لیست: ${error.message}`);
+                throw error;
+            }
+        }
+
+        // ============ نمایش رابط کاربری پلیر ============
+        function showPlayerUI() {
+            elements.loading.style.display = 'none';
+            elements.songInfo.style.display = 'block';
+            elements.progressContainer.style.display = 'block';
+            elements.volumeControl.style.display = 'flex';
+            elements.mainControls.style.display = 'flex';
+            elements.secondaryControls.style.display = 'flex';
+            elements.statsContainer.style.display = 'grid';
+        }
+
+        function hideLoading() {
+            elements.loading.style.display = 'none';
+        }
+
+        // ============ مدیریت آهنگ‌ها ============
+        function loadSong(index) {
+            if (index < 0 || index >= songs.length) return;
+            
+            currentIndex = index;
+            const songUrl = songs[index];
+            
+            // نمایش اطلاعات آهنگ
+            elements.songTitle.textContent = formatSongName(songUrl);
+            elements.songNumber.innerHTML = `<i class="fas fa-play-circle"></i> آهنگ ${index + 1}/${songs.length}`;
+            elements.currentSongNum.textContent = index + 1;
+            
+            // تنظیم منبع صدا
+            elements.audioPlayer.src = songUrl;
+            elements.songSource.textContent = extractSourceInfo(songUrl);
+            
+            // پخش خودکار اگر فعال باشد
+            if (config.autoplay) {
+                setTimeout(() => {
+                    elements.audioPlayer.play().catch(e => {
+                        console.log('پخش خودکار ممکن نیست:', e.message);
+                    });
+                }, 300);
+            }
+            
+            // بروزرسانی وضعیت
+            updateStats();
+            saveSettings();
+        }
+
+        function nextSong() {
+            let nextIndex = currentIndex + 1;
+            
+            if (nextIndex >= songs.length) {
+                if (isRepeat) {
+                    nextIndex = 0;
+                } else {
+                    return; // لیست به پایان رسیده
+                }
+            }
+            
+            loadSong(nextIndex);
+        }
+
+        function prevSong() {
+            let prevIndex = currentIndex - 1;
+            
+            if (prevIndex < 0) {
+                if (isRepeat) {
+                    prevIndex = songs.length - 1;
+                } else {
+                    return; // در ابتدای لیست هستیم
+                }
+            }
+            
+            loadSong(prevIndex);
+        }
+
+        // ============ کنترل پخش ============
+        function playPause() {
+            if (elements.audioPlayer.paused) {
+                play();
+            } else {
+                pause();
+            }
+        }
+
+        function play() {
+            elements.audioPlayer.play();
+            elements.playIcon.className = 'fas fa-pause btn-icon';
+            elements.playText.textContent = 'توقف';
+            elements.songTitle.classList.add('playing');
+            isPlaying = true;
+        }
+
+        function pause() {
+            elements.audioPlayer.pause();
+            elements.playIcon.className = 'fas fa-play btn-icon';
+            elements.playText.textContent = 'پخش';
+            elements.songTitle.classList.remove('playing');
+            isPlaying = false;
+        }
+
+        // ============ ویژگی‌های پیشرفته ============
+        function shufflePlaylist() {
+            if (!isShuffled) {
+                // فعال کردن حالت تصادفی
+                isShuffled = true;
+                const shuffled = [...songs];
+                
+                // الگوریتم Fisher-Yates
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                
+                songs = shuffled;
+                elements.shuffleBtn.style.color = 'var(--success)';
+                elements.shuffleBtn.innerHTML = '<i class="fas fa-random btn-icon"></i> تصادفی <i class="fas fa-check" style="margin-right: 5px; font-size: 0.8em;"></i>';
+                
+            } else {
+                // غیرفعال کردن حالت تصادفی
+                isShuffled = false;
+                songs = [...originalOrder];
+                elements.shuffleBtn.style.color = '';
+                elements.shuffleBtn.innerHTML = '<i class="fas fa-random btn-icon"></i> تصادفی';
+            }
+            
+            // پیدا کردن موقعیت آهنگ فعلی
+            const currentUrl = elements.audioPlayer.src;
+            currentIndex = songs.findIndex(url => url === currentUrl);
+            if (currentIndex === -1) currentIndex = 0;
+            
+            updateStats();
+        }
+
+        function repeatToggle() {
+            isRepeat = !isRepeat;
+            elements.repeatBtn.style.color = isRepeat ? 'var(--success)' : '';
+            elements.repeatBtn.innerHTML = isRepeat 
+                ? '<i class="fas fa-redo btn-icon"></i> تکرار <i class="fas fa-check" style="margin-right: 5px; font-size: 0.8em;"></i>'
+                : '<i class="fas fa-redo btn-icon"></i> تکرار';
+        }
+
+        // ============ کنترل صدا ============
+        function setupVolumeControl() {
+            elements.volumeSlider.addEventListener('input', (e) => {
+                const volume = parseFloat(e.target.value);
+                elements.audioPlayer.volume = volume;
+                elements.volumeText.textContent = `${Math.round(volume * 100)}%`;
+                
+                // آپدیت آیکون
+                updateVolumeIcon(volume);
+                
+                if (config.saveState) {
+                    localStorage.setItem('musicPlayer_volume', volume);
+                }
+            });
+        }
+
+        function updateVolumeIcon(volume) {
+            if (volume === 0) {
+                elements.volumeIcon.className = 'fas fa-volume-mute';
+            } else if (volume < 0.3) {
+                elements.volumeIcon.className = 'fas fa-volume-off';
+            } else if (volume < 0.6) {
+                elements.volumeIcon.className = 'fas fa-volume-down';
+            } else {
+                elements.volumeIcon.className = 'fas fa-volume-up';
+            }
+        }
+
+        // ============ نوار پیشرفت ============
+        function seek(event) {
+            const rect = event.target.getBoundingClientRect();
+            const percent = (event.clientX - rect.left) / rect.width;
+            elements.audioPlayer.currentTime = percent * elements.audioPlayer.duration;
+        }
+
+        // ============ فرمت‌دهی ============
+        function formatSongName(url) {
+            const fileName = url.split('/').pop();
+            return decodeURIComponent(fileName)
+                .replace(/%20/g, ' ')
+                .replace(/\.(mp3|m4a|wav|ogg)$/i, '')
+                .replace(/[_-]/g, ' ')
+                .trim();
+        }
+
+        function extractSourceInfo(url) {
+            try {
+                const urlObj = new URL(url);
+                const pathParts = urlObj.pathname.split('/');
+                const repoName = pathParts[2];
+                return repoName || 'منبع ناشناس';
+            } catch {
+                return 'منبع ناشناس';
+            }
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // ============ آمار و اطلاعات ============
+        function updateStats() {
+            elements.totalSongs.textContent = songs.length;
+            elements.currentSongNum.textContent = currentIndex + 1;
+            elements.playlistStatus.textContent = isShuffled ? 'تصادفی' : 'عادی';
+        }
+
+        // ============ ذخیره و بازیابی تنظیمات ============
+        function saveSettings() {
+            if (!config.saveState) return;
+            
+            localStorage.setItem('musicPlayer_currentIndex', currentIndex);
+            localStorage.setItem('musicPlayer_isShuffled', isShuffled);
+            localStorage.setItem('musicPlayer_isRepeat', isRepeat);
+        }
+
+        function loadSettings() {
+            if (!config.saveState) return;
+            
+            const savedIndex = localStorage.getItem('musicPlayer_currentIndex');
+            const savedVolume = localStorage.getItem('musicPlayer_volume');
+            const savedShuffled = localStorage.getItem('musicPlayer_isShuffled');
+            const savedRepeat = localStorage.getItem('musicPlayer_isRepeat');
+            
+            if (savedIndex) currentIndex = parseInt(savedIndex);
+            if (savedVolume) {
+                const volume = parseFloat(savedVolume);
+                elements.volumeSlider.value = volume;
+                elements.audioPlayer.volume = volume;
+                elements.volumeText.textContent = `${Math.round(volume * 100)}%`;
+                updateVolumeIcon(volume);
+            }
+            if (savedShuffled === 'true') isShuffled = true;
+            if (savedRepeat === 'true') isRepeat = true;
+        }
+
+        // ============ نمایش خطا ============
+        function showError(message) {
+            elements.error.style.display = 'block';
+            elements.error.innerHTML = `
+                <i class="fas fa-exclamation-triangle" style="margin-left: 8px;"></i>
+                ${message}
+                <button onclick="location.reload()" style="
+                    background: var(--primary);
+                    border: none;
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 8px;
+                    margin-top: 10px;
+                    cursor: pointer;
+                    display: block;
+                    margin: 10px auto 0;
+                ">
+                    <i class="fas fa-redo"></i> تلاش مجدد
+                </button>
+            `;
+        }
+
+        // ============ رویدادها ============
+        function setupEventListeners() {
+            // رویدادهای پلیر صدا
+            elements.audioPlayer.addEventListener('loadedmetadata', () => {
+                elements.duration.textContent = formatTime(elements.audioPlayer.duration);
+            });
+
+            elements.audioPlayer.addEventListener('timeupdate', () => {
+                if (elements.audioPlayer.duration) {
+                    const progress = (elements.audioPlayer.currentTime / elements.audioPlayer.duration) * 100;
+                    elements.progress.style.width = progress + '%';
+                    elements.currentTime.textContent = formatTime(elements.audioPlayer.currentTime);
+                }
+            });
+
+            elements.audioPlayer.addEventListener('play', () => {
+                play();
+            });
+
+            elements.audioPlayer.addEventListener('pause', () => {
+                pause();
+            });
+
+            elements.audioPlayer.addEventListener('ended', () => {
+                nextSong();
+            });
+
+            elements.audioPlayer.addEventListener('error', (e) => {
+                console.error('خطای پخش:', e);
+                showError('خطا در بارگذاری این آهنگ. در حال رفتن به آهنگ بعدی...');
+                setTimeout(nextSong, 2000);
+            });
+
+            // کنترل صدا
+            setupVolumeControl();
+
+            // کنترل‌های صفحه کلید
+            document.addEventListener('keydown', (e) => {
+                // جلوگیری از عمل پیش‌فرض در کلیدهای Space
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                }
+                
+                switch(e.code) {
+                    case 'Space':
+                        playPause();
+                        break;
+                    case 'ArrowRight':
+                        nextSong();
+                        break;
+                    case 'ArrowLeft':
+                        prevSong();
+                        break;
+                    case 'KeyR':
+                        repeatToggle();
+                        break;
+                    case 'KeyS':
+                        shufflePlaylist();
+                        break;
+                    case 'KeyM':
+                        elements.audioPlayer.muted = !elements.audioPlayer.muted;
+                        break;
+                }
+            });
+
+            // رویداد آنلاین/آفلاین
+            window.addEventListener('online', () => {
+                console.log('آنلاین شدید');
+            });
+
+            window.addEventListener('offline', () => {
+                showError('اتصال اینترنت قطع شد. پخش آهنگ‌های کش شده ادامه می‌یابد.');
+            });
+        }
+
+        // ============ توابع عمومی ============
+        window.prevSong = prevSong;
+        window.nextSong = nextSong;
+        window.playPause = playPause;
+        window.shufflePlaylist = shufflePlaylist;
+        window.repeatToggle = repeatToggle;
+        window.seek = seek;
+    </script>
+</body>
+</html>
