@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>پخش کننده MP3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .player {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        
+        .song-display {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #songName {
+            color: #2d3436;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            background: #4dabf7;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 5px 15px rgba(77, 171, 247, 0.4);
+        }
+        
+        .btn:hover {
+            transform: scale(1.1);
+            background: #339af0;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-play {
+            width: 100px;
+            height: 100px;
+            font-size: 40px;
+            background: #40c057;
+        }
+        
+        .btn-play:hover {
+            background: #2f9e44;
+        }
+        
+        .info {
+            margin-top: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .status {
+            margin-top: 15px;
+            color: #40c057;
+            font-size: 14px;
+            height: 20px;
+        }
+        
+        .error {
+            color: #fa5252;
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff5f5;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <h1>🎵 پخش کننده</h1>
+        
+        <div class="song-display">
+            <div id="songName">در حال بارگذاری...</div>
+        </div>
+        
+        <div class="controls">
+            <div class="btn" onclick="prevSong()">⏮</div>
+            <div class="btn btn-play" onclick="playPause()" id="playBtn">▶</div>
+            <div class="btn" onclick="nextSong()">⏭</div>
+        </div>
+        
+        <div class="info" id="counter">آهنگ: 0/0</div>
+        <div class="status" id="status">آماده</div>
+        <div class="error" id="error"></div>
+    </div>
+
+    <script>
+        // متغیرهای اصلی
+        const audio = new Audio();
+        let songs = [];
+        let currentIndex = 0;
+        
+        // فایل m.txt را بخوان
+        fetch('m.txt')
+            .then(response => {
+                if (!response.ok) throw new Error('فایل m.txt پیدا نشد');
+                return response.text();
+            })
+            .then(text => {
+                // پردازش خطوط
+                songs = text.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => {
+                        // فقط خطوطی که لینک mp3 هستند
+                        return line && 
+                               (line.includes('http://') || line.includes('https://')) &&
+                               line.includes('.mp3');
+                    });
+                
+                if (songs.length === 0) {
+                    showError('هیچ لینک MP3 در فایل m.txt پیدا نشد');
+                    return;
+                }
+                
+                updateStatus(`${songs.length} آهنگ پیدا شد`);
+                playSong(0);
+            })
+            .catch(error => {
+                showError(`خطا: ${error.message}`);
+            });
+        
+        // پخش آهنگ
+        function playSong(index) {
+            if (index < 0 || index >= songs.length) return;
+            
+            currentIndex = index;
+            const url = songs[index];
+            
+            // نمایش نام آهنگ
+            let fileName = url.split('/').pop();
+            fileName = decodeURIComponent(fileName);
+            fileName = fileName.replace('.mp3', '');
+            document.getElementById('songName').textContent = fileName;
+            document.getElementById('counter').textContent = `آهنگ: ${index + 1}/${songs.length}`;
+            
+            // تنظیم منبع صدا
+            audio.src = url;
+            
+            // پخش خودکار
+            audio.play()
+                .then(() => {
+                    document.getElementById('playBtn').textContent = '⏸';
+                    updateStatus('در حال پخش...');
+                })
+                .catch(error => {
+                    document.getElementById('playBtn').textContent = '▶';
+                    showError('برای پخش کلیک کنید: ' + error.message);
+                });
+        }
+        
+        // کنترل‌ها
+        function playPause() {
+            if (audio.paused) {
+                audio.play()
+                    .then(() => {
+                        document.getElementById('playBtn').textContent = '⏸';
+                        updateStatus('پخش...');
+                    })
+                    .catch(error => {
+                        showError('خطای پخش: ' + error.message);
+                    });
+            } else {
+                audio.pause();
+                document.getElementById('playBtn').textContent = '▶';
+                updateStatus('متوقف');
+            }
+        }
+        
+        function nextSong() {
+            let next = currentIndex + 1;
+            if (next >= songs.length) next = 0;
+            playSong(next);
+        }
+        
+        function prevSong() {
+            let prev = currentIndex - 1;
+            if (prev < 0) prev = songs.length - 1;
+            playSong(prev);
+        }
+        
+        // رویدادهای صدا
+        audio.addEventListener('ended', nextSong);
+        
+        audio.addEventListener('error', function() {
+            showError('خطا در پخش این آهنگ. در حال رفتن به آهنگ بعدی...');
+            setTimeout(nextSong, 2000);
+        });
+        
+        // ابزارها
+        function updateStatus(msg) {
+            document.getElementById('status').textContent = msg;
+            document.getElementById('error').style.display = 'none';
+        }
+        
+        function showError(msg) {
+            document.getElementById('error').textContent = msg;
+            document.getElementById('error').style.display = 'block';
+        }
+        
+        // کنترل صفحه کلید
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                playPause();
+            } else if (e.code === 'ArrowRight') {
+                nextSong();
+            } else if (e.code === 'ArrowLeft') {
+                prevSong();
+            }
+        });
+    </script>
+</body>
+</html>
