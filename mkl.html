@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>پخش کننده m.txt</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        
+        .player {
+            background: #111;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+            border: 2px solid #00ffff;
+            width: 300px;
+            text-align: center;
+        }
+        
+        .title {
+            color: #00ffff;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .now-playing {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+        }
+        
+        #songName {
+            color: #fff;
+            font-size: 16px;
+            word-break: break-word;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #00ffff;
+            background: #000;
+            color: #00ffff;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #00ffff;
+            color: #000;
+            transform: scale(1.1);
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-play {
+            width: 70px;
+            height: 70px;
+            font-size: 28px;
+            background: #00ffff;
+            color: #000;
+        }
+        
+        .btn-play:hover {
+            background: #00cccc;
+            border-color: #00cccc;
+        }
+        
+        .counter {
+            color: #888;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .status {
+            color: #00ff00;
+            margin-top: 10px;
+            font-size: 12px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <div class="title">🎵 پخش کننده m.txt</div>
+        
+        <div class="now-playing">
+            <div id="songName">آماده پخش...</div>
+        </div>
+        
+        <div class="controls">
+            <div class="btn" onclick="prev()">⏮</div>
+            <div class="btn btn-play" onclick="playPause()" id="playBtn">▶</div>
+            <div class="btn" onclick="next()">⏭</div>
+        </div>
+        
+        <div class="counter" id="counter">آهنگ: 0/0</div>
+        <div class="status" id="status">در حال بارگذاری...</div>
+    </div>
+
+    <audio id="audio" style="display: none;"></audio>
+
+    <script>
+        let songs = [];
+        let currentIndex = 0;
+        let audio = document.getElementById('audio');
+        
+        // بارگذاری خودکار m.txt
+        fetch('m.txt')
+            .then(response => response.text())
+            .then(text => {
+                // خواندن خطوط و فیلتر کردن
+                songs = text.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0);
+                
+                if (songs.length > 0) {
+                    document.getElementById('status').textContent = '✅ آماده';
+                    document.getElementById('counter').textContent = `آهنگ: 1/${songs.length}`;
+                    loadSong(0);
+                } else {
+                    document.getElementById('status').textContent = '❌ فایل m.txt خالی است';
+                }
+            })
+            .catch(error => {
+                document.getElementById('status').textContent = '❌ خطا در بارگذاری m.txt';
+                document.getElementById('songName').textContent = 'فایل m.txt را در کنار این فایل قرار دهید';
+            });
+        
+        function loadSong(index) {
+            if (index >= 0 && index < songs.length) {
+                currentIndex = index;
+                audio.src = songs[index];
+                
+                // نمایش نام فایل
+                let fileName = songs[index].split('/').pop().split('?')[0];
+                document.getElementById('songName').textContent = decodeURIComponent(fileName);
+                document.getElementById('counter').textContent = `آهنگ: ${index + 1}/${songs.length}`;
+                
+                // پخش خودکار
+                audio.play().then(() => {
+                    document.getElementById('playBtn').textContent = '⏸';
+                    document.getElementById('status').textContent = '🎶 در حال پخش...';
+                }).catch(() => {
+                    document.getElementById('status').textContent = '⏸ آماده پخش';
+                });
+            }
+        }
+        
+        function playPause() {
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('playBtn').textContent = '⏸';
+                document.getElementById('status').textContent = '🎶 در حال پخش...';
+            } else {
+                audio.pause();
+                document.getElementById('playBtn').textContent = '▶';
+                document.getElementById('status').textContent = '⏸ متوقف شده';
+            }
+        }
+        
+        function next() {
+            let nextIndex = currentIndex + 1;
+            if (nextIndex >= songs.length) nextIndex = 0;
+            loadSong(nextIndex);
+        }
+        
+        function prev() {
+            let prevIndex = currentIndex - 1;
+            if (prevIndex < 0) prevIndex = songs.length - 1;
+            loadSong(prevIndex);
+        }
+        
+        // وقتی آهنگ تمام شد برو بعدی
+        audio.addEventListener('ended', next);
+        
+        // کنترل صفحه کلید
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                playPause();
+            } else if (e.code === 'ArrowRight') {
+                next();
+            } else if (e.code === 'ArrowLeft') {
+                prev();
+            }
+        });
+    </script>
+</body>
+</html>
