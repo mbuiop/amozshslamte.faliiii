@@ -26,6 +26,10 @@
             --light: #F5F5F5;
             --surface: rgba(255, 255, 255, 0.95);
             --card-bg: #1A1A1A;
+            --gold-border: #FFD700;
+            --air-good: #4CAF50;
+            --air-moderate: #FF9800;
+            --air-bad: #F44336;
         }
 
         body {
@@ -93,6 +97,44 @@
         .time {
             font-size: 12px;
             font-weight: 700;
+        }
+
+        /* وضعیت هوا */
+        .weather-status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .weather-icon {
+            font-size: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .weather-icon.good {
+            color: var(--air-good);
+        }
+
+        .weather-icon.moderate {
+            color: var(--air-moderate);
+        }
+
+        .weather-icon.bad {
+            color: var(--air-bad);
+        }
+
+        .weather-text {
+            font-size: 9px;
+            white-space: nowrap;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
         }
 
         /* منوی همبرگر */
@@ -174,7 +216,7 @@
         .grid-btn {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(255,255,255,0.1);
+            border: 2px solid var(--gold-border);
             border-radius: 14px;
             padding: 12px 6px;
             cursor: pointer;
@@ -185,7 +227,7 @@
             gap: 4px;
             text-decoration: none;
             color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             position: relative;
             overflow: hidden;
             min-height: 70px;
@@ -198,7 +240,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: -1;
@@ -278,7 +320,7 @@
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             color: var(--dark);
-            border: 1px solid rgba(46, 125, 50, 0.15);
+            border: 2px solid var(--gold-border);
         }
 
         .menu-item:active {
@@ -319,12 +361,12 @@
             right: 0;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 2px solid var(--gold-border);
             padding: 8px 15px;
             display: flex;
             justify-content: space-around;
             z-index: 101;
-            box-shadow: 0 -3px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 -3px 12px rgba(0,0,0,0.3);
         }
 
         .nav-btn {
@@ -346,6 +388,7 @@
         .nav-btn.active {
             background: rgba(76, 175, 80, 0.2);
             color: var(--accent);
+            border: 1px solid var(--gold-border);
         }
 
         .nav-btn:active {
@@ -447,9 +490,13 @@
             border-radius: 16px;
             width: 100%;
             max-width: 320px;
+            max-height: 80vh;
             overflow: hidden;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.4s ease-out;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--gold-border);
         }
 
         .announcement-header {
@@ -457,6 +504,7 @@
             padding: 12px;
             text-align: center;
             color: white;
+            flex-shrink: 0;
         }
 
         .announcement-title {
@@ -473,6 +521,10 @@
         .announcement-body {
             padding: 12px;
             text-align: center;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 40vh;
+            padding-right: 5px;
         }
 
         .announcement-icon {
@@ -491,6 +543,8 @@
         .announcement-actions {
             display: flex;
             gap: 6px;
+            padding: 12px;
+            flex-shrink: 0;
         }
 
         .announcement-btn {
@@ -524,6 +578,25 @@
             background: rgba(0, 0, 0, 0.1);
         }
 
+        /* استایل اسکرول بار برای پیام همگانی */
+        .announcement-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .announcement-body::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 2px;
+        }
+
+        .announcement-body::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.5);
+            border-radius: 2px;
+        }
+
+        .announcement-body::-webkit-scrollbar-thumb:hover {
+            background: rgba(46, 125, 50, 0.7);
+        }
+
         /* جلوگیری از زوم */
         @media (max-width: 768px) {
             body {
@@ -532,6 +605,14 @@
             
             .slide-menu {
                 padding-bottom: 80px;
+            }
+            
+            .weather-text {
+                font-size: 8px;
+            }
+            
+            .weather-icon {
+                font-size: 9px;
             }
         }
 
@@ -659,6 +740,10 @@
                 <div class="date-time">
                     <div class="date" id="currentDate">سه‌شنبه ۳ دی ۱۴۰۳</div>
                     <div class="time" id="currentTime">۱۴:۳۰</div>
+                </div>
+                <div class="weather-status">
+                    <div class="weather-icon good" id="weatherIcon">🌤</div>
+                    <div class="weather-text" id="weatherText">آلوده نیست</div>
                 </div>
                 <div>حسابدار حرفه‌ای</div>
             </div>
@@ -809,6 +894,7 @@
             setTimeout(() => {
                 document.getElementById('rainbowLoading').classList.remove('active');
                 checkAnnouncement();
+                updateWeatherStatus(); // وضعیت هوا را بررسی کن
             }, 2000);
         });
 
@@ -870,6 +956,40 @@
 
         setInterval(updateDateTime, 1000);
         updateDateTime();
+
+        // مدیریت وضعیت هوا
+        function updateWeatherStatus() {
+            const weatherIcon = document.getElementById('weatherIcon');
+            const weatherText = document.getElementById('weatherText');
+            
+            // شبیه‌سازی وضعیت هوا (در واقعیت باید از API آب و هوا استفاده شود)
+            const airQualityLevel = Math.random(); // عدد تصادفی بین 0 تا 1
+            
+            // 3 سطح کیفیت هوا
+            if (airQualityLevel > 0.7) {
+                // وضعیت خوب (آلوده نیست)
+                weatherIcon.className = 'weather-icon good';
+                weatherIcon.textContent = '🌤';
+                weatherText.textContent = 'آلوده نیست';
+                weatherText.style.color = '#4CAF50'; // سبز
+            } else if (airQualityLevel > 0.3) {
+                // وضعیت متوسط
+                weatherIcon.className = 'weather-icon moderate';
+                weatherIcon.textContent = '🌫';
+                weatherText.textContent = 'متوسط';
+                weatherText.style.color = '#FF9800'; // نارنجی
+            } else {
+                // وضعیت بد (آلوده است)
+                weatherIcon.className = 'weather-icon bad';
+                weatherIcon.textContent = '🌪';
+                weatherText.textContent = 'آلوده هست';
+                weatherText.style.color = '#F44336'; // قرمز
+            }
+        }
+
+        // هر 15 دقیقه وضعیت هوا را بررسی کن
+        setInterval(updateWeatherStatus, 15 * 60 * 1000); // 15 دقیقه
+        updateWeatherStatus(); // اولین بار اجرا شود
 
         // مدیریت منوی کشویی
         const hamburgerBtn = document.getElementById('hamburgerBtn');
