@@ -30,9 +30,6 @@
             --air-good: #4CAF50;
             --air-moderate: #FF9800;
             --air-bad: #F44336;
-            --yald-red: #DC143C;
-            --yald-dark-red: #8B0000;
-            --yald-gold: #FFD700;
         }
 
         body {
@@ -469,14 +466,14 @@
             text-align: center;
         }
 
-        /* پیام همگانی - قالب جدید یلدا */
+        /* پیام همگانی */
         .announcement-modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.7);
             display: none;
             align-items: center;
             justify-content: center;
@@ -489,257 +486,96 @@
         }
 
         .announcement-card {
-            background: linear-gradient(135deg, #8B0000, #DC143C, #FF4500);
-            border-radius: 20px;
+            background: var(--surface);
+            border-radius: 16px;
             width: 100%;
-            max-width: 350px;
-            max-height: 90vh;
+            max-width: 320px;
+            max-height: 80vh;
             overflow: hidden;
-            box-shadow: 
-                0 20px 40px rgba(139, 0, 0, 0.4),
-                0 0 60px rgba(255, 69, 0, 0.3),
-                0 0 100px rgba(220, 20, 60, 0.2);
-            animation: slideUp 0.6s ease-out;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease-out;
             display: flex;
             flex-direction: column;
-            border: 3px solid var(--yald-gold);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .announcement-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(220, 20, 60, 0.3) 0%, transparent 50%);
-            z-index: 1;
+            border: 2px solid var(--gold-border);
         }
 
         .announcement-header {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(139, 0, 0, 0.8));
-            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 12px;
             text-align: center;
             color: white;
             flex-shrink: 0;
-            position: relative;
-            z-index: 2;
-            border-bottom: 2px solid var(--yald-gold);
         }
 
         .announcement-title {
-            font-size: 22px;
-            font-weight: 900;
-            margin-bottom: 5px;
-            background: linear-gradient(to right, #FFD700, #FFA500);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 3px;
         }
 
         .announcement-subtitle {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 600;
+            font-size: 11px;
+            opacity: 0.9;
         }
 
         .announcement-body {
-            padding: 0;
-            flex: 1;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ویدیو سه بعدی یلدا */
-        .yald-video-container {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            border-bottom: 2px solid var(--yald-gold);
-        }
-
-        #yaldVideo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scale(1.1);
-            filter: 
-                brightness(1.1) 
-                contrast(1.1)
-                drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
-            animation: videoFloat 6s ease-in-out infinite;
-        }
-
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(139, 0, 0, 0.2) 50%,
-                rgba(0, 0, 0, 0.6) 100%
-            );
-            pointer-events: none;
-        }
-
-        /* محتوای تبریک یلدا */
-        .yald-message-container {
-            padding: 20px;
+            padding: 12px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.6);
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow-y: auto;
+            max-height: 40vh;
+            padding-right: 5px;
         }
 
-        .yald-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            animation: yaldIconFloat 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+        .announcement-icon {
+            font-size: 35px;
+            margin-bottom: 8px;
+            color: var(--primary);
         }
 
-        .yald-title {
-            font-size: 18px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            background: linear-gradient(to right, #FFD700, #FF8C00);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .announcement-message {
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--dark);
+            margin-bottom: 12px;
         }
-
-        .yald-poem {
-            font-size: 15px;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 20px;
-            font-weight: 600;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            border-right: 3px solid var(--yald-gold);
-            animation: textGlow 2s ease-in-out infinite alternate;
-        }
-
-        .yald-symbols {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .yald-symbols .symbol {
-            font-size: 24px;
-            animation: symbolFloat 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
-        }
-
-        .yald-symbols .symbol:nth-child(1) { animation-delay: 0s; }
-        .yald-symbols .symbol:nth-child(2) { animation-delay: 0.5s; }
-        .yald-symbols .symbol:nth-child(3) { animation-delay: 1s; }
-        .yald-symbols .symbol:nth-child(4) { animation-delay: 1.5s; }
-        .yald-symbols .symbol:nth-child(5) { animation-delay: 2s; }
 
         .announcement-actions {
             display: flex;
-            gap: 8px;
-            padding: 15px;
+            gap: 6px;
+            padding: 12px;
             flex-shrink: 0;
-            background: rgba(0, 0, 0, 0.7);
-            position: relative;
-            z-index: 2;
-            border-top: 2px solid var(--yald-gold);
         }
 
         .announcement-btn {
             flex: 1;
-            padding: 12px;
+            padding: 8px;
             border: none;
-            border-radius: 12px;
-            font-weight: 800;
+            border-radius: 7px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             font-family: inherit;
-            font-size: 14px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .announcement-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            font-size: 11px;
         }
 
         .announcement-btn-primary {
-            background: linear-gradient(135deg, #FFD700, #FF8C00);
-            color: #8B0000;
-            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
         }
 
         .announcement-btn-primary:active {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6);
-        }
-
-        .announcement-btn-primary:active::before {
-            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4);
         }
 
         .announcement-btn-secondary {
-            background: linear-gradient(135deg, #2C3E50, #4A235A);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--dark);
         }
 
         .announcement-btn-secondary:active {
-            transform: translateY(-3px);
-            background: linear-gradient(135deg, #34495E, #5B2C6F);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        /* انیمیشن‌های جدید */
-        @keyframes videoFloat {
-            0%, 100% { transform: scale(1.1) translateY(0) rotateX(0deg); }
-            50% { transform: scale(1.15) translateY(-5px) rotateX(5deg); }
-        }
-
-        @keyframes yaldIconFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.1); }
-        }
-
-        @keyframes symbolFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(10deg); }
-        }
-
-        @keyframes textGlow {
-            from { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.3); }
-            to { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.6); }
+            background: rgba(0, 0, 0, 0.1);
         }
 
         /* استایل اسکرول بار برای پیام همگانی */
@@ -753,12 +589,12 @@
         }
 
         .announcement-body::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #FFD700, #FF8C00);
+            background: rgba(46, 125, 50, 0.5);
             border-radius: 2px;
         }
 
         .announcement-body::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, #FF8C00, #FF4500);
+            background: rgba(46, 125, 50, 0.7);
         }
 
         /* جلوگیری از زوم */
@@ -778,29 +614,17 @@
             .weather-icon {
                 font-size: 9px;
             }
-            
-            .announcement-card {
-                max-width: 320px;
-            }
-            
-            .yald-video-container {
-                height: 180px;
-            }
-            
-            .yald-poem {
-                font-size: 14px;
-            }
         }
 
         /* انیمیشن‌های ورود */
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(40px) scale(0.95);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
 
@@ -887,48 +711,41 @@
     <!-- لودینگ رنگین‌کمانی -->
     <div class="rainbow-loading" id="rainbowLoading">
         <div class="rainbow-spinner"></div>
-        <div class="loading-text">درحال بارگزاری.....</div>
+        <div class="loading-text">درحال بارکزاری.....</div>
     </div>
 
-    <!-- پیام همگانی - قالب جدید یلدا -->
+    <!-- پیام همگانی -->
     <div class="announcement-modal" id="announcementModal">
         <div class="announcement-card">
             <div class="announcement-header">
-                <div class="announcement-title">🎉 یلدایتان مبارک 🎉</div>
-                <div class="announcement-subtitle">شب چله، شب مهربانی و همدلی</div>
+                <div class="announcement-title">پیام همگانی</div>
+                <div class="announcement-subtitle">به روزرسانی سیستم</div>
             </div>
             <div class="announcement-body">
-                <!-- ویدیو سه بعدی یلدا -->
-                <div class="yald-video-container">
-                    <video id="yaldVideo" autoplay muted loop playsinline class="yald-video-3d">
-                        <source src="m.mp4" type="video/mp4">
-                        مرورگر شما از ویدیو پشتیبانی نمی‌کند
-                    </video>
-                    <div class="video-overlay"></div>
+                ✨🌙 **یلدا** 🌙✨
+🍉🍎🍊🍓🍇🍒
+
+یلدا می‌آید تا شب را به مهربانی بسپارد 🤍
+تا سیاهی، کوتاه‌تر از امید شود ✨
+کنار هم، طولانی‌ترین شب هم می‌گذرد 🫂
+با انارِ خندان و دل‌های روشن 🍎❤️
+با حافظی که فالِ لبخند می‌دهد 📖🌸
+یلدا یادمان می‌اندازد صبر، برنده است ⏳💫
+که بعد از هر تاریکی، سپیده‌ای هست 🌅
+دست‌ها گرم‌تر از آتش می‌شوند 🔥🤲
+خاطره‌ها شیرین‌تر از هندوانه 🍉😋
+چشم‌ها به فردا ایمان می‌آورند 👀✨
+لبخندها چراغِ خانه‌اند 😊🏠
+دل‌ها به هم نزدیک‌تر می‌نشینند 💞
+شب، مهمان است؛ ماندگار نیست 🌌
+امید، طلوعِ حتمیِ ماست 🌄💖
+یلدا مبارک 🌙🍉 با دلِ روشن و فردایی روشن‌تر ✨🌹
+
                 </div>
-                
-                <!-- متن تبریک یلدا -->
-                <div class="yald-message-container">
-                    <div class="yald-icon">🎄</div>
-                    <h3 class="yald-title">یلدایتان پر از شادی و نور</h3>
-                    <div class="yald-poem">
-                        "یلدا می‌آید، مهربانی می‌آید<br>
-                        دل‌ها نزدیک‌تر می‌شوند، روشنی می‌آید<br>
-                        سیاهی شب می‌رود، سپیده‌ای می‌آید<br>
-                        یلدا مبارک، امید و روشنایی مبارک"
-                    </div>
-                    <div class="yald-symbols">
-                        <span class="symbol">🍉</span>
-                        <span class="symbol">🍎</span>
-                        <span class="symbol">🍊</span>
-                        <span class="symbol">📖</span>
-                        <span class="symbol">🕯️</span>
-                    </div>
+                <div class="announcement-actions">
+                    <button class="announcement-btn announcement-btn-secondary" id="announcementLater">بعداً</button>
+                    <button class="announcement-btn announcement-btn-primary" id="announcementClose">متوجه شدم</button>
                 </div>
-            </div>
-            <div class="announcement-actions">
-                <button class="announcement-btn announcement-btn-secondary" id="announcementLater">بعداً</button>
-                <button class="announcement-btn announcement-btn-primary" id="announcementClose">یلدا مبارک</button>
             </div>
         </div>
     </div>
@@ -1096,16 +913,6 @@
                 document.getElementById('rainbowLoading').classList.remove('active');
                 checkAnnouncement();
                 updateWeatherStatus(); // وضعیت هوا را بررسی کن
-                
-                // شروع پخش ویدیوی یلدا
-                const yaldVideo = document.getElementById('yaldVideo');
-                try {
-                    yaldVideo.play().catch(e => {
-                        console.log('پخش خودکار ویدیو نیاز به تعامل کاربر دارد');
-                    });
-                } catch (error) {
-                    console.log('خطا در پخش ویدیو:', error);
-                }
             }, 2000);
         });
 
@@ -1249,17 +1056,6 @@
             if (!lastShown || (now - parseInt(lastShown)) > oneDay) {
                 setTimeout(() => {
                     document.getElementById('announcementModal').classList.add('active');
-                    
-                    // شروع پخش ویدیو وقتی مدال نمایش داده می‌شود
-                    const yaldVideo = document.getElementById('yaldVideo');
-                    try {
-                        yaldVideo.currentTime = 0;
-                        yaldVideo.play().catch(e => {
-                            console.log('پخش ویدیو نیاز به تعامل کاربر دارد');
-                        });
-                    } catch (error) {
-                        console.log('خطا در پخش ویدیو:', error);
-                    }
                 }, 500);
             }
         }
@@ -1268,10 +1064,6 @@
         document.getElementById('announcementClose').addEventListener('click', function() {
             document.getElementById('announcementModal').classList.remove('active');
             localStorage.setItem('announcementLastShown', new Date().getTime().toString());
-            
-            // توقف ویدیو وقتی مدال بسته می‌شود
-            const yaldVideo = document.getElementById('yaldVideo');
-            yaldVideo.pause();
             
             // پخش صدای دکمه
             const buttonSound = document.getElementById('buttonSound');
@@ -1291,10 +1083,6 @@
             // برای دکمه "بعداً" هم زمان را ذخیره می‌کنیم تا 24 ساعت بعد نمایش داده شود
             localStorage.setItem('announcementLastShown', new Date().getTime().toString());
             
-            // توقف ویدیو وقتی مدال بسته می‌شود
-            const yaldVideo = document.getElementById('yaldVideo');
-            yaldVideo.pause();
-            
             // پخش صدای دکمه
             const buttonSound = document.getElementById('buttonSound');
             try {
@@ -1308,11 +1096,10 @@
             }
         });
 
-        // فعال کردن صداها و ویدیو با اولین تعامل کاربر
+        // فعال کردن صداها با اولین تعامل کاربر
         document.addEventListener('click', function enableAudio() {
             const startupSound = document.getElementById('startupSound');
             const buttonSound = document.getElementById('buttonSound');
-            const yaldVideo = document.getElementById('yaldVideo');
             
             // تلاش برای پخش و توقف سریع برای فعال کردن صداها
             startupSound.play().then(() => {
@@ -1323,12 +1110,6 @@
             buttonSound.play().then(() => {
                 buttonSound.pause();
                 buttonSound.currentTime = 0;
-            }).catch(e => {});
-            
-            // تلاش برای پخش ویدیو
-            yaldVideo.play().then(() => {
-                yaldVideo.pause();
-                yaldVideo.currentTime = 0;
             }).catch(e => {});
             
             // حذف event listener پس از اولین اجرا
