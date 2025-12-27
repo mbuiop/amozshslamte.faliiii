@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>سیستم مدیریت مالی و هوش مصنوعی | کافه بازار</title>
+    <title>سیستم مدیریت مالی وهوش مصنوعی</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -30,7 +30,6 @@
             --air-good: #4CAF50;
             --air-moderate: #FF9800;
             --air-bad: #F44336;
-            --cafe-bazaar: #40D0D6;
         }
 
         body {
@@ -56,89 +55,17 @@
             flex-direction: column;
         }
 
-        /* هدر اصلی */
+        /* هدر */
         .app-header {
             background: var(--surface);
             backdrop-filter: blur(20px);
-            padding: 45px 15px 15px;
+            padding: 45px 15px 10px;
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             position: relative;
             margin-bottom: 10px;
             flex-shrink: 0;
-        }
-
-        /* هدر کافه بازار - در بالای صفحه */
-        .bazaar-header {
-            background: linear-gradient(135deg, #40D0D6, #2E7D32);
-            padding: 8px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 2px solid var(--gold-border);
-            box-shadow: 0 3px 10px rgba(64, 208, 214, 0.3);
-            position: relative;
-            z-index: 10;
-            animation: bazaarPulse 3s infinite;
-        }
-
-        @keyframes bazaarPulse {
-            0%, 100% { box-shadow: 0 3px 10px rgba(64, 208, 214, 0.3); }
-            50% { box-shadow: 0 3px 15px rgba(64, 208, 214, 0.5); }
-        }
-
-        .bazaar-header-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-        }
-
-        .bazaar-icon {
-            font-size: 22px;
-            color: white;
-            animation: iconFloat 2s infinite;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
-        .bazaar-text {
-            color: white;
-            flex: 1;
-        }
-
-        .bazaar-title {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .bazaar-subtitle {
-            font-size: 10px;
-            opacity: 0.9;
-        }
-
-        .bazaar-btn {
-            background: white;
-            color: #40D0D6;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
-        }
-
-        .bazaar-btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
         }
 
         .status-bar {
@@ -651,30 +578,22 @@
             background: rgba(0, 0, 0, 0.1);
         }
 
-        /* استایل اسکرول بار */
-        .app-content::-webkit-scrollbar,
-        .announcement-body::-webkit-scrollbar,
-        .slide-menu::-webkit-scrollbar {
+        /* استایل اسکرول بار برای پیام همگانی */
+        .announcement-body::-webkit-scrollbar {
             width: 4px;
         }
 
-        .app-content::-webkit-scrollbar-track,
-        .announcement-body::-webkit-scrollbar-track,
-        .slide-menu::-webkit-scrollbar-track {
+        .announcement-body::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.05);
             border-radius: 2px;
         }
 
-        .app-content::-webkit-scrollbar-thumb,
-        .announcement-body::-webkit-scrollbar-thumb,
-        .slide-menu::-webkit-scrollbar-thumb {
+        .announcement-body::-webkit-scrollbar-thumb {
             background: rgba(46, 125, 50, 0.5);
             border-radius: 2px;
         }
 
-        .app-content::-webkit-scrollbar-thumb:hover,
-        .announcement-body::-webkit-scrollbar-thumb:hover,
-        .slide-menu::-webkit-scrollbar-thumb:hover {
+        .announcement-body::-webkit-scrollbar-thumb:hover {
             background: rgba(46, 125, 50, 0.7);
         }
 
@@ -693,14 +612,6 @@
             }
             
             .weather-icon {
-                font-size: 9px;
-            }
-            
-            .bazaar-title {
-                font-size: 12px;
-            }
-            
-            .bazaar-subtitle {
                 font-size: 9px;
             }
         }
@@ -730,7 +641,7 @@
         .delay-7 { animation-delay: 0.7s; opacity: 0; }
         .delay-8 { animation-delay: 0.8s; opacity: 0; }
         
-        /* بهبود ظاهر */
+        /* استایل‌های جدید برای بهبود ظاهر */
         .header-content {
             margin-top: 3px;
             text-align: center;
@@ -749,24 +660,42 @@
             color: #64748b;
         }
         
-        /* بهبود فونت */
-        .menu-text, .btn-text, .nav-label, .bazaar-title, .bazaar-subtitle {
+        /* بهبود اسکرول */
+        .app-content::-webkit-scrollbar {
+            width: 2px;
+        }
+        
+        .app-content::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 1px;
+        }
+        
+        .app-content::-webkit-scrollbar-thumb {
+            background: rgba(76, 175, 80, 0.5);
+            border-radius: 1px;
+        }
+        
+        .app-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(76, 175, 80, 0.7);
+        }
+        
+        .slide-menu::-webkit-scrollbar {
+            width: 2px;
+        }
+        
+        .slide-menu::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 1px;
+        }
+        
+        .slide-menu::-webkit-scrollbar-thumb {
+            background: rgba(76, 175, 80, 0.5);
+            border-radius: 1px;
+        }
+
+        /* تنظیمات فونت برای نمایش بهتر */
+        .menu-text, .btn-text, .nav-label {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-        }
-        
-        /* استایل مخصوص کافه بازار در منو */
-        .cafe-bazaar-item {
-            background: linear-gradient(135deg, rgba(64, 208, 214, 0.2), rgba(46, 125, 50, 0.2)) !important;
-            border-color: #40D0D6 !important;
-        }
-        
-        .cafe-bazaar-item:active {
-            background: linear-gradient(135deg, #40D0D6, #2E7D32) !important;
-        }
-        
-        .cafe-bazaar-icon {
-            background: rgba(64, 208, 214, 0.9) !important;
-            color: white !important;
         }
     </style>
 </head>
@@ -782,7 +711,7 @@
     <!-- لودینگ رنگین‌کمانی -->
     <div class="rainbow-loading" id="rainbowLoading">
         <div class="rainbow-spinner"></div>
-        <div class="loading-text">درحال بارگزاری.....</div>
+        <div class="loading-text">درحال بارکزاری.....</div>
     </div>
 
     <!-- پیام همگانی -->
@@ -792,40 +721,21 @@
                 <div class="announcement-title">پیام همگانی</div>
                 <div class="announcement-subtitle">به روزرسانی سیستم</div>
             </div>
-            <div class="announcement-body">
-                <div class="announcement-icon">📱</div>
-                <div class="announcement-message">
-                    خوش آمدید کاربران گرامی! لطفاً اپلیکیشن را از طریق کافه بازار بروزرسانی کنید.<br><br>
-                    <strong>کافه بازار:</strong> بزرگترین مارکت اندرویدی فارسی<br>
-                    <a href="https://cafebazaar.ir/app/co.median.android.nmxakke" style="color: #40D0D6; font-weight: bold; text-decoration: none;">
-                        cafebazaar.ir/app/co.median.android.nmxakke
-                    </a>
+            <div>
+                خوش امدید کاربران گرامی اپلیکیشن را از طریق بازار بروزرسانی کنید با تشکر  به زودی ویژگی های خوب اضافه میشه
+
                 </div>
-            </div>
-            <div class="announcement-actions">
-                <button class="announcement-btn announcement-btn-secondary" id="announcementLater">بعداً</button>
-                <button class="announcement-btn announcement-btn-primary" id="announcementClose">متوجه شدم</button>
+                <div class="announcement-actions">
+                    <button class="announcement-btn announcement-btn-secondary" id="announcementLater">بعداً</button>
+                    <button class="announcement-btn announcement-btn-primary" id="announcementClose">متوجه شدم</button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- کانتینر اصلی -->
     <div class="app-container">
-        <!-- هدر کافه بازار - در بالای صفحه -->
-        <div class="bazaar-header" id="bazaarHeader" onclick="handleButtonClick(event, 'https://cafebazaar.ir/app/co.median.android.nmxakke')">
-            <div class="bazaar-header-content">
-                <div class="bazaar-icon">📱</div>
-                <div class="bazaar-text">
-                    <div class="bazaar-title">بروزرسانی از کافه بازار</div>
-                    <div class="bazaar-subtitle">اپلیکیشن را از بزرگترین مارکت اندرویدی بروزرسانی کنید</div>
-                </div>
-            </div>
-            <button class="bazaar-btn" onclick="handleButtonClick(event, 'https://cafebazaar.ir/app/co.median.android.nmxakke'); event.stopPropagation();">
-                برو به بازار
-            </button>
-        </div>
-
-        <!-- هدر اصلی -->
+        <!-- هدر -->
         <header class="app-header">
             <div class="status-bar">
                 <div class="date-time">
@@ -917,7 +827,7 @@
             </a>
             <a href="m40.html" class="nav-btn" onclick="handleButtonClick(event, 'm40.html')">
                 <div class="nav-icon">📈</div>
-                <div class="nav-label">آهنگ کده</div>
+                <div class="nav-label">اهنگ کده</div>
             </a>
             <a href="m8.html" class="nav-btn" onclick="handleButtonClick(event, 'm8.html')">
                 <div class="nav-icon">🪩</div>
@@ -926,15 +836,11 @@
         </nav>
     </div>
 
-    <!-- منوی کشویی -->
+    <!-- منوی کشویی - اکنون از سمت چپ باز می‌شود -->
     <div class="slide-menu" id="slideMenu">
         <div class="menu-items">
-            <a href="https://cafebazaar.ir/app/co.median.android.nmxakke" class="menu-item cafe-bazaar-item" onclick="handleButtonClick(event, 'https://cafebazaar.ir/app/co.median.android.nmxakke')">
-                <div class="menu-icon cafe-bazaar-icon">📱</div>
-                <div class="menu-text">کافه بازار</div>
-            </a>
             <a href="m90.html" class="menu-item" onclick="handleButtonClick(event, 'm90.html')">
-                <div class="menu-icon">📅</div>
+                <div class="menu-icon"></div>
                 <div class="menu-text">تاریخ</div>
             </a>
             <a href="m100.html" class="menu-item" onclick="handleButtonClick(event, 'm100.html')">
@@ -942,7 +848,7 @@
                 <div class="menu-text">علوم</div>
             </a>
             <a href="m99.html" class="menu-item" onclick="handleButtonClick(event, 'm99.html')">
-                <div class="menu-icon">🧪</div>
+                <div class="menu-icon"></div>
                 <div class="menu-text">شیمی</div>
             </a>
             <a href="m30.html" class="menu-item" onclick="handleButtonClick(event, 'm30.html')">
@@ -955,7 +861,7 @@
             </a>
             <a href="https://snapvideo.app/fa?utm_source=chatgpt.com" class="menu-item" onclick="handleButtonClick(event, 'https://snapvideo.app/fa?utm_source=chatgpt.com')">
                 <div class="menu-icon">🔎</div>
-                <div class="menu-text">دانلودر اینستاگرام</div>
+                <div class="menu-text">دانلودراینستاگرام</div>
             </a>
             <a href="https://chat.openai.com/" class="menu-item" onclick="handleButtonClick(event, 'https://chat.openai.com/')">
                 <div class="menu-icon">🧠</div>
@@ -989,7 +895,7 @@
             setTimeout(() => {
                 document.getElementById('rainbowLoading').classList.remove('active');
                 checkAnnouncement();
-                updateWeatherStatus();
+                updateWeatherStatus(); // وضعیت هوا را بررسی کن
             }, 2000);
         });
 
@@ -1057,28 +963,34 @@
             const weatherIcon = document.getElementById('weatherIcon');
             const weatherText = document.getElementById('weatherText');
             
-            const airQualityLevel = Math.random();
+            // شبیه‌سازی وضعیت هوا (در واقعیت باید از API آب و هوا استفاده شود)
+            const airQualityLevel = Math.random(); // عدد تصادفی بین 0 تا 1
             
+            // 3 سطح کیفیت هوا
             if (airQualityLevel > 0.7) {
+                // وضعیت خوب (آلوده نیست)
                 weatherIcon.className = 'weather-icon good';
                 weatherIcon.textContent = '🌤';
                 weatherText.textContent = 'آلوده نیست';
-                weatherText.style.color = '#4CAF50';
+                weatherText.style.color = '#4CAF50'; // سبز
             } else if (airQualityLevel > 0.3) {
+                // وضعیت متوسط
                 weatherIcon.className = 'weather-icon moderate';
                 weatherIcon.textContent = '🌫';
                 weatherText.textContent = 'متوسط';
-                weatherText.style.color = '#FF9800';
+                weatherText.style.color = '#FF9800'; // نارنجی
             } else {
+                // وضعیت بد (آلوده است)
                 weatherIcon.className = 'weather-icon bad';
                 weatherIcon.textContent = '🌪';
                 weatherText.textContent = 'آلوده هست';
-                weatherText.style.color = '#F44336';
+                weatherText.style.color = '#F44336'; // قرمز
             }
         }
 
-        setInterval(updateWeatherStatus, 15 * 60 * 1000);
-        updateWeatherStatus();
+        // هر 15 دقیقه وضعیت هوا را بررسی کن
+        setInterval(updateWeatherStatus, 15 * 60 * 1000); // 15 دقیقه
+        updateWeatherStatus(); // اولین بار اجرا شود
 
         // مدیریت منوی کشویی
         const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1087,6 +999,7 @@
         hamburgerBtn.addEventListener('click', function() {
             slideMenu.classList.toggle('active');
             
+            // پخش صدای دکمه برای منوی همبرگر
             const buttonSound = document.getElementById('buttonSound');
             try {
                 buttonSound.currentTime = 0;
@@ -1120,8 +1033,9 @@
         function checkAnnouncement() {
             const lastShown = localStorage.getItem('announcementLastShown');
             const now = new Date().getTime();
-            const oneDay = 24 * 60 * 60 * 1000;
+            const oneDay = 24 * 60 * 60 * 1000; // 24 ساعت به میلی‌ثانیه
             
+            // اگر قبلاً نمایش داده نشده یا 24 ساعت گذشته
             if (!lastShown || (now - parseInt(lastShown)) > oneDay) {
                 setTimeout(() => {
                     document.getElementById('announcementModal').classList.add('active');
@@ -1134,6 +1048,7 @@
             document.getElementById('announcementModal').classList.remove('active');
             localStorage.setItem('announcementLastShown', new Date().getTime().toString());
             
+            // پخش صدای دکمه
             const buttonSound = document.getElementById('buttonSound');
             try {
                 buttonSound.currentTime = 0;
@@ -1148,8 +1063,10 @@
 
         document.getElementById('announcementLater').addEventListener('click', function() {
             document.getElementById('announcementModal').classList.remove('active');
+            // برای دکمه "بعداً" هم زمان را ذخیره می‌کنیم تا 24 ساعت بعد نمایش داده شود
             localStorage.setItem('announcementLastShown', new Date().getTime().toString());
             
+            // پخش صدای دکمه
             const buttonSound = document.getElementById('buttonSound');
             try {
                 buttonSound.currentTime = 0;
@@ -1167,6 +1084,7 @@
             const startupSound = document.getElementById('startupSound');
             const buttonSound = document.getElementById('buttonSound');
             
+            // تلاش برای پخش و توقف سریع برای فعال کردن صداها
             startupSound.play().then(() => {
                 startupSound.pause();
                 startupSound.currentTime = 0;
@@ -1177,6 +1095,7 @@
                 buttonSound.currentTime = 0;
             }).catch(e => {});
             
+            // حذف event listener پس از اولین اجرا
             document.removeEventListener('click', enableAudio);
         });
 
@@ -1193,14 +1112,6 @@
         
         // بهبود عملکرد لمسی
         document.addEventListener('touchstart', function() {}, {passive: true});
-        
-        // نمایش هدر کافه بازار با انیمیشن
-        setTimeout(() => {
-            const bazaarHeader = document.getElementById('bazaarHeader');
-            if (bazaarHeader) {
-                bazaarHeader.style.animation = 'bazaarPulse 2s infinite';
-            }
-        }, 500);
     </script>
 </body>
 </html>
