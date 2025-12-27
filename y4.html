@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تبدیل سایت به اپلیکیشن | سایت اپلیکیشن ساز</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 10px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        /* هدر اصلی */
+        .main-header {
+            background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            background: white;
+            color: #7b1fa2;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-left: 10px;
+        }
+        
+        h1 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        /* دکمه اصلی تلگرام */
+        .telegram-main-btn {
+            background: #0088cc;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin: 10px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 136, 204, 0.4);
+            width: 90%;
+            max-width: 300px;
+        }
+        
+        .telegram-main-btn:hover, .telegram-main-btn:active {
+            background: #0077b5;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 12px rgba(0, 136, 204, 0.6);
+        }
+        
+        .telegram-main-btn i {
+            margin-left: 8px;
+            font-size: 1.2rem;
+        }
+        
+        /* بخش توضیحات */
+        .explanation-box {
+            background-color: rgba(255, 255, 255, 0.97);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-right: 5px solid #4a148c;
+        }
+        
+        .explanation-box h2 {
+            color: #4a148c;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .explanation-box h2 i {
+            margin-left: 10px;
+        }
+        
+        .explanation-box p {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            text-align: justify;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            color: #4a148c;
+            font-weight: bold;
+            background-color: #f3e5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        /* بخش مدارک مورد نیاز */
+        .requirements-box {
+            background-color: #f3e5f5;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-right: 5px solid #7b1fa2;
+        }
+        
+        .requirements-box h2 {
+            color: #7b1fa2;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .requirement-list {
+            list-style-type: none;
+        }
+        
+        .requirement-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #ce93d8;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .requirement-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .requirement-list i {
+            color: #7b1fa2;
+            margin-left: 10px;
+            font-size: 1rem;
+        }
+        
+        /* بخش اطلاعات بانکی */
+        .bank-info-box {
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .bank-info-box h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .bank-info-box h2 i {
+            margin-left: 10px;
+        }
+        
+        .bank-details {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+            direction: ltr;
+            text-align: center;
+        }
+        
+        .card-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .card-number:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .card-owner {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .copy-btn {
+            background: white;
+            color: #1565c0;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto 0;
+        }
+        
+        .copy-btn:hover {
+            background: #e3f2fd;
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn i {
+            margin-left: 5px;
+        }
+        
+        /* بخش قیمت */
+        .price-box {
+            text-align: center;
+            background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .price-label {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .price {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .price-note {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        /* بخش زمان تحویل */
+        .delivery-box {
+            background-color: #e8f5e9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-right: 5px solid #2e7d32;
+        }
+        
+        .delivery-box h2 {
+            color: #2e7d32;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .urgency-note {
+            background-color: #ffebee;
+            border-right: 4px solid #d32f2f;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        /* بخش مزایا */
+        .benefits-box {
+            background-color: #e3f2fd;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-right: 5px solid #1565c0;
+        }
+        
+        .benefits-box h2 {
+            color: #1565c0;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .benefit-list {
+            list-style-type: none;
+        }
+        
+        .benefit-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .benefit-list i {
+            color: #1565c0;
+            margin-left: 10px;
+            font-size: 1rem;
+        }
+        
+        /* بخش نمونه کارها */
+        .samples-box {
+            background-color: #fff3e0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-right: 5px solid #f57c00;
+        }
+        
+        .samples-box h2 {
+            color: #f57c00;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sample-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .sample-link {
+            background: linear-gradient(135deg, #311b92 0%, #673ab7 100%);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .sample-link:hover, .sample-link:active {
+            background: linear-gradient(135deg, #673ab7 0%, #9575cd 100%);
+            transform: translateY(-2px);
+        }
+        
+        .sample-link i {
+            margin-left: 8px;
+            font-size: 1rem;
+        }
+        
+        .sample-id {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 0.85rem;
+            border: 1px dashed #ccc;
+        }
+        
+        /* بخش هشدارها */
+        .warning-box {
+            background-color: #ffebee;
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-right: 5px solid #d32f2f;
+        }
+        
+        .warning-box h3 {
+            color: #d32f2f;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* فوتر */
+        footer {
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
+            margin-bottom: 70px;
+        }
+        
+        .footer-text {
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        
+        /* دکمه ثابت تلگرام */
+        .telegram-fixed-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0088cc;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.6);
+            z-index: 1000;
+            font-size: 0.95rem;
+            animation: pulse 2s infinite;
+            width: 90%;
+            max-width: 320px;
+            justify-content: center;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 15px rgba(0, 136, 204, 0.6); }
+            50% { box-shadow: 0 5px 20px rgba(0, 136, 204, 0.9); }
+            100% { box-shadow: 0 5px 15px rgba(0, 136, 204, 0.6); }
+        }
+        
+        .telegram-fixed-btn i {
+            margin-left: 8px;
+            font-size: 1.2rem;
+        }
+        
+        /* بهبود اسکرول */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* برای جلوگیری از زوم */
+        input, textarea, select {
+            font-size: 16px;
+        }
+        
+        /* پیام کپی موفق */
+        .copy-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        .copy-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- هدر اصلی -->
+        <header class="main-header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div>
+                    <h1>تبدیل سایت به اپلیکیشن اندروید</h1>
+                    <p class="tagline">سایت اپلیکیشن ساز - با تکنولوژی روز</p>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.9rem; margin-bottom: 15px;">
+                سایت خود را به اپلیکیشن اندروید تبدیل کنید
+            </p>
+        </header>
+        
+        <!-- توضیحات اصلی -->
+        <section class="explanation-box">
+            <h2><i class="fas fa-info-circle"></i> توضیحات کامل خدمات</h2>
+            <p>
+                ما سایت شما را به <span class="highlight">اپلیکیشن اندروید</span> تبدیل می‌کنیم. 
+                اپلیکیشن ساخته شده کاملاً حرفه‌ای، بدون خطا و با بهترین تکنولوژی روز خواهد بود.
+            </p>
+            <p>
+                پس از ساخت، اپلیکیشن شما قابلیت انتشار در <span class="highlight">گوگل پلی، بازار، مایکت</span> و تمام فروشگاه‌های معتبر اندروید را دارد.
+            </p>
+            <p>
+                اپلیکیشن ساخته شده از سایت شما <span class="highlight">به‌طور خودکار آپدیت</span> می‌شود. یعنی هر تغییری در سایت ایجاد کنید، بلافاصله در اپلیکیشن نیز اعمال می‌شود.
+            </p>
+            <p>
+                <span class="highlight">هیچ محدودیتی در تعداد صفحات و محتوا</span> وجود ندارد. کل سایت شما به طور کامل تبدیل به اپلیکیشن می‌شود.
+            </p>
+        </section>
+        
+        <!-- مدارک مورد نیاز -->
+        <section class="requirements-box">
+            <h2><i class="fas fa-clipboard-check"></i> مدارک و اطلاعات مورد نیاز برای سفارش</h2>
+            <ul class="requirement-list">
+                <li><i class="fas fa-link"></i> <strong>لینک سایت:</strong> آدرس کامل سایت شما</li>
+                <li><i class="fas fa-image"></i> <strong>آیکون سایت:</strong> لوگو با کیفیت بالا (ترجیحاً PNG با پس زمینه شفاف)</li>
+                <li><i class="fas fa-signature"></i> <strong>نام سایت:</strong> نامی که می‌خواهید برای اپلیکیشن نمایش داده شود</li>
+                <li><i class="fas fa-credit-card"></i> <strong>فیش واریزی:</strong> تصویر فیش پرداخت ۲۰۰,۰۰۰ تومان</li>
+                <li><i class="fas fa-user-tie"></i> <strong>مشخصات تماس:</strong> نام، شماره تماس، آیدی تلگرام</li>
+                <li><i class="fas fa-palette"></i> <strong>رنگ‌بندی (اختیاری):</strong> اگر رنگ خاصی مدنظر دارید</li>
+            </ul>
+        </section>
+        
+        <!-- اطلاعات بانکی -->
+        <section class="bank-info-box">
+            <h2><i class="fas fa-credit-card"></i> اطلاعات حساب بانکی برای واریز</h2>
+            <p style="margin-bottom: 15px; text-align: center; font-size: 0.95rem;">
+                لطفاً مبلغ <strong>۲۰۰,۰۰۰ تومان</strong> را به حساب زیر واریز کنید:
+            </p>
+            
+            <div class="bank-details">
+                <div class="card-number" id="cardNumber">
+                    5892 1011 8732 2777
+                </div>
+                <div class="card-owner">
+                    به نام: مرتضی نیکخو خنجری
+                </div>
+                <button class="copy-btn" id="copyCardBtn">
+                    <i class="far fa-copy"></i> کپی شماره کارت
+                </button>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.85rem; text-align: center; opacity: 0.9;">
+                پس از واریز، تصویر فیش را از طریق تلگرام ارسال کنید
+            </p>
+        </section>
+        
+        <!-- بخش قیمت -->
+        <section class="price-box">
+            <div class="price-label">هزینه تبدیل سایت به اپلیکیشن</div>
+            <div class="price">۲۰۰,۰۰۰ تومان</div>
+            <div class="price-note">
+                فقط یک‌بار پرداخت - بدون هزینه اضافی - تضمین کیفیت
+            </div>
+            <div style="margin-top: 15px; font-size: 0.85rem;">
+                <i class="fas fa-shield-alt"></i> دارای گارانتی و پشتیبانی ۶ ماهه
+            </div>
+        </section>
+        
+        <!-- زمان تحویل -->
+        <section class="delivery-box">
+            <h2><i class="far fa-clock"></i> زمان تحویل پروژه</h2>
+            <p>
+                پس از دریافت اطلاعات و پرداخت، فرآیند تبدیل <span class="highlight">بلافاصله آغاز</span> می‌شود.
+            </p>
+            <p>
+                زمان معمول تحویل: <span class="highlight">حداکثر ۲۴ ساعت</span>
+            </p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">
+                در صورتی که سفارشات کم باشد، پروژه شما <span class="highlight">در کمتر از ۳ ساعت</span> آماده می‌شود.
+            </p>
+            
+            <div class="urgency-note">
+                <i class="fas fa-bolt"></i> پروژه‌های فوری با پرداخت ۵۰٪ اضافه، در ۶ ساعت تحویل داده می‌شوند
+            </div>
+        </section>
+        
+        <!-- مزایا -->
+        <section class="benefits-box">
+            <h2><i class="fas fa-star"></i> مزایای اپلیکیشن ساخته شده</h2>
+            <ul class="benefit-list">
+                <li><i class="fas fa-check-circle"></i> طراحی شده با جدیدترین تکنولوژی‌های روز</li>
+                <li><i class="fas fa-check-circle"></i> کاملاً واکنش‌گرا و سازگار با تمام گوشی‌های اندروید</li>
+                <li><i class="fas fa-check-circle"></i> سرعت بارگذاری فوق‌العاده بالا</li>
+                <li><i class="fas fa-check-circle"></i> بدون خطا، باگ یا هنگ کردن</li>
+                <li><i class="fas fa-check-circle"></i> قابلیت ارسال نوتیفیکیشن (اعلان)</li>
+                <li><i class="fas fa-check-circle"></i> امکان اضافه کردن منوهای اختصاصی</li>
+                <li><i class="fas fa-check-circle"></i> آپدیت خودکار با آپدیت سایت</li>
+                <li><i class="fas fa-check-circle"></i> پشتیبانی از تمام فرم‌ها و دکمه‌های سایت</li>
+                <li><i class="fas fa-check-circle"></i> قابلیت انتشار در تمام فروشگاه‌های اندروید</li>
+                <li><i class="fas fa-check-circle"></i> گارانتی و پشتیبانی ۶ ماهه رایگان</li>
+            </ul>
+        </section>
+        
+        <!-- نمونه کارها -->
+        <section class="samples-box">
+            <h2><i class="fas fa-briefcase"></i> نمونه کارهای اجرا شده</h2>
+            <p>برای مشاهده نمونه کارهای تبدیل شده، روی لینک‌های زیر کلیک کنید:</p>
+            
+            <div class="sample-links">
+                <a href="https://myket.ir/app/co.median.android.nmxakke" class="sample-link" target="_blank">
+                    <i class="fas fa-external-link-alt"></i>
+                    مشاهده نمونه کار در مایکت
+                </a>
+                
+                <a href="https://myket.ir/app/co.median.android.nmxakke" class="sample-link" target="_blank">
+                    <i class="fas fa-store"></i>
+                    مشاهده نمونه کار در بازار
+                </a>
+            </div>
+            
+            <div class="sample-id">
+                شناسه نمونه کار: <strong>co.median.android.nmxakke</strong>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.85rem; text-align: center;">
+                <i class="fas fa-eye"></i> می‌توانید اپلیکیشن نمونه را نصب و عملکرد آن را تست کنید
+            </p>
+        </section>
+        
+        <!-- هشدارهای مهم -->
+        <section class="warning-box">
+            <h3><i class="fas fa-exclamation-triangle"></i> نکات مهم قبل از سفارش</h3>
+            <p style="font-size: 0.9rem;">
+                ۱. سایت شما باید در دسترس باشد و فیلتر نباشد.<br>
+                ۲. پرداخت فقط از طریق واریز به حساب بانکی انجام می‌شود.<br>
+                ۳. پس از پرداخت، تصویر فیش را ارسال کنید.<br>
+                ۴. پروژه پس از تایید پرداخت آغاز می‌شود.<br>
+                ۵. فایل نهایی اپلیکیشن (APK) برای شما ارسال می‌شود.<br>
+                ۶. اپلیکیشن فقط برای سیستم عامل اندروید ساخته می‌شود.
+            </p>
+        </section>
+        
+        <!-- مراحل کار -->
+        <section class="explanation-box" style="border-right-color: #9c27b0;">
+            <h2><i class="fas fa-list-ol"></i> مراحل انجام کار</h2>
+            <p>
+                <strong>مرحله ۱:</strong> واریز مبلغ ۲۰۰,۰۰۰ تومان به شماره کارت بالا
+            </p>
+            <p>
+                <strong>مرحله ۲:</strong> ارسال لینک سایت، آیکون، نام مورد نظر و فیش پرداخت
+            </p>
+            <p>
+                <strong>مرحله ۳:</strong> تایید پرداخت و شروع فرآیند تبدیل توسط تیم فنی
+            </p>
+            <p>
+                <strong>مرحله ۴:</strong> تست اپلیکیشن توسط شما (ارسال نسخه آزمایشی)
+            </p>
+            <p>
+                <strong>مرحله ۵:</strong> دریافت فایل نهایی اپلیکیشن (APK) و راهنمای انتشار
+            </p>
+            <p>
+                <strong>مرحله ۶:</strong> پشتیبانی ۶ ماهه رایگان برای رفع هرگونه مشکل
+            </p>
+        </section>
+        
+        <!-- فوتر -->
+        <footer>
+            <div class="footer-text">
+                <p><i class="fas fa-mobile-alt"></i> <strong>سایت اپلیکیشن ساز</strong></p>
+                <p>تبدیل حرفه‌ای سایت به اپلیکیشن اندروید</p>
+                <p>قابل انتشار در تمام فروشگاه‌های معتبر اندروید</p>
+            </div>
+            
+            <p style="margin: 15px 0; font-size: 0.95rem;">
+                برای سفارش یا مشاوره، به آیدی زیر در تلگرام پیام دهید:
+            </p>
+            
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                <p style="font-size: 1.1rem; font-weight: bold; letter-spacing: 1px;">
+                    @Mortzayar
+                </p>
+                <p style="font-size: 0.85rem; opacity: 0.9;">
+                    آیدی تلگرام برای ارتباط
+                </p>
+            </div>
+            
+            <div class="copyright">
+                <i class="far fa-copyright"></i> کلیه حقوق این سرویس محفوظ می‌باشد - ۱۴۰۳
+            </div>
+        </footer>
+        
+        <!-- دکمه ثابت تلگرام -->
+        <a href="https://t.me/Mortzayar" class="telegram-fixed-btn" target="_blank">
+            <i class="fab fa-telegram-plane"></i>
+            ارتباط در تلگرام: @Mortzayar
+        </a>
+        
+        <!-- پیام کپی موفق -->
+        <div class="copy-message" id="copyMessage">
+            <i class="fas fa-check-circle"></i> شماره کارت کپی شد!
+        </div>
+    </div>
+
+    <script>
+        // غیرفعال کردن زوم با دبل تاپ
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // جلوگیری از زوم با Ctrl+Scroll
+        document.addEventListener('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        // اسکرول نرم
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 10,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // افکت برای ظاهر شدن تدریجی بخش‌ها
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // اعمال افکت روی تمام بخش‌ها
+        document.querySelectorAll('.explanation-box, .requirements-box, .bank-info-box, .price-box, .delivery-box, .benefits-box, .samples-box, .warning-box').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(section);
+        });
+
+        // نمایش پیام تأیید کلیک روی دکمه تلگرام
+        document.querySelectorAll('a[href*="t.me"]').forEach(link => {
+            link.addEventListener('click', function() {
+                if(navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            });
+        });
+
+        // کپی شماره کارت
+        const cardNumber = document.getElementById('cardNumber');
+        const copyCardBtn = document.getElementById('copyCardBtn');
+        const copyMessage = document.getElementById('copyMessage');
+        
+        copyCardBtn.addEventListener('click', function() {
+            const textToCopy = '5892101187322777';
+            
+            // استفاده از Clipboard API جدید
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        showCopyMessage();
+                    })
+                    .catch(err => {
+                        console.error('خطا در کپی کردن: ', err);
+                        fallbackCopyTextToClipboard(textToCopy);
+                    });
+            } else {
+                // روش fallback برای مرورگرهای قدیمی
+                fallbackCopyTextToClipboard(textToCopy);
+            }
+        });
+        
+        // همچنین امکان کپی با کلیک روی شماره کارت
+        cardNumber.addEventListener('click', function() {
+            const textToCopy = '5892101187322777';
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        showCopyMessage();
+                    })
+                    .catch(err => {
+                        console.error('خطا در کپی کردن: ', err);
+                        fallbackCopyTextToClipboard(textToCopy);
+                    });
+            } else {
+                fallbackCopyTextToClipboard(textToCopy);
+            }
+        });
+        
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopyMessage();
+                }
+            } catch (err) {
+                console.error('خطا در کپی کردن: ', err);
+                alert('لطفاً شماره کارت را دستی کپی کنید: ' + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showCopyMessage() {
+            copyMessage.classList.add('show');
+            
+            // ویبره اگر پشتیبانی شود
+            if (navigator.vibrate) {
+                navigator.vibrate(100);
+            }
+            
+            setTimeout(() => {
+                copyMessage.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
