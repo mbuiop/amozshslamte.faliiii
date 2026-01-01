@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تبدیل متن به ویدیو با آپلود عکس، صدا و تا ۳۰ دقیقه</title>
+    <title>تبدیل متن به ویدیو با آپلود چند عکس، چند صدا و تا ۳۰ دقیقه</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -267,10 +267,7 @@
             gap: 8px;
         }
         
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 8px;
+        .images-container {
             max-height: 250px;
             overflow-y: auto;
             padding: 10px;
@@ -279,34 +276,64 @@
             margin-bottom: 12px;
         }
         
-        @media (min-width: 768px) {
-            .gallery-container {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-                max-height: 300px;
-            }
+        .uploaded-images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
         }
         
-        .background-thumb {
-            width: 100%;
-            height: 60px;
+        .uploaded-image-item {
+            position: relative;
             border-radius: 8px;
+            overflow: hidden;
             cursor: pointer;
-            object-fit: cover;
             transition: all 0.3s;
             border: 2px solid transparent;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
         }
         
-        .background-thumb:hover {
-            transform: scale(1.08);
+        .uploaded-image-item:hover {
+            transform: scale(1.05);
             border-color: #4ecdc4;
-            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.5);
         }
         
-        .background-thumb.selected {
+        .uploaded-image-item.selected {
             border-color: #ff6b6b;
             box-shadow: 0 5px 15px rgba(255, 107, 107, 0.6);
-            transform: scale(1.05);
+        }
+        
+        .uploaded-image-item img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .image-number {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .remove-image-btn {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            background: rgba(255, 107, 107, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .selected-bg-info {
@@ -332,6 +359,72 @@
         }
         
         .audio-section .upload-btn i {
+            color: #ff6b6b;
+        }
+        
+        .audio-files-list {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .audio-file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .audio-file-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .audio-file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .audio-file-info i {
+            color: #ff6b6b;
+        }
+        
+        .audio-file-name {
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .audio-controls {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .play-audio-btn, .remove-audio-btn {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ecdc4;
+            border: none;
+            border-radius: 4px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .remove-audio-btn {
+            background: rgba(255, 107, 107, 0.2);
             color: #ff6b6b;
         }
         
@@ -515,45 +608,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .background-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 10px;
-        }
-        
-        .tab-btn {
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: none;
-            border-radius: 8px;
-            color: #a0c8ff;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .tab-btn.active {
-            background: rgba(78, 205, 196, 0.2);
-            color: #4ecdc4;
-        }
-        
-        .tab-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
         .duration-control {
             display: flex;
             align-items: center;
@@ -569,9 +623,20 @@
             text-align: center;
         }
         
+        .transition-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
         @media (max-width: 768px) {
             textarea, select, input, button {
                 font-size: 16px !important;
+            }
+            
+            .transition-controls {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -581,22 +646,31 @@
             margin-top: 5px;
             text-align: center;
         }
+        
+        .counter-badge {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1><i class="fas fa-video"></i> تبدیل متن به ویدیو حرفه‌ای</h1>
-            <p class="subtitle">با آپلود عکس، امکان صداگذاری و مدت ۵ ثانیه تا ۳۰ دقیقه</p>
+            <p class="subtitle">آپلود چند عکس و چند صدا • متن اختیاری • مدت ۵ ثانیه تا ۳۰ دقیقه</p>
             
             <div class="social-badges">
                 <div class="social-badge">
-                    <i class="fas fa-image" style="color: #4ecdc4;"></i>
-                    آپلود عکس
+                    <i class="fas fa-images" style="color: #4ecdc4;"></i>
+                    تا ۵۰ عکس
                 </div>
                 <div class="social-badge">
                     <i class="fas fa-music" style="color: #ff6b6b;"></i>
-                    صداگذاری
+                    چند فایل صوتی
                 </div>
                 <div class="social-badge">
                     <i class="fas fa-clock" style="color: #ffd93d;"></i>
@@ -662,51 +736,65 @@
                     </div>
                 </div>
                 
-                <!-- بخش صداگذاری -->
-                <div class="audio-section">
-                    <h3 class="gallery-title"><i class="fas fa-music"></i> افزودن صدا به ویدیو (اختیاری)</h3>
-                    <div class="upload-btn" id="audioTrigger">
-                        <i class="fas fa-file-audio"></i>
-                        <span>برای آپلود فایل صوتی کلیک کنید</span>
-                        <span style="font-size: 0.8rem; margin-top: 5px; color: #888;">فرمت‌های مجاز: MP3, WAV, OGG</span>
+                <div class="transition-controls">
+                    <div class="control-group">
+                        <label for="imageDuration"><i class="fas fa-image"></i> مدت نمایش هر عکس (ثانیه)</label>
+                        <input type="number" id="imageDuration" min="1" max="60" value="3">
                     </div>
-                    <input type="file" id="audioInput" accept="audio/*">
                     
-                    <div class="upload-preview" id="audioPreview">
-                        <audio id="uploadedAudio" controls></audio>
-                        <div class="upload-info">
-                            <span id="audioFileName">فایل صوتی</span>
-                            <button class="remove-upload" id="removeAudio">
-                                <i class="fas fa-trash"></i> حذف
-                            </button>
-                        </div>
+                    <div class="control-group">
+                        <label for="transitionEffect"><i class="fas fa-random"></i> افکت انتقال عکس‌ها</label>
+                        <select id="transitionEffect">
+                            <option value="fade">محو شدن</option>
+                            <option value="slide" selected>اسلاید</option>
+                            <option value="zoom">زوم</option>
+                            <option value="none">بدون افکت</option>
+                        </select>
                     </div>
                 </div>
                 
                 <div class="background-gallery">
-                    <h3 class="section-title"><i class="fas fa-images"></i> آپلود عکس پس‌زمینه <span style="color: #ff6b6b; font-size: 0.9rem;">(الزامی)</span></h3>
+                    <h3 class="section-title">
+                        <i class="fas fa-images"></i> 
+                        آپلود عکس‌ها <span style="color: #ff6b6b; font-size: 0.9rem;">(حداقل ۱ عکس الزامی)</span>
+                        <span id="imagesCounter" class="counter-badge">0/50</span>
+                    </h3>
                     
                     <div class="upload-section">
                         <div class="upload-btn" id="uploadTrigger">
                             <i class="fas fa-cloud-upload-alt"></i>
-                            <span>برای آپلود عکس کلیک کنید</span>
+                            <span>برای آپلود عکس‌ها کلیک کنید (تا ۵۰ عکس)</span>
                             <span style="font-size: 0.8rem; margin-top: 5px; color: #888;">فرمت‌های مجاز: JPG, PNG, WebP</span>
                         </div>
-                        <input type="file" id="uploadInput" accept="image/*">
+                        <input type="file" id="uploadInput" accept="image/*" multiple>
                         
-                        <div class="upload-preview" id="uploadPreview">
-                            <img id="uploadedImage" alt="عکس آپلود شده">
-                            <div class="upload-info">
-                                <span id="uploadFileName">عکس انتخابی</span>
-                                <button class="remove-upload" id="removeUpload">
-                                    <i class="fas fa-trash"></i> حذف
-                                </button>
+                        <div class="images-container" id="imagesContainer">
+                            <div class="uploaded-images-grid" id="uploadedImagesGrid">
+                                <!-- عکس‌های آپلود شده اینجا نمایش داده می‌شوند -->
                             </div>
                         </div>
+                        
+                        <div class="selected-bg-info" id="selectedBgInfo">
+                            لطفاً حداقل یک عکس آپلود کنید
+                        </div>
                     </div>
+                </div>
+                
+                <div class="audio-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-music"></i> 
+                        افزودن فایل‌های صوتی (اختیاری)
+                        <span id="audioCounter" class="counter-badge">0</span>
+                    </h3>
+                    <div class="upload-btn" id="audioTrigger">
+                        <i class="fas fa-file-audio"></i>
+                        <span>برای آپلود فایل‌های صوتی کلیک کنید</span>
+                        <span style="font-size: 0.8rem; margin-top: 5px; color: #888;">فرمت‌های مجاز: MP3, WAV, OGG</span>
+                    </div>
+                    <input type="file" id="audioInput" accept="audio/*" multiple>
                     
-                    <div class="selected-bg-info" id="selectedBgInfo">
-                        لطفاً یک عکس آپلود کنید (الزامی)
+                    <div class="audio-files-list" id="audioFilesList">
+                        <!-- فایل‌های صوتی اینجا نمایش داده می‌شوند -->
                     </div>
                 </div>
                 
@@ -741,7 +829,7 @@
                 </div>
                 
                 <div class="instructions">
-                    <p><i class="fas fa-info-circle"></i> کیفیت ویدیو: HD 1080p • حداکثر مدت: ۳۰ دقیقه • با صدا • فرمت: MP4</p>
+                    <p><i class="fas fa-info-circle"></i> کیفیت ویدیو: HD 1080p • حداکثر مدت: ۳۰ دقیقه • حداکثر ۵۰ عکس • چند صدا • فرمت: MP4</p>
                 </div>
             </section>
         </div>
@@ -749,12 +837,13 @@
         <section class="info-section">
             <h3 class="info-title"><i class="fas fa-lightbulb"></i> راهنمای کامل ساخت ویدیو حرفه‌ای</h3>
             <ul class="info-list">
-                <li><strong>آپلود عکس (الزامی):</strong> عکس مورد نظر خود را آپلود کنید تا به عنوان پس‌زمینه ویدیو استفاده شود</li>
+                <li><strong>آپلود عکس‌ها (حداقل ۱ عکس الزامی):</strong> تا ۵۰ عکس آپلود کنید. عکس‌ها به ترتیب آپلود نمایش داده می‌شوند</li>
                 <li><strong>متن (اختیاری):</strong> می‌توانید متن اضافه کنید یا بدون متن ویدیو بسازید</li>
                 <li><strong>تنظیم مدت زمان:</strong> با اسلایدر مدت ویدیو را از ۵ ثانیه تا ۳۰ دقیقه تنظیم کنید</li>
-                <li><strong>افزودن صدا (اختیاری):</strong> فایل صوتی MP3, WAV یا OGG آپلود کنید تا روی ویدیو پخش شود</li>
+                <li><strong>تنظیم نمایش عکس‌ها:</strong> مدت نمایش هر عکس و افکت انتقال بین عکس‌ها را تنظیم کنید</li>
+                <li><strong>افزودن صدا (اختیاری):</strong> چندین فایل صوتی MP3, WAV یا OGG آپلود کنید</li>
                 <li><strong>تنظیمات متن:</strong> اگر متن اضافه می‌کنید، اندازه، رنگ و افکت آن را تنظیم کنید</li>
-                <li><strong>ایجاد ویدیو:</strong> روی دکمه "ایجاد ویدیو" کلیک کنید تا ویدیو با صدا ساخته شود</li>
+                <li><strong>ایجاد ویدیو:</strong> روی دکمه "ایجاد ویدیو" کلیک کنید تا ویدیو با عکس‌ها و صدا ساخته شود</li>
                 <li><strong>دانلود:</strong> ویدیوی نهایی را با کیفیت HD و صدای ضبط شده دانلود کنید</li>
             </ul>
         </section>
@@ -768,6 +857,8 @@
         const textEffectSelect = document.getElementById('textEffect');
         const durationSlider = document.getElementById('duration');
         const durationValue = document.getElementById('durationValue');
+        const imageDurationInput = document.getElementById('imageDuration');
+        const transitionEffectSelect = document.getElementById('transitionEffect');
         const generateBtn = document.getElementById('generateBtn');
         const downloadBtn = document.getElementById('downloadBtn');
         const videoCanvas = document.getElementById('videoCanvas');
@@ -776,22 +867,19 @@
         const loadingText = document.getElementById('loadingText');
         const canvasPlaceholder = document.getElementById('canvasPlaceholder');
         const selectedBgInfo = document.getElementById('selectedBgInfo');
+        const imagesCounter = document.getElementById('imagesCounter');
+        const audioCounter = document.getElementById('audioCounter');
         
         // عناصر آپلود
         const uploadInput = document.getElementById('uploadInput');
         const uploadTrigger = document.getElementById('uploadTrigger');
-        const uploadPreview = document.getElementById('uploadPreview');
-        const uploadedImage = document.getElementById('uploadedImage');
-        const uploadFileName = document.getElementById('uploadFileName');
-        const removeUpload = document.getElementById('removeUpload');
+        const uploadedImagesGrid = document.getElementById('uploadedImagesGrid');
+        const imagesContainer = document.getElementById('imagesContainer');
         
         // عناصر صدا
         const audioInput = document.getElementById('audioInput');
         const audioTrigger = document.getElementById('audioTrigger');
-        const audioPreview = document.getElementById('audioPreview');
-        const uploadedAudio = document.getElementById('uploadedAudio');
-        const audioFileName = document.getElementById('audioFileName');
-        const removeAudio = document.getElementById('removeAudio');
+        const audioFilesList = document.getElementById('audioFilesList');
         
         // متغیرهای انیمیشن
         let animationId = null;
@@ -800,40 +888,51 @@
         let startTime = null;
         let isGenerating = false;
         let ctx = videoCanvas.getContext('2d');
-        let selectedBackground = null;
-        let userUploadedImage = null;
-        let userUploadedAudio = null;
-        let audioBlob = null;
         let audioContext = null;
-        let audioBuffer = null;
-        let audioSource = null;
+        let audioBuffers = [];
+        let audioSources = [];
+        
+        // آرایه‌های داده
+        let uploadedImages = []; // آرایه عکس‌های آپلود شده
+        let uploadedAudios = []; // آرایه فایل‌های صوتی
+        let currentImageIndex = 0; // اندیس عکس جاری
+        let currentAudioIndex = 0; // اندیس صدا جاری
         
         // تنظیمات اولیه
         videoCanvas.style.display = 'none';
         
-        // اسلایدر مدت زمان - حداکثر 1800 ثانیه (30 دقیقه)
+        // به‌روزرسانی شمارنده‌ها
+        function updateCounters() {
+            imagesCounter.textContent = `${uploadedImages.length}/50`;
+            audioCounter.textContent = uploadedAudios.length;
+            
+            if (uploadedImages.length === 0) {
+                selectedBgInfo.innerHTML = 'لطفاً حداقل یک عکس آپلود کنید (الزامی)';
+                imagesContainer.style.display = 'none';
+            } else {
+                selectedBgInfo.innerHTML = `<i class="fas fa-check-circle"></i> ${uploadedImages.length} عکس آپلود شده`;
+                imagesContainer.style.display = 'block';
+            }
+        }
+        
+        // اسلایدر مدت زمان
         durationSlider.addEventListener('input', function() {
             const value = parseInt(this.value);
             durationValue.textContent = value;
             updateTimerDisplay(0, value);
         });
         
-        // به‌روزرسانی اطلاعات پس‌زمینه انتخاب شده
-        function updateSelectedBgInfo(info) {
-            selectedBgInfo.innerHTML = `<i class="fas fa-check-circle"></i> ${info}`;
-        }
-        
         // پیش‌نمایش سریع
         function quickPreview() {
-            if (isGenerating || !userUploadedImage) return;
+            if (isGenerating || uploadedImages.length === 0) return;
             
             const ctx = videoCanvas.getContext('2d');
             const width = videoCanvas.width;
             const height = videoCanvas.height;
             
-            // کشیدن پس‌زمینه
-            if (userUploadedImage) {
-                ctx.drawImage(userUploadedImage, 0, 0, width, height);
+            // کشیدن عکس جاری
+            if (uploadedImages[currentImageIndex] && uploadedImages[currentImageIndex].complete) {
+                ctx.drawImage(uploadedImages[currentImageIndex], 0, 0, width, height);
             }
             
             // فقط اگر متن وجود دارد، لایه تیره و متن اضافه شود
@@ -850,7 +949,9 @@
                 ctx.textBaseline = 'middle';
                 
                 // نمایش متن کاربر یا متن پیش‌فرض
-                const displayText = text.length > 50 ? text.substring(0, 50) + '...' : text;
+                const displayText = uploadedImages.length > 1 ? 
+                    `پیش‌نمایش (عکس ${currentImageIndex + 1} از ${uploadedImages.length})` : 
+                    'پیش‌نمایش';
                 ctx.fillText(displayText, width / 2, height / 2);
             }
             
@@ -858,108 +959,299 @@
             videoCanvas.style.display = 'block';
         }
         
-        // مدیریت آپلود عکس
+        // مدیریت آپلود عکس‌ها
         uploadTrigger.addEventListener('click', () => {
             uploadInput.click();
         });
         
         uploadInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
             
-            // بررسی نوع فایل
-            if (!file.type.match('image.*')) {
-                alert('لطفا یک فایل تصویری انتخاب کنید (JPG, PNG, WebP)');
+            // بررسی تعداد عکس‌ها
+            if (uploadedImages.length + files.length > 50) {
+                alert(`شما می‌توانید حداکثر ۵۰ عکس آپلود کنید. در حال حاضر ${uploadedImages.length} عکس دارید.`);
                 return;
             }
             
-            // محدودیت حجم فایل (5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                alert('حجم فایل باید کمتر از 5 مگابایت باشد');
+            // بررسی نوع فایل‌ها
+            const invalidFiles = files.filter(file => !file.type.match('image.*'));
+            if (invalidFiles.length > 0) {
+                alert('لطفا فقط فایل‌های تصویری انتخاب کنید (JPG, PNG, WebP)');
                 return;
             }
             
-            const reader = new FileReader();
+            // محدودیت حجم فایل (5MB هر عکس)
+            const largeFiles = files.filter(file => file.size > 5 * 1024 * 1024);
+            if (largeFiles.length > 0) {
+                alert('حجم هر فایل باید کمتر از 5 مگابایت باشد');
+                return;
+            }
             
-            reader.onload = function(event) {
-                const img = new Image();
-                img.onload = function() {
-                    userUploadedImage = img;
-                    selectedBackground = img;
-                    
-                    // نمایش پیش‌نمایش
-                    uploadedImage.src = event.target.result;
-                    uploadFileName.textContent = file.name;
-                    uploadPreview.style.display = 'block';
-                    
-                    updateSelectedBgInfo('عکس آپلود شده');
-                    
-                    quickPreview();
+            // پردازش هر فایل
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        // اضافه کردن عکس به آرایه
+                        uploadedImages.push(img);
+                        
+                        // ایجاد المان نمایش عکس
+                        createImageThumbnail(img, file.name, uploadedImages.length - 1);
+                        
+                        // به‌روزرسانی شمارنده
+                        updateCounters();
+                        
+                        // نمایش پیش‌نمایش
+                        if (uploadedImages.length === 1) {
+                            quickPreview();
+                        }
+                    };
+                    img.src = event.target.result;
                 };
-                img.src = event.target.result;
-            };
+                
+                reader.readAsDataURL(file);
+            });
             
-            reader.readAsDataURL(file);
-        });
-        
-        // حذف عکس آپلود شده
-        removeUpload.addEventListener('click', function() {
-            userUploadedImage = null;
-            selectedBackground = null;
+            // پاک کردن مقدار input برای امکان انتخاب مجدد
             uploadInput.value = '';
-            uploadPreview.style.display = 'none';
-            
-            updateSelectedBgInfo('لطفاً یک عکس آپلود کنید (الزامی)');
-            canvasPlaceholder.style.display = 'block';
-            videoCanvas.style.display = 'none';
         });
         
-        // مدیریت آپلود صدا
+        // ایجاد thumbnail برای عکس
+        function createImageThumbnail(img, fileName, index) {
+            const container = document.createElement('div');
+            container.className = 'uploaded-image-item';
+            container.dataset.index = index;
+            
+            const imgElement = document.createElement('img');
+            imgElement.src = img.src;
+            imgElement.alt = fileName;
+            
+            const numberSpan = document.createElement('span');
+            numberSpan.className = 'image-number';
+            numberSpan.textContent = index + 1;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-image-btn';
+            removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            removeBtn.title = 'حذف عکس';
+            
+            removeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                removeImage(index);
+            });
+            
+            container.addEventListener('click', function() {
+                // انتخاب عکس برای پیش‌نمایش
+                selectImageForPreview(index);
+            });
+            
+            container.appendChild(imgElement);
+            container.appendChild(numberSpan);
+            container.appendChild(removeBtn);
+            
+            uploadedImagesGrid.appendChild(container);
+            
+            // انتخاب اولین عکس
+            if (index === 0) {
+                container.classList.add('selected');
+                currentImageIndex = 0;
+            }
+        }
+        
+        // انتخاب عکس برای پیش‌نمایش
+        function selectImageForPreview(index) {
+            currentImageIndex = index;
+            
+            // حذف کلاس selected از همه
+            document.querySelectorAll('.uploaded-image-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // اضافه کردن کلاس selected به عکس انتخاب شده
+            const selectedItem = document.querySelector(`.uploaded-image-item[data-index="${index}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+            }
+            
+            // به‌روزرسانی پیش‌نمایش
+            if (!isGenerating) {
+                quickPreview();
+            }
+        }
+        
+        // حذف عکس
+        function removeImage(index) {
+            // حذف از آرایه
+            uploadedImages.splice(index, 1);
+            
+            // حذف از DOM
+            const itemToRemove = document.querySelector(`.uploaded-image-item[data-index="${index}"]`);
+            if (itemToRemove) {
+                itemToRemove.remove();
+            }
+            
+            // به‌روزرسانی اندیس‌ها
+            document.querySelectorAll('.uploaded-image-item').forEach((item, newIndex) => {
+                item.dataset.index = newIndex;
+                const numberSpan = item.querySelector('.image-number');
+                if (numberSpan) {
+                    numberSpan.textContent = newIndex + 1;
+                }
+            });
+            
+            // به‌روزرسانی شمارنده
+            updateCounters();
+            
+            // تنظیم عکس جاری
+            if (uploadedImages.length > 0) {
+                if (currentImageIndex >= uploadedImages.length) {
+                    currentImageIndex = uploadedImages.length - 1;
+                }
+                selectImageForPreview(currentImageIndex);
+            } else {
+                canvasPlaceholder.style.display = 'block';
+                videoCanvas.style.display = 'none';
+            }
+        }
+        
+        // مدیریت آپلود فایل‌های صوتی
         audioTrigger.addEventListener('click', () => {
             audioInput.click();
         });
         
         audioInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
             
-            // بررسی نوع فایل
-            if (!file.type.match('audio.*')) {
-                alert('لطفا یک فایل صوتی انتخاب کنید (MP3, WAV, OGG)');
+            // بررسی نوع فایل‌ها
+            const invalidFiles = files.filter(file => !file.type.match('audio.*'));
+            if (invalidFiles.length > 0) {
+                alert('لطفا فقط فایل‌های صوتی انتخاب کنید (MP3, WAV, OGG)');
                 return;
             }
             
-            // محدودیت حجم فایل (10MB)
-            if (file.size > 10 * 1024 * 1024) {
-                alert('حجم فایل باید کمتر از 10 مگابایت باشد');
+            // محدودیت حجم فایل (10MB هر فایل)
+            const largeFiles = files.filter(file => file.size > 10 * 1024 * 1024);
+            if (largeFiles.length > 0) {
+                alert('حجم هر فایل صوتی باید کمتر از 10 مگابایت باشد');
                 return;
             }
             
+            // پردازش هر فایل
+            files.forEach((file, index) => {
+                // اضافه کردن فایل به آرایه
+                uploadedAudios.push(file);
+                
+                // ایجاد المان نمایش فایل صوتی
+                createAudioFileItem(file, uploadedAudios.length - 1);
+                
+                // به‌روزرسانی شمارنده
+                updateCounters();
+            });
+            
+            // پاک کردن مقدار input برای امکان انتخاب مجدد
+            audioInput.value = '';
+        });
+        
+        // ایجاد المان برای فایل صوتی
+        function createAudioFileItem(file, index) {
+            const container = document.createElement('div');
+            container.className = 'audio-file-item';
+            container.dataset.index = index;
+            
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'audio-file-info';
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-music';
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'audio-file-name';
+            nameSpan.textContent = file.name;
+            
+            infoDiv.appendChild(icon);
+            infoDiv.appendChild(nameSpan);
+            
+            const controlsDiv = document.createElement('div');
+            controlsDiv.className = 'audio-controls';
+            
+            const playBtn = document.createElement('button');
+            playBtn.className = 'play-audio-btn';
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playBtn.title = 'پخش صدا';
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-audio-btn';
+            removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            removeBtn.title = 'حذف صدا';
+            
+            playBtn.addEventListener('click', function() {
+                playAudioFile(file);
+            });
+            
+            removeBtn.addEventListener('click', function() {
+                removeAudioFile(index);
+            });
+            
+            controlsDiv.appendChild(playBtn);
+            controlsDiv.appendChild(removeBtn);
+            
+            container.appendChild(infoDiv);
+            container.appendChild(controlsDiv);
+            
+            audioFilesList.appendChild(container);
+        }
+        
+        // پخش فایل صوتی
+        function playAudioFile(file) {
+            if (audioContext && audioContext.state === 'running') {
+                audioContext.close();
+            }
+            
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const reader = new FileReader();
             
             reader.onload = function(event) {
-                audioBlob = new Blob([event.target.result], { type: file.type });
-                
-                // نمایش پیش‌نمایش
-                uploadedAudio.src = URL.createObjectURL(audioBlob);
-                audioFileName.textContent = file.name;
-                audioPreview.style.display = 'block';
-                
-                // ذخیره فایل صوتی برای استفاده در ویدیو
-                userUploadedAudio = file;
+                audioContext.decodeAudioData(event.target.result, function(buffer) {
+                    const source = audioContext.createBufferSource();
+                    source.buffer = buffer;
+                    source.connect(audioContext.destination);
+                    source.start();
+                    
+                    // توقف پس از پایان
+                    source.onended = function() {
+                        if (audioContext && audioContext.state !== 'closed') {
+                            audioContext.close();
+                        }
+                    };
+                });
             };
             
             reader.readAsArrayBuffer(file);
-        });
+        }
         
         // حذف فایل صوتی
-        removeAudio.addEventListener('click', function() {
-            userUploadedAudio = null;
-            audioBlob = null;
-            audioInput.value = '';
-            audioPreview.style.display = 'none';
-            uploadedAudio.src = '';
-        });
+        function removeAudioFile(index) {
+            // حذف از آرایه
+            uploadedAudios.splice(index, 1);
+            
+            // حذف از DOM
+            const itemToRemove = document.querySelector(`.audio-file-item[data-index="${index}"]`);
+            if (itemToRemove) {
+                itemToRemove.remove();
+            }
+            
+            // به‌روزرسانی اندیس‌ها
+            document.querySelectorAll('.audio-file-item').forEach((item, newIndex) => {
+                item.dataset.index = newIndex;
+            });
+            
+            // به‌روزرسانی شمارنده
+            updateCounters();
+        }
         
         // تابع برای قالب‌بندی زمان
         function formatTime(seconds) {
@@ -973,7 +1265,7 @@
             timer.textContent = `${formatTime(elapsed)} / ${formatTime(total)}`;
         }
         
-        // تابع برای رسم ویدیو (با یا بدون متن)
+        // تابع برای رسم ویدیو با چند عکس
         function drawVideoFrame(ctx, text, options) {
             const {
                 width,
@@ -981,16 +1273,75 @@
                 fontSize,
                 textColor,
                 textEffect,
-                progress
+                progress,
+                imageProgress,
+                currentImageIndex,
+                totalImages,
+                transitionEffect,
+                transitionProgress
             } = options;
             
-            // کشیدن پس‌زمینه
-            if (selectedBackground && selectedBackground.complete) {
-                ctx.drawImage(selectedBackground, 0, 0, width, height);
+            // محاسبه عکس جاری بر اساس progress
+            const imageDisplayDuration = parseInt(imageDurationInput.value);
+            const totalImageTime = totalImages * imageDisplayDuration;
+            const currentTime = progress * totalImageTime;
+            const currentImage = Math.floor(currentTime / imageDisplayDuration);
+            const imageLocalProgress = (currentTime % imageDisplayDuration) / imageDisplayDuration;
+            
+            // کشیدن عکس جاری
+            if (uploadedImages[currentImage] && uploadedImages[currentImage].complete) {
+                // اعمال افکت انتقال
+                if (currentImage < totalImages - 1 && imageLocalProgress > 0.8) {
+                    const nextImage = currentImage + 1;
+                    const transitionLocalProgress = (imageLocalProgress - 0.8) / 0.2;
+                    
+                    if (uploadedImages[nextImage] && uploadedImages[nextImage].complete) {
+                        // رسم عکس قبلی
+                        ctx.globalAlpha = 1 - transitionLocalProgress;
+                        ctx.drawImage(uploadedImages[currentImage], 0, 0, width, height);
+                        
+                        // اعمال افکت انتقال
+                        ctx.globalAlpha = transitionLocalProgress;
+                        
+                        switch(transitionEffect) {
+                            case 'fade':
+                                // فقط تغییر آلفا
+                                ctx.drawImage(uploadedImages[nextImage], 0, 0, width, height);
+                                break;
+                                
+                            case 'slide':
+                                // اسلاید از راست
+                                ctx.drawImage(uploadedImages[nextImage], 
+                                    width * (1 - transitionLocalProgress), 0, 
+                                    width, height);
+                                break;
+                                
+                            case 'zoom':
+                                // زوم
+                                const scale = 1 + transitionLocalProgress * 0.5;
+                                const offsetX = (width - width * scale) / 2;
+                                const offsetY = (height - height * scale) / 2;
+                                ctx.drawImage(uploadedImages[nextImage], 
+                                    offsetX, offsetY, 
+                                    width * scale, height * scale);
+                                break;
+                                
+                            default:
+                                ctx.drawImage(uploadedImages[nextImage], 0, 0, width, height);
+                        }
+                    } else {
+                        ctx.drawImage(uploadedImages[currentImage], 0, 0, width, height);
+                    }
+                } else {
+                    ctx.globalAlpha = 1;
+                    ctx.drawImage(uploadedImages[currentImage], 0, 0, width, height);
+                }
             } else {
                 ctx.fillStyle = '#000';
                 ctx.fillRect(0, 0, width, height);
             }
+            
+            ctx.globalAlpha = 1;
             
             // فقط اگر متن وجود دارد
             if (text && text.trim().length > 0) {
@@ -1097,18 +1448,18 @@
             }
         }
         
-        // تابع ایجاد ویدیو با صدا
-        async function createVideoWithAudio() {
+        // تابع ایجاد ویدیو با چند عکس و چند صدا
+        async function createVideoWithMultipleImagesAndAudios() {
             if (isGenerating) return;
             
-            if (!selectedBackground && !userUploadedImage) {
-                alert('لطفا یک عکس آپلود کنید (الزامی)');
+            if (uploadedImages.length === 0) {
+                alert('لطفا حداقل یک عکس آپلود کنید (الزامی)');
                 return;
             }
             
             isGenerating = true;
             loadingIndicator.style.display = 'block';
-            loadingText.textContent = 'در حال ساخت ویدیو با صدا...';
+            loadingText.textContent = 'در حال آماده‌سازی عکس‌ها و صداها...';
             generateBtn.disabled = true;
             canvasPlaceholder.style.display = 'none';
             videoCanvas.style.display = 'block';
@@ -1119,6 +1470,9 @@
             const textColor = textColorSelect.value;
             const textEffect = textEffectSelect.value;
             const duration = parseInt(durationSlider.value) * 1000; // تبدیل به میلی‌ثانیه
+            const imageDuration = parseInt(imageDurationInput.value) * 1000; // مدت نمایش هر عکس
+            const transitionEffect = transitionEffectSelect.value;
+            const totalImages = uploadedImages.length;
             
             // ابعاد کانواس
             const width = videoCanvas.width;
@@ -1126,45 +1480,63 @@
             
             try {
                 // شروع فرآیند ساخت ویدیو
-                loadingText.textContent = 'در حال آماده‌سازی صدا و تصویر...';
+                loadingText.textContent = 'در حال آماده‌سازی صداها...';
                 
                 // ایجاد MediaStream از canvas
                 const canvasStream = videoCanvas.captureStream(30);
                 recordedChunks = [];
                 
-                // اگر صدا وجود دارد، آن را به stream اضافه کن
+                // پردازش فایل‌های صوتی
                 let finalStream = canvasStream;
+                let audioBuffers = [];
                 
-                if (userUploadedAudio && audioBlob) {
-                    loadingText.textContent = 'در حال ترکیب صدا با ویدیو...';
-                    
-                    // تبدیل Blob به ArrayBuffer
-                    const arrayBuffer = await audioBlob.arrayBuffer();
+                if (uploadedAudios.length > 0) {
+                    loadingText.textContent = `در حال پردازش ${uploadedAudios.length} فایل صوتی...`;
                     
                     // ایجاد AudioContext
                     audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     
-                    // decode صدا
-                    audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                    // decode همه فایل‌های صوتی
+                    for (let i = 0; i < uploadedAudios.length; i++) {
+                        const file = uploadedAudios[i];
+                        const arrayBuffer = await file.arrayBuffer();
+                        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                        audioBuffers.push(audioBuffer);
+                    }
                     
-                    // ایجاد MediaStream از صدا
+                    // ایجاد MediaStream از صداها
                     const audioDestination = audioContext.createMediaStreamDestination();
-                    audioSource = audioContext.createBufferSource();
-                    audioSource.buffer = audioBuffer;
-                    audioSource.connect(audioDestination);
+                    
+                    // ترکیب صداها
+                    let currentTime = 0;
+                    audioSources = [];
+                    
+                    for (const buffer of audioBuffers) {
+                        const source = audioContext.createBufferSource();
+                        source.buffer = buffer;
+                        source.connect(audioDestination);
+                        source.start(currentTime);
+                        audioSources.push(source);
+                        currentTime += buffer.duration;
+                    }
+                    
+                    // اگر مدت صداها کمتر از مدت ویدیو است، آخرین صدا را تکرار کن
+                    if (currentTime < duration / 1000 && audioBuffers.length > 0) {
+                        const lastSource = audioContext.createBufferSource();
+                        lastSource.buffer = audioBuffers[audioBuffers.length - 1];
+                        lastSource.connect(audioDestination);
+                        lastSource.loop = true;
+                        lastSource.start(currentTime);
+                        audioSources.push(lastSource);
+                    }
                     
                     // ترکیب streamهای صدا و تصویر
                     const audioTrack = audioDestination.stream.getAudioTracks()[0];
                     const videoTrack = canvasStream.getVideoTracks()[0];
-                    
                     finalStream = new MediaStream([videoTrack, audioTrack]);
-                    
-                    // تنظیم مدت صدا به مدت ویدیو
-                    if (audioBuffer.duration * 1000 < duration) {
-                        // اگر صدا کوتاه‌تر است، آن را تکرار کن
-                        audioSource.loop = true;
-                    }
                 }
+                
+                loadingText.textContent = 'در حال تنظیم ضبط ویدیو...';
                 
                 // تنظیمات MediaRecorder
                 const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus') 
@@ -1195,7 +1567,7 @@
                     downloadBtn.onclick = () => {
                         const a = document.createElement('a');
                         a.href = url;
-                        a.download = `ویدیو-حرفه‌ای-${Date.now()}.${mediaRecorder.mimeType.includes('mp4') ? 'mp4' : 'webm'}`;
+                        a.download = `ویدیو-${totalImages}-عکس-${Date.now()}.${mediaRecorder.mimeType.includes('mp4') ? 'mp4' : 'webm'}`;
                         document.body.appendChild(a);
                         a.click();
                         document.body.removeChild(a);
@@ -1205,11 +1577,13 @@
                     loadingIndicator.style.display = 'none';
                     generateBtn.disabled = false;
                     
-                    // پاکسازی صدا
-                    if (audioSource) {
-                        audioSource.stop();
-                        audioSource.disconnect();
-                    }
+                    // پاکسازی صداها
+                    audioSources.forEach(source => {
+                        if (source) {
+                            source.stop();
+                            source.disconnect();
+                        }
+                    });
                     if (audioContext && audioContext.state !== 'closed') {
                         audioContext.close();
                     }
@@ -1219,10 +1593,7 @@
                 mediaRecorder.start();
                 startTime = Date.now();
                 
-                // شروع پخش صدا (اگر وجود دارد)
-                if (audioSource) {
-                    audioSource.start();
-                }
+                loadingText.textContent = 'در حال ساخت ویدیو...';
                 
                 // تابع انیمیشن
                 function animate() {
@@ -1232,6 +1603,13 @@
                     // به‌روزرسانی تایمر
                     updateTimerDisplay(elapsed / 1000, duration / 1000);
                     
+                    // محاسبه عکس جاری
+                    const imageDisplayDuration = imageDuration;
+                    const totalImageTime = totalImages * imageDisplayDuration;
+                    const currentTime = progress * totalImageTime;
+                    const currentImage = Math.floor(currentTime / imageDisplayDuration);
+                    const imageLocalProgress = (currentTime % imageDisplayDuration) / imageDisplayDuration;
+                    
                     // رسم انیمیشن
                     drawVideoFrame(ctx, text, {
                         width,
@@ -1239,18 +1617,18 @@
                         fontSize,
                         textColor,
                         textEffect,
-                        progress
+                        progress,
+                        imageProgress: imageLocalProgress,
+                        currentImageIndex: Math.min(currentImage, totalImages - 1),
+                        totalImages,
+                        transitionEffect,
+                        transitionProgress: imageLocalProgress > 0.8 ? (imageLocalProgress - 0.8) / 0.2 : 0
                     });
                     
                     if (progress < 1) {
                         animationId = requestAnimationFrame(animate);
                     } else {
                         cancelAnimationFrame(animationId);
-                        
-                        // توقف صدا
-                        if (audioSource) {
-                            audioSource.stop();
-                        }
                         
                         // توقف ضبط
                         setTimeout(() => {
@@ -1273,10 +1651,12 @@
                 }, 2000);
                 
                 // پاکسازی در صورت خطا
-                if (audioSource) {
-                    audioSource.stop();
-                    audioSource.disconnect();
-                }
+                audioSources.forEach(source => {
+                    if (source) {
+                        source.stop();
+                        source.disconnect();
+                    }
+                });
                 if (audioContext && audioContext.state !== 'closed') {
                     audioContext.close();
                 }
@@ -1284,7 +1664,7 @@
         }
         
         // رویدادها
-        generateBtn.addEventListener('click', createVideoWithAudio);
+        generateBtn.addEventListener('click', createVideoWithMultipleImagesAndAudios);
         
         // نمونه متن‌های پیشنهادی
         const sampleTexts = [
@@ -1308,9 +1688,9 @@
         
         textInput.parentNode.insertBefore(sampleButtons, textInput.nextSibling);
         
-        // به‌روزرسانی خودکار پیش‌نمایش هنگام تغییر متن
+        // به‌روزرسانی خودکار پیش‌نمایش هنگام تغییرات
         textInput.addEventListener('input', function() {
-            if (userUploadedImage && !isGenerating) {
+            if (uploadedImages.length > 0 && !isGenerating) {
                 quickPreview();
             }
         });
@@ -1318,11 +1698,19 @@
         // به‌روزرسانی خودکار پیش‌نمایش هنگام تغییر تنظیمات
         [fontSizeSelect, textColorSelect, textEffectSelect].forEach(select => {
             select.addEventListener('change', function() {
-                if (userUploadedImage && !isGenerating) {
+                if (uploadedImages.length > 0 && !isGenerating) {
                     quickPreview();
                 }
             });
         });
+        
+        // تغییر تصویر در پیش‌نمایش هر 3 ثانیه
+        setInterval(function() {
+            if (uploadedImages.length > 1 && !isGenerating && videoCanvas.style.display === 'block') {
+                currentImageIndex = (currentImageIndex + 1) % uploadedImages.length;
+                selectImageForPreview(currentImageIndex);
+            }
+        }, 3000);
         
         // جلوگیری از زوم روی موبایل
         document.addEventListener('touchstart', function(e) {
@@ -1342,6 +1730,73 @@
         
         // به‌روزرسانی اولیه تایمر
         updateTimerDisplay(0, 10);
+        
+        // کشیدن و رها کردن فایل‌ها
+        uploadTrigger.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadTrigger.style.borderColor = '#4ecdc4';
+            uploadTrigger.style.background = 'rgba(78, 205, 196, 0.1)';
+        });
+        
+        uploadTrigger.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadTrigger.style.borderColor = '#4ecdc4';
+            uploadTrigger.style.background = 'rgba(255, 255, 255, 0.05)';
+        });
+        
+        uploadTrigger.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadTrigger.style.borderColor = '#4ecdc4';
+            uploadTrigger.style.background = 'rgba(255, 255, 255, 0.05)';
+            
+            const files = Array.from(e.dataTransfer.files);
+            if (files.length > 0) {
+                // فیلتر کردن فقط عکس‌ها
+                const imageFiles = files.filter(file => file.type.match('image.*'));
+                if (imageFiles.length > 0) {
+                    uploadInput.files = createFileList(imageFiles);
+                    uploadInput.dispatchEvent(new Event('change'));
+                }
+            }
+        });
+        
+        audioTrigger.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            audioTrigger.style.borderColor = '#ff6b6b';
+            audioTrigger.style.background = 'rgba(255, 107, 107, 0.1)';
+        });
+        
+        audioTrigger.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            audioTrigger.style.borderColor = '#ff6b6b';
+            audioTrigger.style.background = 'rgba(255, 255, 255, 0.05)';
+        });
+        
+        audioTrigger.addEventListener('drop', (e) => {
+            e.preventDefault();
+            audioTrigger.style.borderColor = '#ff6b6b';
+            audioTrigger.style.background = 'rgba(255, 255, 255, 0.05)';
+            
+            const files = Array.from(e.dataTransfer.files);
+            if (files.length > 0) {
+                // فیلتر کردن فقط فایل‌های صوتی
+                const audioFiles = files.filter(file => file.type.match('audio.*'));
+                if (audioFiles.length > 0) {
+                    audioInput.files = createFileList(audioFiles);
+                    audioInput.dispatchEvent(new Event('change'));
+                }
+            }
+        });
+        
+        // تابع کمکی برای ایجاد FileList
+        function createFileList(files) {
+            const dataTransfer = new DataTransfer();
+            files.forEach(file => dataTransfer.items.add(file));
+            return dataTransfer.files;
+        }
+        
+        // تنظیمات اولیه شمارنده‌ها
+        updateCounters();
     </script>
 </body>
 </html>
