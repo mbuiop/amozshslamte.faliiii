@@ -2,964 +2,727 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>راهنمای جامع سیستم حسابداری</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>راهنمای سیستم مدیریت مالی هوشمند</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #27ae60;
-            --primary-dark: #219653;
-            --secondary: #3498db;
-            --danger: #e74c3c;
-            --warning: #f39c12;
-            --dark: #2c3e50;
-            --light: #ecf0f1;
-            --success: #2ecc71;
-            --purple: #9b59b6;
-            --teal: #1abc9c;
-            --gold: #f1c40f;
-            --orange: #e67e22;
-        }
-        
+        /* ریست و تنظیمات پایه */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        html {
+            height: 100%;
+            overflow: auto;
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', 'Vazirmatn', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #2d3748;
             min-height: 100vh;
-            padding: 0;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 100%;
+            line-height: 1.7;
+            padding: 20px;
+            max-width: 800px;
             margin: 0 auto;
+        }
+
+        /* کانتینر اصلی */
+        .guide-container {
             background: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-top: 20px;
         }
 
-        .top-header {
-            background: linear-gradient(135deg, var(--dark), #34495e);
-            color: white;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo-icon {
-            font-size: 1.3em;
-        }
-
-        .logo-text {
-            font-size: 0.9em;
-            font-weight: 800;
-        }
-
-        .header-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 12px;
-            overflow-y: auto;
+        /* هدر راهنما */
+        .guide-header {
+            text-align: center;
+            margin-bottom: 40px;
             padding-bottom: 20px;
+            border-bottom: 3px solid #4ecdc4;
         }
 
-        .form-container {
+        .guide-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .guide-subtitle {
+            font-size: 16px;
+            color: #718096;
+            margin-bottom: 15px;
+        }
+
+        .update-date {
+            font-size: 14px;
+            color: #a0aec0;
+            background: #f7fafc;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* بخش‌های راهنما */
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 15px;
+            border-right: 5px solid #4ecdc4;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateX(-5px);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        /* کارت ویژگی */
+        .feature-card {
             background: white;
             border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
             margin-bottom: 15px;
-            border: 1px solid #e0e0e0;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
         }
 
-        .form-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
-        }
-
-        .form-title {
-            font-size: 1.1em;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: var(--dark);
-            text-align: center;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .help-content {
-            line-height: 1.8;
-            font-size: 0.85em;
-            color: #555;
-        }
-
-        .help-section {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-right: 3px solid var(--primary);
-        }
-
-        .help-title {
-            font-weight: 800;
-            margin-bottom: 12px;
-            color: var(--dark);
-            font-size: 1em;
+        .feature-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
-        .step-list {
-            padding-right: 20px;
-            margin-top: 10px;
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+            flex-shrink: 0;
         }
 
-        .step-list li {
-            margin-bottom: 8px;
+        .feature-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .feature-description {
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.8;
+            padding-right: 10px;
+        }
+
+        /* لیست قابلیت‌ها */
+        .capabilities-list {
+            list-style: none;
+            padding-right: 0;
+            margin-top: 15px;
+        }
+
+        .capability-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-right: 3px solid #4ecdc4;
+        }
+
+        .capability-item i {
+            color: #06d6a0;
+            font-size: 16px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .capability-text {
+            font-size: 14px;
+            color: #4a5568;
             line-height: 1.6;
         }
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e0e0e0;
-        }
-
-        .feature-card h4 {
-            color: var(--primary);
-            margin-bottom: 6px;
-            font-size: 0.9em;
-        }
-
-        .feature-card p {
-            font-size: 0.8em;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        .tip-box {
-            background: linear-gradient(135deg, #fff9e6, #ffeaa7);
-            border: 1px solid var(--warning);
-            border-radius: 8px;
-            padding: 12px;
-            margin: 10px 0;
-            font-size: 0.8em;
-        }
-
-        .warning-box {
-            background: linear-gradient(135deg, #ffe6e6, #ffcccc);
-            border: 1px solid var(--danger);
-            border-radius: 8px;
-            padding: 12px;
-            margin: 10px 0;
-            font-size: 0.8em;
-        }
-
-        .info-message {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 12px 0;
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        /* بخش نهایی */
+        .final-section {
+            background: linear-gradient(135deg, #f0f4ff, #f7fafc);
+            border: 2px solid #4ecdc4;
+            border-radius: 15px;
+            padding: 30px;
             text-align: center;
-            border: 1px solid white;
+            margin-top: 30px;
         }
 
-        .info-title {
-            font-size: 1em;
+        .final-title {
+            font-size: 24px;
             font-weight: 800;
-            margin-bottom: 8px;
+            color: #2d3748;
+            margin-bottom: 15px;
         }
 
-        .info-content {
-            font-size: 0.85em;
-            line-height: 1.4;
-            opacity: 0.95;
+        .final-text {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 20px;
         }
 
-        .quick-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 15px 0;
+        /* فاصله‌ها */
+        .space-top {
+            margin-top: 25px;
         }
 
-        .quick-link {
-            background: var(--secondary);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.8em;
+        .space-bottom {
+            margin-bottom: 25px;
+        }
+
+        /* هایلایت متن */
+        .highlight {
+            background: linear-gradient(120deg, #ffd16640 0%, #ffd16640 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
             font-weight: 600;
-            transition: all 0.3s;
         }
 
-        .quick-link:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .success-message {
-            background: var(--success);
+        /* شماره بخش */
+        .section-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
             color: white;
-            padding: 12px;
-            border-radius: 8px;
+            border-radius: 50%;
             text-align: center;
-            margin: 12px 0;
+            line-height: 35px;
             font-weight: 700;
-            box-shadow: 0 3px 12px rgba(46, 204, 113, 0.5);
-            animation: slideIn 0.5s ease-out;
-            font-size: 0.8em;
+            font-size: 16px;
+            margin-left: 10px;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* رسپانسیو */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .guide-container {
+                padding: 20px;
+            }
+            
+            .guide-title {
+                font-size: 24px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .feature-name {
+                font-size: 16px;
+            }
+            
+            .feature-description {
+                font-size: 14px;
+            }
         }
 
-        @media (min-width: 768px) {
-            .container {
-                max-width: 800px;
-                margin: 15px auto;
-                min-height: calc(100vh - 30px);
-                border-radius: 15px;
-                overflow: hidden;
+        @media (max-width: 480px) {
+            .guide-title {
+                font-size: 22px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+            
+            .feature-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .feature-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="top-header">
-            <div class="logo">
-                <div class="logo-icon">❓</div>
-                <div class="logo-text">راهنمای جامع سیستم حسابداری</div>
+    <div class="guide-container">
+        <!-- هدر راهنما -->
+        <header class="guide-header">
+            <h1 class="guide-title">📘 راهنمای جامع سیستم مدیریت مالی هوشمند</h1>
+            <p class="guide-subtitle">آموزش کامل کارکرد و قابلیت‌های سیستم</p>
+            <div class="update-date">
+                <i class="fas fa-calendar-alt"></i>
+                آخرین بروزرسانی: دی ۱۴۰۳
             </div>
-            <a href="index.html" class="header-btn">🔙 بازگشت</a>
-        </div>
+        </header>
 
-        <div class="main-content">
-            <div class="form-container">
-                <h2 class="form-title">🎯 راهنمای کامل استفاده از پلتفرم</h2>
-                <div class="info-message">
-                    <div class="info-title">📚 آموزش گام به گام سیستم حسابداری</div>
-                    <div class="info-content">
-                        این راهنما به شما کمک می‌کند از تمام امکانات سیستم به بهترین شکل استفاده کنید
-                    </div>
-                </div>
-
-                <div class="quick-links">
-                    <a href="#section1" class="quick-link">📊 مدیریت مالی</a>
-                    <a href="#section2" class="quick-link">🏭 حسابرسی تولیدی</a>
-                    <a href="#section3" class="quick-link">🧾 چک و سفته</a>
-                    <a href="#section4" class="quick-link">👥 مدیریت کارمندان</a>
-                    <a href="#section5" class="quick-link">💰 گاو صندوق</a>
-                    <a href="#section6" class="quick-link">📄 فاکتورها</a>
-                    <a href="#section7" class="quick-link">🧮 مالیات</a>
-                    <a href="#section8" class="quick-link">📈 گزارش‌ها</a>
-                </div>
-            </div>
-
-            <!-- بخش مدیریت مالی -->
-            <div class="form-container">
-                <div class="help-section" id="section1">
-                    <div class="help-title">
-                        <span>💰</span> بخش مدیریت مالی - ثبت درآمد و هزینه
-                    </div>
-                    <div class="help-content">
-                        <p><strong>هدف این بخش:</strong> ثبت و مدیریت تمام تراکنش‌های مالی روزانه شما</p>
-                        
-                        <div class="tip-box">
-                            💡 <strong>نکته طلایی:</strong> تمام تراکنش‌ها را بلافاصله بعد از وقوع ثبت کنید تا چیزی از قلم نیفتد
-                        </div>
-
-                        <p><strong>روش استفاده:</strong></p>
-                        <ol class="step-list">
-                            <li><strong>انتخاب نوع تراکنش:</strong> ابتدا مشخص کنید این تراکنش "درآمد" است یا "هزینه"</li>
-                            <li><strong>وارد کردن مبلغ:</strong> مقدار پول را به تومان وارد کنید (بدون کاما یا نقطه)</li>
-                            <li><strong>توضیحات کامل:</strong> شرح دقیق تراکنش را بنویسید تا بعداً بتوانید آن را به خاطر بیاورید</li>
-                            <li><strong>انتخاب دسته‌بندی:</strong> تراکنش را در دسته مناسب قرار دهید برای تحلیل بهتر</li>
-                            <li><strong>ثبت نهایی:</strong> دکمه ثبت را بزنید تا تراکنش در سیستم ذخیره شود</li>
-                        </ol>
-
-                        <p><strong>دسته‌بندی‌های موجود:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>حقوق:</strong> دریافتی‌های ثابت ماهیانه</li>
-                            <li><strong>کسب و کار:</strong> درآمدهای تجاری و فروش</li>
-                            <li><strong>سرمایه‌گذاری:</strong> سود سرمایه‌گذاری‌ها</li>
-                            <li><strong>خوراکی:</strong> هزینه‌های غذا و خوراک</li>
-                            <li><strong>حمل و نقل:</strong> هزینه‌های رفت و آمد</li>
-                            <li><strong>خرید:</strong> خریدهای متفرقه و کالا</li>
-                            <li><strong>قبض:</strong> هزینه‌های قبوض و شارژ</li>
-                            <li><strong>سرگرمی:</strong> هزینه‌های تفریح و leisure</li>
-                            <li><strong>سلامت:</strong> هزینه‌های درمان و پزشکی</li>
-                            <li><strong>متفرقه:</strong> سایر هزینه‌های دسته‌بندی نشده</li>
-                        </ul>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدار مهم:</strong> هرگز اطلاعات مالی خود را در دستگاه‌های عمومی ذخیره نکنید
-                        </div>
-
-                        <p><strong>تحلیل نمودار مالی:</strong></p>
-                        <ul class="step-list">
-                            <li>نمودار دایره‌ای به شما نشان می‌دهد چه مقدار درآمد دارید و چقدر هزینه می‌کنید</li>
-                            <li>سبز رنگ نشان‌دهنده درآمد و قرمز رنگ نشان‌دهنده هزینه است</li>
-                            <li>اگر بخش سبز بزرگتر باشد، یعنی درآمد شما بیشتر از هزینه است</li>
-                            <li>اگر بخش قرمز بزرگتر باشد، باید هزینه‌های خود را کنترل کنید</li>
+        <!-- بخش مقدمه -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-info-circle"></i>
+                مقدمه
+                <span class="section-number">۱</span>
+            </h2>
+            <div class="feature-card">
+                <div class="feature-description">
+                    سیستم مدیریت مالی هوشمند یک پلتفرم جامع و پیشرفته برای مدیریت تمامی امور مالی و حسابداری کسب‌وکارها می‌باشد. این سیستم با بهره‌گیری از تکنولوژی‌های روز، امکان مدیریت ساده و کارآمد فرآیندهای مالی را فراهم می‌سازد.
+                    
+                    <div class="space-top">
+                        <strong>اهداف اصلی سیستم:</strong>
+                        <ul class="capabilities-list">
+                            <li class="capability-item">
+                                <i class="fas fa-check"></i>
+                                <span class="capability-text">ساده‌سازی فرآیندهای مالی و حسابداری</span>
+                            </li>
+                            <li class="capability-item">
+                                <i class="fas fa-check"></i>
+                                <span class="capability-text">افزایش دقت و کاهش خطاهای محاسباتی</span>
+                            </li>
+                            <li class="capability-item">
+                                <i class="fas fa-check"></i>
+                                <span class="capability-text">تهیه گزارش‌های تحلیلی دقیق و به‌موقع</span>
+                            </li>
+                            <li class="capability-item">
+                                <i class="fas fa-check"></i>
+                                <span class="capability-text">مدیریت یکپارچه مالی سازمان</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- بخش حسابرسی تولیدی -->
-            <div class="form-container">
-                <div class="help-section" id="section2">
-                    <div class="help-title">
-                        <span>🏭</span> بخش حسابرسی تولیدی - محاسبه قیمت تمام شده
+        <!-- بخش امکانات اصلی -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-th-large"></i>
+                امکانات اصلی سیستم
+                <span class="section-number">۲</span>
+            </h2>
+
+            <!-- مدیریت مالی -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-bill-wave"></i>
                     </div>
-                    <div class="help-content">
-                        <p><strong>هدف این بخش:</strong> محاسبه دقیق قیمت تمام شده محصولات و تعیین قیمت فروش</p>
-                        
-                        <div class="tip-box">
-                            💡 <strong>نکته طلایی:</strong> همیشه ۱۰-۱۵٪ بیشتر از محاسبات خود قیمت گذاری کنید تا سود مطمئن داشته باشید
-                        </div>
-
-                        <p><strong>روش استفاده:</strong></p>
-                        <ol class="step-list">
-                            <li><strong>نام محصول:</strong> نام کامل کالا یا خدمتی که تولید می‌کنید را وارد کنید</li>
-                            <li><strong>هزینه مواد اولیه:</strong> کل هزینه‌ای که برای مواد خام پرداخت کرده‌اید</li>
-                            <li><strong>تعداد تولید:</strong> تعداد کل واحدهایی که تولید کرده‌اید را وارد کنید</li>
-                            <li><strong>هزینه‌های اضافی:</strong> هزینه‌هایی مثل دستمزد، حمل و نقل، بسته‌بندی</li>
-                            <li><strong>سود مورد نظر:</strong> درصد سودی که می‌خواهید به دست آورید را مشخص کنید</li>
-                            <li><strong>محاسبه نهایی:</strong> سیستم به طور خودکار قیمت فروش را محاسبه می‌کند</li>
-                        </ol>
-
-                        <p><strong>محاسبات سیستم:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>هزینه هر واحد:</strong> هزینه کل تقسیم بر تعداد تولید</li>
-                            <li><strong>قیمت فروش:</strong> هزینه هر واحد به علاوه درصد سود شما</li>
-                            <li><strong>سود کل:</strong> تفاوت قیمت فروش و هزینه هر واحد ضربدر تعداد</li>
-                            <li><strong>سود خالص:</strong> بعد از کسر تمام هزینه‌های جانبی</li>
-                        </ul>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدار مهم:</strong> هزینه‌های پنهان مثل استهلاک دستگاه‌ها را فراموش نکنید
-                        </div>
-
-                        <p><strong>توصیه‌های مدیریتی:</strong></p>
-                        <ul class="step-list">
-                            <li>اگر سود شما کمتر از ۲۰٪ است، ریسک مالی بالایی دارید</li>
-                            <li>اگر هزینه‌های اضافی از مواد اولیه بیشتر است، باید بازنگری کنید</li>
-                            <li>تولید در مقیاس بزرگ معمولاً هزینه واحد را کاهش می‌دهد</li>
-                            <li>همیشه بازار رقابتی را در قیمت‌گذاری در نظر بگیرید</li>
-                        </ul>
-
-                        <p><strong>مثال عملی:</strong></p>
-                        <ul class="step-list">
-                            <li>مواد اولیه: ۵۰,۰۰۰,۰۰۰ تومان</li>
-                            <li>تعداد تولید: ۱,۰۰۰ عدد</li>
-                            <li>هزینه هر واحد: ۵۰,۰۰۰ تومان</li>
-                            <li>سود مورد نظر: ۳۰٪</li>
-                            <li>قیمت فروش: ۶۵,۰۰۰ تومان</li>
-                            <li>سود هر واحد: ۱۵,۰۰۰ تومان</li>
-                            <li>سود کل: ۱۵,۰۰۰,۰۰۰ تومان</li>
-                        </ul>
-                    </div>
+                    <h3 class="feature-name">مدیریت مالی</h3>
+                </div>
+                <div class="feature-description">
+                    این بخش قلب سیستم مالی را تشکیل می‌دهد و شامل موارد زیر می‌باشد:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-calculator"></i>
+                            <span class="capability-text">ثبت و طبقه‌بندی تمامی درآمدها و هزینه‌ها</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span class="capability-text">تهیه گزارش‌های مالی دوره‌ای و تحلیلی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-balance-scale"></i>
+                            <span class="capability-text">کنترل بودجه و پیش‌بینی مالی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-database"></i>
+                            <span class="capability-text">نگهداری سوابق کامل تراکنش‌های مالی</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- بخش چک و سفته -->
-            <div class="form-container">
-                <div class="help-section" id="section3">
-                    <div class="help-title">
-                        <span>🧾</span> بخش مدیریت چک و سفته - پیگیری اسناد مالی
+            <!-- سیستم تولید -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">
+                        <i class="fas fa-industry"></i>
                     </div>
-                    <div class="help-content">
-                        <p><strong>هدف این بخش:</strong> مدیریت و پیگیری چک‌ها و سفته‌های دریافتی و پرداختی</p>
-                        
-                        <div class="tip-box">
-                            💡 <strong>نکته طلایی:</strong> همیشه ۳ روز قبل از سررسید چک‌ها، موجودی حساب خود را چک کنید
-                        </div>
-
-                        <p><strong>روش استفاده:</strong></p>
-                        <ol class="step-list">
-                            <li><strong>انتخاب نوع سند:</strong> مشخص کنید چک است یا سفته</li>
-                            <li><strong>مبلغ سند:</strong> مقدار وجه درج شده روی سند را وارد کنید</li>
-                            <li><strong>تاریخ سررسید:</strong> تاریخ وصول سند را دقیق وارد کنید</li>
-                            <li><strong>صادرکننده:</strong> نام شخص یا شرکتی که سند را صادر کرده</li>
-                            <li><strong>ذینفع:</strong> نام شخص یا شرکتی که سند به نام اوست</li>
-                            <li><strong>توضیحات:</strong> اطلاعات تکمیلی مثل شماره چک و بانک</li>
-                        </ol>
-
-                        <p><strong>وضعیت‌های ممکن:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>در انتظار:</strong> سند هنوز به سررسید نرسیده است</li>
-                            <li><strong>وصول شده:</strong> سند با موفقیت وصول شده است</li>
-                            <li><strong>برگشتی:</strong> سند به علت عدم موجودی برگشت خورده</li>
-                            <li><strong>تمدید شده:</strong> تاریخ سررسید سند تمدید شده است</li>
-                        </ul>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدار مهم:</strong> چک‌های مدت‌دار را حتماً ۴۸ ساعت قبل از سررسید وصول کنید
-                        </div>
-
-                        <p><strong>مدیریت ریسک:</strong></p>
-                        <ul class="step-list">
-                            <li>چک‌های اشخاص حقیقی را بیشتر از ۶ ماه نپذیرید</li>
-                            <li>چک‌های شرکتی معمولاً امنیت بیشتری دارند</li>
-                            <li>همیشه چک را از صادرکننده اصلی دریافت کنید</li>
-                            <li>اطلاعات هویتی صادرکننده را دقیق ثبت کنید</li>
-                            <li>چک‌های crossed را برای امنیت بیشتر دریافت کنید</li>
-                        </ul>
-
-                        <p><strong>اقدامات ضروری:</strong></p>
-                        <ul class="step-list">
-                            <li>لیست چک‌های سررسید شده را روزانه چک کنید</li>
-                            <li>برای چک‌های بزرگ، تأییدیه بانک بگیرید</li>
-                            <li>چک‌های برگشتی را سریعاً پیگیری قانونی کنید</li>
-                            <li>از چک‌های سفید امضا به شدت پرهیز کنید</li>
-                            <li>اسناد را در جای امن و ضد آتش نگهداری کنید</li>
-                        </ul>
-                    </div>
+                    <h3 class="feature-name">سیستم تولید</h3>
+                </div>
+                <div class="feature-description">
+                    مدیریت فرآیندهای تولید و موجودی کالا:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-boxes"></i>
+                            <span class="capability-text">کنترل موجودی مواد اولیه و محصولات نهایی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span class="capability-text">مدیریت سفارشات و برنامه تولید</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span class="capability-text">پیگیری راندمان خط تولید</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <span class="capability-text">تحلیل هزینه‌های تولید</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- بخش مدیریت کارمندان -->
-            <div class="form-container">
-                <div class="help-section" id="section4">
-                    <div class="help-title">
-                        <span>👥</span> بخش مدیریت کارمندان - سیستم حقوق و دستمزد
+            <!-- مدیریت کارمندان -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div class="help-content">
-                        <p><strong>هدف این بخش:</strong> مدیریت اطلاعات پرسنلی و محاسبه حقوق و مزایا</p>
-                        
-                        <div class="tip-box">
-                            💡 <strong>نکته طلایی:</strong> همیشه ۱۰٪ بیشتر از حقوق مصوب برای بیمه و taxes در نظر بگیرید
-                        </div>
-
-                        <p><strong>انواع سیستم حقوق:</strong></p>
-                        <div class="feature-grid">
-                            <div class="feature-card">
-                                <h4>💼 حقوق ثابت</h4>
-                                <p>مبلغ ثابت ماهیانه بدون وابستگی به عملکرد - مناسب برای کارمندان اداری</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>📊 درصدی از فروش</h4>
-                                <p>درصدی از مبلغ فروش - مناسب برای نیروهای فروش و بازاریابی</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>🔧 قطعه‌کاری</h4>
-                                <p>دستمزد بر اساس تعداد واحد تولید - مناسب برای کارگران تولیدی</p>
-                            </div>
-                        </div>
-
-                        <p><strong>روش ثبت کارمند جدید:</strong></p>
-                        <ol class="step-list">
-                            <li><strong>نام کامل:</strong> نام و نام خانوادگی به صورت کامل</li>
-                            <li><strong>سمت سازمانی:</strong> موقعیت شغلی در شرکت</li>
-                            <li><strong>نوع حقوق:</strong> انتخاب یکی از سه روش پرداخت</li>
-                            <li><strong>مبلغ حقوق:</strong> بر اساس نوع انتخاب شده متفاوت است</li>
-                            <li><strong>تاریخ استخدام:</strong> روز اول شروع به کار</li>
-                            <li><strong>اطلاعات تماس:</strong> شماره تماس و ایمیل</li>
-                        </ol>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدار مهم:</strong> اطلاعات محرمانه کارمندان را با هیچکس به اشتراک نگذارید
-                        </div>
-
-                        <p><strong>محاسبات حقوق و دستمزد:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>حقوق پایه:</strong> مبلغ ثابت یا متغیر بر اساس نوع قرارداد</li>
-                            <li><strong>پاداش:</strong> Incentiveهای عملکردی و فروش</li>
-                            <li><strong>کسر بیمه:</strong> ۷٪ از حقوق برای بیمه تأمین اجتماعی</li>
-                            <li><strong>کسر مالیات:</strong> بر اساس جدول مالیات حقوق محاسبه می‌شود</li>
-                            <li><strong>عیدی و پاداش:</strong> بر اساس سنوات و عملکرد سالیانه</li>
-                            <li><strong>حقوق خالص:</strong> پس از کسر تمام موارد قانونی</li>
-                        </ul>
-
-                        <p><strong>مزایای جانبی:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>بیمه تکمیلی:</strong> هزینه درمان و دندانپزشکی</li>
-                            <li><strong>بن کارگری:</strong> کمک هزینه غذا و ایاب و ذهاب</li>
-                            <li><strong>پاداش سنوات:</strong> بر اساس سنوات خدمت در شرکت</li>
-                            <li><strong>وام مسکن:</strong> تسهیلات مسکن برای کارمندان</li>
-                            <li><strong>بیمه بیکاری:</strong> پس از اتمام قرارداد کار</li>
-                        </ul>
-                    </div>
+                    <h3 class="feature-name">مدیریت کارمندان</h3>
+                </div>
+                <div class="feature-description">
+                    سیستم جامع مدیریت منابع انسانی:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-user-clock"></i>
+                            <span class="capability-text">ثبت حضور و غیاب پرسنل</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-money-check-alt"></i>
+                            <span class="capability-text">محاسبه حقوق و دستمزد</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-file-contract"></i>
+                            <span class="capability-text">مدیریت پرونده پرسنلی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span class="capability-text">برنامه‌ریزی مرخصی و شیفت کاری</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- بخش گاو صندوق -->
-            <div class="form-container">
-                <div class="help-section" id="section5">
-                    <div class="help-title">
-                        <span>💰</span> بخش گاو صندوق - مدیریت دارایی‌ها
+            <!-- سیستم مالیاتی -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
                     </div>
-                    <div class="help-content">
-                        <p><strong>هدف این بخش:</strong> ثبت و مدیریت تمام دارایی‌های نقدی و غیرنقدی</p>
-                        
-                        <div class="tip-box">
-                            💡 <strong>نکته طلایی:</strong> دارایی‌های خود را به نسبت ۳۰٪ نقدی، ۴۰٪ سرمایه‌گذاری و ۳۰٪ املاک تقسیم کنید
-                        </div>
-
-                        <p><strong>انواع دارایی‌ها:</strong></p>
-                        <div class="feature-grid">
-                            <div class="feature-card">
-                                <h4>💵 نقدی</h4>
-                                <p>پول نقد، حساب‌های جاری و پس‌انداز - نقدشوندگی بالا</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>🏠 املاک</h4>
-                                <p>خانه، زمین، مغازه - ارزش افزوده بلندمدت</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>🚗 وسایل نقلیه</h4>
-                                <p>خودرو، موتور - استهلاک بالا اما کاربرد روزانه</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>🥇 طلا و جواهرات</h4>
-                                <p>حفاظ در برابر تورم - نقدشوندگی متوسط</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>₿ ارز دیجیتال</h4>
-                                <p>ریسک بالا اما سود بالقوه زیاد - نوسانات شدید</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>📈 سهام و اوراق</h4>
-                                <p>سرمایه‌گذاری در بورس - بازدهی بلندمدت</p>
-                            </div>
-                        </div>
-
-                        <p><strong>روش ثبت دارایی:</strong></p>
-                        <ol class="step-list">
-                            <li><strong>نام دارایی:</strong> عنوان مشخص و واضح برای دارایی</li>
-                            <li><strong>ارزش فعلی:</strong> قیمت روز دارایی در بازار</li>
-                            <li><strong>نوع دارایی:</strong> انتخاب از بین ۶ دسته اصلی</li>
-                            <li><strong>تاریخ خرید:</strong> زمانی که دارایی را تهیه کرده‌اید</li>
-                            <li><strong>قیمت خرید:</strong> مبلغی که در ابتدا پرداخت کرده‌اید</li>
-                            <li><strong>مکان نگهداری:</strong> محل فیزیکی یا حساب بانکی</li>
-                            <li><strong>توضیحات:</strong> اطلاعات تکمیلی و مشخصات</li>
-                        </ol>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدار مهم:</strong> ارزش دارایی‌های نوسانی مثل ارز دیجیتال را هفتگی به‌روز کنید
-                        </div>
-
-                        <p><strong>محاسبات سود و زیان:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>سود/زیان:</strong> تفاوت ارزش فعلی و قیمت خرید</li>
-                            <li><strong>درصد سود:</strong> نسبت سود به قیمت خرید اولیه</li>
-                            <li><strong>ارزش کل پرتفوی:</strong> مجموع تمام دارایی‌های شما</li>
-                            <li><strong>توزیع دارایی:</strong> سهم هر نوع دارایی در کل پرتفوی</li>
-                            <li><strong>نرخ رشد:</strong> میانگین رشد سالانه دارایی‌ها</li>
-                        </ul>
-
-                        <p><strong>استراتژی‌های مدیریت دارایی:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>تنوع‌بخشی:</strong> سرمایه خود را در چندین دارایی مختلف پخش کنید</li>
-                            <li><strong>مدیریت ریسک:</strong> دارایی‌های پرریسک و کم‌ریسک را ترکیب کنید</li>
-                            <li><strong>بازبینی دوره‌ای:</strong> هر ۳ ماه پرتفوی خود را بررسی کنید</li>
-                            <li><strong>سودگیری:</strong> در سودهای بالا بخشی از دارایی را بفروشید</li>
-                            <li><strong>میانگین‌گیری:</strong> در قیمت‌های پایین خرید کنید تا میانگین کم شود</li>
-                            <li><strong>صبر بلندمدت:</strong> برای دارایی‌های بنیادی حداقل ۵ سال صبر کنید</li>
-                        </ul>
-                    </div>
+                    <h3 class="feature-name">سیستم مالیاتی</h3>
+                </div>
+                <div class="feature-description">
+                    مدیریت محاسبات و گزارش‌های مالیاتی:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-calculator"></i>
+                            <span class="capability-text">محاسبه خودکار مالیات بر ارزش افزوده</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-receipt"></i>
+                            <span class="capability-text">صدور فاکتورهای رسمی مالیاتی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-chart-pie"></i>
+                            <span class="capability-text">تهیه اظهارنامه مالیاتی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-archive"></i>
+                            <span class="capability-text">بایگانی اسناد مالیاتی</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- بخش فاکتورها -->
-            <div class="form-container">
-                <div class="help-section" id="section6">
-                    <div class="help-title">
-                        <span>📄</span> بخش فاکتورها - صدور صورتحساب
+            <!-- صدور فاکتور -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-invoice"></i>
                     </div>
-                    <div class="help-content">
-                        <p><strong>هدف این بخش:</strong> ایجاد فاکتورهای حرفه‌ای برای فروش و خرید</p>
-                        
-                        <div class="tip-box">
-                            💡 <strong>نکته طلایی:</strong> همیشه ۳ نسخه از فاکتور چاپ کنید: برای مشتری، برای بایگانی، برای حسابداری
-                        </div>
-
-                        <p><strong>انواع فاکتور:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>فروش:</strong> زمانی که کالا یا خدمتی می‌فروشید</li>
-                            <li><strong>خرید:</strong> زمانی که از supplier کالا خریداری می‌کنید</li>
-                            <li><strong>پیش‌فاکتور:</strong> برای ارائه قیمت قبل از انجام معامله</li>
-                            <li><strong>برگشت از فروش:</strong> زمانی که مشتری کالا را مرجوع می‌کند</li>
-                        </ul>
-
-                        <p><strong>مراحل ایجاد فاکتور:</strong></p>
-                        <ol class="step-list">
-                            <li><strong>انتخاب نوع:</strong> فروش یا خرید را مشخص کنید</li>
-                            <li><strong>اطلاعات طرفین:</strong> نام فروشنده و خریدار</li>
-                            <li><strong>تاریخ فاکتور:</strong> تاریخ صدور صورتحساب</li>
-                            <li><strong>افزودن اقلام:</strong> کالاها یا خدمات را اضافه کنید</li>
-                            <li><strong>مشخصات کالا:</strong> نام، تعداد، قیمت واحد برای هر قلم</li>
-                            <li><strong>توضیحات:</strong> شرایط پرداخت و سایر توضیحات</li>
-                            <li><strong>امضای دیجیتال:</strong> برای تأیید نهایی فاکتور</li>
-                            <li><strong>دانلود PDF:</strong> خروجی حرفه‌ای برای ارسال به مشتری</li>
-                        </ol>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدار مهم:</strong> فاکتورهای بالای ۱۰ میلیون تومان باید دارای مهر و امضا باشند
-                        </div>
-
-                        <p><strong>اقلام فاکتور باید شامل:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>ردیف:</strong> شماره ترتیب آیتم‌ها</li>
-                            <li><strong>شرح کالا/خدمت:</strong> توضیح کامل و شفاف</li>
-                            <li><strong>تعداد/مقدار:</strong> تعداد واحدهای فروخته شده</li>
-                            <li><strong>قیمت واحد:</strong> نرخ هر واحد به تومان</li>
-                            <li><strong>مبلغ کل:</strong> حاصل ضرب تعداد در قیمت واحد</li>
-                            <li><strong>تخفیف:</strong> در صورت وجود تخفیف خاص</li>
-                            <li><strong>مالیات بر ارزش افزوده:</strong> ۹٪ برای اکثر کالاها</li>
-                            <li><strong>عوارض:</strong> ۱٪ برای برخی کالاهای خاص</li>
-                            <li><strong>مبلغ قابل پرداخت:</strong> جمع نهایی پس از تمام محاسبات</li>
-                        </ul>
-
-                        <p><strong>مزایای فاکتور رسمی:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>اثبات قانونی:</strong> سند رسمی برای اثبات معامله</li>
-                            <li><strong>پشتیبانی مالیاتی:</strong> قابل ارائه به اداره مالیات</li>
-                            <li><strong>مدیریت فروش:</strong> پیگیری دقیق درآمدها</li>
-                            <li><strong>رضایت مشتری:</strong> ایجاد اعتماد و professionalism</li>
-                            <li><strong>کنترل موجودی:</strong> مدیریت ورود و خروج کالا</li>
-                            <li><strong>تحلیل بازار:</strong> بررسی محصولات پرفروش</li>
-                        </ul>
-
-                        <p><strong>نکات فنی فاکتورنویسی:</strong></p>
-                        <ul class="step-list">
-                            <li>شماره فاکتور باید منحصر به فرد و پیوسته باشد</li>
-                            <li>اطلاعات کامل فروشنده شامل شناسه ملی ضروری است</li>
-                            <li>برای مشتریان حقیقی شماره ملی و برای حقوقی شناسه ملی لازم است</li>
-                            <li>شرایط پرداخت باید به وضوح مشخص شود (نقد، چک، اقساط)</li>
-                            <li>مهلت اعتبار فاکتور در صورت پیش‌فاکتور بودن مشخص شود</li>
-                            <li>امضا و مهر فروشنده در پایین فاکتور الزامی است</li>
-                        </ul>
-                    </div>
+                    <h3 class="feature-name">صدور فاکتور</h3>
+                </div>
+                <div class="feature-description">
+                    سیستم پیشرفته صدور و مدیریت فاکتور:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-edit"></i>
+                            <span class="capability-text">طراحی و صدور فاکتورهای سفارشی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-search"></i>
+                            <span class="capability-text">جستجو و بازیابی فاکتورهای صادر شده</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-print"></i>
+                            <span class="capability-text">چاپ فاکتور با قالب‌های مختلف</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-envelope"></i>
+                            <span class="capability-text">ارسال فاکتور از طریق ایمیل</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- بخش مالیات -->
-            <div class="form-container">
-                <div class="help-section" id="section7">
-                    <div class="help-title">
-                        <span>🧮</span> بخش محاسبه مالیات - برنامه‌ریزی مالیاتی
+            <!-- مدیریت چک -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-check"></i>
                     </div>
-                    <div class="help-content">
-                        <p><strong>هدف این بخش:</strong> محاسبه دقیق مالیات و برنامه‌ریزی برای کاهش آن</p>
-                        
-                        <div class="tip-box">
-                            💡 <strong>نکته طلایی:</strong> همیشه ۲۰٪ بیشتر از محاسبات خود برای مالیات کنار بگذارید
-                        </div>
+                    <h3 class="feature-name">مدیریت چک</h3>
+                </div>
+                <div class="feature-description">
+                    سیستم هوشمند پیگیری و مدیریت چک‌ها:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-calendar-day"></i>
+                            <span class="capability-text">پیگیری سررسید چک‌های دریافتی و پرداختی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-bell"></i>
+                            <span class="capability-text">اعلان‌های هشدار برای چک‌های سررسید شده</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-history"></i>
+                            <span class="capability-text">نگهداری سابقه کامل گردش چک‌ها</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span class="capability-text">تحلیل وضعیت چک‌های صادره و دریافتی</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-                        <p><strong>انواع مالیات در سیستم:</strong></p>
-                        <div class="feature-grid">
-                            <div class="feature-card">
-                                <h4>👤 افراد حقیقی</h4>
-                                <p>مالیات بر درآمد افراد - محاسبه پلکانی از ۰٪ تا ۲۵٪</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>🏢 اشخاص حقوقی</h4>
-                                <p>مالیات بر درآمد شرکت‌ها - نرخ ثابت ۲۵٪</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>💼 مشاغل آزاد</h4>
-                                <p>مالیات پیمانکاری و freelance - نرخ ۱۵٪</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>🏠 درآمد اجاره</h4>
-                                <p>مالیات بر درآمد املاک - معافیت ۸۰ میلیون تومان</p>
-                            </div>
-                        </div>
+        <!-- بخش ابزارهای کاربردی -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-tools"></i>
+                ابزارهای کاربردی
+                <span class="section-number">۳</span>
+            </h2>
 
-                        <p><strong>جدول مالیات افراد حقیقی (۱۴۰۳):</strong></p>
-                        <ul class="step-list">
-                            <li><strong>تا ۵۶ میلیون تومان:</strong> معاف از مالیات (۰٪)</li>
-                            <li><strong>از ۵۶ تا ۱۵۰ میلیون:</strong> مازاد ۵۶ میلیون، ۱۰٪ مالیات</li>
-                            <li><strong>از ۱۵۰ تا ۲۵۰ میلیون:</strong> مازاد ۱۵۰ میلیون، ۱۵٪ مالیات</li>
-                            <li><strong>از ۲۵۰ تا ۳۵۰ میلیون:</strong> مازاد ۲۵۰ میلیون، ۲۰٪ مالیات</li>
-                            <li><strong>بالای ۳۵۰ میلیون تومان:</strong> مازاد ۳۵۰ میلیون، ۲۵٪ مالیات</li>
-                        </ul>
-
-                        <p><strong>کسورات و معافیت‌ها:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>معافیت پایه:</strong> ۵۶ میلیون تومان برای همه افراد</li>
-                            <li><strong>هزینه درمان:</strong> هزینه‌های پزشکی و دندانپزشکی</li>
-                            <li><strong>حقوق بازنشستگی:</strong> معاف از مالیات تا سقف مشخص</li>
-                            <li><strong>هزینه مسکن:</strong> اجاره بها برای برخی مشاغل</li>
-                            <li><strong>عائله تحت تکفل:</strong> ۵ میلیون تومان برای هر نفر</li>
-                            <li><strong>بیمه عمر:</strong> حق بیمه پرداختی قابل کسر است</li>
-                            <li><strong>هدایای نقدی:</strong> تا ۱۰ میلیون تومان معاف است</li>
-                        </ul>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدار مهم:</strong> ارائه اظهارنامه خلاف واقع جرم بوده و مجازات دارد
-                        </div>
-
-                        <p><strong>راهکارهای کاهش مالیات:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>سرمایه‌گذاری معاف:</strong> در طرح‌های معاف از مالیات سرمایه‌گذاری کنید</li>
-                            <li><strong>هزینه‌های مستند:</strong> تمام هزینه‌های قابل قبول را دقیق ثبت کنید</li>
-                            <li><strong>تشکیل پرونده:</strong> در زمان مناسب پرونده مالیاتی تشکیل دهید</li>
-                            <li><strong>استفاده از معافیت‌ها:</strong> از تمام معافیت‌های قانونی استفاده کنید</li>
-                            <li><strong>مشاوره تخصصی:</strong> با مشاوران مالیاتی مجرب مشورت کنید</li>
-                            <li><strong>برنامه‌ریزی بلندمدت:</strong> استراتژی مالیاتی چندساله داشته باشید</li>
-                        </ul>
-
-                        <p><strong>مهلت‌های مهم مالیاتی:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>تشکیل پرونده:</strong> حداکثر ۴ ماه پس از شروع فعالیت</li>
-                            <li><strong>ارسال اظهارنامه:</strong> تا پایان تیرماه هر سال</li>
-                            <li><strong>پرداخت مالیات:</strong> تا پایان شهریور ماه همان سال</li>
-                            <li><strong>اعتراض به برگ تشخیص:</strong> ۳۰ روز از تاریخ ابلاغ</li>
-                            <li><strong>درخواست تقسیط:</strong> حداکثر ۲ سال با کارمزد ۴٪</li>
-                        </ul>
+            <!-- پالت رنگ -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e);">
+                        <i class="fas fa-palette"></i>
                     </div>
+                    <h3 class="feature-name">پالت رنگ</h3>
+                </div>
+                <div class="feature-description">
+                    ابزار انتخاب و مدیریت رنگ‌ها برای استفاده در گزارش‌ها و طراحی‌ها:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-eye-dropper"></i>
+                            <span class="capability-text">انتخاب رنگ از طیف گسترده</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-copy"></i>
+                            <span class="capability-text">کپی کد رنگ در فرمت‌های مختلف (HEX, RGB, HSL)</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-save"></i>
+                            <span class="capability-text">ذخیره پالت‌های رنگ دلخواه</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- بخش گزارش‌ها -->
-            <div class="form-container">
-                <div class="help-section" id="section8">
-                    <div class="help-title">
-                        <span>📈</span> بخش گزارش‌ها و تحلیل - تصمیم‌گیری هوشمند
+            <!-- ماشین حساب -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #4ecdc4, #06d6a0);">
+                        <i class="fas fa-calculator"></i>
                     </div>
-                    <div class="help-content">
-                        <p><strong>هدف این بخش:</strong> تولید گزارش‌های تحلیلی برای تصمیم‌گیری بهتر</p>
-                        
-                        <div class="tip-box">
-                            💡 <strong>نکته طلایی:</strong> حداقل ماهی یکبار گزارش کامل تهیه کنید و کسب و کار خود را تحلیل کنید
-                        </div>
-
-                        <p><strong>انواع گزارش‌های موجود:</strong></p>
-                        <div class="feature-grid">
-                            <div class="feature-card">
-                                <h4>📊 گزارش مالی جامع</h4>
-                                <p>خلاصه کامل عملکرد مالی - درآمد، هزینه، سود خالص</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>🧾 گزارش مالیاتی</h4>
-                                <p>اطلاعات مورد نیاز برای اظهارنامه مالیاتی</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>📈 گزارش عملکرد</h4>
-                                <p>تحلیل شاخص‌های کلیدی عملکرد (KPIها)</p>
-                            </div>
-                            <div class="feature-card">
-                                <h4>📦 گزارش موجودی</h4>
-                                <p>وضعیت کالاها و دارایی‌های فیزیکی</p>
-                            </div>
-                        </div>
-
-                        <p><strong>بازه‌های زمانی گزارش‌گیری:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>روزانه:</strong> برای کنترل لحظه‌ای تراکنش‌ها</li>
-                            <li><strong>هفتگی:</strong> برای بررسی روندهای کوتاه مدت</li>
-                            <li><strong>ماهانه:</strong> برای تحلیل عملکرد ماهیانه</li>
-                            <li><strong>سه‌ماهه:</strong> برای بررسی فصلی کسب و کار</li>
-                            <li><strong>سالانه:</strong> برای برنامه‌ریزی بلندمدت</li>
-                            <li><strong>سفارشی:</strong> برای دوره‌های خاص و پروژه‌ها</li>
-                        </ul>
-
-                        <p><strong>شاخص‌های کلیدی عملکرد (KPI):</strong></p>
-                        <ul class="step-list">
-                            <li><strong>نسبت سودآوری:</strong> سود خالص تقسیم بر درآمد</li>
-                            <li><strong>حاشیه سود ناخالص:</strong> سود ناخالص تقسیم بر درآمد</li>
-                            <li><strong>نسبت نقدینگی:</strong> دارایی جاری تقسیم بر بدهی جاری</li>
-                            <li><strong>دوره وصول مطالبات:</strong> میانگین زمان وصول چک‌ها</li>
-                            <li><strong>نسبت گردش موجودی:</strong> دفعات فروش و جایگزینی موجودی</li>
-                            <li><strong>بازده سرمایه:</strong> سود خالص تقسیم بر کل سرمایه</li>
-                            <li><strong>نسبت بدهی:</strong> کل بدهی تقسیم بر کل دارایی</li>
-                        </ul>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدار مهم:</strong> گزارش‌های مالی باید مبتنی بر واقعیت باشد نه تخمین و حدس
-                        </div>
-
-                        <p><strong>تحلیل گزارش‌ها برای تصمیم‌گیری:</strong></p>
-                        <ul class="step-list">
-                            <li><strong>شناسایی روندها:</strong> الگوهای تکرارشونده در درآمد و هزینه</li>
-                            <li><strong>تشخیص نقاط قوت:</strong> بخش‌های سودآور کسب و کار</li>
-                            <li><strong>شناسایی ضعف‌ها:</strong> بخش‌های زیان‌ده یا کم‌بازده</li>
-                            <li><strong>فرصت‌های رشد:</strong> زمینه‌های توسعه و گسترش</li>
-                            <li><strong>تهدیدهای پیش رو:</strong> ریسک‌های مالی و بازار</li>
-                            <li><strong>تخصیص منابع:</strong> سرمایه‌گذاری در بخش‌های پربازده</li>
-                            <li><strong>بهبود فرآیندها:</strong> کاهش هزینه‌ها و افزایش بهره‌وری</li>
-                        </ul>
-
-                        <p><strong>نکات حرفه‌ای گزارش‌نویسی:</strong></p>
-                        <ul class="step-list">
-                            <li>گزارش باید مختصر، مفید و قابل فهم باشد</li>
-                            <li>از نمودار و گراف برای نمایش بصری استفاده کنید</li>
-                            <li>مقایسه دوره‌های مختلف را در گزارش لحاظ کنید</li>
-                            <li>تحلیل علل تغییرات را به وضوح بیان کنید</li>
-                            <li>پیشنهادات عملی برای بهبود ارائه دهید</li>
-                            <li>گزارش را به موقع و منظم تهیه کنید</li>
-                            <li>اطلاعات محرمانه را در گزارش لحاظ نکنید</li>
-                        </ul>
-                    </div>
+                    <h3 class="feature-name">ماشین حساب پیشرفته</h3>
+                </div>
+                <div class="feature-description">
+                    ماشین حساب مالی با قابلیت‌های محاسباتی پیشرفته:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-percentage"></i>
+                            <span class="capability-text">محاسبات مالی و درصدی</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-history"></i>
+                            <span class="capability-text">ذخیره تاریخچه محاسبات</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span class="capability-text">تبدیل واحدهای پولی</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- بخش نکات نهایی -->
-            <div class="form-container">
-                <div class="help-section">
-                    <div class="help-title">
-                        <span>🎯</span> نکات نهایی و بهترین روش‌ها
+            <!-- تقویم -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #ffd166, #f8961e);">
+                        <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <div class="help-content">
-                        <div class="tip-box">
-                            💡 <strong>۱۰ قانون طلایی مدیریت مالی:</strong>
-                        </div>
-                        
-                        <ol class="step-list">
-                            <li><strong>ثبت منظم:</strong> هیچ تراکنشی را به تعویق نیندازید - همان روز ثبت کنید</li>
-                            <li><strong>دسته‌بندی دقیق:</strong> هر تراکنش را در دسته صحیح قرار دهید برای تحلیل بهتر</li>
-                            <li><strong>پشتیبان‌گیری:</strong> هفتگی از داده‌های خود backup بگیرید</li>
-                            <li><strong>بررسی دوره‌ای:</strong> حداقل ماهی یکبار گزارش کامل تهیه کنید</li>
-                            <li><strong>واقع‌بینی:</strong> در برآورد درآمد محتاط و در预估 هزینه واقع‌بین باشید</li>
-                            <li><strong>تنوع‌بخشی:</strong> درآمد خود را از چندین منبع مختلف تأمین کنید</li>
-                            <li><strong>صرفه‌جویی:</strong> همیشه ۱۰-۲۰٪ از درآمد خود را پس‌انداز کنید</li>
-                            <li><strong>آموزش مستمر:</strong> دانش مالی خود را دائماً به‌روز کنید</li>
-                            <li><strong>مشاوره تخصصی:</strong> در موارد پیچیده از متخصصان کمک بگیرید</li>
-                            <li><strong>برنامه‌ریزی بلندمدت:</strong> برای ۱، ۳ و ۵ سال آینده برنامه داشته باشید</li>
-                        </ol>
-
-                        <div class="warning-box">
-                            ⚠️ <strong>هشدارهای امنیتی نهایی:</strong>
-                            <ul class="step-list" style="margin-top: 8px;">
-                                <li>هرگز اطلاعات مالی را در دستگاه‌های عمومی ذخیره نکنید</li>
-                                <li>از رمزهای عبور قوی و منحصربه‌فرد استفاده کنید</li>
-                                <li>سیستم خود را به‌روز و ضدویروس نگه دارید</li>
-                                <li>از اتصال اینترنت ناامن برای کارهای مالی استفاده نکنید</li>
-                                <li>اطلاعات محرمانه را با کسی به اشتراک نگذارید</li>
-                            </ul>
-                        </div>
-
-                        <p><strong>منابع آموزشی پیشنهادی:</strong></p>
-                        <ul class="step-list">
-                            <li>📚 کتاب اصول حسابداری مقدماتی</li>
-                            <li>🎥 دوره‌های آنلاین مدیریت مالی شخصی</li>
-                            <li>📊 وبینارهای تحلیل بازار سرمایه</li>
-                            <li>🧮 کارگاه‌های عملی مالیات‌ستانی</li>
-                            <li>💼 مشاوره با حسابداران رسمی</li>
-                        </ul>
-
-                        <div class="info-message" style="margin-top: 20px;">
-                            <div class="info-title">🚀 موفقیت مالی در گرو نظم و یادگیری مستمر است</div>
-                            <div class="info-content">
-                                این سیستم ابزاری قدرتمند در اختیار شما قرار می‌دهد، اما موفقیت نهایی به دانش و انضباط شما بستگی دارد
-                            </div>
-                        </div>
-                    </div>
+                    <h3 class="feature-name">تقویم هوشمند</h3>
+                </div>
+                <div class="feature-description">
+                    تقویم جامع برای برنامه‌ریزی و مدیریت زمان:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span class="capability-text">ثبت رویدادها و قرارهای مهم</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-bell"></i>
+                            <span class="capability-text">یادآوری‌های هوشمند</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-moon"></i>
+                            <span class="capability-text">نمایش مناسبت‌های ملی و مذهبی</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <script>
-        // نمایش پیام خوش‌آمدگویی
-        window.onload = function() {
-            showSuccessMessage('راهنمای جامع سیستم با موفقیت بارگذاری شد');
-        };
+            <!-- والپیپر -->
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #118ab2, #073b4c);">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3 class="feature-name">کتابخانه والپیپر</h3>
+                </div>
+                <div class="feature-description">
+                    مجموعه‌ای از تصاویر با کیفیت برای استفاده در گزارش‌ها و ارائه‌ها:
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="fas fa-search"></i>
+                            <span class="capability-text">جستجو در دسته‌بندی‌های مختلف</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-download"></i>
+                            <span class="capability-text">دانلود تصاویر با کیفیت بالا</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="fas fa-heart"></i>
+                            <span class="capability-text">ذخیره تصاویر مورد علاقه</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-        // نمایش پیام موفقیت
-        function showSuccessMessage(message) {
-            const existingMessage = document.querySelector('.success-message');
-            if (existingMessage) {
-                existingMessage.remove();
-            }
+        <!-- بخش امکانات جانبی -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-star"></i>
+                امکانات جانبی و ویژه
+                <span class="section-number">۴</span>
+            </h2>
             
-            const successMessage = document.createElement('div');
-            successMessage.className = 'success-message';
-            successMessage.textContent = message;
-            
-            const mainContent = document.querySelector('.main-content');
-            mainContent.insertBefore(successMessage, mainContent.firstChild);
-            
-            setTimeout(() => {
-                if (successMessage.parentElement) {
-                    successMessage.remove();
-                }
-            }, 5000);
-        }
+            <div class="feature-card">
+                <div class="feature-description">
+                    سیستم مدیریت مالی هوشمند علاوه بر امکانات اصلی، دارای قابلیت‌های ویژه زیر می‌باشد:
+                    
+                    <div class="space-top">
+                        <div class="capability-item" style="background: #f0f9ff; border-right-color: #118ab2;">
+                            <i class="fas fa-chart-network" style="color: #118ab2;"></i>
+                            <span class="capability-text">
+                                <strong>سیستم هوشمند تجزیه و تحلیل داده‌ها:</strong> 
+                                امکان تحلیل پیشرفته داده‌های مالی و تولید گزارش‌های تحلیلی
+                            </span>
+                        </div>
+                        
+                        <div class="capability-item" style="background: #f0fff4; border-right-color: #06d6a0;">
+                            <i class="fas fa-robot" style="color: #06d6a0;"></i>
+                            <span class="capability-text">
+                                <strong>پشتیبانی از هوش مصنوعی:</strong> 
+                                تحلیل روندهای مالی و پیشنهادات هوشمند برای بهینه‌سازی
+                            </span>
+                        </div>
+                        
+                        <div class="capability-item" style="background: #fffaf0; border-right-color: #ffd166;">
+                            <i class="fas fa-mobile-alt" style="color: #ffd166;"></i>
+                            <span class="capability-text">
+                                <strong>دسترسی چندپلتفرمی:</strong> 
+                                امکان استفاده از سیستم در کامپیوتر، تبلت و موبایل
+                            </span>
+                        </div>
+                        
+                        <div class="capability-item" style="background: #f8f0ff; border-right-color: #8b5cf6;">
+                            <i class="fas fa-sync-alt" style="color: #8b5cf6;"></i>
+                            <span class="capability-text">
+                                <strong>همگام‌سازی ابری:</strong> 
+                                ذخیره و بازیابی اطلاعات از فضای ابری
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        // اسکرول نرم به بخش‌ها
-        document.querySelectorAll('.quick-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
+        <!-- بخش نهایی -->
+        <section class="final-section">
+            <h2 class="final-title">✨ درباره سیستم</h2>
+            <p class="final-text">
+                سیستم مدیریت مالی هوشمند با هدف ساده‌سازی فرآیندهای مالی و افزایش بهره‌وری کسب‌وکارها طراحی شده است. 
+                این سیستم با ترکیب تکنولوژی‌های روز و نیازهای واقعی بازار، تجربه‌ای بی‌نظیر در مدیریت مالی ارائه می‌دهد.
+            </p>
+            
+            <div style="background: white; padding: 20px; border-radius: 12px; margin-top: 20px; border: 1px solid #e2e8f0;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b6b, #4ecdc4); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px;">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 18px; font-weight: 700; color: #2d3748; margin: 0;">توسعه مستمر</h3>
+                        <p style="font-size: 14px; color: #718096; margin: 5px 0 0 0;">بروزرسانی منظم با امکانات جدید</p>
+                    </div>
+                </div>
                 
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+                <p style="font-size: 14px; color: #4a5568; line-height: 1.7;">
+                    سیستم به طور مستمر در حال توسعه و بهبود است. امکانات جدید بر اساس نیازهای کاربران 
+                    و پیشرفت تکنولوژی به سیستم اضافه می‌شوند تا همواره بهترین تجربه کاربری را ارائه دهد.
+                </p>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
