@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تبدیل متن به ویدیو با آپلود عکس، صدا و تا ۳۰ دقیقه</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c2e, #1a1a3e);
+            color: #fff;
+            min-height: 100vh;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            transform: scale(0.95);
+            transform-origin: top center;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                transform: scale(1);
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1000px;
+            }
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #a0c8ff;
+            margin-bottom: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        @media (min-width: 992px) {
+            .main-content {
+                flex-direction: row;
+            }
+        }
+        
+        .input-section, .preview-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #4ecdc4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title i {
+            font-size: 1.2rem;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            padding: 15px;
+            resize: vertical;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .control-group {
+            flex: 1;
+            min-width: calc(50% - 12px);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #a0c8ff;
+            font-size: 0.9rem;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.2);
+        }
+        
+        select option {
+            background: #0c0c2e;
+        }
+        
+        .upload-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+        }
+        
+        .upload-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 2px dashed #4ecdc4;
+        }
+        
+        .upload-btn:hover {
+            background: rgba(78, 205, 196, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .upload-btn i {
+            font-size: 2rem;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+        
+        .upload-btn span {
+            font-size: 0.9rem;
+            color: #a0c8ff;
+        }
+        
+        #uploadInput, #audioInput {
+            display: none;
+        }
+        
+        .upload-preview {
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .upload-preview img, .upload-preview audio {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #4ecdc4;
+        }
+        
+        .upload-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .remove-upload {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .remove-upload:hover {
+            background: rgba(255, 107, 107, 0.3);
+        }
+        
+        .background-gallery {
+            margin-top: 15px;
+        }
+        
+        .gallery-title {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: #4ecdc4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        
+        @media (min-width: 768px) {
+            .gallery-container {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                max-height: 300px;
+            }
+        }
+        
+        .background-thumb {
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            cursor: pointer;
+            object-fit: cover;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+        }
+        
+        .background-thumb:hover {
+            transform: scale(1.08);
+            border-color: #4ecdc4;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.5);
+        }
+        
+        .background-thumb.selected {
+            border-color: #ff6b6b;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.6);
+            transform: scale(1.05);
+        }
+        
+        .selected-bg-info {
+            background: rgba(255, 107, 107, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+        
+        .audio-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 107, 107, 0.3);
+        }
+        
+        .audio-section .upload-btn {
+            border-color: #ff6b6b;
+        }
+        
+        .audio-section .upload-btn i {
+            color: #ff6b6b;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 480px) {
+            .buttons {
+                flex-direction: row;
+            }
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 50px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right, #ff5252, #ff7b7b);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .video-container {
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (min-width: 768px) {
+            .video-container {
+                min-height: 350px;
+            }
+        }
+        
+        canvas {
+            width: 100%;
+            height: auto;
+            max-height: 350px;
+            background: #000;
+            display: block;
+        }
+        
+        .timer {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ff6b6b;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-title {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #4ecdc4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-list {
+            list-style-type: none;
+            padding-right: 20px;
+        }
+        
+        .info-list li {
+            margin-bottom: 10px;
+            padding-right: 10px;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .info-list li:before {
+            content: "•";
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            position: absolute;
+            right: -20px;
+            top: -3px;
+        }
+        
+        .instructions {
+            font-size: 0.85rem;
+            color: #a0c8ff;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .social-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .social-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .background-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .tab-btn {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 8px;
+            color: #a0c8ff;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tab-btn.active {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ecdc4;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .duration-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .duration-value {
+            font-size: 0.9rem;
+            color: #4ecdc4;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            textarea, select, input, button {
+                font-size: 16px !important;
+            }
+        }
+        
+        .optional-text {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-video"></i> تبدیل متن به ویدیو حرفه‌ای</h1>
+            <p class="subtitle">با آپلود عکس، امکان صداگذاری و مدت ۵ ثانیه تا ۳۰ دقیقه</p>
+            
+            <div class="social-badges">
+                <div class="social-badge">
+                    <i class="fas fa-image" style="color: #4ecdc4;"></i>
+                    آپلود عکس
+                </div>
+                <div class="social-badge">
+                    <i class="fas fa-music" style="color: #ff6b6b;"></i>
+                    صداگذاری
+                </div>
+                <div class="social-badge">
+                    <i class="fas fa-clock" style="color: #ffd93d;"></i>
+                    تا ۳۰ دقیقه
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <section class="input-section">
+                <h2 class="section-title"><i class="fas fa-edit"></i> تنظیمات ویدیو</h2>
+                
+                <textarea id="textInput" placeholder="متن خود را اینجا وارد کنید (اختیاری)... اگر متنی ننویسید، فقط عکس نمایش داده می‌شود">🐘 حیات وحش شگفت‌انگیز 🦁
+
+طبیعت پر از زیبایی‌های حیرت‌انگیز است:
+• فیل‌های باشکوه در آفریقا
+• شیرهای قدرتمند در ساوانا
+• پاندای دوست‌داشتنی در جنگل
+• دلفین‌های بازیگوش در اقیانوس
+
+حفاظت از حیات وحش وظیفه همه ماست!</textarea>
+                <p class="optional-text">متن اختیاری است - اگر متنی وارد نکنید، فقط عکس نمایش داده می‌شود</p>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="fontSize"><i class="fas fa-text-height"></i> اندازه فونت</label>
+                        <select id="fontSize">
+                            <option value="40">بزرگ</option>
+                            <option value="36" selected>متوسط</option>
+                            <option value="32">کوچک</option>
+                            <option value="28">خیلی کوچک</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="textColor"><i class="fas fa-palette"></i> رنگ متن</label>
+                        <select id="textColor">
+                            <option value="#ffffff" selected>سفید</option>
+                            <option value="#ff6b6b">قرمز</option>
+                            <option value="#4ecdc4">فیروزه‌ای</option>
+                            <option value="#45b7d1">آبی آسمانی</option>
+                            <option value="#96ceb4">سبز</option>
+                            <option value="#ffd93d">زرد</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="textEffect"><i class="fas fa-magic"></i> افکت متن</label>
+                        <select id="textEffect">
+                            <option value="shadow" selected>سایه دار</option>
+                            <option value="glow">درخشان</option>
+                            <option value="gradient">گرادیان</option>
+                            <option value="simple">ساده</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="duration"><i class="fas fa-clock"></i> مدت ویدیو</label>
+                        <div class="duration-control">
+                            <input type="range" id="duration" min="5" max="1800" value="10" step="5">
+                            <span class="duration-value" id="durationValue">10</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- بخش صداگذاری -->
+                <div class="audio-section">
+                    <h3 class="gallery-title"><i class="fas fa-music"></i> افزودن صدا به ویدیو (اختیاری)</h3>
+                    <div class="upload-btn" id="audioTrigger">
+                        <i class="fas fa-file-audio"></i>
+                        <span>برای آپلود فایل صوتی کلیک کنید</span>
+                        <span style="font-size: 0.8rem; margin-top: 5px; color: #888;">فرمت‌های مجاز: MP3, WAV, OGG</span>
+                    </div>
+                    <input type="file" id="audioInput" accept="audio/*">
+                    
+                    <div class="upload-preview" id="audioPreview">
+                        <audio id="uploadedAudio" controls></audio>
+                        <div class="upload-info">
+                            <span id="audioFileName">فایل صوتی</span>
+                            <button class="remove-upload" id="removeAudio">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="background-gallery">
+                    <h3 class="section-title"><i class="fas fa-images"></i> آپلود عکس پس‌زمینه <span style="color: #ff6b6b; font-size: 0.9rem;">(الزامی)</span></h3>
+                    
+                    <div class="upload-section">
+                        <div class="upload-btn" id="uploadTrigger">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>برای آپلود عکس کلیک کنید</span>
+                            <span style="font-size: 0.8rem; margin-top: 5px; color: #888;">فرمت‌های مجاز: JPG, PNG, WebP</span>
+                        </div>
+                        <input type="file" id="uploadInput" accept="image/*">
+                        
+                        <div class="upload-preview" id="uploadPreview">
+                            <img id="uploadedImage" alt="عکس آپلود شده">
+                            <div class="upload-info">
+                                <span id="uploadFileName">عکس انتخابی</span>
+                                <button class="remove-upload" id="removeUpload">
+                                    <i class="fas fa-trash"></i> حذف
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="selected-bg-info" id="selectedBgInfo">
+                        لطفاً یک عکس آپلود کنید (الزامی)
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button id="generateBtn" class="btn btn-primary">
+                        <i class="fas fa-play-circle"></i> ایجاد ویدیو
+                    </button>
+                    <button id="downloadBtn" class="btn btn-secondary" disabled>
+                        <i class="fas fa-download"></i> دانلود ویدیو
+                    </button>
+                </div>
+                
+                <div class="loading" id="loadingIndicator">
+                    <div class="loading-spinner"></div>
+                    <p id="loadingText">در حال ساخت ویدیو حرفه‌ای...</p>
+                </div>
+            </section>
+            
+            <section class="preview-section">
+                <h2 class="section-title"><i class="fas fa-eye"></i> پیش‌نمایش ویدیو</h2>
+                
+                <div class="video-container">
+                    <canvas id="videoCanvas" width="800" height="450"></canvas>
+                    <div class="timer" id="timer">00:00 / 00:10</div>
+                    
+                    <div id="canvasPlaceholder">
+                        <p style="color: #aaa; font-size: 1rem; text-align: center; padding: 20px;">
+                            <i class="fas fa-video" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                            ویدیوی شما اینجا نمایش داده می‌شود
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <p><i class="fas fa-info-circle"></i> کیفیت ویدیو: HD 1080p • حداکثر مدت: ۳۰ دقیقه • با صدا • فرمت: MP4</p>
+                </div>
+            </section>
+        </div>
+        
+        <section class="info-section">
+            <h3 class="info-title"><i class="fas fa-lightbulb"></i> راهنمای کامل ساخت ویدیو حرفه‌ای</h3>
+            <ul class="info-list">
+                <li><strong>آپلود عکس (الزامی):</strong> عکس مورد نظر خود را آپلود کنید تا به عنوان پس‌زمینه ویدیو استفاده شود</li>
+                <li><strong>متن (اختیاری):</strong> می‌توانید متن اضافه کنید یا بدون متن ویدیو بسازید</li>
+                <li><strong>تنظیم مدت زمان:</strong> با اسلایدر مدت ویدیو را از ۵ ثانیه تا ۳۰ دقیقه تنظیم کنید</li>
+                <li><strong>افزودن صدا (اختیاری):</strong> فایل صوتی MP3, WAV یا OGG آپلود کنید تا روی ویدیو پخش شود</li>
+                <li><strong>تنظیمات متن:</strong> اگر متن اضافه می‌کنید، اندازه، رنگ و افکت آن را تنظیم کنید</li>
+                <li><strong>ایجاد ویدیو:</strong> روی دکمه "ایجاد ویدیو" کلیک کنید تا ویدیو با صدا ساخته شود</li>
+                <li><strong>دانلود:</strong> ویدیوی نهایی را با کیفیت HD و صدای ضبط شده دانلود کنید</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        // عناصر DOM
+        const textInput = document.getElementById('textInput');
+        const fontSizeSelect = document.getElementById('fontSize');
+        const textColorSelect = document.getElementById('textColor');
+        const textEffectSelect = document.getElementById('textEffect');
+        const durationSlider = document.getElementById('duration');
+        const durationValue = document.getElementById('durationValue');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const videoCanvas = document.getElementById('videoCanvas');
+        const timer = document.getElementById('timer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const loadingText = document.getElementById('loadingText');
+        const canvasPlaceholder = document.getElementById('canvasPlaceholder');
+        const selectedBgInfo = document.getElementById('selectedBgInfo');
+        
+        // عناصر آپلود
+        const uploadInput = document.getElementById('uploadInput');
+        const uploadTrigger = document.getElementById('uploadTrigger');
+        const uploadPreview = document.getElementById('uploadPreview');
+        const uploadedImage = document.getElementById('uploadedImage');
+        const uploadFileName = document.getElementById('uploadFileName');
+        const removeUpload = document.getElementById('removeUpload');
+        
+        // عناصر صدا
+        const audioInput = document.getElementById('audioInput');
+        const audioTrigger = document.getElementById('audioTrigger');
+        const audioPreview = document.getElementById('audioPreview');
+        const uploadedAudio = document.getElementById('uploadedAudio');
+        const audioFileName = document.getElementById('audioFileName');
+        const removeAudio = document.getElementById('removeAudio');
+        
+        // متغیرهای انیمیشن
+        let animationId = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let startTime = null;
+        let isGenerating = false;
+        let ctx = videoCanvas.getContext('2d');
+        let selectedBackground = null;
+        let userUploadedImage = null;
+        let userUploadedAudio = null;
+        let audioBlob = null;
+        let audioContext = null;
+        let audioBuffer = null;
+        let audioSource = null;
+        
+        // تنظیمات اولیه
+        videoCanvas.style.display = 'none';
+        
+        // اسلایدر مدت زمان - حداکثر 1800 ثانیه (30 دقیقه)
+        durationSlider.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            durationValue.textContent = value;
+            updateTimerDisplay(0, value);
+        });
+        
+        // به‌روزرسانی اطلاعات پس‌زمینه انتخاب شده
+        function updateSelectedBgInfo(info) {
+            selectedBgInfo.innerHTML = `<i class="fas fa-check-circle"></i> ${info}`;
+        }
+        
+        // پیش‌نمایش سریع
+        function quickPreview() {
+            if (isGenerating || !userUploadedImage) return;
+            
+            const ctx = videoCanvas.getContext('2d');
+            const width = videoCanvas.width;
+            const height = videoCanvas.height;
+            
+            // کشیدن پس‌زمینه
+            if (userUploadedImage) {
+                ctx.drawImage(userUploadedImage, 0, 0, width, height);
+            }
+            
+            // فقط اگر متن وجود دارد، لایه تیره و متن اضافه شود
+            const text = textInput.value.trim();
+            if (text.length > 0) {
+                // اضافه کردن لایه تیره برای خوانایی متن
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+                ctx.fillRect(0, 0, width, height);
+                
+                // نمایش متن نمونه
+                ctx.font = 'bold 36px "Segoe UI"';
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // نمایش متن کاربر یا متن پیش‌فرض
+                const displayText = text.length > 50 ? text.substring(0, 50) + '...' : text;
+                ctx.fillText(displayText, width / 2, height / 2);
+            }
+            
+            canvasPlaceholder.style.display = 'none';
+            videoCanvas.style.display = 'block';
+        }
+        
+        // مدیریت آپلود عکس
+        uploadTrigger.addEventListener('click', () => {
+            uploadInput.click();
+        });
+        
+        uploadInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // بررسی نوع فایل
+            if (!file.type.match('image.*')) {
+                alert('لطفا یک فایل تصویری انتخاب کنید (JPG, PNG, WebP)');
+                return;
+            }
+            
+            // محدودیت حجم فایل (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('حجم فایل باید کمتر از 5 مگابایت باشد');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    userUploadedImage = img;
+                    selectedBackground = img;
+                    
+                    // نمایش پیش‌نمایش
+                    uploadedImage.src = event.target.result;
+                    uploadFileName.textContent = file.name;
+                    uploadPreview.style.display = 'block';
+                    
+                    updateSelectedBgInfo('عکس آپلود شده');
+                    
+                    quickPreview();
+                };
+                img.src = event.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        });
+        
+        // حذف عکس آپلود شده
+        removeUpload.addEventListener('click', function() {
+            userUploadedImage = null;
+            selectedBackground = null;
+            uploadInput.value = '';
+            uploadPreview.style.display = 'none';
+            
+            updateSelectedBgInfo('لطفاً یک عکس آپلود کنید (الزامی)');
+            canvasPlaceholder.style.display = 'block';
+            videoCanvas.style.display = 'none';
+        });
+        
+        // مدیریت آپلود صدا
+        audioTrigger.addEventListener('click', () => {
+            audioInput.click();
+        });
+        
+        audioInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // بررسی نوع فایل
+            if (!file.type.match('audio.*')) {
+                alert('لطفا یک فایل صوتی انتخاب کنید (MP3, WAV, OGG)');
+                return;
+            }
+            
+            // محدودیت حجم فایل (10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('حجم فایل باید کمتر از 10 مگابایت باشد');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                audioBlob = new Blob([event.target.result], { type: file.type });
+                
+                // نمایش پیش‌نمایش
+                uploadedAudio.src = URL.createObjectURL(audioBlob);
+                audioFileName.textContent = file.name;
+                audioPreview.style.display = 'block';
+                
+                // ذخیره فایل صوتی برای استفاده در ویدیو
+                userUploadedAudio = file;
+            };
+            
+            reader.readAsArrayBuffer(file);
+        });
+        
+        // حذف فایل صوتی
+        removeAudio.addEventListener('click', function() {
+            userUploadedAudio = null;
+            audioBlob = null;
+            audioInput.value = '';
+            audioPreview.style.display = 'none';
+            uploadedAudio.src = '';
+        });
+        
+        // تابع برای قالب‌بندی زمان
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // به‌روزرسانی نمایش تایمر
+        function updateTimerDisplay(elapsed, total) {
+            timer.textContent = `${formatTime(elapsed)} / ${formatTime(total)}`;
+        }
+        
+        // تابع برای رسم ویدیو (با یا بدون متن)
+        function drawVideoFrame(ctx, text, options) {
+            const {
+                width,
+                height,
+                fontSize,
+                textColor,
+                textEffect,
+                progress
+            } = options;
+            
+            // کشیدن پس‌زمینه
+            if (selectedBackground && selectedBackground.complete) {
+                ctx.drawImage(selectedBackground, 0, 0, width, height);
+            } else {
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, width, height);
+            }
+            
+            // فقط اگر متن وجود دارد
+            if (text && text.trim().length > 0) {
+                // اضافه کردن لایه تاریکی برای خوانایی بهتر متن
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillRect(0, 0, width, height);
+                
+                // محاسبه تعداد کاراکترهای نمایش داده شده
+                const totalChars = text.length;
+                const charsToShow = Math.floor(totalChars * progress);
+                const visibleText = text.substring(0, charsToShow);
+                
+                // تنظیمات فونت
+                ctx.font = `bold ${fontSize}px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // اعمال افکت‌های متن
+                switch(textEffect) {
+                    case 'glow':
+                        ctx.shadowColor = textColor;
+                        ctx.shadowBlur = 20;
+                        ctx.shadowOffsetX = 0;
+                        ctx.shadowOffsetY = 0;
+                        ctx.fillStyle = textColor;
+                        break;
+                        
+                    case 'gradient':
+                        const gradient = ctx.createLinearGradient(width/2 - 200, height/2 - 50, width/2 + 200, height/2 + 50);
+                        gradient.addColorStop(0, '#ff6b6b');
+                        gradient.addColorStop(0.5, '#4ecdc4');
+                        gradient.addColorStop(1, '#45b7d1');
+                        ctx.fillStyle = gradient;
+                        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                        ctx.shadowBlur = 10;
+                        ctx.shadowOffsetX = 2;
+                        ctx.shadowOffsetY = 2;
+                        break;
+                        
+                    case 'simple':
+                        ctx.fillStyle = textColor;
+                        ctx.shadowColor = 'transparent';
+                        ctx.shadowBlur = 0;
+                        break;
+                        
+                    default: // shadow
+                        ctx.fillStyle = textColor;
+                        ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                        ctx.shadowBlur = 10;
+                        ctx.shadowOffsetX = 2;
+                        ctx.shadowOffsetY = 2;
+                        break;
+                }
+                
+                // شکستن خطوط متن
+                const maxWidth = width * 0.85;
+                const lineHeight = fontSize * 1.5;
+                
+                const lines = [];
+                let currentLine = '';
+                
+                for (const word of visibleText.split(' ')) {
+                    const testLine = currentLine ? `${currentLine} ${word}` : word;
+                    const metrics = ctx.measureText(testLine);
+                    
+                    if (metrics.width > maxWidth && currentLine) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine = testLine;
+                    }
+                }
+                
+                if (currentLine) {
+                    lines.push(currentLine);
+                }
+                
+                // رسم خطوط متن
+                const startY = height / 2 - (lines.length - 1) * lineHeight / 2;
+                
+                lines.forEach((line, index) => {
+                    const y = startY + index * lineHeight;
+                    ctx.fillText(line, width / 2, y);
+                });
+                
+                // رسم مکان‌نما (اگر متن کامل نشده)
+                if (charsToShow < totalChars) {
+                    const lastLine = lines[lines.length - 1];
+                    const metrics = ctx.measureText(lastLine);
+                    const cursorX = width / 2 + metrics.width / 2 + 5;
+                    const cursorY = startY + (lines.length - 1) * lineHeight - fontSize * 0.2;
+                    
+                    ctx.fillStyle = textColor;
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                    ctx.fillRect(cursorX, cursorY, 3, fontSize * 0.8);
+                }
+                
+                // بازنشانی تنظیمات سایه
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+            }
+        }
+        
+        // تابع ایجاد ویدیو با صدا
+        async function createVideoWithAudio() {
+            if (isGenerating) return;
+            
+            if (!selectedBackground && !userUploadedImage) {
+                alert('لطفا یک عکس آپلود کنید (الزامی)');
+                return;
+            }
+            
+            isGenerating = true;
+            loadingIndicator.style.display = 'block';
+            loadingText.textContent = 'در حال ساخت ویدیو با صدا...';
+            generateBtn.disabled = true;
+            canvasPlaceholder.style.display = 'none';
+            videoCanvas.style.display = 'block';
+            
+            // دریافت تنظیمات
+            const text = textInput.value.trim(); // متن اختیاری است
+            const fontSize = parseInt(fontSizeSelect.value);
+            const textColor = textColorSelect.value;
+            const textEffect = textEffectSelect.value;
+            const duration = parseInt(durationSlider.value) * 1000; // تبدیل به میلی‌ثانیه
+            
+            // ابعاد کانواس
+            const width = videoCanvas.width;
+            const height = videoCanvas.height;
+            
+            try {
+                // شروع فرآیند ساخت ویدیو
+                loadingText.textContent = 'در حال آماده‌سازی صدا و تصویر...';
+                
+                // ایجاد MediaStream از canvas
+                const canvasStream = videoCanvas.captureStream(30);
+                recordedChunks = [];
+                
+                // اگر صدا وجود دارد، آن را به stream اضافه کن
+                let finalStream = canvasStream;
+                
+                if (userUploadedAudio && audioBlob) {
+                    loadingText.textContent = 'در حال ترکیب صدا با ویدیو...';
+                    
+                    // تبدیل Blob به ArrayBuffer
+                    const arrayBuffer = await audioBlob.arrayBuffer();
+                    
+                    // ایجاد AudioContext
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    // decode صدا
+                    audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                    
+                    // ایجاد MediaStream از صدا
+                    const audioDestination = audioContext.createMediaStreamDestination();
+                    audioSource = audioContext.createBufferSource();
+                    audioSource.buffer = audioBuffer;
+                    audioSource.connect(audioDestination);
+                    
+                    // ترکیب streamهای صدا و تصویر
+                    const audioTrack = audioDestination.stream.getAudioTracks()[0];
+                    const videoTrack = canvasStream.getVideoTracks()[0];
+                    
+                    finalStream = new MediaStream([videoTrack, audioTrack]);
+                    
+                    // تنظیم مدت صدا به مدت ویدیو
+                    if (audioBuffer.duration * 1000 < duration) {
+                        // اگر صدا کوتاه‌تر است، آن را تکرار کن
+                        audioSource.loop = true;
+                    }
+                }
+                
+                // تنظیمات MediaRecorder
+                const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus') 
+                    ? 'video/webm;codecs=vp9,opus'
+                    : MediaRecorder.isTypeSupported('video/mp4') 
+                    ? 'video/mp4'
+                    : 'video/webm';
+                
+                mediaRecorder = new MediaRecorder(finalStream, { 
+                    mimeType,
+                    videoBitsPerSecond: 2500000 // کیفیت بالا
+                });
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { 
+                        type: mediaRecorder.mimeType 
+                    });
+                    const url = URL.createObjectURL(blob);
+                    
+                    // فعال کردن دکمه دانلود
+                    downloadBtn.disabled = false;
+                    downloadBtn.onclick = () => {
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `ویدیو-حرفه‌ای-${Date.now()}.${mediaRecorder.mimeType.includes('mp4') ? 'mp4' : 'webm'}`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    };
+                    
+                    isGenerating = false;
+                    loadingIndicator.style.display = 'none';
+                    generateBtn.disabled = false;
+                    
+                    // پاکسازی صدا
+                    if (audioSource) {
+                        audioSource.stop();
+                        audioSource.disconnect();
+                    }
+                    if (audioContext && audioContext.state !== 'closed') {
+                        audioContext.close();
+                    }
+                };
+                
+                // شروع ضبط
+                mediaRecorder.start();
+                startTime = Date.now();
+                
+                // شروع پخش صدا (اگر وجود دارد)
+                if (audioSource) {
+                    audioSource.start();
+                }
+                
+                // تابع انیمیشن
+                function animate() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // به‌روزرسانی تایمر
+                    updateTimerDisplay(elapsed / 1000, duration / 1000);
+                    
+                    // رسم انیمیشن
+                    drawVideoFrame(ctx, text, {
+                        width,
+                        height,
+                        fontSize,
+                        textColor,
+                        textEffect,
+                        progress
+                    });
+                    
+                    if (progress < 1) {
+                        animationId = requestAnimationFrame(animate);
+                    } else {
+                        cancelAnimationFrame(animationId);
+                        
+                        // توقف صدا
+                        if (audioSource) {
+                            audioSource.stop();
+                        }
+                        
+                        // توقف ضبط
+                        setTimeout(() => {
+                            mediaRecorder.stop();
+                            updateTimerDisplay(duration / 1000, duration / 1000);
+                        }, 500);
+                    }
+                }
+                
+                // شروع انیمیشن
+                animate();
+                
+            } catch (error) {
+                console.error('خطا در ساخت ویدیو:', error);
+                loadingText.textContent = 'خطا در ساخت ویدیو. لطفا دوباره تلاش کنید.';
+                setTimeout(() => {
+                    loadingIndicator.style.display = 'none';
+                    isGenerating = false;
+                    generateBtn.disabled = false;
+                }, 2000);
+                
+                // پاکسازی در صورت خطا
+                if (audioSource) {
+                    audioSource.stop();
+                    audioSource.disconnect();
+                }
+                if (audioContext && audioContext.state !== 'closed') {
+                    audioContext.close();
+                }
+            }
+        }
+        
+        // رویدادها
+        generateBtn.addEventListener('click', createVideoWithAudio);
+        
+        // نمونه متن‌های پیشنهادی
+        const sampleTexts = [
+            "🌿 زیبایی‌های طبیعت 🌸\n\nطبیعت بهترین هنرمند است:\n• کوه‌های سر به فلک کشیده\n• جنگل‌های انبوه و سبز\n• رودخانه‌های خروشان\n• حیوانات زیبا و دوست‌داشتنی\n\nبیایید از طبیعت حفاظت کنیم!",
+            "🐬 دنیای زیر آب 🐠\n\nاقیانوس‌ها پر از شگفتی هستند:\n• دلفین‌های باهوش\n• نهنگ‌های عظیم\n• مرجان‌های رنگارنگ\n• ماهی‌های کوچک و بزرگ\n\nحفاظت از دریاها وظیفه همه ماست.",
+            "🦁 پادشاهان حیات وحش 🐯\n\nحیوانات وحشی نشانه قدرت طبیعت:\n• شیر: سلطان جنگل\n• ببر: نماد قدرت\n• فیل: حافظه قوی\n• پاندا: نماد صلح\n\nبیایید از آنها محافظت کنیم."
+        ];
+        
+        // اضافه کردن دکمه‌های متن نمونه
+        const sampleButtons = document.createElement('div');
+        sampleButtons.style.marginTop = '15px';
+        sampleButtons.innerHTML = `
+            <p style="margin-bottom: 10px; color: #a0c8ff; font-size: 0.9rem;">متن‌های نمونه (اختیاری):</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                ${sampleTexts.map((text, index) => 
+                    `<button class="btn-secondary" style="padding: 6px 10px; font-size: 0.8rem; min-width: auto; border-radius: 8px;" onclick="document.getElementById('textInput').value = '${text.replace(/\n/g, '\\n').replace(/'/g, "\\'")}'">مثال ${index + 1}</button>`
+                ).join('')}
+                <button class="btn-secondary" style="padding: 6px 10px; font-size: 0.8rem; min-width: auto; border-radius: 8px;" onclick="document.getElementById('textInput').value = ''">حذف متن</button>
+            </div>
+        `;
+        
+        textInput.parentNode.insertBefore(sampleButtons, textInput.nextSibling);
+        
+        // به‌روزرسانی خودکار پیش‌نمایش هنگام تغییر متن
+        textInput.addEventListener('input', function() {
+            if (userUploadedImage && !isGenerating) {
+                quickPreview();
+            }
+        });
+        
+        // به‌روزرسانی خودکار پیش‌نمایش هنگام تغییر تنظیمات
+        [fontSizeSelect, textColorSelect, textEffectSelect].forEach(select => {
+            select.addEventListener('change', function() {
+                if (userUploadedImage && !isGenerating) {
+                    quickPreview();
+                }
+            });
+        });
+        
+        // جلوگیری از زوم روی موبایل
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // به‌روزرسانی اولیه تایمر
+        updateTimerDisplay(0, 10);
+    </script>
+</body>
+</html>
