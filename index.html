@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>سیستم مدیریت مالی وهوش مصنوعی</title>
+    <title>سیستم مدیریت مالی هوشمند</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ریست و تنظیمات پایه */
         * {
             margin: 0;
             padding: 0;
@@ -15,57 +16,243 @@
             user-select: none;
         }
 
-        :root {
-            --primary: #2E7D32;
-            --secondary: #4CAF50;
-            --accent: #8BC34A;
-            --success: #388E3C;
-            --warning: #F57C00;
-            --danger: #D32F2F;
-            --dark: #1A1A1A;
-            --light: #F5F5F5;
-            --surface: rgba(255, 255, 255, 0.95);
-            --card-bg: #1A1A1A;
-            --gold-border: #FFD700;
-            --air-good: #4CAF50;
-            --air-moderate: #FF9800;
-            --air-bad: #F44336;
+        html {
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
-            background: 
-                linear-gradient(rgba(46, 125, 50, 0.9), rgba(76, 175, 80, 0.9)),
-                url('m.jpg') center/cover fixed;
+            font-family: 'Segoe UI', 'Vazirmatn', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #000000; /* متن مشکی در سراسر */
             min-height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            height: 100%;
             overflow: hidden;
             position: fixed;
             width: 100%;
-            height: 100%;
-            touch-action: manipulation;
+            touch-action: pan-x pan-y;
+            transition: background 0.5s ease;
+        }
+
+        /* تم روشن */
+        body.light-theme {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #000000; /* متن مشکی */
+        }
+
+        /* جلوگیری از زوم */
+        *:focus {
+            outline: none;
+        }
+
+        /* متغیرهای رنگ - تم تاریک */
+        :root {
+            --primary: #ff6b6b;
+            --primary-dark: #ff5252;
+            --primary-light: #ff8e8e;
+            --secondary: #4ecdc4;
+            --accent: #ffd166;
+            --success: #06d6a0;
+            --danger: #ef476f;
+            --warning: #ffd166;
+            --info: #118ab2;
+            --dark: #1a1a2e;
+            --darker: #0a0a0f;
+            --light: #000000; /* تغییر به مشکی */
+            --gray: #2d3748; /* تیره‌تر برای خوانایی بهتر */
+            --surface: rgba(255, 255, 255, 0.15);
+            --card-bg: rgba(255, 255, 255, 0.2);
+            --plastic-1: #ff6b6b;
+            --plastic-2: #4ecdc4;
+            --plastic-3: #ffd166;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.3);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --glass: rgba(255, 255, 255, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        /* متغیرهای تم روشن */
+        body.light-theme {
+            --primary: #ff6b6b;
+            --primary-dark: #ff5252;
+            --primary-light: #ff8e8e;
+            --secondary: #4ecdc4;
+            --accent: #ffd166;
+            --success: #06d6a0;
+            --danger: #ef476f;
+            --warning: #ffd166;
+            --info: #118ab2;
+            --dark: #2d3748;
+            --darker: #1a202c;
+            --light: #000000; /* متن مشکی */
+            --gray: #4a5568; /* تیره‌تر */
+            --surface: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --plastic-1: #ff6b6b;
+            --plastic-2: #4ecdc4;
+            --plastic-3: #ffd166;
+            --shadow-sm: 0 4px 12px rgba(255, 107, 107, 0.2);
+            --shadow-md: 0 8px 24px rgba(255, 107, 107, 0.25);
+            --shadow-lg: 0 16px 48px rgba(255, 107, 107, 0.3);
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
         }
 
         /* کانتینر اصلی */
         .app-container {
             width: 100%;
             height: 100vh;
+            max-height: -webkit-fill-available;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
+        /* پس زمینه متن حقوق */
+        .background-text {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .background-text-content {
+            font-size: 32px;
+            font-weight: 900;
+            color: rgba(0, 0, 0, 0.4); /* متن مشکی با شفافیت */
+            text-align: center;
+            padding: 0 20px;
+            line-height: 1.3;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transform: rotate(-5deg);
+        }
+
+        /* لودینگ */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 15px;
+        }
+
+        .loader-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            animation: spin 2s linear infinite;
+        }
+
+        .loader-ring:nth-child(1) {
+            border-top: 2px solid var(--primary);
+            border-right: 2px solid var(--accent);
+        }
+
+        .loader-ring:nth-child(2) {
+            border-top: 2px solid var(--secondary);
+            border-right: 2px solid var(--success);
+            width: 70px;
+            height: 70px;
+            top: 10px;
+            left: 10px;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .loading-text {
+            font-size: 16px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .loading-subtext {
+            font-size: 11px;
+            color: #000000; /* متن مشکی */
+            margin-bottom: 12px;
+            text-align: center;
+            opacity: 0.9;
+        }
+
         /* هدر */
         .app-header {
             background: var(--surface);
             backdrop-filter: blur(20px);
-            padding: 45px 15px 10px;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px 10px 8px;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            box-shadow: var(--shadow-lg);
             position: relative;
-            margin-bottom: 10px;
+            z-index: 100;
             flex-shrink: 0;
+            border-bottom: 2px solid var(--accent);
         }
 
         .status-bar {
@@ -73,234 +260,428 @@
             top: 0;
             left: 0;
             right: 0;
-            padding: 8px 15px;
+            padding: 6px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .date-time {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .date {
             font-size: 10px;
-            color: #64748b;
-            margin-bottom: 1px;
+            color: #000000; /* متن مشکی */
         }
 
-        .time {
-            font-size: 12px;
+        .time-display {
             font-weight: 700;
+            font-size: 11px;
+            direction: ltr;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        /* وضعیت هوا */
-        .weather-status {
+        .date-display {
+            font-size: 9px;
+            color: #000000; /* متن مشکی */
+            margin-right: 3px;
+            opacity: 0.9;
+        }
+
+        .weather-info {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 10px;
-            font-weight: 600;
-            margin-right: 8px;
+            gap: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 9px;
+            color: #000000; /* متن مشکی */
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
         }
 
         .weather-icon {
-            font-size: 10px;
-            animation: pulse 2s infinite;
-        }
-
-        .weather-icon.good {
-            color: var(--air-good);
-        }
-
-        .weather-icon.moderate {
-            color: var(--air-moderate);
-        }
-
-        .weather-icon.bad {
-            color: var(--air-bad);
-        }
-
-        .weather-text {
             font-size: 9px;
-            white-space: nowrap;
+            color: #000000; /* متن مشکی */
         }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+        .header-content {
+            text-align: center;
+            margin-bottom: 6px;
         }
 
-        /* منوی همبرگر */
-        .hamburger-btn {
+        .app-title {
+            font-size: 16px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 3px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-subtitle {
+            font-size: 11px;
+            color: #000000; /* متن مشکی */
+            opacity: 0.9;
+        }
+
+        /* کنترل‌های بالا */
+        .control-buttons {
             position: absolute;
-            top: 35px;
-            left: 15px;
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+            top: 25px;
+            right: 10px;
             display: flex;
-            flex-direction: column;
+            gap: 5px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            width: 30px;
+            height: 30px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 2px;
-            transition: all 0.2s ease;
-            z-index: 100;
-            box-shadow: 0 3px 10px rgba(46, 125, 50, 0.3);
+            color: #000000; /* متن مشکی */
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
-        .hamburger-btn:active {
-            transform: scale(1.05);
-        }
-
-        .hamburger-line {
-            width: 16px;
-            height: 2px;
-            background: white;
-            border-radius: 2px;
-            transition: all 0.2s ease;
-        }
-
-        /* قالب‌های بالایی */
-        .top-cards {
-            display: flex;
-            gap: 10px;
-            padding: 0 15px;
-            margin-bottom: 12px;
-        }
-
-        .top-card {
-            flex: 1;
-            height: 70px;
-            border-radius: 14px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            background-size: cover;
-            background-position: center;
-        }
-
-        .top-card:nth-child(1) {
-            background-image: url('m1.jpg');
-        }
-
-        .top-card:nth-child(2) {
-            background-image: url('m2.jpg');
+        .control-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
         }
 
         /* محتوای اصلی */
         .app-content {
-            padding: 0 15px;
             flex: 1;
             overflow-y: auto;
-            padding-bottom: 60px;
+            overflow-x: hidden;
+            padding: 10px 10px 65px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            position: relative;
+            z-index: 10;
         }
 
-        /* ۶ دکمه در ۳ ردیف */
-        .buttons-grid {
+        .app-content::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+
+        /* بخش‌ها */
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #000000; /* متن مشکی */
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        .section-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        /* شبکه اصلی */
+        .main-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
-        .grid-btn {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 2px solid var(--gold-border);
-            border-radius: 14px;
-            padding: 12px 6px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* شبکه ابزارها */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        /* دکمه‌های اصلی */
+        .main-btn {
+            position: relative;
+            border: 1.5px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 12px 8px;
+            text-decoration: none;
+            color: #000000; /* متن مشکی */
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            text-decoration: none;
-            color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            position: relative;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
-            min-height: 70px;
+            min-height: 85px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
         }
 
-        .grid-btn::before {
+        /* رنگ‌های مختلف برای هر دکمه */
+        .main-btn:nth-child(1) {
+            background: linear-gradient(145deg, rgba(255, 107, 107, 0.85), rgba(255, 107, 107, 0.7));
+            border-color: rgba(255, 107, 107, 0.4);
+        }
+        
+        .main-btn:nth-child(2) {
+            background: linear-gradient(145deg, rgba(78, 205, 196, 0.85), rgba(78, 205, 196, 0.7));
+            border-color: rgba(78, 205, 196, 0.4);
+        }
+        
+        .main-btn:nth-child(3) {
+            background: linear-gradient(145deg, rgba(255, 209, 102, 0.85), rgba(255, 209, 102, 0.7));
+            border-color: rgba(255, 209, 102, 0.4);
+        }
+        
+        .main-btn:nth-child(4) {
+            background: linear-gradient(145deg, rgba(6, 214, 160, 0.85), rgba(6, 214, 160, 0.7));
+            border-color: rgba(6, 214, 160, 0.4);
+        }
+        
+        .main-btn:nth-child(5) {
+            background: linear-gradient(145deg, rgba(239, 71, 111, 0.85), rgba(239, 71, 111, 0.7));
+            border-color: rgba(239, 71, 111, 0.4);
+        }
+        
+        .main-btn:nth-child(6) {
+            background: linear-gradient(145deg, rgba(118, 171, 174, 0.85), rgba(118, 171, 174, 0.7));
+            border-color: rgba(118, 171, 174, 0.4);
+        }
+
+        .main-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            opacity: 0.8;
         }
 
-        .grid-btn:active {
-            transform: translateY(-4px) scale(1.02);
-            border-color: var(--accent);
-            color: white;
-            box-shadow: 0 8px 20px rgba(139, 195, 74, 0.4);
+        .main-btn:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
 
-        .grid-btn:active::before {
-            opacity: 1;
+        .main-btn:active .btn-icon {
+            transform: scale(1.05) rotate(3deg);
         }
 
-        .grid-btn:active .btn-icon {
-            transform: scale(1.1) rotate(5deg);
-            color: white;
+        /* دکمه‌های ابزار */
+        .tool-btn {
+            position: relative;
+            border: 1.5px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 10px 6px;
+            text-decoration: none;
+            color: #000000; /* متن مشکی */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            min-height: 75px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
         }
 
+        /* رنگ‌های مختلف برای دکمه‌های ابزار */
+        .tool-btn:nth-child(1) {
+            background: linear-gradient(145deg, rgba(255, 107, 107, 0.8), rgba(255, 107, 107, 0.6));
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+        
+        .tool-btn:nth-child(2) {
+            background: linear-gradient(145deg, rgba(255, 209, 102, 0.8), rgba(255, 209, 102, 0.6));
+            border-color: rgba(255, 209, 102, 0.3);
+        }
+        
+        .tool-btn:nth-child(3) {
+            background: linear-gradient(145deg, rgba(78, 205, 196, 0.8), rgba(78, 205, 196, 0.6));
+            border-color: rgba(78, 205, 196, 0.3);
+        }
+        
+        .tool-btn:nth-child(4) {
+            background: linear-gradient(145deg, rgba(6, 214, 160, 0.8), rgba(6, 214, 160, 0.6));
+            border-color: rgba(6, 214, 160, 0.3);
+        }
+
+        .tool-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            opacity: 0.8;
+        }
+
+        .tool-btn:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-btn:active .btn-icon {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        /* آیکون دکمه‌ها */
         .btn-icon {
-            font-size: 20px;
-            color: var(--accent);
-            transition: all 0.2s ease;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            position: relative;
+            z-index: 1;
+            box-shadow: 
+                inset 0 2px 6px rgba(255, 255, 255, 0.3),
+                0 3px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tool-btn .btn-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
         }
 
         .btn-text {
+            font-size: 11px;
             font-weight: 700;
-            font-size: 10px;
             text-align: center;
+            color: #000000; /* متن مشکی */
             line-height: 1.2;
+            position: relative;
+            z-index: 1;
+            padding: 0 3px;
         }
 
-        /* ۴ دکمه جدید در وسط */
-        .middle-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
+        .tool-btn .btn-text {
+            font-size: 10px;
+        }
+
+        /* ناوبری پایین */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border-top: 2px solid var(--accent);
+            padding: 6px 10px 12px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 100;
+            box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            text-decoration: none;
+            color: #000000; /* متن مشکی */
+            padding: 5px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            min-width: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .nav-item:active {
+            transform: translateY(-1px);
+            color: var(--accent);
+        }
+
+        .nav-icon {
+            font-size: 16px;
+        }
+
+        .nav-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: #000000; /* متن مشکی */
+        }
+
+        .nav-item.active .nav-label {
+            color: white;
         }
 
         /* منوی کشویی */
         .slide-menu {
             position: fixed;
             top: 0;
-            left: -100%;
+            right: -100%;
             width: 85%;
             height: 100%;
             background: var(--surface);
             backdrop-filter: blur(30px);
-            box-shadow: 8px 0 30px rgba(0,0,0,0.15);
-            z-index: 99;
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 70px 15px 80px;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 50px 10px 70px;
             overflow-y: auto;
+            border-left: 2px solid var(--accent);
         }
 
         .slide-menu.active {
-            left: 0;
+            right: 0;
         }
 
         .menu-items {
@@ -312,423 +693,205 @@
         .menu-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             padding: 10px;
             border-radius: 10px;
-            background: rgba(46, 125, 50, 0.08);
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
             text-decoration: none;
-            color: var(--dark);
-            border: 2px solid var(--gold-border);
+            color: #000000; /* متن مشکی */
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .menu-item:active {
-            transform: translateX(5px);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: translateX(-4px);
             color: white;
-            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.25);
+            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.25);
         }
 
         .menu-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 7px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 14px;
-            background: rgba(255,255,255,0.9);
-            color: var(--primary);
-            transition: all 0.2s ease;
-        }
-
-        .menu-item:active .menu-icon {
-            background: rgba(255,255,255,0.2);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.25);
         }
 
         .menu-text {
-            font-weight: 600;
             font-size: 12px;
-        }
-
-        /* ناوبری پایین */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-top: 2px solid var(--gold-border);
-            padding: 8px 15px;
-            display: flex;
-            justify-content: space-around;
-            z-index: 101;
-            box-shadow: 0 -3px 12px rgba(0,0,0,0.3);
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            text-decoration: none;
-            color: #BDBDBD;
-            min-width: 50px;
-        }
-
-        .nav-btn.active {
-            background: rgba(76, 175, 80, 0.2);
-            color: var(--accent);
-            border: 1px solid var(--gold-border);
-        }
-
-        .nav-btn:active {
-            transform: translateY(-2px);
-            color: var(--accent);
-        }
-
-        .nav-icon {
-            font-size: 14px;
-        }
-
-        .nav-label {
-            font-size: 9px;
             font-weight: 600;
+            color: #000000; /* متن مشکی */
         }
 
-        /* لودینگ رنگین‌کمانی */
-        .rainbow-loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            backdrop-filter: blur(10px);
-        }
-
-        .rainbow-loading.active {
-            display: flex;
-        }
-
-        .rainbow-spinner {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: conic-gradient(
-                var(--primary),
-                var(--secondary),
-                var(--accent),
-                var(--success),
-                var(--primary)
-            );
-            position: relative;
-            animation: rainbowSpin 2s linear infinite;
-            box-shadow: 0 0 20px rgba(255,255,255,0.2);
-        }
-
-        .rainbow-spinner::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-        }
-
-        @keyframes rainbowSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
+        .menu-item:active .menu-text {
             color: white;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 10px;
-            text-align: center;
         }
 
-        /* پیام همگانی */
+        /* مودال پیام */
         .announcement-modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 2001;
-            padding: 12px;
+            z-index: 2000;
+            padding: 10px;
         }
 
         .announcement-modal.active {
             display: flex;
         }
 
-        .announcement-card {
-            background: var(--surface);
-            border-radius: 16px;
+        .modal-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-md);
+            padding: 16px;
+            max-width: 250px;
             width: 100%;
-            max-width: 320px;
-            max-height: 80vh;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.4s ease-out;
-            display: flex;
-            flex-direction: column;
-            border: 2px solid var(--gold-border);
-        }
-
-        .announcement-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 12px;
-            text-align: center;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .announcement-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .announcement-subtitle {
-            font-size: 11px;
-            opacity: 0.9;
-        }
-
-        .announcement-body {
-            padding: 12px;
-            text-align: center;
-            flex: 1;
-            overflow-y: auto;
-            max-height: 40vh;
-            padding-right: 5px;
-        }
-
-        .announcement-icon {
-            font-size: 35px;
-            margin-bottom: 8px;
-            color: var(--primary);
-        }
-
-        .announcement-message {
-            font-size: 12px;
-            line-height: 1.4;
-            color: var(--dark);
-            margin-bottom: 12px;
-        }
-
-        .announcement-actions {
-            display: flex;
-            gap: 6px;
-            padding: 12px;
-            flex-shrink: 0;
-        }
-
-        .announcement-btn {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 7px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            font-size: 11px;
-        }
-
-        .announcement-btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        .announcement-btn-primary:active {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4);
-        }
-
-        .announcement-btn-secondary {
-            background: rgba(0, 0, 0, 0.05);
-            color: var(--dark);
-        }
-
-        .announcement-btn-secondary:active {
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        /* استایل اسکرول بار برای پیام همگانی */
-        .announcement-body::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .announcement-body::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 2px;
-        }
-
-        .announcement-body::-webkit-scrollbar-thumb {
-            background: rgba(46, 125, 50, 0.5);
-            border-radius: 2px;
-        }
-
-        .announcement-body::-webkit-scrollbar-thumb:hover {
-            background: rgba(46, 125, 50, 0.7);
-        }
-
-        /* جلوگیری از زوم */
-        @media (max-width: 768px) {
-            body {
-                touch-action: pan-x pan-y;
-            }
-            
-            .slide-menu {
-                padding-bottom: 80px;
-            }
-            
-            .weather-text {
-                font-size: 8px;
-            }
-            
-            .weather-icon {
-                font-size: 9px;
-            }
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--accent);
         }
 
         /* انیمیشن‌های ورود */
+        .slide-up {
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .slide-up {
-            animation: slideUp 0.5s ease-out forwards;
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+
+        /* رسپانسیو */
+        @media (max-width: 360px) {
+            .main-btn {
+                min-height: 80px;
+                padding: 10px 6px;
+                gap: 6px;
+            }
+            
+            .tool-btn {
+                min-height: 70px;
+                padding: 8px 5px;
+                gap: 5px;
+            }
+            
+            .btn-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+            
+            .tool-btn .btn-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
+            .btn-text {
+                font-size: 10px;
+            }
+            
+            .tool-btn .btn-text {
+                font-size: 9px;
+            }
+            
+            .app-content {
+                padding: 8px 8px 60px;
+            }
+            
+            .background-text-content {
+                font-size: 26px;
+            }
         }
 
-        .delay-1 { animation-delay: 0.1s; opacity: 0; }
-        .delay-2 { animation-delay: 0.2s; opacity: 0; }
-        .delay-3 { animation-delay: 0.3s; opacity: 0; }
-        .delay-4 { animation-delay: 0.4s; opacity: 0; }
-        .delay-5 { animation-delay: 0.5s; opacity: 0; }
-        .delay-6 { animation-delay: 0.6s; opacity: 0; }
-        .delay-7 { animation-delay: 0.7s; opacity: 0; }
-        .delay-8 { animation-delay: 0.8s; opacity: 0; }
-        
-        /* استایل‌های جدید برای بهبود ظاهر */
-        .header-content {
-            margin-top: 3px;
-            text-align: center;
-            padding: 0 30px;
-        }
-        
-        .app-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 2px;
-        }
-        
-        .app-subtitle {
-            font-size: 11px;
-            color: #64748b;
-        }
-        
-        /* بهبود اسکرول */
-        .app-content::-webkit-scrollbar {
-            width: 2px;
-        }
-        
-        .app-content::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 1px;
-        }
-        
-        .app-content::-webkit-scrollbar-thumb {
-            background: rgba(76, 175, 80, 0.5);
-            border-radius: 1px;
-        }
-        
-        .app-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(76, 175, 80, 0.7);
-        }
-        
-        .slide-menu::-webkit-scrollbar {
-            width: 2px;
-        }
-        
-        .slide-menu::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 1px;
-        }
-        
-        .slide-menu::-webkit-scrollbar-thumb {
-            background: rgba(76, 175, 80, 0.5);
-            border-radius: 1px;
+        @media (max-height: 700px) {
+            .main-btn {
+                min-height: 75px;
+            }
+            
+            .tool-btn {
+                min-height: 65px;
+            }
+            
+            .app-content {
+                padding: 8px 8px 55px;
+            }
+            
+            .background-text-content {
+                font-size: 24px;
+            }
         }
 
-        /* تنظیمات فونت برای نمایش بهتر */
-        .menu-text, .btn-text, .nav-label {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        /* ارتفاع دینامیک برای iOS */
+        @supports (-webkit-touch-callout: none) {
+            .app-container {
+                height: -webkit-fill-available;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- صداها -->
-    <audio id="startupSound" preload="auto">
-        <source src="m.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="buttonSound" preload="auto">
-        <source src="m.mp3" type="audio/mpeg">
-    </audio>
+    <!-- پس زمینه متن حقوق -->
+    <div class="background-text">
+        <div class="background-text-content">تمامی حقوق همه بوم محفوظ هست</div>
+    </div>
 
-    <!-- لودینگ رنگین‌کمانی -->
-    <div class="rainbow-loading" id="rainbowLoading">
-        <div class="rainbow-spinner"></div>
-        <div class="loading-text">درحال بارکزاری.....</div>
+    <!-- لودینگ -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader-container">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-center">
+                <i class="fas fa-chart-line"></i>
+            </div>
+        </div>
+        <div class="loading-text">سیستم مدیریت مالی هوشمند</div>
+        <div class="loading-subtext">در حال بارگذاری امکانات پیشرفته...</div>
     </div>
 
     <!-- پیام همگانی -->
     <div class="announcement-modal" id="announcementModal">
-        <div class="announcement-card">
-            <div class="announcement-header">
-                <div class="announcement-title">پیام همگانی</div>
-                <div class="announcement-subtitle">به روزرسانی سیستم</div>
+        <div class="modal-card">
+            <div style="text-align: center; margin-bottom: 12px;">
+                <div style="width: 45px; height: 45px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--info)); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: white; font-size: 18px;">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 6px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">به روزرسانی سیستم</h3>
+                <p style="font-size: 11px; color: rgba(255, 255, 255, 0.9); line-height: 1.4;">
+                    خوش آمدید! لطفاً اپلیکیشن را از طریق بازار بروزرسانی کنید.
+                    به زودی ویژگی‌های جدید و جذاب اضافه خواهد شد.
+                </p>
             </div>
-            <div>
-                کاربران گرامی لطفا اگر از مایکت اپلیکیشن را دانلود کردین از بازار بروزرسانی کنید با تشکر ممکن هست بعضی از سیستم کار نکنه مخصوصا دانلودر از اینستاگرام دانلود داخلی انجام می‌شود در حافظه ذخیره نمیشه برای ذخیره سازی بروزرسانی کنید با تشکر نسخه بازار
-
-                </div>
-                <div class="announcement-actions">
-                    <button class="announcement-btn announcement-btn-secondary" id="announcementLater">بعداً</button>
-                    <button class="announcement-btn announcement-btn-primary" id="announcementClose">متوجه شدم</button>
-                </div>
+            <div style="display: flex; gap: 6px;">
+                <button id="announcementLater" style="flex: 1; padding: 6px; border-radius: 8px; border: 2px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.15); color: #000000; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 11px; backdrop-filter: blur(10px);">
+                    بعداً
+                </button>
+                <button id="announcementClose" style="flex: 1; padding: 6px; border-radius: 8px; border: none; background: linear-gradient(135deg, var(--accent), var(--info)); color: white; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 11px; box-shadow: 0 3px 10px rgba(255, 209, 102, 0.3);">
+                    متوجه شدم
+                </button>
             </div>
         </div>
     </div>
@@ -738,206 +901,269 @@
         <!-- هدر -->
         <header class="app-header">
             <div class="status-bar">
-                <div class="date-time">
-                    <div class="date" id="currentDate">سه‌شنبه ۳ دی ۱۴۰۳</div>
-                    <div class="time" id="currentTime">۱۴:۳۰</div>
+                <div>
+                    <span class="date-display" id="currentDate">سه‌شنبه ۳ دی ۱۴۰۳</span>
+                    <span class="time-display" id="currentTime">۱۴:۳۰</span>
                 </div>
-                <div class="weather-status">
-                    <div class="weather-icon good" id="weatherIcon">🌤</div>
-                    <div class="weather-text" id="weatherText">آلوده نیست</div>
+                <div class="weather-info">
+                    <span class="weather-icon" id="weatherIcon">🌤</span>
+                    <span id="weatherText">آلوده نیست</span>
                 </div>
-                <div>حسابدار حرفه‌ای</div>
+                <div style="font-size: 9px;">حسابدار</div>
             </div>
 
-            <!-- دکمه همبرگر در سمت چپ -->
-            <button class="hamburger-btn" id="hamburgerBtn">
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-            </button>
+            <!-- دکمه‌های کنترل -->
+            <div class="control-buttons">
+                <button class="control-btn" id="themeToggleBtn">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="control-btn" id="hamburgerBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
 
             <div class="header-content">
                 <h1 class="app-title slide-up">مدیریت مالی</h1>
                 <p class="app-subtitle slide-up delay-1">سیستم جامع حسابداری و مالی</p>
             </div>
-
-            <!-- قالب‌های بالایی -->
-            <div class="top-cards">
-                <div class="top-card slide-up delay-2"></div>
-                <div class="top-card slide-up delay-3"></div>
-            </div>
         </header>
 
         <!-- محتوای اصلی -->
         <main class="app-content">
-            <!-- ۶ دکمه در ۳ ردیف -->
-            <div class="buttons-grid">
-                <a href="m4.html" class="grid-btn slide-up delay-1" onclick="handleButtonClick(event, 'm4.html')">
-                    <div class="btn-icon">💰</div>
-                    <div class="btn-text">مدیریت مالی</div>
-                </a>
-                <a href="m2.html" class="grid-btn slide-up delay-2" onclick="handleButtonClick(event, 'm2.html')">
-                    <div class="btn-icon">⏳️</div>
-                    <div class="btn-text">تولید</div>
-                </a>
-                <a href="m3.html" class="grid-btn slide-up delay-3" onclick="handleButtonClick(event, 'm3.html')">
-                    <div class="btn-icon">👥</div>
-                    <div class="btn-text">کارمندان</div>
-                </a>
-                <a href="m5.html" class="grid-btn slide-up delay-4" onclick="handleButtonClick(event, 'm5.html')">
-                    <div class="btn-icon">🧮</div>
-                    <div class="btn-text">مالیات</div>
-                </a>
-                <a href="m6.html" class="grid-btn slide-up delay-5" onclick="handleButtonClick(event, 'm6.html')">
-                    <div class="btn-icon">📄</div>
-                    <div class="btn-text">فاکتور</div>
-                </a>
-                <a href="m7.html" class="grid-btn slide-up delay-6" onclick="handleButtonClick(event, 'm7.html')">
-                    <div class="btn-icon">📝</div>
-                    <div class="btn-text">مدریت چک</div>
-                </a>
+            <!-- ۶ دکمه اصلی -->
+            <div class="section">
+                <div class="section-header slide-up">
+                    <div class="section-title">
+                        <i class="fas fa-th-large"></i>
+                        امکانات اصلی
+                    </div>
+                    <div class="section-badge">۶ بخش</div>
+                </div>
+                
+                <div class="main-grid">
+                    <a href="m4.html" class="main-btn slide-up delay-1" onclick="handleNavigation(event, 'm4.html')">
+                        <div class="btn-icon">💰</div>
+                        <div class="btn-text">مدیریت مالی</div>
+                    </a>
+                    
+                    <a href="m2.html" class="main-btn slide-up delay-2" onclick="handleNavigation(event, 'm2.html')">
+                        <div class="btn-icon">⏳️</div>
+                        <div class="btn-text">تولید</div>
+                    </a>
+                    
+                    <a href="m3.html" class="main-btn slide-up delay-3" onclick="handleNavigation(event, 'm3.html')">
+                        <div class="btn-icon">👥</div>
+                        <div class="btn-text">کارمندان</div>
+                    </a>
+                    
+                    <a href="m5.html" class="main-btn slide-up delay-4" onclick="handleNavigation(event, 'm5.html')">
+                        <div class="btn-icon">🧮</div>
+                        <div class="btn-text">مالیات</div>
+                    </a>
+                    
+                    <a href="m6.html" class="main-btn slide-up delay-5" onclick="handleNavigation(event, 'm6.html')">
+                        <div class="btn-icon">📄</div>
+                        <div class="btn-text">فاکتور</div>
+                    </a>
+                    
+                    <a href="m7.html" class="main-btn slide-up delay-6" onclick="handleNavigation(event, 'm7.html')">
+                        <div class="btn-icon">📝</div>
+                        <div class="btn-text">مدیریت چک</div>
+                    </a>
+                </div>
             </div>
 
-            <!-- ۴ دکمه جدید در وسط -->
-            <div class="middle-buttons">
-                <a href="y4.html" class="grid-btn slide-up delay-1" onclick="handleButtonClick(event, 'y4.html')">
-                    <div class="btn-icon">📱</div>
-                    <div class="btn-text">ساخت اپلیکیشن</div>
-                </a>
-                <a href="y1.html" class="grid-btn slide-up delay-2" onclick="handleButtonClick(event, 'y1.html')">
-                    <div class="btn-icon">🎨</div>
-                    <div class="btn-text">پالت</div>
-                </a>
-                <a href="y2.html" class="grid-btn slide-up delay-3" onclick="handleButtonClick(event, 'y2.html')">
-                    <div class="btn-icon">🧮</div>
-                    <div class="btn-text">ماشین حساب</div>
-                </a>
-                <a href="y3.html" class="grid-btn slide-up delay-4" onclick="handleButtonClick(event, 'y3.html')">
-                    <div class="btn-icon">🔄</div>
-                    <div class="btn-text">تقویم</div>
-                </a>
+            <!-- ۴ ابزار کاربردی -->
+            <div class="section">
+                <div class="section-header slide-up">
+                    <div class="section-title">
+                        <i class="fas fa-tools"></i>
+                        ابزارهای کاربردی
+                    </div>
+                    <div class="section-badge">۴ بخش</div>
+                </div>
+                
+                <div class="tools-grid">
+                    <a href="y4.html" class="tool-btn slide-up delay-1" onclick="handleNavigation(event, 'y4.html')">
+                        <div class="btn-icon">🏞</div>
+                        <div class="btn-text">والپیپر</div>
+                    </a>
+                    
+                    <a href="y1.html" class="tool-btn slide-up delay-2" onclick="handleNavigation(event, 'y1.html')">
+                        <div class="btn-icon">🎨</div>
+                        <div class="btn-text">پالت رنگ</div>
+                    </a>
+                    
+                    <a href="y2.html" class="tool-btn slide-up delay-3" onclick="handleNavigation(event, 'y2.html')">
+                        <div class="btn-icon">🧮</div>
+                        <div class="btn-text">ماشین حساب</div>
+                    </a>
+                    
+                    <a href="y3.html" class="tool-btn slide-up delay-4" onclick="handleNavigation(event, 'y3.html')">
+                        <div class="btn-icon">🔄</div>
+                        <div class="btn-text">تقویم</div>
+                    </a>
+                </div>
             </div>
         </main>
 
         <!-- ناوبری پایین -->
         <nav class="bottom-nav">
-            <a href="m20.html" class="nav-btn active" onclick="handleButtonClick(event, 'm20.html')">
+            <a href="m20.html" class="nav-item active" onclick="handleNavigation(event, 'm20.html')">
                 <div class="nav-icon">💵</div>
                 <div class="nav-label">سیگنال ترید</div>
             </a>
-            <a href="m40.html" class="nav-btn" onclick="handleButtonClick(event, 'm40.html')">
+            <a href="m40.html" class="nav-item" onclick="handleNavigation(event, 'm40.html')">
                 <div class="nav-icon">📈</div>
-                <div class="nav-label">اهنگ کده</div>
+                <div class="nav-label">آهنگ کده</div>
             </a>
-            <a href="m8.html" class="nav-btn" onclick="handleButtonClick(event, 'm8.html')">
+            <a href="m8.html" class="nav-item" onclick="handleNavigation(event, 'm8.html')">
                 <div class="nav-icon">🪩</div>
                 <div class="nav-label">فیلم کده</div>
+            </a>
+            <a href="m11.html" class="nav-item" onclick="handleNavigation(event, 'm11.html')">
+                <div class="nav-icon">❓️</div>
+                <div class="nav-label">راهنمایی</div>
             </a>
         </nav>
     </div>
 
-    <!-- منوی کشویی - اکنون از سمت چپ باز می‌شود -->
+    <!-- منوی کشویی -->
     <div class="slide-menu" id="slideMenu">
         <div class="menu-items">
-            <a href="m90.html" class="menu-item" onclick="handleButtonClick(event, 'm90.html')">
-                <div class="menu-icon"></div>
+            <a href="m90.html" class="menu-item" onclick="handleNavigation(event, 'm90.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-history"></i>
+                </div>
                 <div class="menu-text">تاریخ</div>
             </a>
-            <a href="m100.html" class="menu-item" onclick="handleButtonClick(event, 'm100.html')">
-                <div class="menu-icon">📄</div>
+            
+            <a href="m100.html" class="menu-item" onclick="handleNavigation(event, 'm100.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
                 <div class="menu-text">علوم</div>
             </a>
-            <a href="m99.html" class="menu-item" onclick="handleButtonClick(event, 'm99.html')">
-                <div class="menu-icon"></div>
+            
+            <a href="m99.html" class="menu-item" onclick="handleNavigation(event, 'm99.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-atom"></i>
+                </div>
                 <div class="menu-text">شیمی</div>
             </a>
-            <a href="m30.html" class="menu-item" onclick="handleButtonClick(event, 'm30.html')">
-                <div class="menu-icon">🩺</div>
+            
+            <a href="m30.html" class="menu-item" onclick="handleNavigation(event, 'm30.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-concierge-bell"></i>
+                </div>
                 <div class="menu-text">جامع خدمات</div>
             </a>
-            <a href="m9.html" class="menu-item" onclick="handleButtonClick(event, 'm9.html')">
-                <div class="menu-icon">₿</div>
+            
+            <a href="m9.html" class="menu-item" onclick="handleNavigation(event, 'm9.html')">
+                <div class="menu-icon">
+                    <i class="fab fa-bitcoin"></i>
+                </div>
                 <div class="menu-text">سبد خرید ارز</div>
             </a>
-            <a href="https://snapvideo.app/fa?utm_source=chatgpt.com" class="menu-item" onclick="handleButtonClick(event, 'https://snapvideo.app/fa?utm_source=chatgpt.com')">
-                <div class="menu-icon">🔎</div>
-                <div class="menu-text">دانلودراینستاگرام</div>
+            
+            <a href="https://snapvideo.app/fa?utm_source=chatgpt.com" class="menu-item" onclick="handleNavigation(event, 'https://snapvideo.app/fa?utm_source=chatgpt.com')">
+                <div class="menu-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="menu-text">دانلودر اینستاگرام</div>
             </a>
-            <a href="https://chat.openai.com/" class="menu-item" onclick="handleButtonClick(event, 'https://chat.openai.com/')">
-                <div class="menu-icon">🧠</div>
+            
+            <a href="https://chat.openai.com/" class="menu-item" onclick="handleNavigation(event, 'https://chat.openai.com/')">
+                <div class="menu-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
                 <div class="menu-text">هوش مصنوعی</div>
             </a>
-            <a href="https://www.toobit.com/fa/register?invite_code=5EQpCT" class="menu-item" onclick="handleButtonClick(event, 'https://www.toobit.com/fa/register?invite_code=5EQpCT')">
-                <div class="menu-icon">📥📤</div>
+            
+            <a href="https://www.toobit.com/fa/register?invite_code=5EQpCT" class="menu-item" onclick="handleNavigation(event, 'https://www.toobit.com/fa/register?invite_code=5EQpCT')">
+                <div class="menu-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
                 <div class="menu-text">صرافی</div>
             </a>
-            <a href="m11.html" class="menu-item" onclick="handleButtonClick(event, 'm11.html')">
-                <div class="menu-icon">❓️</div>
+            
+            <a href="m11.html" class="menu-item" onclick="handleNavigation(event, 'm11.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
                 <div class="menu-text">راهنمایی</div>
             </a>
         </div>
     </div>
 
     <script>
-        // مدیریت لودینگ اولیه
-        window.addEventListener('load', function() {
-            // پخش صدای شروع
-            const startupSound = document.getElementById('startupSound');
-            try {
-                startupSound.volume = 0.7;
-                startupSound.play().catch(e => {
-                    console.log('پخش خودکار صدا مسدود شده، کاربر باید با صفحه تعامل کند');
-                });
-            } catch (error) {
-                console.log('خطا در پخش صدا:', error);
-            }
+        // مدیریت لودینگ
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
             
             setTimeout(() => {
-                document.getElementById('rainbowLoading').classList.remove('active');
-                checkAnnouncement();
-                updateWeatherStatus(); // وضعیت هوا را بررسی کن
-            }, 2000);
+                loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    checkAnnouncement();
+                    updateWeatherStatus();
+                    loadThemePreference();
+                }, 500);
+            }, 1500);
         });
 
-        // مدیریت کلیک روی دکمه‌ها
-        function handleButtonClick(event, targetUrl) {
+        // مدیریت تغییر تم
+        let isDarkTheme = true;
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = themeToggleBtn.querySelector('i');
+        
+        function loadThemePreference() {
+            const savedTheme = localStorage.getItem('themePreference');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                isDarkTheme = false;
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                isDarkTheme = true;
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+        
+        themeToggleBtn.addEventListener('click', function() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('light-theme', !isDarkTheme);
+            themeIcon.className = isDarkTheme ? 'fas fa-moon' : 'fas fa-sun';
+            
+            localStorage.setItem('themePreference', isDarkTheme ? 'dark' : 'light');
+            updateWeatherStatus();
+        });
+
+        // مدیریت ناوبری
+        function handleNavigation(event, targetUrl) {
             event.preventDefault();
             
-            // پخش صدای دکمه
-            const buttonSound = document.getElementById('buttonSound');
-            try {
-                buttonSound.currentTime = 0;
-                buttonSound.volume = 0.7;
-                buttonSound.play().catch(e => {
-                    console.log('پخش صدا مسدود شده');
-                });
-            } catch (error) {
-                console.log('خطا در پخش صدای دکمه:', error);
-            }
-            
-            // نمایش لودینگ
-            const loading = document.getElementById('rainbowLoading');
-            loading.classList.add('active');
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.style.display = 'flex';
+            loadingScreen.classList.remove('hidden');
             
             setTimeout(() => {
-                loading.classList.remove('active');
-                
-                // بررسی نوع لینک
-                if (targetUrl.startsWith('http')) {
-                    // لینک خارجی - باز کردن در تب جدید
-                    window.open(targetUrl, '_blank');
-                } else {
-                    // لینک داخلی - هدایت در همین پنجره
-                    window.location.href = targetUrl;
-                }
-            }, 1500);
+                loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    
+                    if (targetUrl.startsWith('http')) {
+                        window.open(targetUrl, '_blank');
+                    } else {
+                        window.location.href = targetUrl;
+                    }
+                }, 300);
+            }, 800);
         }
 
         // مدیریت زمان و تاریخ
         function updateDateTime() {
             const now = new Date();
             
-            // زمان
             const timeString = now.toLocaleTimeString('fa-IR', { 
                 hour: '2-digit', 
                 minute: '2-digit',
@@ -945,7 +1171,6 @@
             });
             document.getElementById('currentTime').textContent = timeString;
             
-            // تاریخ
             const dateString = now.toLocaleDateString('fa-IR', {
                 weekday: 'long',
                 year: 'numeric',
@@ -963,53 +1188,26 @@
             const weatherIcon = document.getElementById('weatherIcon');
             const weatherText = document.getElementById('weatherText');
             
-            // شبیه‌سازی وضعیت هوا (در واقعیت باید از API آب و هوا استفاده شود)
-            const airQualityLevel = Math.random(); // عدد تصادفی بین 0 تا 1
+            const airQualityLevel = Math.random();
             
-            // 3 سطح کیفیت هوا
             if (airQualityLevel > 0.7) {
-                // وضعیت خوب (آلوده نیست)
-                weatherIcon.className = 'weather-icon good';
                 weatherIcon.textContent = '🌤';
                 weatherText.textContent = 'آلوده نیست';
-                weatherText.style.color = '#4CAF50'; // سبز
             } else if (airQualityLevel > 0.3) {
-                // وضعیت متوسط
-                weatherIcon.className = 'weather-icon moderate';
                 weatherIcon.textContent = '🌫';
                 weatherText.textContent = 'متوسط';
-                weatherText.style.color = '#FF9800'; // نارنجی
             } else {
-                // وضعیت بد (آلوده است)
-                weatherIcon.className = 'weather-icon bad';
                 weatherIcon.textContent = '🌪';
                 weatherText.textContent = 'آلوده هست';
-                weatherText.style.color = '#F44336'; // قرمز
             }
         }
-
-        // هر 15 دقیقه وضعیت هوا را بررسی کن
-        setInterval(updateWeatherStatus, 15 * 60 * 1000); // 15 دقیقه
-        updateWeatherStatus(); // اولین بار اجرا شود
 
         // مدیریت منوی کشویی
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const slideMenu = document.getElementById('slideMenu');
 
         hamburgerBtn.addEventListener('click', function() {
-            slideMenu.classList.toggle('active');
-            
-            // پخش صدای دکمه برای منوی همبرگر
-            const buttonSound = document.getElementById('buttonSound');
-            try {
-                buttonSound.currentTime = 0;
-                buttonSound.volume = 0.7;
-                buttonSound.play().catch(e => {
-                    console.log('پخش صدا مسدود شده');
-                });
-            } catch (error) {
-                console.log('خطا در پخش صدای دکمه:', error);
-            }
+            slideMenu.classList.add('active');
         });
 
         // بستن منو با کلیک خارج
@@ -1020,12 +1218,14 @@
         });
 
         // مدیریت ناوبری پایین
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                document.querySelectorAll('.nav-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                this.classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (!this.classList.contains('active')) {
+                    document.querySelectorAll('.nav-item').forEach(nav => {
+                        nav.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
             });
         });
 
@@ -1033,13 +1233,12 @@
         function checkAnnouncement() {
             const lastShown = localStorage.getItem('announcementLastShown');
             const now = new Date().getTime();
-            const oneDay = 24 * 60 * 60 * 1000; // 24 ساعت به میلی‌ثانیه
+            const oneDay = 24 * 60 * 60 * 1000;
             
-            // اگر قبلاً نمایش داده نشده یا 24 ساعت گذشته
             if (!lastShown || (now - parseInt(lastShown)) > oneDay) {
                 setTimeout(() => {
                     document.getElementById('announcementModal').classList.add('active');
-                }, 500);
+                }, 1000);
             }
         }
 
@@ -1047,71 +1246,30 @@
         document.getElementById('announcementClose').addEventListener('click', function() {
             document.getElementById('announcementModal').classList.remove('active');
             localStorage.setItem('announcementLastShown', new Date().getTime().toString());
-            
-            // پخش صدای دکمه
-            const buttonSound = document.getElementById('buttonSound');
-            try {
-                buttonSound.currentTime = 0;
-                buttonSound.volume = 0.7;
-                buttonSound.play().catch(e => {
-                    console.log('پخش صدا مسدود شده');
-                });
-            } catch (error) {
-                console.log('خطا در پخش صدای دکمه:', error);
-            }
         });
 
         document.getElementById('announcementLater').addEventListener('click', function() {
             document.getElementById('announcementModal').classList.remove('active');
-            // برای دکمه "بعداً" هم زمان را ذخیره می‌کنیم تا 24 ساعت بعد نمایش داده شود
             localStorage.setItem('announcementLastShown', new Date().getTime().toString());
-            
-            // پخش صدای دکمه
-            const buttonSound = document.getElementById('buttonSound');
-            try {
-                buttonSound.currentTime = 0;
-                buttonSound.volume = 0.7;
-                buttonSound.play().catch(e => {
-                    console.log('پخش صدا مسدود شده');
-                });
-            } catch (error) {
-                console.log('خطا در پخش صدای دکمه:', error);
-            }
-        });
-
-        // فعال کردن صداها با اولین تعامل کاربر
-        document.addEventListener('click', function enableAudio() {
-            const startupSound = document.getElementById('startupSound');
-            const buttonSound = document.getElementById('buttonSound');
-            
-            // تلاش برای پخش و توقف سریع برای فعال کردن صداها
-            startupSound.play().then(() => {
-                startupSound.pause();
-                startupSound.currentTime = 0;
-            }).catch(e => {});
-            
-            buttonSound.play().then(() => {
-                buttonSound.pause();
-                buttonSound.currentTime = 0;
-            }).catch(e => {});
-            
-            // حذف event listener پس از اولین اجرا
-            document.removeEventListener('click', enableAudio);
         });
 
         // جلوگیری از زوم
-        document.addEventListener('touchmove', function(e) {
-            if (e.scale !== 1) {
-                e.preventDefault();
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
             }
         }, { passive: false });
 
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
-        
-        // بهبود عملکرد لمسی
-        document.addEventListener('touchstart', function() {}, {passive: true});
+
+        // فعال‌سازی انیمیشن‌های ورود
+        setTimeout(() => {
+            document.querySelectorAll('.slide-up').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.04}s`;
+            });
+        }, 300);
     </script>
 </body>
 </html>
