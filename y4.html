@@ -3,885 +3,1946 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تبدیل سایت به اپلیکیشن | سایت اپلیکیشن ساز</title>
+    <title>سیستم مدیریت مشتریان حرفه‌ای</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --radius: 10px;
+            --touch-target: 48px;
+        }
+        
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
         
+        html {
+            font-size: 16px;
+        }
+        
         body {
-            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
             color: #333;
             line-height: 1.6;
-            padding: 10px;
+            padding: 15px;
             min-height: 100vh;
             overflow-x: hidden;
         }
         
-        .container {
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a2530 100%);
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            position: relative;
+            line-height: 1.4;
+        }
+        
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
             max-width: 100%;
             margin: 0 auto;
-            padding: 0;
+            position: relative;
+            line-height: 1.5;
         }
         
-        /* هدر اصلی */
-        .main-header {
-            background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-        
-        .logo-section {
+        .main-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
-        .logo-icon {
-            background: white;
-            color: #7b1fa2;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .form-container {
+            width: 100%;
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 25px 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .list-container {
+            width: 100%;
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 25px 20px;
+            box-shadow: var(--shadow);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-left: 10px;
+            flex-direction: column;
         }
         
-        h1 {
-            font-size: 1.4rem;
-            margin-bottom: 5px;
-            color: white;
-        }
-        
-        .tagline {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            margin-bottom: 15px;
-        }
-        
-        /* دکمه اصلی تلگرام */
-        .telegram-main-btn {
-            background: #0088cc;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: bold;
-            margin: 10px auto;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 10px rgba(0, 136, 204, 0.4);
-            width: 90%;
-            max-width: 300px;
-        }
-        
-        .telegram-main-btn:hover, .telegram-main-btn:active {
-            background: #0077b5;
-            transform: translateY(-2px);
-            box-shadow: 0 7px 12px rgba(0, 136, 204, 0.6);
-        }
-        
-        .telegram-main-btn i {
-            margin-left: 8px;
-            font-size: 1.2rem;
-        }
-        
-        /* بخش توضیحات */
-        .explanation-box {
-            background-color: rgba(255, 255, 255, 0.97);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-right: 5px solid #4a148c;
-        }
-        
-        .explanation-box h2 {
-            color: #4a148c;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .explanation-box h2 i {
-            margin-left: 10px;
-        }
-        
-        .explanation-box p {
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            text-align: justify;
-            line-height: 1.7;
-        }
-        
-        .highlight {
-            color: #4a148c;
-            font-weight: bold;
-            background-color: #f3e5f5;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-        
-        /* بخش مدارک مورد نیاز */
-        .requirements-box {
-            background-color: #f3e5f5;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-right: 5px solid #7b1fa2;
-        }
-        
-        .requirements-box h2 {
-            color: #7b1fa2;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .requirement-list {
-            list-style-type: none;
-        }
-        
-        .requirement-list li {
-            padding: 10px 0;
-            border-bottom: 1px dashed #ce93d8;
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-        
-        .requirement-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .requirement-list i {
-            color: #7b1fa2;
-            margin-left: 10px;
-            font-size: 1rem;
-        }
-        
-        /* بخش اطلاعات بانکی */
-        .bank-info-box {
-            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .bank-info-box h2 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .bank-info-box h2 i {
-            margin-left: 10px;
-        }
-        
-        .bank-details {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            padding: 15px;
+        .backup-container {
+            width: 100%;
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 25px 20px;
+            box-shadow: var(--shadow);
             margin-top: 10px;
-            direction: ltr;
-            text-align: center;
         }
         
-        .card-number {
-            font-size: 1.2rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .card-number:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .card-owner {
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-        
-        .copy-btn {
-            background: white;
-            color: #1565c0;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--secondary-color);
             display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-left: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 16px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #f8fafc;
+            -webkit-appearance: none;
+            min-height: var(--touch-target);
+        }
+        
+        select.form-control {
+            padding-right: 45px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%232c3e50'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 15px center;
+            background-size: 20px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background-color: white;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.5;
+            padding: 15px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            width: 100%;
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin: 10px auto 0;
+            padding: 18px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            min-height: var(--touch-target);
+            touch-action: manipulation;
         }
         
-        .copy-btn:hover {
-            background: #e3f2fd;
-            transform: translateY(-2px);
-        }
-        
-        .copy-btn i {
-            margin-left: 5px;
-        }
-        
-        /* بخش قیمت */
-        .price-box {
-            text-align: center;
-            background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .price-label {
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-        
-        .price {
-            font-size: 2.2rem;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .price-note {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-        
-        /* بخش زمان تحویل */
-        .delivery-box {
-            background-color: #e8f5e9;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-right: 5px solid #2e7d32;
-        }
-        
-        .delivery-box h2 {
-            color: #2e7d32;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .urgency-note {
-            background-color: #ffebee;
-            border-right: 4px solid #d32f2f;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        
-        /* بخش مزایا */
-        .benefits-box {
-            background-color: #e3f2fd;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-right: 5px solid #1565c0;
-        }
-        
-        .benefits-box h2 {
-            color: #1565c0;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .benefit-list {
-            list-style-type: none;
-        }
-        
-        .benefit-list li {
-            padding: 8px 0;
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-        
-        .benefit-list i {
-            color: #1565c0;
+        .btn i {
             margin-left: 10px;
-            font-size: 1rem;
-        }
-        
-        /* بخش نمونه کارها */
-        .samples-box {
-            background-color: #fff3e0;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-right: 5px solid #f57c00;
-        }
-        
-        .samples-box h2 {
-            color: #f57c00;
             font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
         }
         
-        .sample-links {
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-primary:active {
+            background-color: #2980b9;
+            transform: scale(0.98);
+            box-shadow: 0 3px 8px rgba(41, 128, 185, 0.3);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:active {
+            background-color: #219653;
+            transform: scale(0.98);
+            box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .btn-warning:active {
+            background-color: #e67e22;
+            transform: scale(0.98);
+            box-shadow: 0 3px 8px rgba(243, 156, 18, 0.3);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .btn-danger:active {
+            background-color: #c0392b;
+            transform: scale(0.98);
+            box-shadow: 0 3px 8px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-light {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border: 1px solid #d5dbdb;
+        }
+        
+        .btn-light:active {
+            background-color: #d5dbdb;
+            transform: scale(0.98);
+        }
+        
+        .customer-list-container {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e6ed;
+            padding: 15px;
+            max-height: 500px;
+        }
+        
+        .customer-card {
+            border: 1px solid #e0e6ed;
+            border-radius: 10px;
+            padding: 20px 15px;
+            margin-bottom: 15px;
+            background-color: #fdfdfd;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .customer-card:active {
+            transform: scale(0.99);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: var(--secondary-color);
+        }
+        
+        .customer-header {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .sample-link {
-            background: linear-gradient(135deg, #311b92 0%, #673ab7 100%);
-            color: white;
-            padding: 12px 15px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-        
-        .sample-link:hover, .sample-link:active {
-            background: linear-gradient(135deg, #673ab7 0%, #9575cd 100%);
-            transform: translateY(-2px);
-        }
-        
-        .sample-link i {
-            margin-left: 8px;
-            font-size: 1rem;
-        }
-        
-        .sample-id {
-            background-color: #f5f5f5;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 15px;
-            text-align: center;
-            font-family: monospace;
-            font-size: 0.85rem;
-            border: 1px dashed #ccc;
-        }
-        
-        /* بخش هشدارها */
-        .warning-box {
-            background-color: #ffebee;
-            border-radius: 15px;
-            padding: 18px;
             margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-right: 5px solid #d32f2f;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
         }
         
-        .warning-box h3 {
-            color: #d32f2f;
+        .customer-id {
+            font-weight: bold;
+            color: var(--secondary-color);
             font-size: 1.1rem;
-            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        
+        .customer-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            word-break: break-word;
+        }
+        
+        .customer-meta {
             display: flex;
-            align-items: center;
-        }
-        
-        /* فوتر */
-        footer {
-            background-color: rgba(0, 0, 0, 0.85);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 15px;
-            margin-bottom: 70px;
-        }
-        
-        .footer-text {
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-            line-height: 1.7;
-        }
-        
-        .copyright {
-            font-size: 0.8rem;
-            opacity: 0.8;
+            flex-direction: column;
+            gap: 12px;
             margin-top: 10px;
         }
         
-        /* دکمه ثابت تلگرام */
-        .telegram-fixed-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #0088cc;
-            color: white;
-            padding: 14px 25px;
-            border-radius: 50px;
+        .customer-meta-item {
+            display: flex;
+            align-items: flex-start;
+            color: #666;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        
+        .customer-meta-item i {
+            margin-left: 10px;
+            color: var(--secondary-color);
+            min-width: 20px;
+            margin-top: 2px;
+        }
+        
+        .customer-description {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid var(--success-color);
+            margin-top: 15px;
+            font-size: 1rem;
+            line-height: 1.7;
+            word-break: break-word;
+        }
+        
+        .customer-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 14px 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.6);
-            z-index: 1000;
-            font-size: 0.95rem;
-            animation: pulse 2s infinite;
-            width: 90%;
-            max-width: 320px;
             justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            min-height: 45px;
+            touch-action: manipulation;
         }
         
-        @keyframes pulse {
-            0% { box-shadow: 0 5px 15px rgba(0, 136, 204, 0.6); }
-            50% { box-shadow: 0 5px 20px rgba(0, 136, 204, 0.9); }
-            100% { box-shadow: 0 5px 15px rgba(0, 136, 204, 0.6); }
-        }
-        
-        .telegram-fixed-btn i {
+        .action-btn i {
             margin-left: 8px;
-            font-size: 1.2rem;
+        }
+        
+        .edit-btn {
+            background-color: var(--warning-color);
+        }
+        
+        .edit-btn:active {
+            background-color: #e67e22;
+            transform: scale(0.97);
+        }
+        
+        .delete-btn {
+            background-color: var(--danger-color);
+        }
+        
+        .delete-btn:active {
+            background-color: #c0392b;
+            transform: scale(0.97);
+        }
+        
+        .empty-list {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 40px 20px;
+            font-size: 1.1rem;
+        }
+        
+        .empty-list i {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+        
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 16px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f8fafc;
+            min-height: var(--touch-target);
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e8f4fc 100%);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e0e6ed;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            color: #666;
+        }
+        
+        .backup-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .backup-card {
+            background-color: #f8fafc;
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 2px solid #e0e6ed;
+            transition: all 0.3s;
+        }
+        
+        .backup-card:active {
+            border-color: var(--secondary-color);
+            transform: scale(0.99);
+        }
+        
+        .backup-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .backup-card h3 i {
+            margin-left: 10px;
+        }
+        
+        .backup-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        .backup-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .backup-actions .btn {
+            width: 100%;
+        }
+        
+        .backup-history {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e6ed;
+        }
+        
+        .backup-history h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .backup-history h3 i {
+            margin-left: 10px;
+        }
+        
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid #e0e6ed;
+            padding: 15px;
+            background-color: #f8fafc;
+        }
+        
+        .history-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 15px;
+            border-bottom: 1px solid #e0e6ed;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .history-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .history-date {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.05rem;
+        }
+        
+        .history-size {
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .history-actions .btn {
+            padding: 14px 12px;
+            font-size: 0.95rem;
+            min-height: 45px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e6ed;
+        }
+        
+        .modal-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .close-modal:active {
+            color: var(--danger-color);
+            transform: scale(0.95);
+        }
+        
+        .modal-body {
+            margin-bottom: 25px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .modal-footer .btn {
+            width: 100%;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            transform: none;
+            background-color: var(--success-color);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            max-width: 100%;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        .notification i {
+            margin-left: 12px;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        
+        .notification.danger {
+            background-color: var(--danger-color);
+        }
+        
+        .notification.warning {
+            background-color: var(--warning-color);
+        }
+        
+        .export-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 20px;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px dashed #bdc3c7;
+            width: 100%;
+            min-height: var(--touch-target);
+            font-weight: 600;
+            touch-action: manipulation;
+        }
+        
+        .file-label:active {
+            background-color: #dfe6e9;
+            border-color: var(--secondary-color);
+            transform: scale(0.98);
+        }
+        
+        .file-label i {
+            margin-left: 10px;
+        }
+        
+        .import-area {
+            margin-top: 25px;
+            padding: 30px 20px;
+            border-radius: var(--radius);
+            background-color: #f8fafc;
+            border: 2px dashed #bdc3c7;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            touch-action: manipulation;
+        }
+        
+        .import-area:active {
+            border-color: var(--secondary-color);
+            background-color: #e8f4fc;
+            transform: scale(0.99);
+        }
+        
+        .import-area i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .import-area p {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+        
+        .import-area small {
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e6ed;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        
+        .tab-navigation::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .tab-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 18px 15px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #666;
+            white-space: nowrap;
+            transition: all 0.3s;
+            touch-action: manipulation;
+        }
+        
+        .tab-button.active {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+        }
+        
+        .tab-button:active {
+            background-color: #f8fafc;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* برای صفحه نمایش بزرگتر */
+        @media (min-width: 768px) {
+            html {
+                font-size: 18px;
+            }
+            
+            body {
+                padding: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            .btn-group {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .btn {
+                width: auto;
+                flex: 1;
+                min-width: 150px;
+            }
+            
+            .form-row {
+                flex-direction: row;
+            }
+            
+            .stats-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .stat-item {
+                flex: 1;
+                min-width: 150px;
+            }
+            
+            .backup-options {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .backup-card {
+                flex: 1;
+                min-width: 300px;
+            }
+            
+            .backup-actions {
+                flex-direction: row;
+            }
+            
+            .customer-actions {
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+            
+            .action-btn {
+                flex: none;
+                width: auto;
+                min-width: 120px;
+            }
+            
+            .history-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .history-actions {
+                flex-direction: row;
+            }
+            
+            .history-actions .btn {
+                width: auto;
+                min-width: 120px;
+            }
+            
+            .modal-footer {
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+            
+            .modal-footer .btn {
+                width: auto;
+                min-width: 120px;
+            }
+            
+            .search-container {
+                flex-direction: row;
+            }
+            
+            .notification {
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                max-width: 500px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .main-container {
+                flex-direction: row;
+            }
+            
+            .form-container, .list-container {
+                flex: 1;
+            }
+            
+            .list-container {
+                flex: 2;
+            }
+        }
+        
+        /* بهبود فونت و خوانایی */
+        @media (max-width: 360px) {
+            html {
+                font-size: 15px;
+            }
+            
+            .btn {
+                padding: 16px 15px;
+                font-size: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+        }
+        
+        /* جلوگیری از زوم در فیلدها در iOS */
+        input, textarea, select {
+            font-size: 16px !important;
         }
         
         /* بهبود اسکرول */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* برای جلوگیری از زوم */
-        input, textarea, select {
-            font-size: 16px;
-        }
-        
-        /* پیام کپی موفق */
-        .copy-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 2000;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-        }
-        
-        .copy-message.show {
-            opacity: 1;
-            transform: translateY(0);
+        .customer-list-container, .history-list {
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- هدر اصلی -->
-        <header class="main-header">
-            <div class="logo-section">
-                <div class="logo-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <div>
-                    <h1>تبدیل سایت به اپلیکیشن اندروید</h1>
-                    <p class="tagline">سایت اپلیکیشن ساز - با تکنولوژی روز</p>
-                </div>
-            </div>
-            
-            <p style="font-size: 0.9rem; margin-bottom: 15px;">
-                سایت خود را به اپلیکیشن اندروید تبدیل کنید
-            </p>
-        </header>
-        
-        <!-- توضیحات اصلی -->
-        <section class="explanation-box">
-            <h2><i class="fas fa-info-circle"></i> توضیحات کامل خدمات</h2>
-            <p>
-                ما سایت شما را به <span class="highlight">اپلیکیشن اندروید</span> تبدیل می‌کنیم. 
-                اپلیکیشن ساخته شده کاملاً حرفه‌ای، بدون خطا و با بهترین تکنولوژی روز خواهد بود.
-            </p>
-            <p>
-                پس از ساخت، اپلیکیشن شما قابلیت انتشار در <span class="highlight">گوگل پلی، بازار، مایکت</span> و تمام فروشگاه‌های معتبر اندروید را دارد.
-            </p>
-            <p>
-                اپلیکیشن ساخته شده از سایت شما <span class="highlight">به‌طور خودکار آپدیت</span> می‌شود. یعنی هر تغییری در سایت ایجاد کنید، بلافاصله در اپلیکیشن نیز اعمال می‌شود.
-            </p>
-            <p>
-                <span class="highlight">هیچ محدودیتی در تعداد صفحات و محتوا</span> وجود ندارد. کل سایت شما به طور کامل تبدیل به اپلیکیشن می‌شود.
-            </p>
-        </section>
-        
-        <!-- مدارک مورد نیاز -->
-        <section class="requirements-box">
-            <h2><i class="fas fa-clipboard-check"></i> مدارک و اطلاعات مورد نیاز برای سفارش</h2>
-            <ul class="requirement-list">
-                <li><i class="fas fa-link"></i> <strong>لینک سایت:</strong> آدرس کامل سایت شما</li>
-                <li><i class="fas fa-image"></i> <strong>آیکون سایت:</strong> لوگو با کیفیت بالا (ترجیحاً PNG با پس زمینه شفاف)</li>
-                <li><i class="fas fa-signature"></i> <strong>نام سایت:</strong> نامی که می‌خواهید برای اپلیکیشن نمایش داده شود</li>
-                <li><i class="fas fa-credit-card"></i> <strong>فیش واریزی:</strong> تصویر فیش پرداخت ۲۰۰,۰۰۰ تومان</li>
-                <li><i class="fas fa-user-tie"></i> <strong>مشخصات تماس:</strong> نام، شماره تماس، آیدی تلگرام</li>
-                <li><i class="fas fa-palette"></i> <strong>رنگ‌بندی (اختیاری):</strong> اگر رنگ خاصی مدنظر دارید</li>
-            </ul>
-        </section>
-        
-        <!-- اطلاعات بانکی -->
-        <section class="bank-info-box">
-            <h2><i class="fas fa-credit-card"></i> اطلاعات حساب بانکی برای واریز</h2>
-            <p style="margin-bottom: 15px; text-align: center; font-size: 0.95rem;">
-                لطفاً مبلغ <strong>۲۰۰,۰۰۰ تومان</strong> را به حساب زیر واریز کنید:
-            </p>
-            
-            <div class="bank-details">
-                <div class="card-number" id="cardNumber">
-                    5892 1011 8732 2777
-                </div>
-                <div class="card-owner">
-                    به نام: مرتضی نیکخو خنجری
-                </div>
-                <button class="copy-btn" id="copyCardBtn">
-                    <i class="far fa-copy"></i> کپی شماره کارت
-                </button>
-            </div>
-            
-            <p style="margin-top: 15px; font-size: 0.85rem; text-align: center; opacity: 0.9;">
-                پس از واریز، تصویر فیش را از طریق تلگرام ارسال کنید
-            </p>
-        </section>
-        
-        <!-- بخش قیمت -->
-        <section class="price-box">
-            <div class="price-label">هزینه تبدیل سایت به اپلیکیشن</div>
-            <div class="price">۲۰۰,۰۰۰ تومان</div>
-            <div class="price-note">
-                فقط یک‌بار پرداخت - بدون هزینه اضافی - تضمین کیفیت
-            </div>
-            <div style="margin-top: 15px; font-size: 0.85rem;">
-                <i class="fas fa-shield-alt"></i> دارای گارانتی و پشتیبانی ۶ ماهه
-            </div>
-        </section>
-        
-        <!-- زمان تحویل -->
-        <section class="delivery-box">
-            <h2><i class="far fa-clock"></i> زمان تحویل پروژه</h2>
-            <p>
-                پس از دریافت اطلاعات و پرداخت، فرآیند تبدیل <span class="highlight">بلافاصله آغاز</span> می‌شود.
-            </p>
-            <p>
-                زمان معمول تحویل: <span class="highlight">حداکثر ۲۴ ساعت</span>
-            </p>
-            <p style="font-size: 0.9rem; margin-top: 10px;">
-                در صورتی که سفارشات کم باشد، پروژه شما <span class="highlight">در کمتر از ۳ ساعت</span> آماده می‌شود.
-            </p>
-            
-            <div class="urgency-note">
-                <i class="fas fa-bolt"></i> پروژه‌های فوری با پرداخت ۵۰٪ اضافه، در ۶ ساعت تحویل داده می‌شوند
-            </div>
-        </section>
-        
-        <!-- مزایا -->
-        <section class="benefits-box">
-            <h2><i class="fas fa-star"></i> مزایای اپلیکیشن ساخته شده</h2>
-            <ul class="benefit-list">
-                <li><i class="fas fa-check-circle"></i> طراحی شده با جدیدترین تکنولوژی‌های روز</li>
-                <li><i class="fas fa-check-circle"></i> کاملاً واکنش‌گرا و سازگار با تمام گوشی‌های اندروید</li>
-                <li><i class="fas fa-check-circle"></i> سرعت بارگذاری فوق‌العاده بالا</li>
-                <li><i class="fas fa-check-circle"></i> بدون خطا، باگ یا هنگ کردن</li>
-                <li><i class="fas fa-check-circle"></i> قابلیت ارسال نوتیفیکیشن (اعلان)</li>
-                <li><i class="fas fa-check-circle"></i> امکان اضافه کردن منوهای اختصاصی</li>
-                <li><i class="fas fa-check-circle"></i> آپدیت خودکار با آپدیت سایت</li>
-                <li><i class="fas fa-check-circle"></i> پشتیبانی از تمام فرم‌ها و دکمه‌های سایت</li>
-                <li><i class="fas fa-check-circle"></i> قابلیت انتشار در تمام فروشگاه‌های اندروید</li>
-                <li><i class="fas fa-check-circle"></i> گارانتی و پشتیبانی ۶ ماهه رایگان</li>
-            </ul>
-        </section>
-        
-        <!-- نمونه کارها -->
-        <section class="samples-box">
-            <h2><i class="fas fa-briefcase"></i> نمونه کارهای اجرا شده</h2>
-            <p>برای مشاهده نمونه کارهای تبدیل شده، روی لینک‌های زیر کلیک کنید:</p>
-            
-            <div class="sample-links">
-                <a href="https://myket.ir/app/co.median.android.nmxakke" class="sample-link" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
-                    مشاهده نمونه کار در مایکت
-                </a>
-                
-                <a href="https://myket.ir/app/co.median.android.nmxakke" class="sample-link" target="_blank">
-                    <i class="fas fa-store"></i>
-                    مشاهده نمونه کار در بازار
-                </a>
-            </div>
-            
-            <div class="sample-id">
-                شناسه نمونه کار: <strong>co.median.android.nmxakke</strong>
-            </div>
-            
-            <p style="margin-top: 15px; font-size: 0.85rem; text-align: center;">
-                <i class="fas fa-eye"></i> می‌توانید اپلیکیشن نمونه را نصب و عملکرد آن را تست کنید
-            </p>
-        </section>
-        
-        <!-- هشدارهای مهم -->
-        <section class="warning-box">
-            <h3><i class="fas fa-exclamation-triangle"></i> نکات مهم قبل از سفارش</h3>
-            <p style="font-size: 0.9rem;">
-                ۱. سایت شما باید در دسترس باشد و فیلتر نباشد.<br>
-                ۲. پرداخت فقط از طریق واریز به حساب بانکی انجام می‌شود.<br>
-                ۳. پس از پرداخت، تصویر فیش را ارسال کنید.<br>
-                ۴. پروژه پس از تایید پرداخت آغاز می‌شود.<br>
-                ۵. فایل نهایی اپلیکیشن (APK) برای شما ارسال می‌شود.<br>
-                ۶. اپلیکیشن فقط برای سیستم عامل اندروید ساخته می‌شود.
-            </p>
-        </section>
-        
-        <!-- مراحل کار -->
-        <section class="explanation-box" style="border-right-color: #9c27b0;">
-            <h2><i class="fas fa-list-ol"></i> مراحل انجام کار</h2>
-            <p>
-                <strong>مرحله ۱:</strong> واریز مبلغ ۲۰۰,۰۰۰ تومان به شماره کارت بالا
-            </p>
-            <p>
-                <strong>مرحله ۲:</strong> ارسال لینک سایت، آیکون، نام مورد نظر و فیش پرداخت
-            </p>
-            <p>
-                <strong>مرحله ۳:</strong> تایید پرداخت و شروع فرآیند تبدیل توسط تیم فنی
-            </p>
-            <p>
-                <strong>مرحله ۴:</strong> تست اپلیکیشن توسط شما (ارسال نسخه آزمایشی)
-            </p>
-            <p>
-                <strong>مرحله ۵:</strong> دریافت فایل نهایی اپلیکیشن (APK) و راهنمای انتشار
-            </p>
-            <p>
-                <strong>مرحله ۶:</strong> پشتیبانی ۶ ماهه رایگان برای رفع هرگونه مشکل
-            </p>
-        </section>
-        
-        <!-- فوتر -->
-        <footer>
-            <div class="footer-text">
-                <p><i class="fas fa-mobile-alt"></i> <strong>سایت اپلیکیشن ساز</strong></p>
-                <p>تبدیل حرفه‌ای سایت به اپلیکیشن اندروید</p>
-                <p>قابل انتشار در تمام فروشگاه‌های معتبر اندروید</p>
-            </div>
-            
-            <p style="margin: 15px 0; font-size: 0.95rem;">
-                برای سفارش یا مشاوره، به آیدی زیر در تلگرام پیام دهید:
-            </p>
-            
-            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                <p style="font-size: 1.1rem; font-weight: bold; letter-spacing: 1px;">
-                    @Mortzayar
-                </p>
-                <p style="font-size: 0.85rem; opacity: 0.9;">
-                    آیدی تلگرام برای ارتباط
-                </p>
-            </div>
-            
-            <div class="copyright">
-                <i class="far fa-copyright"></i> کلیه حقوق این سرویس محفوظ می‌باشد - ۱۴۰۳
-            </div>
-        </footer>
-        
-        <!-- دکمه ثابت تلگرام -->
-        <a href="https://t.me/Mortzayar" class="telegram-fixed-btn" target="_blank">
-            <i class="fab fa-telegram-plane"></i>
-            ارتباط در تلگرام: @Mortzayar
-        </a>
-        
-        <!-- پیام کپی موفق -->
-        <div class="copy-message" id="copyMessage">
-            <i class="fas fa-check-circle"></i> شماره کارت کپی شد!
+    <!-- تب‌های ناوبری برای موبایل -->
+    <div class="tab-navigation">
+        <button class="tab-button active" data-tab="customers">
+            <i class="fas fa-users"></i> مشتریان
+        </button>
+        <button class="tab-button" data-tab="add-customer">
+            <i class="fas fa-user-plus"></i> ثبت جدید
+        </button>
+        <button class="tab-button" data-tab="backup">
+            <i class="fas fa-database"></i> پشتیبان
+        </button>
+    </div>
+    
+    <div class="header">
+        <h1><i class="fas fa-users-cog"></i> سیستم مدیریت مشتریان</h1>
+        <p>ثبت، مدیریت و پشتیبان‌گیری اطلاعات مشتریان</p>
+    </div>
+    
+    <div class="stats-container">
+        <div class="stat-item">
+            <div class="stat-value" id="totalCustomers">0</div>
+            <div class="stat-label">کل مشتریان</div>
         </div>
+        <div class="stat-item">
+            <div class="stat-value" id="todayCustomers">0</div>
+            <div class="stat-label">امروز اضافه شد</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="storageUsed">0 KB</div>
+            <div class="stat-label">فضای استفاده شده</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="lastBackup">--</div>
+            <div class="stat-label">آخرین پشتیبان</div>
+        </div>
+    </div>
+    
+    <!-- تب مشتریان -->
+    <div class="tab-content active" id="customers-tab">
+        <div class="list-container">
+            <h2 class="section-title"><i class="fas fa-list"></i> لیست مشتریان</h2>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-box" placeholder="جستجوی مشتری...">
+                <select id="categoryFilter" class="form-control">
+                    <option value="all">همه دسته‌ها</option>
+                    <option value="regular">مشتری عادی</option>
+                    <option value="vip">مشتری ویژه</option>
+                    <option value="wholesale">مشتری عمده</option>
+                    <option value="retail">مشتری خرد</option>
+                    <option value="corporate">مشتری حقوقی</option>
+                </select>
+            </div>
+            
+            <div class="customer-list-container" id="customerList">
+                <!-- مشتریان در اینجا نمایش داده می‌شوند -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- تب ثبت مشتری جدید -->
+    <div class="tab-content" id="add-customer-tab">
+        <div class="form-container">
+            <h2 class="section-title"><i class="fas fa-user-plus"></i> ثبت مشتری جدید</h2>
+            <form id="customerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerId"><i class="fas fa-id-card"></i> شماره مشتری</label>
+                        <input type="text" id="customerId" class="form-control" placeholder="CUST-1001" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerName"><i class="fas fa-user"></i> نام کامل</label>
+                        <input type="text" id="customerName" class="form-control" placeholder="نام و نام خانوادگی" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerPhone"><i class="fas fa-phone"></i> شماره تماس</label>
+                        <input type="tel" id="customerPhone" class="form-control" placeholder="09123456789" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerEmail"><i class="fas fa-envelope"></i> ایمیل</label>
+                        <input type="email" id="customerEmail" class="form-control" placeholder="example@domain.com">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerAddress"><i class="fas fa-map-marker-alt"></i> آدرس کامل</label>
+                    <textarea id="customerAddress" class="form-control" placeholder="آدرس دقیق مشتری" required rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerDescription"><i class="fas fa-file-alt"></i> توضیحات</label>
+                    <textarea id="customerDescription" class="form-control" placeholder="جزئیات معامله یا قرارداد" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerCategory"><i class="fas fa-tag"></i> دسته‌بندی</label>
+                    <select id="customerCategory" class="form-control">
+                        <option value="regular">مشتری عادی</option>
+                        <option value="vip">مشتری ویژه (VIP)</option>
+                        <option value="wholesale">مشتری عمده</option>
+                        <option value="retail">مشتری خرد</option>
+                        <option value="corporate">مشتری حقوقی</option>
+                    </select>
+                </div>
+                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-light" id="clearBtn">
+                        <i class="fas fa-eraser"></i> پاک کردن
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <i class="fas fa-save"></i> ذخیره مشتری
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- تب پشتیبان‌گیری -->
+    <div class="tab-content" id="backup-tab">
+        <div class="backup-container">
+            <h2 class="section-title"><i class="fas fa-database"></i> مدیریت پشتیبان</h2>
+            
+            <div class="backup-options">
+                <div class="backup-card">
+                    <h3><i class="fas fa-file-export"></i> صدور پشتیبان</h3>
+                    <p>ایجاد فایل پشتیبان از اطلاعات مشتریان</p>
+                    <div class="backup-actions">
+                        <button class="btn btn-success" id="exportJsonBtn">
+                            <i class="fas fa-download"></i> JSON
+                        </button>
+                        <button class="btn btn-warning" id="exportCsvBtn">
+                            <i class="fas fa-file-csv"></i> CSV
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="backup-card">
+                    <h3><i class="fas fa-file-import"></i> بازیابی اطلاعات</h3>
+                    <p>بارگذاری و بازیابی اطلاعات از فایل‌های پشتیبان</p>
+                    <div class="backup-actions">
+                        <input type="file" id="importFile" class="file-input" accept=".json,.csv">
+                        <label for="importFile" class="file-label">
+                            <i class="fas fa-upload"></i> انتخاب فایل
+                        </label>
+                        <button class="btn btn-primary" id="importBtn" disabled>
+                            <i class="fas fa-history"></i> بازیابی
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="backup-card">
+                    <h3><i class="fas fa-cloud"></i> مدیریت حافظه</h3>
+                    <p>ذخیره خودکار و پاک کردن حافظه مرورگر</p>
+                    <div class="backup-actions">
+                        <button class="btn btn-primary" id="autoBackupBtn">
+                            <i class="fas fa-cloud-upload-alt"></i> پشتیبان خودکار
+                        </button>
+                        <button class="btn btn-light" id="clearStorageBtn">
+                            <i class="fas fa-trash-alt"></i> پاک کردن
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="import-area" id="dropArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>فایل پشتیبان را اینجا رها کنید</p>
+                <small>فرمت‌های JSON و CSV پشتیبانی می‌شوند</small>
+            </div>
+            
+            <div class="backup-history">
+                <h3><i class="fas fa-history"></i> تاریخچه پشتیبان</h3>
+                <div class="history-list" id="backupHistory">
+                    <!-- تاریخچه پشتیبان‌ها -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- مودال ویرایش -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">ویرایش مشتری</h3>
+                <button class="close-modal" id="closeEditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editCustomerId">
+                    <div class="form-group">
+                        <label for="editCustomerName">نام مشتری</label>
+                        <input type="text" id="editCustomerName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCustomerPhone">شماره تماس</label>
+                        <input type="tel" id="editCustomerPhone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCustomerAddress">آدرس</label>
+                        <textarea id="editCustomerAddress" class="form-control" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" id="cancelEditBtn">لغو</button>
+                <button class="btn btn-primary" id="saveEditBtn">ذخیره تغییرات</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- مودال تأیید -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="confirmModalTitle">تأیید عملیات</h3>
+                <button class="close-modal" id="closeConfirmModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmModalMessage">آیا از انجام این عملیات اطمینان دارید؟</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" id="cancelConfirmBtn">لغو</button>
+                <button class="btn btn-danger" id="confirmActionBtn">تأیید</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- اعلان -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">عملیات با موفقیت انجام شد</span>
     </div>
 
     <script>
-        // غیرفعال کردن زوم با دبل تاپ
-        document.addEventListener('touchstart', function(event) {
-            if (event.touches.length > 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-
-        // جلوگیری از زوم با Ctrl+Scroll
-        document.addEventListener('wheel', function(event) {
-            if (event.ctrlKey) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-
-        // اسکرول نرم
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
+        // المنت‌های اصلی
+        const customerForm = document.getElementById('customerForm');
+        const customerList = document.getElementById('customerList');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const clearBtn = document.getElementById('clearBtn');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        
+        // تب‌ها
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // آمار
+        const totalCustomersEl = document.getElementById('totalCustomers');
+        const todayCustomersEl = document.getElementById('todayCustomers');
+        const storageUsedEl = document.getElementById('storageUsed');
+        const lastBackupEl = document.getElementById('lastBackup');
+        
+        // پشتیبان‌گیری
+        const exportJsonBtn = document.getElementById('exportJsonBtn');
+        const exportCsvBtn = document.getElementById('exportCsvBtn');
+        const importFile = document.getElementById('importFile');
+        const importBtn = document.getElementById('importBtn');
+        const autoBackupBtn = document.getElementById('autoBackupBtn');
+        const clearStorageBtn = document.getElementById('clearStorageBtn');
+        const backupHistory = document.getElementById('backupHistory');
+        const dropArea = document.getElementById('dropArea');
+        
+        // مودال‌ها
+        const editModal = document.getElementById('editModal');
+        const confirmModal = document.getElementById('confirmModal');
+        const closeEditModal = document.getElementById('closeEditModal');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const saveEditBtn = document.getElementById('saveEditBtn');
+        const closeConfirmModal = document.getElementById('closeConfirmModal');
+        const cancelConfirmBtn = document.getElementById('cancelConfirmBtn');
+        const confirmActionBtn = document.getElementById('confirmActionBtn');
+        const confirmModalTitle = document.getElementById('confirmModalTitle');
+        const confirmModalMessage = document.getElementById('confirmModalMessage');
+        
+        // کلیدهای ذخیره‌سازی
+        const STORAGE_KEY = 'customer_management_pro_data';
+        const BACKUP_HISTORY_KEY = 'customer_backup_history';
+        
+        // متغیرهای سیستمی
+        let customers = [];
+        let backupHistoryList = [];
+        let currentEditId = null;
+        let pendingAction = null;
+        let pendingActionData = null;
+        
+        // مدیریت تب‌ها
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
                 
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 10,
-                        behavior: 'smooth'
-                    });
-                }
+                // حذف کلاس active از همه تب‌ها
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // افزودن کلاس active به تب انتخاب شده
+                button.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+                
+                // اسکرول به بالای صفحه
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
-
-        // افکت برای ظاهر شدن تدریجی بخش‌ها
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -30px 0px'
-        };
         
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-        
-        // اعمال افکت روی تمام بخش‌ها
-        document.querySelectorAll('.explanation-box, .requirements-box, .bank-info-box, .price-box, .delivery-box, .benefits-box, .samples-box, .warning-box').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            observer.observe(section);
-        });
-
-        // نمایش پیام تأیید کلیک روی دکمه تلگرام
-        document.querySelectorAll('a[href*="t.me"]').forEach(link => {
-            link.addEventListener('click', function() {
-                if(navigator.vibrate) {
-                    navigator.vibrate(50);
-                }
-            });
-        });
-
-        // کپی شماره کارت
-        const cardNumber = document.getElementById('cardNumber');
-        const copyCardBtn = document.getElementById('copyCardBtn');
-        const copyMessage = document.getElementById('copyMessage');
-        
-        copyCardBtn.addEventListener('click', function() {
-            const textToCopy = '5892101187322777';
+        // بارگذاری اولیه داده‌ها
+        function loadData() {
+            const storedData = localStorage.getItem(STORAGE_KEY);
+            const storedHistory = localStorage.getItem(BACKUP_HISTORY_KEY);
             
-            // استفاده از Clipboard API جدید
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => {
-                        showCopyMessage();
-                    })
-                    .catch(err => {
-                        console.error('خطا در کپی کردن: ', err);
-                        fallbackCopyTextToClipboard(textToCopy);
-                    });
+            if (storedData) {
+                try {
+                    customers = JSON.parse(storedData);
+                } catch (e) {
+                    customers = [];
+                    console.error('خطا در بارگذاری داده‌ها:', e);
+                }
+            }
+            
+            if (storedHistory) {
+                try {
+                    backupHistoryList = JSON.parse(storedHistory);
+                } catch (e) {
+                    backupHistoryList = [];
+                    console.error('خطا در بارگذاری تاریخچه:', e);
+                }
             } else {
-                // روش fallback برای مرورگرهای قدیمی
-                fallbackCopyTextToClipboard(textToCopy);
-            }
-        });
-        
-        // همچنین امکان کپی با کلیک روی شماره کارت
-        cardNumber.addEventListener('click', function() {
-            const textToCopy = '5892101187322777';
-            
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => {
-                        showCopyMessage();
-                    })
-                    .catch(err => {
-                        console.error('خطا در کپی کردن: ', err);
-                        fallbackCopyTextToClipboard(textToCopy);
-                    });
-            } else {
-                fallbackCopyTextToClipboard(textToCopy);
-            }
-        });
-        
-        function fallbackCopyTextToClipboard(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showCopyMessage();
-                }
-            } catch (err) {
-                console.error('خطا در کپی کردن: ', err);
-                alert('لطفاً شماره کارت را دستی کپی کنید: ' + text);
+                backupHistoryList = [];
             }
             
-            document.body.removeChild(textArea);
+            updateCustomerList();
+            updateStats();
+            updateBackupHistory();
         }
         
-        function showCopyMessage() {
-            copyMessage.classList.add('show');
-            
-            // ویبره اگر پشتیبانی شود
-            if (navigator.vibrate) {
-                navigator.vibrate(100);
-            }
+        // ذخیره مشتریان
+        function saveCustomers() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(customers));
+            updateStats();
+        }
+        
+        // ذخیره تاریخچه پشتیبان
+        function saveBackupHistory() {
+            localStorage.setItem(BACKUP_HISTORY_KEY, JSON.stringify(backupHistoryList));
+        }
+        
+        // نمایش اعلان
+        function showNotification(message, type = 'success') {
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            notification.classList.add(type);
+            notification.classList.add('show');
             
             setTimeout(() => {
-                copyMessage.classList.remove('show');
-            }, 2000);
+                notification.classList.remove('show');
+            }, 4000);
         }
+        
+        // افزودن مشتری جدید
+        function addCustomer(customerData) {
+            customerData.id = Date.now();
+            customerData.createdAt = new Date().toLocaleDateString('fa-IR');
+            customerData.createdAtFull = new Date().toISOString();
+            
+            if (!customerData.category) {
+                customerData.category = 'regular';
+            }
+            
+            customers.push(customerData);
+            saveCustomers();
+            updateCustomerList();
+            showNotification(`مشتری "${customerData.name}" ثبت شد.`);
+            
+            // رفتن به تب لیست مشتریان
+            document.querySelector('[data-tab="customers"]').click();
+            
+            // ایجاد پشتیبان خودکار پس از اضافه کردن 5 مشتری
+            if (customers.length % 5 === 0) {
+                createAutoBackup();
+            }
+        }
+        
+        // ویرایش مشتری
+        function editCustomer(customerId, updatedData) {
+            const customerIndex = customers.findIndex(c => c.id === customerId);
+            if (customerIndex !== -1) {
+                updatedData.id = customers[customerIndex].id;
+                updatedData.createdAt = customers[customerIndex].createdAt;
+                updatedData.createdAtFull = customers[customerIndex].createdAtFull;
+                updatedData.updatedAt = new Date().toLocaleDateString('fa-IR');
+                
+                customers[customerIndex] = { ...customers[customerIndex], ...updatedData };
+                saveCustomers();
+                updateCustomerList();
+                showNotification(`اطلاعات "${updatedData.name}" به‌روزرسانی شد.`);
+                return true;
+            }
+            return false;
+        }
+        
+        // حذف مشتری
+        function deleteCustomer(customerId) {
+            const customerIndex = customers.findIndex(c => c.id === customerId);
+            if (customerIndex !== -1) {
+                const customerName = customers[customerIndex].name;
+                customers.splice(customerIndex, 1);
+                saveCustomers();
+                updateCustomerList();
+                showNotification(`مشتری "${customerName}" حذف شد.`, 'danger');
+                return true;
+            }
+            return false;
+        }
+        
+        // به‌روزرسانی لیست مشتریان
+        function updateCustomerList(filter = '', category = 'all') {
+            customerList.innerHTML = '';
+            
+            let filteredCustomers = customers;
+            
+            if (filter) {
+                const searchTerm = filter.toLowerCase();
+                filteredCustomers = filteredCustomers.filter(customer => 
+                    customer.customerId.toLowerCase().includes(searchTerm) ||
+                    customer.name.toLowerCase().includes(searchTerm) ||
+                    customer.phone.toLowerCase().includes(searchTerm) ||
+                    customer.email?.toLowerCase().includes(searchTerm) ||
+                    customer.address.toLowerCase().includes(searchTerm) ||
+                    customer.description?.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (category !== 'all') {
+                filteredCustomers = filteredCustomers.filter(customer => 
+                    customer.category === category
+                );
+            }
+            
+            filteredCustomers.sort((a, b) => new Date(b.createdAtFull) - new Date(a.createdAtFull));
+            
+            if (filteredCustomers.length === 0) {
+                customerList.innerHTML = `
+                    <div class="empty-list">
+                        <i class="fas fa-user-friends"></i>
+                        <p>${filter || category !== 'all' ? 'مشتری یافت نشد.' : 'هنوز مشتری‌ای ثبت نشده است.'}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredCustomers.forEach(customer => {
+                let categoryColor = '#3498db';
+                let categoryText = 'عادی';
+                
+                switch(customer.category) {
+                    case 'vip': categoryColor = '#e74c3c'; categoryText = 'ویژه'; break;
+                    case 'wholesale': categoryColor = '#9b59b6'; categoryText = 'عمده'; break;
+                    case 'retail': categoryColor = '#2ecc71'; categoryText = 'خرد'; break;
+                    case 'corporate': categoryColor = '#f39c12'; categoryText = 'حقوقی'; break;
+                }
+                
+                const customerCard = document.createElement('div');
+                customerCard.className = 'customer-card';
+                customerCard.innerHTML = `
+                    <div class="customer-header">
+                        <div>
+                            <div class="customer-id">${customer.customerId}</div>
+                            <div class="customer-name">${customer.name}</div>
+                        </div>
+                        <span style="background-color: ${categoryColor}; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.9rem; display: inline-block; margin-top: 5px;">
+                            ${categoryText}
+                        </span>
+                    </div>
+                    <div class="customer-meta">
+                        <div class="customer-meta-item">
+                            <i class="fas fa-phone"></i>
+                            <span>${customer.phone}</span>
+                        </div>
+                        ${customer.email ? `
+                        <div class="customer-meta-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>${customer.email}</span>
+                        </div>` : ''}
+                        <div class="customer-meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>${customer.createdAt}</span>
+                        </div>
+                    </div>
+                    <div class="customer-meta-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${customer.address}</span>
+                    </div>
+                    ${customer.description ? `
+                    <div class="customer-description">
+                        ${customer.description}
+                    </div>` : ''}
+                    ${customer.updatedAt ? `
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: #7f8c8d;">
+                        <i class="fas fa-edit"></i> آخرین ویرایش: ${customer.updatedAt}
+                    </div>` : ''}
+                    <div class="customer-actions">
+                        <button class="action-btn edit-btn" onclick="openEditModal(${customer.id})">
+                            <i class="fas fa-edit"></i> ویرایش
+                        </button>
+                        <button class="action-btn delete-btn" onclick="confirmDelete(${customer.id})">
+                            <i class="fas fa-trash"></i> حذف
+                        </button>
+                    </div>
+                `;
+                customerList.appendChild(customerCard);
+            });
+        }
+        
+        // به‌روزرسانی آمار
+        function updateStats() {
+            totalCustomersEl.textContent = customers.length;
+            
+            const today = new Date().toLocaleDateString('fa-IR');
+            const todayCount = customers.filter(c => c.createdAt === today).length;
+            todayCustomersEl.textContent = todayCount;
+            
+            const usedStorage = JSON.stringify(customers).length;
+            storageUsedEl.textContent = usedStorage > 1024 ? 
+                `${(usedStorage / 1024).toFixed(1)} KB` : 
+                `${usedStorage} B`;
+            
+            if (backupHistoryList.length > 0) {
+                const lastBackup = backupHistoryList[backupHistoryList.length - 1];
+                lastBackupEl.textContent = lastBackup.date;
+            } else {
+                lastBackupEl.textContent = '--';
+            }
+        }
+        
+        // ایجاد پشتیبان خودکار
+        function createAutoBackup() {
+            const backupData = {
+                date: new Date().toLocaleDateString('fa-IR'),
+                time: new Date().toLocaleTimeString('fa-IR'),
+                timestamp: Date.now(),
+                customerCount: customers.length,
+                data: JSON.parse(JSON.stringify(customers))
+            };
+            
+            backupHistoryList.push(backupData);
+            
+            if (backupHistoryList.length > 10) {
+                backupHistoryList = backupHistoryList.slice(-10);
+            }
+            
+            saveBackupHistory();
+            updateBackupHistory();
+            
+            localStorage.setItem(`backup_auto_${backupData.timestamp}`, JSON.stringify(backupData));
+            
+            return backupData;
+        }
+        
+        // به‌روزرسانی تاریخچه پشتیبان
+        function updateBackupHistory() {
+            backupHistory.innerHTML = '';
+            
+            if (backupHistoryList.length === 0) {
+                backupHistory.innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: #7f8c8d;">
+                        <i class="fas fa-history" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>تاریخچه پشتیبان‌گیری خالی است</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            [...backupHistoryList].reverse().forEach(backup => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-info">
+                        <div class="history-date">${backup.date} - ${backup.time}</div>
+                        <div class="history-size">${backup.customerCount} مشتری</div>
+                    </div>
+                    <div class="history-actions">
+                        <button class="btn btn-light" onclick="restoreBackup(${backup.timestamp})">
+                            <i class="fas fa-redo"></i> بازیابی
+                        </button>
+                        <button class="btn btn-success" onclick="downloadBackup(${backup.timestamp})">
+                            <i class="fas fa-download"></i> دانلود
+                        </button>
+                    </div>
+                `;
+                backupHistory.appendChild(historyItem);
+            });
+        }
+        
+        // بازیابی از پشتیبان
+        function restoreBackup(timestamp) {
+            const backup = backupHistoryList.find(b => b.timestamp === timestamp);
+            
+            if (!backup) {
+                showNotification('پشتیبان مورد نظر یافت نشد', 'danger');
+                return;
+            }
+            
+            pendingAction = 'restoreBackup';
+            pendingActionData = backup;
+            
+            confirmModalTitle.textContent = 'بازیابی اطلاعات';
+            confirmModalMessage.textContent = `آیا از بازیابی ${backup.customerCount} مشتری از تاریخ ${backup.date} اطمینان دارید؟`;
+            confirmModal.classList.add('active');
+        }
+        
+        // دانلود پشتیبان
+        function downloadBackup(timestamp) {
+            const backup = backupHistoryList.find(b => b.timestamp === timestamp);
+            
+            if (!backup) {
+                showNotification('پشتیبان مورد نظر یافت نشد', 'danger');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(backup.data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `customers_${backup.date}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showNotification(`پشتیبان دانلود شد`, 'success');
+        }
+        
+        // صدور خروجی JSON
+        function exportToJson() {
+            const dataStr = JSON.stringify(customers, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `customers_${new Date().toLocaleDateString('fa-IR')}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            const backupData = {
+                date: new Date().toLocaleDateString('fa-IR'),
+                time: new Date().toLocaleTimeString('fa-IR'),
+                timestamp: Date.now(),
+                customerCount: customers.length,
+                type: 'manual_json'
+            };
+            
+            backupHistoryList.push(backupData);
+            saveBackupHistory();
+            updateBackupHistory();
+            
+            showNotification(`خروجی JSON با ${customers.length} مشتری دانلود شد`, 'success');
+        }
+        
+        // صدور خروجی CSV
+        function exportToCsv() {
+            if (customers.length === 0) {
+                showNotification('داده‌ای برای خروجی وجود ندارد', 'warning');
+                return;
+            }
+            
+            const headers = ['شماره مشتری', 'نام', 'شماره تماس', 'ایمیل', 'آدرس', 'دسته‌بندی', 'تاریخ ثبت', 'توضیحات'];
+            
+            const rows = customers.map(customer => [
+                `"${customer.customerId}"`,
+                `"${customer.name}"`,
+                `"${customer.phone}"`,
+                `"${customer.email || ''}"`,
+                `"${customer.address}"`,
+                `"${customer.category}"`,
+                `"${customer.createdAt}"`,
+                `"${customer.description || ''}"`
+            ]);
+            
+            const csvContent = [
+                headers.join(','),
+                ...rows.map(row => row.join(','))
+            ].join('\n');
+            
+            const dataBlob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `customers_${new Date().toLocaleDateString('fa-IR')}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showNotification(`خروجی CSV با ${customers.length} مشتری دانلود شد`, 'success');
+        }
+        
+        // وارد کردن از فایل
+        function importFromFile(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    let importedData;
+                    const fileContent = e.target.result;
+                    
+                    if (file.name.endsWith('.json')) {
+                        importedData = JSON.parse(fileContent);
+                    } else if (file.name.endsWith('.csv')) {
+                        const lines = fileContent.split('\n');
+                        const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+                        
+                        importedData = [];
+                        for (let i = 1; i < lines.length; i++) {
+                            if (lines[i].trim() === '') continue;
+                            
+                            const values = lines[i].split(',').map(v => v.replace(/^"|"$/g, '').trim());
+                            const customer = {};
+                            
+                            headers.forEach((header, index) => {
+                                if (values[index]) {
+                                    customer[header] = values[index];
+                                }
+                            });
+                            
+                            if (Object.keys(customer).length > 0) {
+                                importedData.push(customer);
+                            }
+                        }
+                    } else {
+                        showNotification('فرمت فایل پشتیبانی نمی‌شود', 'danger');
+                        return;
+                    }
+                    
+                    if (!Array.isArray(importedData)) {
+                        showNotification('ساختار فایل معتبر نیست', 'danger');
+                        return;
+                    }
+                    
+                    pendingAction = 'importData';
+                    pendingActionData = importedData;
+                    
+                    confirmModalTitle.textContent = 'وارد کردن اطلاعات';
+                    confirmModalMessage.textContent = `آیا از وارد کردن ${importedData.length} مشتری اطمینان دارید؟`;
+                    confirmModal.classList.add('active');
+                    
+                } catch (error) {
+                    showNotification('خطا در پردازش فایل: ' + error.message, 'danger');
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // باز کردن مودال ویرایش
+        function openEditModal(customerId) {
+            const customer = customers.find(c => c.id === customerId);
+            
+            if (!customer) {
+                showNotification('مشتری مورد نظر یافت نشد', 'danger');
+                return;
+            }
+            
+            currentEditId = customerId;
+            document.getElementById('editCustomerName').value = customer.name;
+            document.getElementById('editCustomerPhone').value = customer.phone;
+            document.getElementById('editCustomerAddress').value = customer.address;
+            
+            editModal.classList.add('active');
+        }
+        
+        // تأیید حذف
+        function confirmDelete(customerId) {
+            const customer = customers.find(c => c.id === customerId);
+            
+            if (!customer) {
+                showNotification('مشتری مورد نظر یافت نشد', 'danger');
+                return;
+            }
+            
+            pendingAction = 'deleteCustomer';
+            pendingActionData = customerId;
+            
+            confirmModalTitle.textContent = 'حذف مشتری';
+            confirmModalMessage.textContent = `آیا از حذف "${customer.name}" اطمینان دارید؟`;
+            confirmModal.classList.add('active');
+        }
+        
+        // مدیریت ارسال فرم
+        customerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const customerData = {
+                customerId: document.getElementById('customerId').value.trim(),
+                name: document.getElementById('customerName').value.trim(),
+                phone: document.getElementById('customerPhone').value.trim(),
+                email: document.getElementById('customerEmail').value.trim() || null,
+                address: document.getElementById('customerAddress').value.trim(),
+                description: document.getElementById('customerDescription').value.trim() || null,
+                category: document.getElementById('customerCategory').value
+            };
+            
+            const isDuplicate = customers.some(customer => 
+                customer.customerId === customerData.customerId || 
+                customer.phone === customerData.phone
+            );
+            
+            if (isDuplicate) {
+                showNotification("شماره مشتری یا شماره تماس تکراری است!", "danger");
+                return;
+            }
+            
+            addCustomer(customerData);
+            customerForm.reset();
+        });
+        
+        // مدیریت دکمه پاک کردن فرم
+        clearBtn.addEventListener('click', function() {
+            customerForm.reset();
+        });
+        
+        // مدیریت جستجو
+        searchInput.addEventListener('input', function() {
+            updateCustomerList(this.value, categoryFilter.value);
+        });
+        
+        categoryFilter.addEventListener('change', function() {
+            updateCustomerList(searchInput.value, this.value);
+        });
+        
+        // مدیریت پشتیبان‌گیری
+        exportJsonBtn.addEventListener('click', exportToJson);
+        exportCsvBtn.addEventListener('click', exportToCsv);
+        
+        autoBackupBtn.addEventListener('click', function() {
+            const backupData = createAutoBackup();
+            showNotification(`پشتیبان خودکار با ${backupData.customerCount} مشتری ایجاد شد`, 'success');
+        });
+        
+        clearStorageBtn.addEventListener('click', function() {
+            pendingAction = 'clearStorage';
+            
+            confirmModalTitle.textContent = 'پاک کردن حافظه';
+            confirmModalMessage.textContent = 'آیا از پاک کردن تمام داده‌ها اطمینان دارید؟';
+            confirmModal.classList.add('active');
+        });
+        
+        // مدیریت فایل وارد شده
+        importFile.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                importBtn.disabled = false;
+                importFromFile(this.files[0]);
+            }
+        });
+        
+        importBtn.addEventListener('click', function() {
+            if (importFile.files.length > 0) {
+                importFromFile(importFile.files[0]);
+            }
+        });
+        
+        // مدیریت کشیدن و رها کردن فایل
+        dropArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#3498db';
+            this.style.backgroundColor = '#e8f4fc';
+        });
+        
+        dropArea.addEventListener('dragleave', function() {
+            this.style.borderColor = '#bdc3c7';
+            this.style.backgroundColor = '#f8fafc';
+        });
+        
+        dropArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#bdc3c7';
+            this.style.backgroundColor = '#f8fafc';
+            
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                importFromFile(file);
+            }
+        });
+        
+        // مدیریت مودال ویرایش
+        closeEditModal.addEventListener('click', function() {
+            editModal.classList.remove('active');
+        });
+        
+        cancelEditBtn.addEventListener('click', function() {
+            editModal.classList.remove('active');
+        });
+        
+        saveEditBtn.addEventListener('click', function() {
+            const updatedData = {
+                name: document.getElementById('editCustomerName').value.trim(),
+                phone: document.getElementById('editCustomerPhone').value.trim(),
+                address: document.getElementById('editCustomerAddress').value.trim()
+            };
+            
+            if (editCustomer(currentEditId, updatedData)) {
+                editModal.classList.remove('active');
+            }
+        });
+        
+        // مدیریت مودال تأیید
+        closeConfirmModal.addEventListener('click', function() {
+            confirmModal.classList.remove('active');
+            pendingAction = null;
+            pendingActionData = null;
+        });
+        
+        cancelConfirmBtn.addEventListener('click', function() {
+            confirmModal.classList.remove('active');
+            pendingAction = null;
+            pendingActionData = null;
+        });
+        
+        confirmActionBtn.addEventListener('click', function() {
+            confirmModal.classList.remove('active');
+            
+            if (pendingAction === 'deleteCustomer') {
+                deleteCustomer(pendingActionData);
+            } 
+            else if (pendingAction === 'restoreBackup') {
+                customers = JSON.parse(JSON.stringify(pendingActionData.data));
+                saveCustomers();
+                updateCustomerList();
+                showNotification(`داده‌ها بازیابی شدند (${pendingActionData.customerCount} مشتری)`, 'success');
+            }
+            else if (pendingAction === 'importData') {
+                customers = pendingActionData;
+                saveCustomers();
+                updateCustomerList();
+                showNotification(`داده‌ها وارد شدند (${pendingActionData.length} مشتری)`, 'success');
+                
+                const backupData = {
+                    date: new Date().toLocaleDateString('fa-IR'),
+                    time: new Date().toLocaleTimeString('fa-IR'),
+                    timestamp: Date.now(),
+                    customerCount: pendingActionData.length,
+                    type: 'import'
+                };
+                
+                backupHistoryList.push(backupData);
+                saveBackupHistory();
+                updateBackupHistory();
+            }
+            else if (pendingAction === 'clearStorage') {
+                localStorage.clear();
+                customers = [];
+                backupHistoryList = [];
+                updateCustomerList();
+                updateBackupHistory();
+                updateStats();
+                showNotification('تمام داده‌ها پاک شدند', 'warning');
+            }
+            
+            pendingAction = null;
+            pendingActionData = null;
+        });
+        
+        // بارگذاری اولیه داده‌ها
+        loadData();
+        
+        // نمایش پیام خوش‌آمد
+        setTimeout(() => {
+            if (customers.length === 0) {
+                showNotification("برای شروع، اطلاعات اولین مشتری را وارد کنید.", "warning");
+            }
+        }, 1000);
+        
+        // ایجاد پشتیبان اولیه
+        if (customers.length > 0 && backupHistoryList.length === 0) {
+            createAutoBackup();
+        }
+        
+        // جلوگیری از زوم در موبایل هنگام کلیک روی input
+        document.addEventListener('touchstart', function() {}, {passive: true});
     </script>
 </body>
 </html>

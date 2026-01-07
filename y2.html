@@ -3,458 +3,647 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ماشین حساب حرفه‌ای</title>
+    <title>سیستم مدیریت فروش و خرید</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #00b894;
-            --primary-dark: #00a085;
-            --secondary: #0984e3;
-            --secondary-dark: #0770c4;
-            --accent: #fd79a8;
-            --dark: #2d3436;
-            --light: #f9f9f9;
-            --gray: #636e72;
-            --gray-light: #dfe6e9;
-            --error: #d63031;
-            --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            --border-radius: 24px;
-            --border-radius-sm: 16px;
-            --border-radius-xs: 10px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Vazirmatn', 'Segoe UI', 'IRANSans', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            color: var(--dark);
+            background-color: #f5f7fa;
+            color: #333;
             line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 500px;
+            padding: 10px;
+            max-width: 800px;
             margin: 0 auto;
         }
         
-        .header {
-            margin-bottom: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--gray-light);
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        
-        .logo-icon {
-            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        header {
+            background: linear-gradient(135deg, #4a6fa5 0%, #2c3e50 100%);
             color: white;
-            font-size: 1.5rem;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
         h1 {
-            color: var(--dark);
             font-size: 1.6rem;
-            font-weight: 800;
-            text-align: center;
-        }
-        
-        .calculator-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 24px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--gray-light);
-        }
-        
-        .calculator-display {
-            background: var(--light);
-            border-radius: var(--border-radius-xs);
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 2px solid var(--gray-light);
-            text-align: left;
-            direction: ltr;
-        }
-        
-        .calculation {
-            font-size: 0.9rem;
-            color: var(--gray);
-            height: 20px;
             margin-bottom: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
         
-        .result {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--dark);
-            height: 50px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .description {
+            font-size: 0.95rem;
+            opacity: 0.9;
         }
         
-        .calculator-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
         
-        .calc-btn {
-            padding: 20px 10px;
-            border: none;
-            border-radius: var(--border-radius-xs);
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 1.2rem;
-            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .card-title i {
+            color: #4a6fa5;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        label {
+            font-weight: 600;
+            color: #444;
+        }
+        
+        input {
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #4a6fa5;
+            box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            flex: 1;
+            min-width: 140px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--light);
-            color: var(--dark);
+            gap: 8px;
         }
         
-        .calc-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .calc-btn.number {
-            background: white;
-            border: 2px solid var(--gray-light);
-        }
-        
-        .calc-btn.operator {
-            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+        .btn-primary {
+            background-color: #4a6fa5;
             color: white;
         }
         
-        .calc-btn.function {
-            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+        .btn-primary:hover {
+            background-color: #3a5a85;
+        }
+        
+        .btn-success {
+            background-color: #2ecc71;
             color: white;
         }
         
-        .calc-btn.equals {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-info {
+            background-color: #3498db;
             color: white;
         }
         
-        .calc-btn.clear {
-            background: linear-gradient(135deg, #ff7675, var(--error));
+        .btn-info:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
             color: white;
         }
         
-        .calc-btn.zero {
-            grid-column: span 2;
+        .btn-danger:hover {
+            background-color: #c0392b;
         }
         
-        .footer {
-            text-align: center;
-            color: var(--gray);
-            font-size: 0.85rem;
-            padding: 20px 0;
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
         
-        @media (max-width: 480px) {
-            .calculator-buttons {
-                gap: 10px;
+        .summary-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-right: 4px solid #4a6fa5;
+        }
+        
+        .summary-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .history {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f8f9fa;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border-right: 3px solid #4a6fa5;
+        }
+        
+        .history-date {
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        .history-amount {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .history-type {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background-color: #e3f2fd;
+            color: #4a6fa5;
+        }
+        
+        .analysis-result {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .analysis-result.show {
+            display: block;
+        }
+        
+        .analysis-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .analysis-data {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .analysis-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .positive {
+            color: #27ae60;
+        }
+        
+        .negative {
+            color: #e74c3c;
+        }
+        
+        .neutral {
+            color: #3498db;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            font-size: 0.9rem;
+            padding: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .buttons {
+                flex-direction: column;
             }
             
-            .calc-btn {
-                padding: 18px 8px;
-                font-size: 1.1rem;
+            button {
+                min-width: 100%;
             }
             
-            .result {
-                font-size: 1.8rem;
+            .summary {
+                grid-template-columns: 1fr;
             }
+            
+            .analysis-data {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* استایل اسکرول بار */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #b8c2cc;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-calculator"></i>
+        <header>
+            <h1><i class="fas fa-chart-line"></i> سیستم مدیریت فروش و خرید</h1>
+            <p class="description">ثبت و تحلیل خرید و فروش با ذخیره‌سازی اطلاعات در مرورگر</p>
+        </header>
+        
+        <main class="card">
+            <div class="card-title">
+                <i class="fas fa-edit"></i>
+                <span>ثبت عملیات مالی</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="amount">مبلغ (تومان)</label>
+                <input type="number" id="amount" placeholder="مبلغ را وارد کنید..." min="0">
+            </div>
+            
+            <div class="buttons">
+                <button id="btnSale" class="btn-primary">
+                    <i class="fas fa-cart-plus"></i> ثبت فروش
+                </button>
+                <button id="btnPurchase" class="btn-success">
+                    <i class="fas fa-shopping-cart"></i> ثبت خرید
+                </button>
+                <button id="btnAnalyze" class="btn-info">
+                    <i class="fas fa-chart-pie"></i> تحلیل خرید و فروش
+                </button>
+                <button id="btnReset" class="btn-danger">
+                    <i class="fas fa-trash-alt"></i> پاک کردن داده‌ها
+                </button>
+            </div>
+            
+            <div class="summary">
+                <div class="summary-item">
+                    <div class="summary-title">جمع فروش</div>
+                    <div class="summary-value" id="totalSale">0</div>
                 </div>
-                <h1>ماشین حساب حرفه‌ای</h1>
-            </div>
-        </div>
-        
-        <div class="calculator-card">
-            <div class="calculator-display">
-                <div class="calculation" id="calc-calculation">0</div>
-                <div class="result" id="calc-result">0</div>
+                <div class="summary-item">
+                    <div class="summary-title">جمع خرید</div>
+                    <div class="summary-value" id="totalPurchase">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-title">مانده مالی</div>
+                    <div class="summary-value" id="balance">0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-title">تعداد عملیات</div>
+                    <div class="summary-value" id="totalTransactions">0</div>
+                </div>
             </div>
             
-            <div class="calculator-buttons">
-                <button class="calc-btn clear" data-action="clear">C</button>
-                <button class="calc-btn function" data-action="clear-entry">CE</button>
-                <button class="calc-btn function" data-action="backspace">⌫</button>
-                <button class="calc-btn operator" data-action="divide">÷</button>
-                
-                <button class="calc-btn number" data-number="7">7</button>
-                <button class="calc-btn number" data-number="8">8</button>
-                <button class="calc-btn number" data-number="9">9</button>
-                <button class="calc-btn operator" data-action="multiply">×</button>
-                
-                <button class="calc-btn number" data-number="4">4</button>
-                <button class="calc-btn number" data-number="5">5</button>
-                <button class="calc-btn number" data-number="6">6</button>
-                <button class="calc-btn operator" data-action="subtract">−</button>
-                
-                <button class="calc-btn number" data-number="1">1</button>
-                <button class="calc-btn number" data-number="2">2</button>
-                <button class="calc-btn number" data-number="3">3</button>
-                <button class="calc-btn operator" data-action="add">+</button>
-                
-                <button class="calc-btn number zero" data-number="0">0</button>
-                <button class="calc-btn number" data-action="decimal">.</button>
-                <button class="calc-btn equals" data-action="equals">=</button>
+            <div class="history">
+                <div class="card-title">
+                    <i class="fas fa-history"></i>
+                    <span>تاریخچه عملیات</span>
+                </div>
+                <div id="historyList">
+                    <!-- تاریخچه عملیات اینجا نمایش داده می‌شود -->
+                </div>
             </div>
-        </div>
+            
+            <div id="analysisResult" class="analysis-result">
+                <h3 class="analysis-title">تحلیل مالی</h3>
+                <div class="analysis-data">
+                    <div class="analysis-item">
+                        <div class="summary-title">جمع فروش</div>
+                        <div class="summary-value positive" id="analysisSale">0</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="summary-title">جمع خرید</div>
+                        <div class="summary-value negative" id="analysisPurchase">0</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="summary-title">سود خالص</div>
+                        <div class="summary-value" id="netProfit">0</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="summary-title">میانگین فروش</div>
+                        <div class="summary-value neutral" id="avgSale">0</div>
+                    </div>
+                </div>
+            </div>
+        </main>
         
-        <div class="footer">
-            <p>ماشین حساب حرفه‌ای | طراحی شده برای محاسبات روزمره</p>
-            <p>© 2024 - کلیه حقوق محفوظ است</p>
-        </div>
+        <footer>
+            <p>کلیه اطلاعات در حافظه مرورگر شما ذخیره می‌شوند و پس از بستن مرورگر نیز باقی می‌مانند.</p>
+            <p>© 2023 سیستم مدیریت مالی</p>
+        </footer>
     </div>
-    
-    <script>
-        class Calculator {
-            constructor() {
-                this.reset();
-            }
-            
-            reset() {
-                this.currentValue = '0';
-                this.previousValue = null;
-                this.operation = null;
-                this.waitingForNewValue = false;
-                this.calculation = '';
-            }
-            
-            clearEntry() {
-                this.currentValue = '0';
-            }
-            
-            backspace() {
-                if (this.currentValue.length > 1) {
-                    this.currentValue = this.currentValue.slice(0, -1);
-                } else {
-                    this.currentValue = '0';
-                }
-            }
-            
-            inputNumber(number) {
-                if (this.waitingForNewValue) {
-                    this.currentValue = number;
-                    this.waitingForNewValue = false;
-                } else {
-                    this.currentValue = this.currentValue === '0' ? number : this.currentValue + number;
-                }
-            }
-            
-            inputDecimal() {
-                if (this.waitingForNewValue) {
-                    this.currentValue = '0.';
-                    this.waitingForNewValue = false;
-                } else if (!this.currentValue.includes('.')) {
-                    this.currentValue += '.';
-                }
-            }
-            
-            setOperation(op) {
-                if (this.previousValue !== null && !this.waitingForNewValue) {
-                    this.calculate();
-                }
-                
-                this.operation = op;
-                this.previousValue = this.currentValue;
-                this.waitingForNewValue = true;
-                
-                // به‌روزرسانی نمایش عملیات
-                const opSymbol = this.getOperationSymbol(op);
-                this.calculation = `${this.previousValue} ${opSymbol}`;
-            }
-            
-            getOperationSymbol(op) {
-                switch(op) {
-                    case 'add': return '+';
-                    case 'subtract': return '−';
-                    case 'multiply': return '×';
-                    case 'divide': return '÷';
-                    default: return '';
-                }
-            }
-            
-            calculate() {
-                if (this.previousValue === null || this.operation === null) return;
-                
-                const prev = parseFloat(this.previousValue);
-                const current = parseFloat(this.currentValue);
-                let result;
-                
-                switch(this.operation) {
-                    case 'add':
-                        result = prev + current;
-                        break;
-                    case 'subtract':
-                        result = prev - current;
-                        break;
-                    case 'multiply':
-                        result = prev * current;
-                        break;
-                    case 'divide':
-                        result = current !== 0 ? prev / current : 'خطا';
-                        break;
-                    default:
-                        return;
-                }
-                
-                // به‌روزرسانی نمایش عملیات
-                const opSymbol = this.getOperationSymbol(this.operation);
-                this.calculation = `${this.previousValue} ${opSymbol} ${this.currentValue} =`;
-                
-                // نمایش نتیجه
-                this.currentValue = result.toString();
-                this.operation = null;
-                this.previousValue = null;
-                this.waitingForNewValue = true;
-            }
-            
-            getCurrentValue() {
-                return this.currentValue;
-            }
-            
-            getCalculation() {
-                return this.calculation;
-            }
-        }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const calculator = new Calculator();
-            setupCalculatorListeners(calculator);
+    <script>
+        // داده‌های اولیه
+        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        
+        // عناصر DOM
+        const amountInput = document.getElementById('amount');
+        const btnSale = document.getElementById('btnSale');
+        const btnPurchase = document.getElementById('btnPurchase');
+        const btnAnalyze = document.getElementById('btnAnalyze');
+        const btnReset = document.getElementById('btnReset');
+        const totalSaleElement = document.getElementById('totalSale');
+        const totalPurchaseElement = document.getElementById('totalPurchase');
+        const balanceElement = document.getElementById('balance');
+        const totalTransactionsElement = document.getElementById('totalTransactions');
+        const historyList = document.getElementById('historyList');
+        const analysisResult = document.getElementById('analysisResult');
+        const analysisSaleElement = document.getElementById('analysisSale');
+        const analysisPurchaseElement = document.getElementById('analysisPurchase');
+        const netProfitElement = document.getElementById('netProfit');
+        const avgSaleElement = document.getElementById('avgSale');
+        
+        // فرمت اعداد به فارسی
+        function formatNumber(num) {
+            return new Intl.NumberFormat('fa-IR').format(num);
+        }
+        
+        // تاریخ و زمان به فارسی
+        function getCurrentDateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString('fa-IR');
+            const time = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+            return `${date} - ${time}`;
+        }
+        
+        // محاسبه جمع‌ها
+        function calculateTotals() {
+            let totalSale = 0;
+            let totalPurchase = 0;
+            
+            transactions.forEach(transaction => {
+                if (transaction.type === 'sale') {
+                    totalSale += transaction.amount;
+                } else if (transaction.type === 'purchase') {
+                    totalPurchase += transaction.amount;
+                }
+            });
+            
+            const balance = totalSale - totalPurchase;
+            
+            totalSaleElement.textContent = formatNumber(totalSale);
+            totalPurchaseElement.textContent = formatNumber(totalPurchase);
+            balanceElement.textContent = formatNumber(balance);
+            totalTransactionsElement.textContent = formatNumber(transactions.length);
+            
+            // رنگ مانده مالی
+            if (balance > 0) {
+                balanceElement.className = 'summary-value positive';
+            } else if (balance < 0) {
+                balanceElement.className = 'summary-value negative';
+            } else {
+                balanceElement.className = 'summary-value neutral';
+            }
+            
+            // ذخیره در localStorage
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+        }
+        
+        // نمایش تاریخچه
+        function displayHistory() {
+            if (transactions.length === 0) {
+                historyList.innerHTML = '<div class="history-item" style="text-align: center; color: #777;">هیچ عملیاتی ثبت نشده است</div>';
+                return;
+            }
+            
+            // نمایش فقط ۱۰ مورد آخر
+            const recentTransactions = transactions.slice(-10).reverse();
+            
+            historyList.innerHTML = recentTransactions.map(transaction => `
+                <div class="history-item">
+                    <div>
+                        <div class="history-date">${transaction.datetime}</div>
+                        <div class="history-type">${transaction.type === 'sale' ? 'فروش' : 'خرید'}</div>
+                    </div>
+                    <div class="history-amount">${formatNumber(transaction.amount)} تومان</div>
+                </div>
+            `).join('');
+        }
+        
+        // ثبت فروش
+        btnSale.addEventListener('click', () => {
+            const amount = parseInt(amountInput.value);
+            
+            if (!amount || amount <= 0) {
+                alert('لطفاً مبلغ معتبری وارد کنید');
+                amountInput.focus();
+                return;
+            }
+            
+            const transaction = {
+                id: Date.now(),
+                amount: amount,
+                type: 'sale',
+                datetime: getCurrentDateTime()
+            };
+            
+            transactions.push(transaction);
+            calculateTotals();
+            displayHistory();
+            amountInput.value = '';
+            amountInput.focus();
+            
+            // نمایش پیام موفقیت
+            showMessage('فروش با موفقیت ثبت شد', 'success');
         });
         
-        function setupCalculatorListeners(calculator) {
-            // دکمه‌های اعداد
-            document.querySelectorAll('.calc-btn[data-number]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const number = this.dataset.number;
-                    calculator.inputNumber(number);
-                    updateCalculatorDisplay(calculator);
-                });
-            });
+        // ثبت خرید
+        btnPurchase.addEventListener('click', () => {
+            const amount = parseInt(amountInput.value);
             
-            // دکمه نقطه اعشار
-            document.querySelector('.calc-btn[data-action="decimal"]').addEventListener('click', function() {
-                calculator.inputDecimal();
-                updateCalculatorDisplay(calculator);
-            });
+            if (!amount || amount <= 0) {
+                alert('لطفاً مبلغ معتبری وارد کنید');
+                amountInput.focus();
+                return;
+            }
             
-            // دکمه‌های عملیات
-            document.querySelectorAll('.calc-btn.operator').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const action = this.dataset.action;
-                    calculator.setOperation(action);
-                    updateCalculatorDisplay(calculator);
-                });
-            });
+            const transaction = {
+                id: Date.now(),
+                amount: amount,
+                type: 'purchase',
+                datetime: getCurrentDateTime()
+            };
             
-            // دکمه مساوی
-            document.querySelector('.calc-btn[data-action="equals"]').addEventListener('click', function() {
-                calculator.calculate();
-                updateCalculatorDisplay(calculator);
-            });
+            transactions.push(transaction);
+            calculateTotals();
+            displayHistory();
+            amountInput.value = '';
+            amountInput.focus();
             
-            // دکمه Clear
-            document.querySelector('.calc-btn[data-action="clear"]').addEventListener('click', function() {
-                calculator.reset();
-                updateCalculatorDisplay(calculator);
-            });
+            // نمایش پیام موفقیت
+            showMessage('خرید با موفقیت ثبت شد', 'success');
+        });
+        
+        // تحلیل خرید و فروش
+        btnAnalyze.addEventListener('click', () => {
+            let totalSale = 0;
+            let totalPurchase = 0;
+            let saleCount = 0;
             
-            // دکمه Clear Entry
-            document.querySelector('.calc-btn[data-action="clear-entry"]').addEventListener('click', function() {
-                calculator.clearEntry();
-                updateCalculatorDisplay(calculator);
-            });
-            
-            // دکمه Backspace
-            document.querySelector('.calc-btn[data-action="backspace"]').addEventListener('click', function() {
-                calculator.backspace();
-                updateCalculatorDisplay(calculator);
-            });
-            
-            // کلیدهای کیبورد
-            document.addEventListener('keydown', function(event) {
-                const key = event.key;
-                
-                if (key >= '0' && key <= '9') {
-                    calculator.inputNumber(key);
-                    updateCalculatorDisplay(calculator);
-                } else if (key === '.') {
-                    calculator.inputDecimal();
-                    updateCalculatorDisplay(calculator);
-                } else if (key === '+') {
-                    calculator.setOperation('add');
-                    updateCalculatorDisplay(calculator);
-                } else if (key === '-') {
-                    calculator.setOperation('subtract');
-                    updateCalculatorDisplay(calculator);
-                } else if (key === '*' || key === '×') {
-                    calculator.setOperation('multiply');
-                    updateCalculatorDisplay(calculator);
-                } else if (key === '/' || key === '÷') {
-                    calculator.setOperation('divide');
-                    updateCalculatorDisplay(calculator);
-                } else if (key === 'Enter' || key === '=') {
-                    calculator.calculate();
-                    updateCalculatorDisplay(calculator);
-                    event.preventDefault();
-                } else if (key === 'Escape') {
-                    calculator.reset();
-                    updateCalculatorDisplay(calculator);
-                } else if (key === 'Backspace') {
-                    calculator.backspace();
-                    updateCalculatorDisplay(calculator);
+            transactions.forEach(transaction => {
+                if (transaction.type === 'sale') {
+                    totalSale += transaction.amount;
+                    saleCount++;
+                } else if (transaction.type === 'purchase') {
+                    totalPurchase += transaction.amount;
                 }
             });
+            
+            const netProfit = totalSale - totalPurchase;
+            const avgSale = saleCount > 0 ? Math.round(totalSale / saleCount) : 0;
+            
+            analysisSaleElement.textContent = formatNumber(totalSale);
+            analysisPurchaseElement.textContent = formatNumber(totalPurchase);
+            netProfitElement.textContent = formatNumber(netProfit);
+            avgSaleElement.textContent = formatNumber(avgSale);
+            
+            // رنگ‌آمیزی سود خالص
+            if (netProfit > 0) {
+                netProfitElement.className = 'summary-value positive';
+            } else if (netProfit < 0) {
+                netProfitElement.className = 'summary-value negative';
+            } else {
+                netProfitElement.className = 'summary-value neutral';
+            }
+            
+            // نمایش بخش تحلیل
+            analysisResult.classList.add('show');
+            
+            // اسکرول به بخش تحلیل
+            analysisResult.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // پاک کردن داده‌ها
+        btnReset.addEventListener('click', () => {
+            if (confirm('آیا از پاک کردن تمامی داده‌ها اطمینان دارید؟')) {
+                transactions = [];
+                localStorage.removeItem('transactions');
+                calculateTotals();
+                displayHistory();
+                analysisResult.classList.remove('show');
+                
+                // نمایش پیام
+                showMessage('تمام داده‌ها با موفقیت پاک شدند', 'info');
+            }
+        });
+        
+        // نمایش پیام موقت
+        function showMessage(message, type) {
+            const messageEl = document.createElement('div');
+            messageEl.textContent = message;
+            messageEl.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 15px 25px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                animation: fadeInOut 3s ease-in-out;
+            `;
+            
+            if (type === 'success') {
+                messageEl.style.backgroundColor = '#2ecc71';
+            } else if (type === 'info') {
+                messageEl.style.backgroundColor = '#3498db';
+            } else {
+                messageEl.style.backgroundColor = '#e74c3c';
+            }
+            
+            document.body.appendChild(messageEl);
+            
+            setTimeout(() => {
+                messageEl.remove();
+            }, 3000);
         }
         
-        function updateCalculatorDisplay(calculator) {
-            document.getElementById('calc-result').textContent = calculator.getCurrentValue();
-            document.getElementById('calc-calculation').textContent = calculator.getCalculation() || '0';
-        }
+        // ورودی عددی فقط
+        amountInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        
+        // بارگذاری اولیه
+        calculateTotals();
+        displayHistory();
+        
+        // امکان ثبت با کلید Enter
+        amountInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                btnSale.click();
+            }
+        });
+        
+        // تنظیم فوکوس اولیه
+        amountInput.focus();
     </script>
 </body>
 </html>
