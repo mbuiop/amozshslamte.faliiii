@@ -421,6 +421,14 @@
             margin-bottom: 15px;
         }
 
+        /* شبکه ابزارها */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
         /* دکمه‌های اصلی */
         .main-btn {
             position: relative;
@@ -494,6 +502,69 @@
             transform: scale(1.05) rotate(3deg);
         }
 
+        /* دکمه‌های ابزار */
+        .tool-btn {
+            position: relative;
+            border: 1.5px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 10px 6px;
+            text-decoration: none;
+            color: #000000; /* متن مشکی */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            min-height: 75px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        /* رنگ‌های مختلف برای دکمه‌های ابزار */
+        .tool-btn:nth-child(1) {
+            background: linear-gradient(145deg, rgba(255, 107, 107, 0.8), rgba(255, 107, 107, 0.6));
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+        
+        .tool-btn:nth-child(2) {
+            background: linear-gradient(145deg, rgba(255, 209, 102, 0.8), rgba(255, 209, 102, 0.6));
+            border-color: rgba(255, 209, 102, 0.3);
+        }
+        
+        .tool-btn:nth-child(3) {
+            background: linear-gradient(145deg, rgba(78, 205, 196, 0.8), rgba(78, 205, 196, 0.6));
+            border-color: rgba(78, 205, 196, 0.3);
+        }
+        
+        .tool-btn:nth-child(4) {
+            background: linear-gradient(145deg, rgba(6, 214, 160, 0.8), rgba(6, 214, 160, 0.6));
+            border-color: rgba(6, 214, 160, 0.3);
+        }
+
+        .tool-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            opacity: 0.8;
+        }
+
+        .tool-btn:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-btn:active .btn-icon {
+            transform: scale(1.05) rotate(3deg);
+        }
+
         /* آیکون دکمه‌ها */
         .btn-icon {
             width: 35px;
@@ -514,6 +585,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        .tool-btn .btn-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+        }
+
         .btn-text {
             font-size: 11px;
             font-weight: 700;
@@ -523,6 +600,10 @@
             position: relative;
             z-index: 1;
             padding: 0 3px;
+        }
+
+        .tool-btn .btn-text {
+            font-size: 10px;
         }
 
         /* انیمیشن‌های ورود */
@@ -584,14 +665,30 @@
                 gap: 6px;
             }
             
+            .tool-btn {
+                min-height: 70px;
+                padding: 8px 5px;
+                gap: 5px;
+            }
+            
             .btn-icon {
                 width: 32px;
                 height: 32px;
                 font-size: 16px;
             }
             
+            .tool-btn .btn-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
             .btn-text {
                 font-size: 10px;
+            }
+            
+            .tool-btn .btn-text {
+                font-size: 9px;
             }
             
             .app-content {
@@ -606,6 +703,10 @@
         @media (max-height: 700px) {
             .main-btn {
                 min-height: 75px;
+            }
+            
+            .tool-btn {
+                min-height: 65px;
             }
             
             .app-content {
@@ -737,6 +838,39 @@
                     <a href="m7.html" class="main-btn slide-up delay-6" onclick="handleNavigation(event, 'm7.html')">
                         <div class="btn-icon">📝</div>
                         <div class="btn-text">مدیریت چک</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ۴ ابزار کاربردی -->
+            <div class="section">
+                <div class="section-header slide-up">
+                    <div class="section-title">
+                        <i class="fas fa-tools"></i>
+                        ابزارهای کاربردی
+                    </div>
+                    <div class="section-badge">۴ بخش</div>
+                </div>
+                
+                <div class="tools-grid">
+                    <a href="y4.html" class="tool-btn slide-up delay-1" onclick="handleNavigation(event, 'y4.html')">
+                        <div class="btn-icon">📱</div>
+                        <div class="btn-text">اپلیکیشن سازی</div>
+                    </a>
+                    
+                    <a href="y1.html" class="tool-btn slide-up delay-2" onclick="handleNavigation(event, 'y1.html')">
+                        <div class="btn-icon">🎨</div>
+                        <div class="btn-text">پالت رنگ</div>
+                    </a>
+                    
+                    <a href="y2.html" class="tool-btn slide-up delay-3" onclick="handleNavigation(event, 'y2.html')">
+                        <div class="btn-icon">🧮</div>
+                        <div class="btn-text">ماشین حساب</div>
+                    </a>
+                    
+                    <a href="y3.html" class="tool-btn slide-up delay-4" onclick="handleNavigation(event, 'y3.html')">
+                        <div class="btn-icon">🔄</div>
+                        <div class="btn-text">تقویم</div>
                     </a>
                 </div>
             </div>
