@@ -363,7 +363,7 @@
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 10px 10px 65px;
+            padding: 10px 10px 20px;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             position: relative;
@@ -415,14 +415,6 @@
 
         /* شبکه اصلی */
         .main-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        /* شبکه ابزارها */
-        .tools-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
@@ -502,69 +494,6 @@
             transform: scale(1.05) rotate(3deg);
         }
 
-        /* دکمه‌های ابزار */
-        .tool-btn {
-            position: relative;
-            border: 1.5px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            padding: 10px 6px;
-            text-decoration: none;
-            color: #000000; /* متن مشکی */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            min-height: 75px;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-        }
-
-        /* رنگ‌های مختلف برای دکمه‌های ابزار */
-        .tool-btn:nth-child(1) {
-            background: linear-gradient(145deg, rgba(255, 107, 107, 0.8), rgba(255, 107, 107, 0.6));
-            border-color: rgba(255, 107, 107, 0.3);
-        }
-        
-        .tool-btn:nth-child(2) {
-            background: linear-gradient(145deg, rgba(255, 209, 102, 0.8), rgba(255, 209, 102, 0.6));
-            border-color: rgba(255, 209, 102, 0.3);
-        }
-        
-        .tool-btn:nth-child(3) {
-            background: linear-gradient(145deg, rgba(78, 205, 196, 0.8), rgba(78, 205, 196, 0.6));
-            border-color: rgba(78, 205, 196, 0.3);
-        }
-        
-        .tool-btn:nth-child(4) {
-            background: linear-gradient(145deg, rgba(6, 214, 160, 0.8), rgba(6, 214, 160, 0.6));
-            border-color: rgba(6, 214, 160, 0.3);
-        }
-
-        .tool-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--secondary));
-            border-radius: var(--radius-md) var(--radius-md) 0 0;
-            opacity: 0.8;
-        }
-
-        .tool-btn:active {
-            transform: translateY(2px) scale(0.98);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        }
-
-        .tool-btn:active .btn-icon {
-            transform: scale(1.05) rotate(3deg);
-        }
-
         /* آیکون دکمه‌ها */
         .btn-icon {
             width: 35px;
@@ -585,12 +514,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .tool-btn .btn-icon {
-            width: 32px;
-            height: 32px;
-            font-size: 16px;
-        }
-
         .btn-text {
             font-size: 11px;
             font-weight: 700;
@@ -602,136 +525,26 @@
             padding: 0 3px;
         }
 
-        .tool-btn .btn-text {
-            font-size: 10px;
+        /* انیمیشن‌های ورود */
+        .slide-up {
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(10px);
         }
 
-        /* ناوبری پایین */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            border-top: 2px solid var(--accent);
-            padding: 6px 10px 12px;
-            display: flex;
-            justify-content: space-around;
-            z-index: 100;
-            box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.2);
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            text-decoration: none;
-            color: #000000; /* متن مشکی */
-            padding: 5px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            min-width: 50px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .nav-item.active {
-            color: white;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .nav-item:active {
-            transform: translateY(-1px);
-            color: var(--accent);
-        }
-
-        .nav-icon {
-            font-size: 16px;
-        }
-
-        .nav-label {
-            font-size: 9px;
-            font-weight: 700;
-            color: #000000; /* متن مشکی */
-        }
-
-        .nav-item.active .nav-label {
-            color: white;
-        }
-
-        /* منوی کشویی */
-        .slide-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 85%;
-            height: 100%;
-            background: var(--surface);
-            backdrop-filter: blur(30px);
-            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 50px 10px 70px;
-            overflow-y: auto;
-            border-left: 2px solid var(--accent);
-        }
-
-        .slide-menu.active {
-            right: 0;
-        }
-
-        .menu-items {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px;
-            border-radius: 10px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
-            text-decoration: none;
-            color: #000000; /* متن مشکی */
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .menu-item:active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            transform: translateX(-4px);
-            color: white;
-            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.25);
-        }
-
-        .menu-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.25);
-        }
-
-        .menu-text {
-            font-size: 12px;
-            font-weight: 600;
-            color: #000000; /* متن مشکی */
-        }
-
-        .menu-item:active .menu-text {
-            color: white;
-        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
 
         /* مودال پیام */
         .announcement-modal {
@@ -763,27 +576,6 @@
             border: 2px solid var(--accent);
         }
 
-        /* انیمیشن‌های ورود */
-        .slide-up {
-            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
-        .delay-6 { animation-delay: 0.6s; }
-
         /* رسپانسیو */
         @media (max-width: 360px) {
             .main-btn {
@@ -792,34 +584,18 @@
                 gap: 6px;
             }
             
-            .tool-btn {
-                min-height: 70px;
-                padding: 8px 5px;
-                gap: 5px;
-            }
-            
             .btn-icon {
                 width: 32px;
                 height: 32px;
                 font-size: 16px;
             }
             
-            .tool-btn .btn-icon {
-                width: 30px;
-                height: 30px;
-                font-size: 14px;
-            }
-            
             .btn-text {
                 font-size: 10px;
             }
             
-            .tool-btn .btn-text {
-                font-size: 9px;
-            }
-            
             .app-content {
-                padding: 8px 8px 60px;
+                padding: 8px 8px 15px;
             }
             
             .background-text-content {
@@ -832,12 +608,8 @@
                 min-height: 75px;
             }
             
-            .tool-btn {
-                min-height: 65px;
-            }
-            
             .app-content {
-                padding: 8px 8px 55px;
+                padding: 8px 8px 15px;
             }
             
             .background-text-content {
@@ -916,9 +688,6 @@
                 <button class="control-btn" id="themeToggleBtn">
                     <i class="fas fa-moon"></i>
                 </button>
-                <button class="control-btn" id="hamburgerBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
 
             <div class="header-content">
@@ -971,155 +740,7 @@
                     </a>
                 </div>
             </div>
-
-            <!-- ۴ ابزار کاربردی -->
-            <div class="section">
-                <div class="section-header slide-up">
-                    <div class="section-title">
-                        <i class="fas fa-tools"></i>
-                        ابزارهای کاربردی
-                    </div>
-                    <div class="section-badge">۴ بخش</div>
-                </div>
-                
-                <div class="tools-grid">
-                    <a href="y4.html" class="tool-btn slide-up delay-1" onclick="handleNavigation(event, 'y4.html')">
-                        <div class="btn-icon">📱</div>
-                        <div class="btn-text">اپلیکیشن سازی</div>
-                    </a>
-                    
-                    <a href="y1.html" class="tool-btn slide-up delay-2" onclick="handleNavigation(event, 'y1.html')">
-                        <div class="btn-icon">🎨</div>
-                        <div class="btn-text">پالت رنگ</div>
-                    </a>
-                    
-                    <a href="y2.html" class="tool-btn slide-up delay-3" onclick="handleNavigation(event, 'y2.html')">
-                        <div class="btn-icon">🧮</div>
-                        <div class="btn-text">ماشین حساب</div>
-                    </a>
-                    
-                    <a href="y3.html" class="tool-btn slide-up delay-4" onclick="handleNavigation(event, 'y3.html')">
-                        <div class="btn-icon">🔄</div>
-                        <div class="btn-text">تقویم</div>
-                    </a>
-                </div>
-            </div>
         </main>
-
-        <!-- ناوبری پایین (ویرایش شده) -->
-        <nav class="bottom-nav">
-            <a href="m8.html" class="nav-item" onclick="handleNavigation(event, 'm8.html')">
-                <div class="nav-icon">📞</div>
-                <div class="nav-label">پشتیبانی</div>
-            </a>
-            <a href="mm.html" class="nav-item active" onclick="handleNavigation(event, 'mm.html')">
-                <div class="nav-icon">🎥</div>
-                <div class="nav-label">فیلم سازی</div>
-            </a>
-        </nav>
-    </div>
-
-    <!-- منوی کشویی -->
-    <div class="slide-menu" id="slideMenu">
-        <div class="menu-items">
-            <a href="m90.html" class="menu-item" onclick="handleNavigation(event, 'm90.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-history"></i>
-                </div>
-                <div class="menu-text">تاریخ</div>
-            </a>
-            
-            <a href="m100.html" class="menu-item" onclick="handleNavigation(event, 'm100.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-flask"></i>
-                </div>
-                <div class="menu-text">علوم</div>
-            </a>
-            
-            <a href="m99.html" class="menu-item" onclick="handleNavigation(event, 'm99.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-atom"></i>
-                </div>
-                <div class="menu-text">شیمی</div>
-            </a>
-            
-            <a href="m30.html" class="menu-item" onclick="handleNavigation(event, 'm30.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-concierge-bell"></i>
-                </div>
-                <div class="menu-text">جامع خدمات</div>
-            </a>
-            
-            <a href="m9.html" class="menu-item" onclick="handleNavigation(event, 'm9.html')">
-                <div class="menu-icon">
-                    <i class="fab fa-bitcoin"></i>
-                </div>
-                <div class="menu-text">سبد خرید ارز</div>
-            </a>
-            
-            <a href="mo.html" class="menu-item" onclick="handleNavigation(event, 'mo.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="menu-text">منوی جدید ۱</div>
-            </a>
-            
-            <a href="mo.html" class="menu-item" onclick="handleNavigation(event, 'mo.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <div class="menu-text">منوی جدید ۲</div>
-            </a>
-            
-            <a href="mo.html" class="menu-item" onclick="handleNavigation(event, 'mo.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="menu-text">منوی جدید ۳</div>
-            </a>
-            
-            <a href="mo.html" class="menu-item" onclick="handleNavigation(event, 'mo.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-cog"></i>
-                </div>
-                <div class="menu-text">منوی جدید ۴</div>
-            </a>
-            
-            <a href="mo.html" class="menu-item" onclick="handleNavigation(event, 'mo.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <div class="menu-text">منوی جدید ۵</div>
-            </a>
-            
-            <a href="https://snapvideo.app/fa?utm_source=chatgpt.com" class="menu-item" onclick="handleNavigation(event, 'https://snapvideo.app/fa?utm_source=chatgpt.com')">
-                <div class="menu-icon">
-                    <i class="fas fa-download"></i>
-                </div>
-                <div class="menu-text">دانلودر اینستاگرام</div>
-            </a>
-            
-            <a href="https://chat.openai.com/" class="menu-item" onclick="handleNavigation(event, 'https://chat.openai.com/')">
-                <div class="menu-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <div class="menu-text">هوش مصنوعی</div>
-            </a>
-            
-            <a href="https://www.toobit.com/fa/register?invite_code=5EQpCT" class="menu-item" onclick="handleNavigation(event, 'https://www.toobit.com/fa/register?invite_code=5EQpCT')">
-                <div class="menu-icon">
-                    <i class="fas fa-exchange-alt"></i>
-                </div>
-                <div class="menu-text">صرافی</div>
-            </a>
-            
-            <a href="m11.html" class="menu-item" onclick="handleNavigation(event, 'm11.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-question-circle"></i>
-                </div>
-                <div class="menu-text">راهنمایی</div>
-            </a>
-        </div>
     </div>
 
     <script>
@@ -1228,34 +849,7 @@
             }
         }
 
-        // مدیریت منوی کشویی
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const slideMenu = document.getElementById('slideMenu');
-
-        hamburgerBtn.addEventListener('click', function() {
-            slideMenu.classList.add('active');
-        });
-
-        // بستن منو با کلیک خارج
-        document.addEventListener('click', function(event) {
-            if (!hamburgerBtn.contains(event.target) && !slideMenu.contains(event.target)) {
-                slideMenu.classList.remove('active');
-            }
-        });
-
-        // مدیریت ناوبری پایین
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (!this.classList.contains('active')) {
-                    document.querySelectorAll('.nav-item').forEach(nav => {
-                        nav.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                }
-            });
-        });
-
-        // مدیریت پیام همگانی
+        // مدیریت پیام همگانی - مشکل حل شده
         function checkAnnouncement() {
             const lastShown = localStorage.getItem('announcementLastShown');
             const now = new Date().getTime();
@@ -1263,20 +857,37 @@
             
             if (!lastShown || (now - parseInt(lastShown)) > oneDay) {
                 setTimeout(() => {
-                    document.getElementById('announcementModal').classList.add('active');
+                    const modal = document.getElementById('announcementModal');
+                    if (modal) {
+                        modal.classList.add('active');
+                    }
                 }, 1000);
             }
         }
 
-        // بستن پیام همگانی
-        document.getElementById('announcementClose').addEventListener('click', function() {
-            document.getElementById('announcementModal').classList.remove('active');
-            localStorage.setItem('announcementLastShown', new Date().getTime().toString());
-        });
-
-        document.getElementById('announcementLater').addEventListener('click', function() {
-            document.getElementById('announcementModal').classList.remove('active');
-            localStorage.setItem('announcementLastShown', new Date().getTime().toString());
+        // بستن پیام همگانی - مشکل حل شده
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeBtn = document.getElementById('announcementClose');
+            const laterBtn = document.getElementById('announcementLater');
+            const modal = document.getElementById('announcementModal');
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    if (modal) {
+                        modal.classList.remove('active');
+                        localStorage.setItem('announcementLastShown', new Date().getTime().toString());
+                    }
+                });
+            }
+            
+            if (laterBtn) {
+                laterBtn.addEventListener('click', function() {
+                    if (modal) {
+                        modal.classList.remove('active');
+                        localStorage.setItem('announcementLastShown', new Date().getTime().toString());
+                    }
+                });
+            }
         });
 
         // جلوگیری از زوم
