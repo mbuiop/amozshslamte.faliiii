@@ -16,89 +16,42 @@
             user-select: none;
         }
 
-        html {
+        html, body {
             height: 100%;
             overflow: hidden;
+            font-family: 'Segoe UI', 'Vazirmatn', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', 'Vazirmatn', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #000000; /* متن مشکی در سراسر */
-            min-height: 100vh;
-            height: 100%;
-            overflow: hidden;
+            color: #000000;
+            touch-action: pan-y;
             position: fixed;
             width: 100%;
-            touch-action: pan-x pan-y;
             transition: background 0.5s ease;
         }
 
         /* تم روشن */
         body.light-theme {
             background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: #000000; /* متن مشکی */
         }
 
-        /* جلوگیری از زوم */
-        *:focus {
-            outline: none;
-        }
-
-        /* متغیرهای رنگ - تم تاریک */
+        /* متغیرهای رنگ */
         :root {
             --primary: #ff6b6b;
-            --primary-dark: #ff5252;
-            --primary-light: #ff8e8e;
             --secondary: #4ecdc4;
             --accent: #ffd166;
-            --success: #06d6a0;
-            --danger: #ef476f;
-            --warning: #ffd166;
-            --info: #118ab2;
-            --dark: #1a1a2e;
-            --darker: #0a0a0f;
-            --light: #000000; /* تغییر به مشکی */
-            --gray: #2d3748; /* تیره‌تر برای خوانایی بهتر */
             --surface: rgba(255, 255, 255, 0.15);
-            --card-bg: rgba(255, 255, 255, 0.2);
-            --plastic-1: #ff6b6b;
-            --plastic-2: #4ecdc4;
-            --plastic-3: #ffd166;
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.3);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
             --glass: rgba(255, 255, 255, 0.2);
             --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 10px;
         }
 
-        /* متغیرهای تم روشن */
         body.light-theme {
-            --primary: #ff6b6b;
-            --primary-dark: #ff5252;
-            --primary-light: #ff8e8e;
-            --secondary: #4ecdc4;
-            --accent: #ffd166;
-            --success: #06d6a0;
-            --danger: #ef476f;
-            --warning: #ffd166;
-            --info: #118ab2;
-            --dark: #2d3748;
-            --darker: #1a202c;
-            --light: #000000; /* متن مشکی */
-            --gray: #4a5568; /* تیره‌تر */
             --surface: rgba(255, 255, 255, 0.9);
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --plastic-1: #ff6b6b;
-            --plastic-2: #4ecdc4;
-            --plastic-3: #ffd166;
-            --shadow-sm: 0 4px 12px rgba(255, 107, 107, 0.2);
-            --shadow-md: 0 8px 24px rgba(255, 107, 107, 0.25);
-            --shadow-lg: 0 16px 48px rgba(255, 107, 107, 0.3);
             --glass: rgba(255, 255, 255, 0.25);
             --glass-border: rgba(255, 255, 255, 0.4);
         }
@@ -107,37 +60,348 @@
         .app-container {
             width: 100%;
             height: 100vh;
-            max-height: -webkit-fill-available;
-            position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        /* پس زمینه متن حقوق */
-        .background-text {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        /* هدر */
+        .app-header {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            padding: 15px 10px 8px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 100;
+            flex-shrink: 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+
+        .time-display {
+            font-weight: 600;
+            direction: ltr;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 11px;
+        }
+
+        .date-display {
+            font-size: 9px;
+            color: #000000;
+            opacity: 0.9;
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 9px;
+            color: #000000;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .header-content {
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .app-title {
+            font-size: 14px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 2px;
+        }
+
+        .app-subtitle {
+            font-size: 10px;
+            color: #000000;
+            opacity: 0.9;
+        }
+
+        /* کنترل تم */
+        .theme-toggle {
+            position: absolute;
+            top: 12px;
+            left: 10px;
+            width: 28px;
+            height: 28px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.15;
+            color: #000000;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
-        .background-text-content {
-            font-size: 32px;
-            font-weight: 900;
-            color: rgba(0, 0, 0, 0.4); /* متن مشکی با شفافیت */
+        .theme-toggle:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        /* محتوای اصلی با اسکرول */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 10px;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        .app-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .app-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .app-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 107, 0.5);
+            border-radius: 2px;
+        }
+
+        .app-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 107, 107, 0.7);
+        }
+
+        /* بخش‌ها */
+        .section {
+            margin-bottom: 12px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+            font-size: 11px;
+        }
+
+        .section-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 8px;
+            font-weight: 600;
+        }
+
+        /* شبکه دکمه‌ها */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        /* دکمه‌های اصلی */
+        .main-btn {
+            background: linear-gradient(145deg, rgba(255, 107, 107, 0.9), rgba(255, 107, 107, 0.7));
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 8px 4px;
+            text-decoration: none;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            min-height: 65px;
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-btn:nth-child(2) {
+            background: linear-gradient(145deg, rgba(78, 205, 196, 0.9), rgba(78, 205, 196, 0.7));
+            border-color: rgba(78, 205, 196, 0.3);
+        }
+        
+        .main-btn:nth-child(3) {
+            background: linear-gradient(145deg, rgba(255, 209, 102, 0.9), rgba(255, 209, 102, 0.7));
+            border-color: rgba(255, 209, 102, 0.3);
+        }
+        
+        .main-btn:nth-child(4) {
+            background: linear-gradient(145deg, rgba(6, 214, 160, 0.9), rgba(6, 214, 160, 0.7));
+            border-color: rgba(6, 214, 160, 0.3);
+        }
+        
+        .main-btn:nth-child(5) {
+            background: linear-gradient(145deg, rgba(239, 71, 111, 0.9), rgba(239, 71, 111, 0.7));
+            border-color: rgba(239, 71, 111, 0.3);
+        }
+        
+        .main-btn:nth-child(6) {
+            background: linear-gradient(145deg, rgba(118, 171, 174, 0.9), rgba(118, 171, 174, 0.7));
+            border-color: rgba(118, 171, 174, 0.3);
+        }
+
+        /* دکمه‌های ابزار */
+        .tool-btn {
+            background: linear-gradient(145deg, rgba(255, 107, 107, 0.85), rgba(255, 107, 107, 0.65));
+            border: 1px solid rgba(255, 107, 107, 0.25);
+            border-radius: var(--radius-sm);
+            padding: 6px 3px;
+            text-decoration: none;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            min-height: 58px;
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-btn:nth-child(2) {
+            background: linear-gradient(145deg, rgba(255, 209, 102, 0.85), rgba(255, 209, 102, 0.65));
+            border-color: rgba(255, 209, 102, 0.25);
+        }
+        
+        .tool-btn:nth-child(3) {
+            background: linear-gradient(145deg, rgba(78, 205, 196, 0.85), rgba(78, 205, 196, 0.65));
+            border-color: rgba(78, 205, 196, 0.25);
+        }
+        
+        .tool-btn:nth-child(4) {
+            background: linear-gradient(145deg, rgba(6, 214, 160, 0.85), rgba(6, 214, 160, 0.65));
+            border-color: rgba(6, 214, 160, 0.25);
+        }
+
+        /* افکت کلیک */
+        .main-btn:active, .tool-btn:active {
+            transform: scale(0.97);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* آیکون دکمه‌ها */
+        .btn-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: white;
+            position: relative;
+            z-index: 1;
+            box-shadow: 
+                inset 0 1px 3px rgba(255, 255, 255, 0.3),
+                0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .tool-btn .btn-icon {
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+        }
+
+        /* متن دکمه‌ها */
+        .btn-text {
+            font-size: 9px;
+            font-weight: 600;
             text-align: center;
-            padding: 0 20px;
-            line-height: 1.3;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            transform: rotate(-5deg);
+            color: #000000;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+            padding: 0 2px;
+        }
+
+        .tool-btn .btn-text {
+            font-size: 8px;
+        }
+
+        /* خط بالای دکمه */
+        .main-btn::before, .tool-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1.5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            opacity: 0.8;
+        }
+
+        /* استایل‌های مخصوص برای بخش‌های مختلف */
+        .ai-tools .tool-btn {
+            background: linear-gradient(145deg, rgba(255, 107, 107, 0.8), rgba(255, 107, 107, 0.6));
+        }
+
+        .websites .tool-btn {
+            background: linear-gradient(145deg, rgba(78, 205, 196, 0.8), rgba(78, 205, 196, 0.6));
+        }
+
+        .programming .tool-btn {
+            background: linear-gradient(145deg, rgba(255, 209, 102, 0.8), rgba(255, 209, 102, 0.6));
+        }
+
+        .news .tool-btn {
+            background: linear-gradient(145deg, rgba(6, 214, 160, 0.8), rgba(6, 214, 160, 0.6));
         }
 
         /* لودینگ */
@@ -161,37 +425,14 @@
             visibility: hidden;
         }
 
-        .loader-container {
-            position: relative;
-            width: 90px;
-            height: 90px;
-            margin-bottom: 15px;
-        }
-
-        .loader-ring {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
             border-radius: 50%;
-            border: 2px solid transparent;
-            animation: spin 2s linear infinite;
-        }
-
-        .loader-ring:nth-child(1) {
-            border-top: 2px solid var(--primary);
-            border-right: 2px solid var(--accent);
-        }
-
-        .loader-ring:nth-child(2) {
-            border-top: 2px solid var(--secondary);
-            border-right: 2px solid var(--success);
-            width: 70px;
-            height: 70px;
-            top: 10px;
-            left: 10px;
-            animation-delay: 0.2s;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
         }
 
         @keyframes spin {
@@ -199,463 +440,12 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loader-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: white;
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-        }
-
         .loading-text {
-            font-size: 16px;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 6px;
-            text-align: center;
-        }
-
-        .loading-subtext {
-            font-size: 11px;
-            color: #000000; /* متن مشکی */
-            margin-bottom: 12px;
-            text-align: center;
-            opacity: 0.9;
-        }
-
-        /* هدر */
-        .app-header {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            padding: 30px 10px 8px;
-            border-bottom-left-radius: 18px;
-            border-bottom-right-radius: 18px;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-            z-index: 100;
-            flex-shrink: 0;
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .status-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 6px 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-            color: #000000; /* متن مشکی */
-        }
-
-        .time-display {
-            font-weight: 700;
-            font-size: 11px;
-            direction: ltr;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .date-display {
-            font-size: 9px;
-            color: #000000; /* متن مشکی */
-            margin-right: 3px;
-            opacity: 0.9;
-        }
-
-        .weather-info {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 6px;
-            border-radius: 12px;
-            font-size: 9px;
-            color: #000000; /* متن مشکی */
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-        }
-
-        .weather-icon {
-            font-size: 9px;
-            color: #000000; /* متن مشکی */
-        }
-
-        .header-content {
-            text-align: center;
-            margin-bottom: 6px;
-        }
-
-        .app-title {
-            font-size: 16px;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 3px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .app-subtitle {
-            font-size: 11px;
-            color: #000000; /* متن مشکی */
-            opacity: 0.9;
-        }
-
-        /* کنترل‌های بالا */
-        .control-buttons {
-            position: absolute;
-            top: 25px;
-            right: 10px;
-            display: flex;
-            gap: 5px;
-            z-index: 100;
-        }
-
-        .control-btn {
-            width: 30px;
-            height: 30px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000000; /* متن مشکی */
-            font-size: 14px;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .control-btn:active {
-            transform: scale(0.95);
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-        }
-
-        /* محتوای اصلی */
-        .app-content {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 10px 10px 20px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            position: relative;
-            z-index: 10;
-        }
-
-        .app-content::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
-        }
-
-        /* بخش‌ها */
-        .section {
-            margin-bottom: 15px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .section-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #000000; /* متن مشکی */
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .section-title i {
-            color: var(--accent);
             font-size: 12px;
-        }
-
-        .section-badge {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            font-weight: 600;
             color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 9px;
-            font-weight: 700;
-            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
-        }
-
-        /* شبکه اصلی */
-        .main-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        /* شبکه ابزارها */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        /* دکمه‌های اصلی */
-        .main-btn {
-            position: relative;
-            border: 1.5px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            padding: 12px 8px;
-            text-decoration: none;
-            color: #000000; /* متن مشکی */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            min-height: 85px;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-        }
-
-        /* رنگ‌های مختلف برای هر دکمه */
-        .main-btn:nth-child(1) {
-            background: linear-gradient(145deg, rgba(255, 107, 107, 0.85), rgba(255, 107, 107, 0.7));
-            border-color: rgba(255, 107, 107, 0.4);
-        }
-        
-        .main-btn:nth-child(2) {
-            background: linear-gradient(145deg, rgba(78, 205, 196, 0.85), rgba(78, 205, 196, 0.7));
-            border-color: rgba(78, 205, 196, 0.4);
-        }
-        
-        .main-btn:nth-child(3) {
-            background: linear-gradient(145deg, rgba(255, 209, 102, 0.85), rgba(255, 209, 102, 0.7));
-            border-color: rgba(255, 209, 102, 0.4);
-        }
-        
-        .main-btn:nth-child(4) {
-            background: linear-gradient(145deg, rgba(6, 214, 160, 0.85), rgba(6, 214, 160, 0.7));
-            border-color: rgba(6, 214, 160, 0.4);
-        }
-        
-        .main-btn:nth-child(5) {
-            background: linear-gradient(145deg, rgba(239, 71, 111, 0.85), rgba(239, 71, 111, 0.7));
-            border-color: rgba(239, 71, 111, 0.4);
-        }
-        
-        .main-btn:nth-child(6) {
-            background: linear-gradient(145deg, rgba(118, 171, 174, 0.85), rgba(118, 171, 174, 0.7));
-            border-color: rgba(118, 171, 174, 0.4);
-        }
-
-        .main-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-            border-radius: var(--radius-md) var(--radius-md) 0 0;
-            opacity: 0.8;
-        }
-
-        .main-btn:active {
-            transform: translateY(2px) scale(0.98);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        }
-
-        .main-btn:active .btn-icon {
-            transform: scale(1.05) rotate(3deg);
-        }
-
-        /* دکمه‌های ابزار */
-        .tool-btn {
-            position: relative;
-            border: 1.5px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            padding: 10px 6px;
-            text-decoration: none;
-            color: #000000; /* متن مشکی */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            min-height: 75px;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-        }
-
-        /* رنگ‌های مختلف برای دکمه‌های ابزار */
-        .tool-btn:nth-child(1) {
-            background: linear-gradient(145deg, rgba(255, 107, 107, 0.8), rgba(255, 107, 107, 0.6));
-            border-color: rgba(255, 107, 107, 0.3);
-        }
-        
-        .tool-btn:nth-child(2) {
-            background: linear-gradient(145deg, rgba(255, 209, 102, 0.8), rgba(255, 209, 102, 0.6));
-            border-color: rgba(255, 209, 102, 0.3);
-        }
-        
-        .tool-btn:nth-child(3) {
-            background: linear-gradient(145deg, rgba(78, 205, 196, 0.8), rgba(78, 205, 196, 0.6));
-            border-color: rgba(78, 205, 196, 0.3);
-        }
-        
-        .tool-btn:nth-child(4) {
-            background: linear-gradient(145deg, rgba(6, 214, 160, 0.8), rgba(6, 214, 160, 0.6));
-            border-color: rgba(6, 214, 160, 0.3);
-        }
-
-        .tool-btn:nth-child(5) {
-            background: linear-gradient(145deg, rgba(239, 71, 111, 0.8), rgba(239, 71, 111, 0.6));
-            border-color: rgba(239, 71, 111, 0.3);
-        }
-        
-        .tool-btn:nth-child(6) {
-            background: linear-gradient(145deg, rgba(118, 171, 174, 0.8), rgba(118, 171, 174, 0.6));
-            border-color: rgba(118, 171, 174, 0.3);
-        }
-        
-        .tool-btn:nth-child(7) {
-            background: linear-gradient(145deg, rgba(255, 209, 102, 0.8), rgba(255, 209, 102, 0.6));
-            border-color: rgba(255, 209, 102, 0.3);
-        }
-        
-        .tool-btn:nth-child(8) {
-            background: linear-gradient(145deg, rgba(6, 214, 160, 0.8), rgba(6, 214, 160, 0.6));
-            border-color: rgba(6, 214, 160, 0.3);
-        }
-
-        .tool-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--secondary));
-            border-radius: var(--radius-md) var(--radius-md) 0 0;
-            opacity: 0.8;
-        }
-
-        .tool-btn:active {
-            transform: translateY(2px) scale(0.98);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        }
-
-        .tool-btn:active .btn-icon {
-            transform: scale(1.05) rotate(3deg);
-        }
-
-        /* آیکون دکمه‌ها */
-        .btn-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: white;
-            position: relative;
-            z-index: 1;
-            box-shadow: 
-                inset 0 2px 6px rgba(255, 255, 255, 0.3),
-                0 3px 10px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .tool-btn .btn-icon {
-            width: 32px;
-            height: 32px;
-            font-size: 16px;
-        }
-
-        .btn-text {
-            font-size: 11px;
-            font-weight: 700;
             text-align: center;
-            color: #000000; /* متن مشکی */
-            line-height: 1.2;
-            position: relative;
-            z-index: 1;
-            padding: 0 3px;
         }
-
-        .tool-btn .btn-text {
-            font-size: 10px;
-        }
-
-        /* انیمیشن‌های ورود */
-        .slide-up {
-            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
-        .delay-6 { animation-delay: 0.6s; }
-        .delay-7 { animation-delay: 0.7s; }
-        .delay-8 { animation-delay: 0.8s; }
-        .delay-9 { animation-delay: 0.9s; }
-        .delay-10 { animation-delay: 1.0s; }
-        .delay-11 { animation-delay: 1.1s; }
-        .delay-12 { animation-delay: 1.2s; }
-        .delay-13 { animation-delay: 1.3s; }
-        .delay-14 { animation-delay: 1.4s; }
-        .delay-15 { animation-delay: 1.5s; }
-        .delay-16 { animation-delay: 1.6s; }
 
         /* مودال پیام */
         .announcement-modal {
@@ -670,7 +460,7 @@
             align-items: center;
             justify-content: center;
             z-index: 2000;
-            padding: 10px;
+            padding: 15px;
         }
 
         .announcement-modal.active {
@@ -680,71 +470,61 @@
         .modal-card {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: var(--radius-md);
-            padding: 16px;
+            padding: 15px;
             max-width: 250px;
             width: 100%;
-            box-shadow: var(--shadow-lg);
-            border: 2px solid var(--accent);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--accent);
         }
 
         /* رسپانسیو */
-        @media (max-width: 360px) {
-            .main-btn {
-                min-height: 80px;
-                padding: 10px 6px;
-                gap: 6px;
-            }
-            
-            .tool-btn {
-                min-height: 70px;
-                padding: 8px 5px;
+        @media (max-width: 380px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
                 gap: 5px;
             }
             
-            .btn-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 16px;
-            }
-            
-            .tool-btn .btn-icon {
-                width: 30px;
-                height: 30px;
-                font-size: 14px;
-            }
-            
-            .btn-text {
-                font-size: 10px;
-            }
-            
-            .tool-btn .btn-text {
-                font-size: 9px;
-            }
-            
-            .app-content {
-                padding: 8px 8px 15px;
-            }
-            
-            .background-text-content {
-                font-size: 26px;
-            }
-        }
-
-        @media (max-height: 700px) {
             .main-btn {
-                min-height: 75px;
+                min-height: 60px;
+                padding: 7px 3px;
+                gap: 4px;
             }
             
             .tool-btn {
-                min-height: 65px;
+                min-height: 54px;
+                padding: 5px 2px;
+                gap: 3px;
+            }
+            
+            .btn-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+            
+            .tool-btn .btn-icon {
+                width: 22px;
+                height: 22px;
+                font-size: 11px;
+            }
+            
+            .btn-text {
+                font-size: 8px;
+            }
+            
+            .tool-btn .btn-text {
+                font-size: 7px;
             }
             
             .app-content {
-                padding: 8px 8px 15px;
+                padding: 8px;
             }
-            
-            .background-text-content {
-                font-size: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 8px;
             }
         }
 
@@ -757,41 +537,29 @@
     </style>
 </head>
 <body>
-    <!-- پس زمینه متن حقوق -->
-    <div class="background-text">
-        <div class="background-text-content">تمامی حقوق همه بوم محفوظ هست</div>
-    </div>
-
     <!-- لودینگ -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loader-container">
-            <div class="loader-ring"></div>
-            <div class="loader-ring"></div>
-            <div class="loader-center">
-                <i class="fas fa-chart-line"></i>
-            </div>
-        </div>
-        <div class="loading-text">سیستم درحال بارگزاری........</div>
-        <div class="loading-subtext">در حال بارگذاری امکانات پیشرفته...</div>
+        <div class="loader"></div>
+        <div class="loading-text">در حال بارگذاری...</div>
     </div>
 
     <!-- پیام همگانی -->
     <div class="announcement-modal" id="announcementModal">
         <div class="modal-card">
             <div style="text-align: center; margin-bottom: 12px;">
-                <div style="width: 45px; height: 45px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--info)); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: white; font-size: 18px;">
+                <div style="width: 35px; height: 35px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), var(--primary)); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; color: white; font-size: 14px;">
                     <i class="fas fa-bullhorn"></i>
                 </div>
-                <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 6px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">به روزرسانی سیستم</h3>
-                <p style="font-size: 11px; color: rgba(255, 255, 255, 0.9); line-height: 1.4;">
-                    خوش آمدید به روزدی امکان گوگل مپ با تنظیمات دقیق داخل این آپ پیاده سازی میشه موفق سربلند باشین
+                <h3 style="font-size: 13px; font-weight: 700; margin-bottom: 4px; color: white;">به روزرسانی سیستم</h3>
+                <p style="font-size: 10px; color: rgba(255, 255, 255, 0.9); line-height: 1.3;">
+                    خوش آمدید! امکان گوگل مپ با تنظیمات دقیق در این اپلیکیشن پیاده‌سازی شده است.
                 </p>
             </div>
-            <div style="display: flex; gap: 6px;">
-                <button id="announcementLater" style="flex: 1; padding: 6px; border-radius: 8px; border: 2px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.15); color: #000000; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 11px; backdrop-filter: blur(10px);">
+            <div style="display: flex; gap: 5px;">
+                <button id="announcementLater" style="flex: 1; padding: 5px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.15); color: #000000; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 10px; backdrop-filter: blur(10px);">
                     بعداً
                 </button>
-                <button id="announcementClose" style="flex: 1; padding: 6px; border-radius: 8px; border: none; background: linear-gradient(135deg, var(--accent), var(--info)); color: white; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 11px; box-shadow: 0 3px 10px rgba(255, 209, 102, 0.3);">
+                <button id="announcementClose" style="flex: 1; padding: 5px; border-radius: 6px; border: none; background: linear-gradient(135deg, var(--accent), var(--primary)); color: white; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 10px; box-shadow: 0 2px 8px rgba(255, 209, 102, 0.3);">
                     متوجه شدم
                 </button>
             </div>
@@ -814,24 +582,22 @@
                 <div style="font-size: 9px;">همه بوم</div>
             </div>
 
-            <!-- دکمه‌های کنترل -->
-            <div class="control-buttons">
-                <button class="control-btn" id="themeToggleBtn">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
+            <!-- دکمه تغییر تم -->
+            <button class="theme-toggle" id="themeToggleBtn">
+                <i class="fas fa-moon"></i>
+            </button>
 
             <div class="header-content">
-                <h1 class="app-title slide-up">مدیریت مالی</h1>
-                <p class="app-subtitle slide-up delay-1">پلتفرم همه بوم امکانات پیشرفته</p>
+                <h1 class="app-title">مدیریت مالی</h1>
+                <p class="app-subtitle">پلتفرم همه بوم امکانات پیشرفته</p>
             </div>
         </header>
 
-        <!-- محتوای اصلی -->
+        <!-- محتوای اصلی با اسکرول -->
         <main class="app-content">
             <!-- ۶ دکمه اصلی -->
             <div class="section">
-                <div class="section-header slide-up">
+                <div class="section-header">
                     <div class="section-title">
                         <i class="fas fa-th-large"></i>
                         امکانات اصلی
@@ -839,33 +605,33 @@
                     <div class="section-badge">۶ بخش</div>
                 </div>
                 
-                <div class="main-grid">
-                    <a href="m4.html" class="main-btn slide-up delay-1" onclick="handleNavigation(event, 'm4.html')">
+                <div class="grid">
+                    <a href="m4.html" class="main-btn" onclick="handleNavigation(event, 'm4.html')">
                         <div class="btn-icon">💰</div>
                         <div class="btn-text">مدیریت مالی</div>
                     </a>
                     
-                    <a href="m2.html" class="main-btn slide-up delay-2" onclick="handleNavigation(event, 'm2.html')">
+                    <a href="m2.html" class="main-btn" onclick="handleNavigation(event, 'm2.html')">
                         <div class="btn-icon">⏳️</div>
                         <div class="btn-text">تولید</div>
                     </a>
                     
-                    <a href="m3.html" class="main-btn slide-up delay-3" onclick="handleNavigation(event, 'm3.html')">
+                    <a href="m3.html" class="main-btn" onclick="handleNavigation(event, 'm3.html')">
                         <div class="btn-icon">👥</div>
                         <div class="btn-text">کارمندان</div>
                     </a>
                     
-                    <a href="m5.html" class="main-btn slide-up delay-4" onclick="handleNavigation(event, 'm5.html')">
+                    <a href="m5.html" class="main-btn" onclick="handleNavigation(event, 'm5.html')">
                         <div class="btn-icon">🧮</div>
                         <div class="btn-text">مالیات</div>
                     </a>
                     
-                    <a href="m6.html" class="main-btn slide-up delay-5" onclick="handleNavigation(event, 'm6.html')">
+                    <a href="m6.html" class="main-btn" onclick="handleNavigation(event, 'm6.html')">
                         <div class="btn-icon">📄</div>
                         <div class="btn-text">فاکتور</div>
                     </a>
                     
-                    <a href="m7.html" class="main-btn slide-up delay-6" onclick="handleNavigation(event, 'm7.html')">
+                    <a href="m7.html" class="main-btn" onclick="handleNavigation(event, 'm7.html')">
                         <div class="btn-icon">📝</div>
                         <div class="btn-text">مدیریت چک</div>
                     </a>
@@ -874,7 +640,7 @@
 
             <!-- ۴ ابزار کاربردی -->
             <div class="section">
-                <div class="section-header slide-up delay-7">
+                <div class="section-header">
                     <div class="section-title">
                         <i class="fas fa-tools"></i>
                         ابزارهای کاربردی
@@ -882,23 +648,23 @@
                     <div class="section-badge">۴ بخش</div>
                 </div>
                 
-                <div class="tools-grid">
-                    <a href="y4.html" class="tool-btn slide-up delay-8" onclick="handleNavigation(event, 'y4.html')">
+                <div class="grid">
+                    <a href="y4.html" class="tool-btn" onclick="handleNavigation(event, 'y4.html')">
                         <div class="btn-icon">📱</div>
                         <div class="btn-text">اپلیکیشن سازی</div>
                     </a>
                     
-                    <a href="y1.html" class="tool-btn slide-up delay-9" onclick="handleNavigation(event, 'y1.html')">
+                    <a href="y1.html" class="tool-btn" onclick="handleNavigation(event, 'y1.html')">
                         <div class="btn-icon">🎨</div>
                         <div class="btn-text">پالت رنگ</div>
                     </a>
                     
-                    <a href="y2.html" class="tool-btn slide-up delay-10" onclick="handleNavigation(event, 'y2.html')">
+                    <a href="y2.html" class="tool-btn" onclick="handleNavigation(event, 'y2.html')">
                         <div class="btn-icon">🧮</div>
                         <div class="btn-text">ماشین حساب</div>
                     </a>
                     
-                    <a href="y3.html" class="tool-btn slide-up delay-11" onclick="handleNavigation(event, 'y3.html')">
+                    <a href="y3.html" class="tool-btn" onclick="handleNavigation(event, 'y3.html')">
                         <div class="btn-icon">🔄</div>
                         <div class="btn-text">تقویم</div>
                     </a>
@@ -906,8 +672,8 @@
             </div>
 
             <!-- ۴ ابزار هوش مصنوعی -->
-            <div class="section">
-                <div class="section-header slide-up delay-12">
+            <div class="section ai-tools">
+                <div class="section-header">
                     <div class="section-title">
                         <i class="fas fa-brain"></i>
                         ابزارهای هوش مصنوعی
@@ -915,23 +681,23 @@
                     <div class="section-badge">۴ بخش</div>
                 </div>
                 
-                <div class="tools-grid">
-                    <a href="mkl.html" class="tool-btn slide-up delay-13" onclick="handleNavigation(event, 'mkl.html')">
+                <div class="grid">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">🤖</div>
                         <div class="btn-text">هوش مصنوعی ۱</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-14" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">🧠</div>
                         <div class="btn-text">هوش مصنوعی ۲</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-15" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">⚡</div>
                         <div class="btn-text">هوش مصنوعی ۳</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-16" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">🔮</div>
                         <div class="btn-text">هوش مصنوعی ۴</div>
                     </a>
@@ -939,8 +705,8 @@
             </div>
 
             <!-- ۴ سایت های کاربردی -->
-            <div class="section">
-                <div class="section-header slide-up delay-12">
+            <div class="section websites">
+                <div class="section-header">
                     <div class="section-title">
                         <i class="fas fa-globe"></i>
                         سایت های کاربردی
@@ -948,23 +714,23 @@
                     <div class="section-badge">۴ بخش</div>
                 </div>
                 
-                <div class="tools-grid">
-                    <a href="mkl.html" class="tool-btn slide-up delay-13" onclick="handleNavigation(event, 'mkl.html')">
+                <div class="grid">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">🌐</div>
                         <div class="btn-text">سایت کاربردی ۱</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-14" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">🔗</div>
                         <div class="btn-text">سایت کاربردی ۲</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-15" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">📊</div>
                         <div class="btn-text">سایت کاربردی ۳</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-16" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">📈</div>
                         <div class="btn-text">سایت کاربردی ۴</div>
                     </a>
@@ -972,8 +738,8 @@
             </div>
 
             <!-- ۴ ابزار برنامه نویسی -->
-            <div class="section">
-                <div class="section-header slide-up delay-12">
+            <div class="section programming">
+                <div class="section-header">
                     <div class="section-title">
                         <i class="fas fa-code"></i>
                         ابزارهای برنامه نویسی
@@ -981,23 +747,23 @@
                     <div class="section-badge">۴ بخش</div>
                 </div>
                 
-                <div class="tools-grid">
-                    <a href="mkl.html" class="tool-btn slide-up delay-13" onclick="handleNavigation(event, 'mkl.html')">
+                <div class="grid">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">💻</div>
                         <div class="btn-text">برنامه نویسی ۱</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-14" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">🔧</div>
                         <div class="btn-text">برنامه نویسی ۲</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-15" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">⚙️</div>
                         <div class="btn-text">برنامه نویسی ۳</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-16" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">🛠️</div>
                         <div class="btn-text">برنامه نویسی ۴</div>
                     </a>
@@ -1005,8 +771,8 @@
             </div>
 
             <!-- ۴ اخبار کاربردی -->
-            <div class="section">
-                <div class="section-header slide-up delay-12">
+            <div class="section news">
+                <div class="section-header">
                     <div class="section-title">
                         <i class="fas fa-newspaper"></i>
                         اخبار های کاربردی
@@ -1014,23 +780,23 @@
                     <div class="section-badge">۴ بخش</div>
                 </div>
                 
-                <div class="tools-grid">
-                    <a href="mkl.html" class="tool-btn slide-up delay-13" onclick="handleNavigation(event, 'mkl.html')">
+                <div class="grid">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">📰</div>
                         <div class="btn-text">اخبار کاربردی ۱</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-14" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">🗞️</div>
                         <div class="btn-text">اخبار کاربردی ۲</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-15" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">📑</div>
                         <div class="btn-text">اخبار کاربردی ۳</div>
                     </a>
                     
-                    <a href="mkl.html" class="tool-btn slide-up delay-16" onclick="handleNavigation(event, 'mkl.html')">
+                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
                         <div class="btn-icon">📋</div>
                         <div class="btn-text">اخبار کاربردی ۴</div>
                     </a>
@@ -1051,8 +817,8 @@
                     checkAnnouncement();
                     updateWeatherStatus();
                     loadThemePreference();
-                }, 500);
-            }, 1500);
+                }, 300);
+            }, 1000);
         });
 
         // مدیریت تغییر تم
@@ -1076,9 +842,7 @@
             isDarkTheme = !isDarkTheme;
             document.body.classList.toggle('light-theme', !isDarkTheme);
             themeIcon.className = isDarkTheme ? 'fas fa-moon' : 'fas fa-sun';
-            
             localStorage.setItem('themePreference', isDarkTheme ? 'dark' : 'light');
-            updateWeatherStatus();
         });
 
         // مدیریت ناوبری
@@ -1099,8 +863,8 @@
                     } else {
                         window.location.href = targetUrl;
                     }
-                }, 300);
-            }, 800);
+                }, 200);
+            }, 500);
         }
 
         // مدیریت زمان و تاریخ
@@ -1145,7 +909,7 @@
             }
         }
 
-        // مدیریت پیام همگانی - مشکل حل شده
+        // مدیریت پیام همگانی
         function checkAnnouncement() {
             const lastShown = localStorage.getItem('announcementLastShown');
             const now = new Date().getTime();
@@ -1157,11 +921,11 @@
                     if (modal) {
                         modal.classList.add('active');
                     }
-                }, 1000);
+                }, 800);
             }
         }
 
-        // بستن پیام همگانی - مشکل حل شده
+        // بستن پیام همگانی
         document.addEventListener('DOMContentLoaded', function() {
             const closeBtn = document.getElementById('announcementClose');
             const laterBtn = document.getElementById('announcementLater');
@@ -1193,14 +957,14 @@
             }
         }, { passive: false });
 
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
-
-        // فعال‌سازی انیمیشن‌های ورود
+        // انیمیشن ورود بخش‌ها
         setTimeout(() => {
-            document.querySelectorAll('.slide-up').forEach((el, index) => {
-                el.style.animationDelay = `${index * 0.04}s`;
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 100);
             });
         }, 300);
     </script>
