@@ -1,728 +1,0 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>راهنمای سیستم مدیریت مالی هوشمند</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* ریست و تنظیمات پایه */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        html {
-            height: 100%;
-            overflow: auto;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'Vazirmatn', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: #2d3748;
-            min-height: 100vh;
-            line-height: 1.7;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* کانتینر اصلی */
-        .guide-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            padding: 30px;
-            margin-top: 20px;
-        }
-
-        /* هدر راهنما */
-        .guide-header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #4ecdc4;
-        }
-
-        .guide-title {
-            font-size: 28px;
-            font-weight: 800;
-            color: #2d3748;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .guide-subtitle {
-            font-size: 16px;
-            color: #718096;
-            margin-bottom: 15px;
-        }
-
-        .update-date {
-            font-size: 14px;
-            color: #a0aec0;
-            background: #f7fafc;
-            padding: 8px 16px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-
-        /* بخش‌های راهنما */
-        .section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: #f8fafc;
-            border-radius: 15px;
-            border-right: 5px solid #4ecdc4;
-            transition: transform 0.3s ease;
-        }
-
-        .section:hover {
-            transform: translateX(-5px);
-        }
-
-        .section-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .section-title i {
-            color: #ff6b6b;
-            font-size: 24px;
-        }
-
-        /* کارت ویژگی */
-        .feature-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-
-        .feature-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .feature-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #2d3748;
-            margin: 0;
-        }
-
-        .feature-description {
-            font-size: 15px;
-            color: #4a5568;
-            line-height: 1.8;
-            padding-right: 10px;
-        }
-
-        /* لیست قابلیت‌ها */
-        .capabilities-list {
-            list-style: none;
-            padding-right: 0;
-            margin-top: 15px;
-        }
-
-        .capability-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 12px;
-            padding: 10px;
-            background: #f7fafc;
-            border-radius: 8px;
-            border-right: 3px solid #4ecdc4;
-        }
-
-        .capability-item i {
-            color: #06d6a0;
-            font-size: 16px;
-            margin-top: 3px;
-            flex-shrink: 0;
-        }
-
-        .capability-text {
-            font-size: 14px;
-            color: #4a5568;
-            line-height: 1.6;
-        }
-
-        /* بخش نهایی */
-        .final-section {
-            background: linear-gradient(135deg, #f0f4ff, #f7fafc);
-            border: 2px solid #4ecdc4;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .final-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: #2d3748;
-            margin-bottom: 15px;
-        }
-
-        .final-text {
-            font-size: 16px;
-            color: #4a5568;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        /* فاصله‌ها */
-        .space-top {
-            margin-top: 25px;
-        }
-
-        .space-bottom {
-            margin-bottom: 25px;
-        }
-
-        /* هایلایت متن */
-        .highlight {
-            background: linear-gradient(120deg, #ffd16640 0%, #ffd16640 100%);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        /* شماره بخش */
-        .section-number {
-            display: inline-block;
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 35px;
-            font-weight: 700;
-            font-size: 16px;
-            margin-left: 10px;
-        }
-
-        /* رسپانسیو */
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .guide-container {
-                padding: 20px;
-            }
-            
-            .guide-title {
-                font-size: 24px;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-            
-            .section-title {
-                font-size: 20px;
-            }
-            
-            .feature-name {
-                font-size: 16px;
-            }
-            
-            .feature-description {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .guide-title {
-                font-size: 22px;
-            }
-            
-            .section {
-                padding: 15px;
-            }
-            
-            .feature-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .feature-icon {
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="guide-container">
-        <!-- هدر راهنما -->
-        <header class="guide-header">
-            <h1 class="guide-title">📘 راهنمای جامع سیستم مدیریت مالی هوشمند</h1>
-            <p class="guide-subtitle">آموزش کامل کارکرد و قابلیت‌های سیستم</p>
-            <div class="update-date">
-                <i class="fas fa-calendar-alt"></i>
-                آخرین بروزرسانی: دی ۱۴۰۳
-            </div>
-        </header>
-
-        <!-- بخش مقدمه -->
-        <section class="section">
-            <h2 class="section-title">
-                <i class="fas fa-info-circle"></i>
-                مقدمه
-                <span class="section-number">۱</span>
-            </h2>
-            <div class="feature-card">
-                <div class="feature-description">
-                    سیستم مدیریت مالی هوشمند یک پلتفرم جامع و پیشرفته برای مدیریت تمامی امور مالی و حسابداری کسب‌وکارها می‌باشد. این سیستم با بهره‌گیری از تکنولوژی‌های روز، امکان مدیریت ساده و کارآمد فرآیندهای مالی را فراهم می‌سازد.
-                    
-                    <div class="space-top">
-                        <strong>اهداف اصلی سیستم:</strong>
-                        <ul class="capabilities-list">
-                            <li class="capability-item">
-                                <i class="fas fa-check"></i>
-                                <span class="capability-text">ساده‌سازی فرآیندهای مالی و حسابداری</span>
-                            </li>
-                            <li class="capability-item">
-                                <i class="fas fa-check"></i>
-                                <span class="capability-text">افزایش دقت و کاهش خطاهای محاسباتی</span>
-                            </li>
-                            <li class="capability-item">
-                                <i class="fas fa-check"></i>
-                                <span class="capability-text">تهیه گزارش‌های تحلیلی دقیق و به‌موقع</span>
-                            </li>
-                            <li class="capability-item">
-                                <i class="fas fa-check"></i>
-                                <span class="capability-text">مدیریت یکپارچه مالی سازمان</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- بخش امکانات اصلی -->
-        <section class="section">
-            <h2 class="section-title">
-                <i class="fas fa-th-large"></i>
-                امکانات اصلی سیستم
-                <span class="section-number">۲</span>
-            </h2>
-
-            <!-- مدیریت مالی -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <h3 class="feature-name">مدیریت مالی</h3>
-                </div>
-                <div class="feature-description">
-                    این بخش قلب سیستم مالی را تشکیل می‌دهد و شامل موارد زیر می‌باشد:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-calculator"></i>
-                            <span class="capability-text">ثبت و طبقه‌بندی تمامی درآمدها و هزینه‌ها</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-chart-line"></i>
-                            <span class="capability-text">تهیه گزارش‌های مالی دوره‌ای و تحلیلی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-balance-scale"></i>
-                            <span class="capability-text">کنترل بودجه و پیش‌بینی مالی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-database"></i>
-                            <span class="capability-text">نگهداری سوابق کامل تراکنش‌های مالی</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- سیستم تولید -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon">
-                        <i class="fas fa-industry"></i>
-                    </div>
-                    <h3 class="feature-name">سیستم تولید</h3>
-                </div>
-                <div class="feature-description">
-                    مدیریت فرآیندهای تولید و موجودی کالا:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-boxes"></i>
-                            <span class="capability-text">کنترل موجودی مواد اولیه و محصولات نهایی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-clipboard-list"></i>
-                            <span class="capability-text">مدیریت سفارشات و برنامه تولید</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span class="capability-text">پیگیری راندمان خط تولید</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-chart-bar"></i>
-                            <span class="capability-text">تحلیل هزینه‌های تولید</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- مدیریت کارمندان -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="feature-name">مدیریت کارمندان</h3>
-                </div>
-                <div class="feature-description">
-                    سیستم جامع مدیریت منابع انسانی:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-user-clock"></i>
-                            <span class="capability-text">ثبت حضور و غیاب پرسنل</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-money-check-alt"></i>
-                            <span class="capability-text">محاسبه حقوق و دستمزد</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-file-contract"></i>
-                            <span class="capability-text">مدیریت پرونده پرسنلی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-calendar-check"></i>
-                            <span class="capability-text">برنامه‌ریزی مرخصی و شیفت کاری</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- سیستم مالیاتی -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                    </div>
-                    <h3 class="feature-name">سیستم مالیاتی</h3>
-                </div>
-                <div class="feature-description">
-                    مدیریت محاسبات و گزارش‌های مالیاتی:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-calculator"></i>
-                            <span class="capability-text">محاسبه خودکار مالیات بر ارزش افزوده</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-receipt"></i>
-                            <span class="capability-text">صدور فاکتورهای رسمی مالیاتی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-chart-pie"></i>
-                            <span class="capability-text">تهیه اظهارنامه مالیاتی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-archive"></i>
-                            <span class="capability-text">بایگانی اسناد مالیاتی</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- صدور فاکتور -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon">
-                        <i class="fas fa-file-invoice"></i>
-                    </div>
-                    <h3 class="feature-name">صدور فاکتور</h3>
-                </div>
-                <div class="feature-description">
-                    سیستم پیشرفته صدور و مدیریت فاکتور:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-edit"></i>
-                            <span class="capability-text">طراحی و صدور فاکتورهای سفارشی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-search"></i>
-                            <span class="capability-text">جستجو و بازیابی فاکتورهای صادر شده</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-print"></i>
-                            <span class="capability-text">چاپ فاکتور با قالب‌های مختلف</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-envelope"></i>
-                            <span class="capability-text">ارسال فاکتور از طریق ایمیل</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- مدیریت چک -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon">
-                        <i class="fas fa-money-check"></i>
-                    </div>
-                    <h3 class="feature-name">مدیریت چک</h3>
-                </div>
-                <div class="feature-description">
-                    سیستم هوشمند پیگیری و مدیریت چک‌ها:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-calendar-day"></i>
-                            <span class="capability-text">پیگیری سررسید چک‌های دریافتی و پرداختی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-bell"></i>
-                            <span class="capability-text">اعلان‌های هشدار برای چک‌های سررسید شده</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-history"></i>
-                            <span class="capability-text">نگهداری سابقه کامل گردش چک‌ها</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-chart-line"></i>
-                            <span class="capability-text">تحلیل وضعیت چک‌های صادره و دریافتی</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- بخش ابزارهای کاربردی -->
-        <section class="section">
-            <h2 class="section-title">
-                <i class="fas fa-tools"></i>
-                ابزارهای کاربردی
-                <span class="section-number">۳</span>
-            </h2>
-
-            <!-- پالت رنگ -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e);">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <h3 class="feature-name">پالت رنگ</h3>
-                </div>
-                <div class="feature-description">
-                    ابزار انتخاب و مدیریت رنگ‌ها برای استفاده در گزارش‌ها و طراحی‌ها:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-eye-dropper"></i>
-                            <span class="capability-text">انتخاب رنگ از طیف گسترده</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-copy"></i>
-                            <span class="capability-text">کپی کد رنگ در فرمت‌های مختلف (HEX, RGB, HSL)</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-save"></i>
-                            <span class="capability-text">ذخیره پالت‌های رنگ دلخواه</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- ماشین حساب -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #4ecdc4, #06d6a0);">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <h3 class="feature-name">ماشین حساب پیشرفته</h3>
-                </div>
-                <div class="feature-description">
-                    ماشین حساب مالی با قابلیت‌های محاسباتی پیشرفته:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-percentage"></i>
-                            <span class="capability-text">محاسبات مالی و درصدی</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-history"></i>
-                            <span class="capability-text">ذخیره تاریخچه محاسبات</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span class="capability-text">تبدیل واحدهای پولی</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- تقویم -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #ffd166, #f8961e);">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <h3 class="feature-name">تقویم هوشمند</h3>
-                </div>
-                <div class="feature-description">
-                    تقویم جامع برای برنامه‌ریزی و مدیریت زمان:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-calendar-plus"></i>
-                            <span class="capability-text">ثبت رویدادها و قرارهای مهم</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-bell"></i>
-                            <span class="capability-text">یادآوری‌های هوشمند</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-moon"></i>
-                            <span class="capability-text">نمایش مناسبت‌های ملی و مذهبی</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- والپیپر -->
-            <div class="feature-card">
-                <div class="feature-header">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #118ab2, #073b4c);">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <h3 class="feature-name">کتابخانه والپیپر</h3>
-                </div>
-                <div class="feature-description">
-                    مجموعه‌ای از تصاویر با کیفیت برای استفاده در گزارش‌ها و ارائه‌ها:
-                    <ul class="capabilities-list">
-                        <li class="capability-item">
-                            <i class="fas fa-search"></i>
-                            <span class="capability-text">جستجو در دسته‌بندی‌های مختلف</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-download"></i>
-                            <span class="capability-text">دانلود تصاویر با کیفیت بالا</span>
-                        </li>
-                        <li class="capability-item">
-                            <i class="fas fa-heart"></i>
-                            <span class="capability-text">ذخیره تصاویر مورد علاقه</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- بخش امکانات جانبی -->
-        <section class="section">
-            <h2 class="section-title">
-                <i class="fas fa-star"></i>
-                امکانات جانبی و ویژه
-                <span class="section-number">۴</span>
-            </h2>
-            
-            <div class="feature-card">
-                <div class="feature-description">
-                    سیستم مدیریت مالی هوشمند علاوه بر امکانات اصلی، دارای قابلیت‌های ویژه زیر می‌باشد:
-                    
-                    <div class="space-top">
-                        <div class="capability-item" style="background: #f0f9ff; border-right-color: #118ab2;">
-                            <i class="fas fa-chart-network" style="color: #118ab2;"></i>
-                            <span class="capability-text">
-                                <strong>سیستم هوشمند تجزیه و تحلیل داده‌ها:</strong> 
-                                امکان تحلیل پیشرفته داده‌های مالی و تولید گزارش‌های تحلیلی
-                            </span>
-                        </div>
-                        
-                        <div class="capability-item" style="background: #f0fff4; border-right-color: #06d6a0;">
-                            <i class="fas fa-robot" style="color: #06d6a0;"></i>
-                            <span class="capability-text">
-                                <strong>پشتیبانی از هوش مصنوعی:</strong> 
-                                تحلیل روندهای مالی و پیشنهادات هوشمند برای بهینه‌سازی
-                            </span>
-                        </div>
-                        
-                        <div class="capability-item" style="background: #fffaf0; border-right-color: #ffd166;">
-                            <i class="fas fa-mobile-alt" style="color: #ffd166;"></i>
-                            <span class="capability-text">
-                                <strong>دسترسی چندپلتفرمی:</strong> 
-                                امکان استفاده از سیستم در کامپیوتر، تبلت و موبایل
-                            </span>
-                        </div>
-                        
-                        <div class="capability-item" style="background: #f8f0ff; border-right-color: #8b5cf6;">
-                            <i class="fas fa-sync-alt" style="color: #8b5cf6;"></i>
-                            <span class="capability-text">
-                                <strong>همگام‌سازی ابری:</strong> 
-                                ذخیره و بازیابی اطلاعات از فضای ابری
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- بخش نهایی -->
-        <section class="final-section">
-            <h2 class="final-title">✨ درباره سیستم</h2>
-            <p class="final-text">
-                سیستم مدیریت مالی هوشمند با هدف ساده‌سازی فرآیندهای مالی و افزایش بهره‌وری کسب‌وکارها طراحی شده است. 
-                این سیستم با ترکیب تکنولوژی‌های روز و نیازهای واقعی بازار، تجربه‌ای بی‌نظیر در مدیریت مالی ارائه می‌دهد.
-            </p>
-            
-            <div style="background: white; padding: 20px; border-radius: 12px; margin-top: 20px; border: 1px solid #e2e8f0;">
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b6b, #4ecdc4); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px;">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div>
-                        <h3 style="font-size: 18px; font-weight: 700; color: #2d3748; margin: 0;">توسعه مستمر</h3>
-                        <p style="font-size: 14px; color: #718096; margin: 5px 0 0 0;">بروزرسانی منظم با امکانات جدید</p>
-                    </div>
-                </div>
-                
-                <p style="font-size: 14px; color: #4a5568; line-height: 1.7;">
-                    سیستم به طور مستمر در حال توسعه و بهبود است. امکانات جدید بر اساس نیازهای کاربران 
-                    و پیشرفت تکنولوژی به سیستم اضافه می‌شوند تا همواره بهترین تجربه کاربری را ارائه دهد.
-                </p>
-            </div>
-        </section>
-    </div>
-</body>
-</html>
