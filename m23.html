@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ساخت اپلیکیشن با یک میلیون تومان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-top: 20px;
+            border-top: 6px solid #4a6fa5;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+        
+        .highlight {
+            background-color: #fff9e6;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border-right: 4px solid #ffd166;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #b38b00;
+            text-align: center;
+            font-size: 20px;
+        }
+        
+        .info-section {
+            margin: 25px 0;
+        }
+        
+        .section-title {
+            color: #4a6fa5;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8eef7;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            font-size: 24px;
+        }
+        
+        .steps {
+            margin: 20px 0;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8fafc;
+            border-right: 3px solid #4a6fa5;
+        }
+        
+        .step-number {
+            background-color: #4a6fa5;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .step-content {
+            flex-grow: 1;
+        }
+        
+        .step-content h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .card-details {
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 1px solid #d0e3ff;
+        }
+        
+        .card-number-container {
+            position: relative;
+            margin: 15px 0;
+        }
+        
+        .card-number {
+            font-family: 'Courier New', monospace;
+            font-size: 22px;
+            letter-spacing: 2px;
+            background-color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px dashed #4a6fa5;
+            color: #2c3e50;
+            font-weight: bold;
+            direction: ltr; /* نمایش از چپ به راست برای شماره کارت */
+            display: block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .card-number:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .copy-hint {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background-color: #4a6fa5;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .card-number-container:hover .copy-hint {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .card-name {
+            font-size: 18px;
+            color: #2c3e50;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .bank-name {
+            display: inline-block;
+            background-color: #4a6fa5;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .telegram-section {
+            background-color: #e6f7ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid #b3e0ff;
+        }
+        
+        .telegram-icon {
+            font-size: 40px;
+            color: #0088cc;
+            margin-bottom: 15px;
+        }
+        
+        .telegram-link {
+            display: inline-block;
+            background-color: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            direction: ltr; /* نمایش لینک تلگرام از چپ به راست */
+        }
+        
+        .telegram-link:hover {
+            background-color: #006699;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+        }
+        
+        .note-box {
+            background-color: #fff3f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            border-right: 4px solid #ff6b6b;
+        }
+        
+        .note-box h3 {
+            color: #d32f2f;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .note-box p {
+            color: #666;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .success-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInOut 3s ease;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; top: 10px; }
+            10% { opacity: 1; top: 20px; }
+            90% { opacity: 1; top: 20px; }
+            100% { opacity: 0; top: 10px; }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .card-number {
+                font-size: 18px;
+                padding: 10px 15px;
+                letter-spacing: 1px;
+            }
+            
+            .telegram-link {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            
+            .copy-hint {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-mobile-alt"></i> ساخت اپلیکیشن موبایل</h1>
+            <p>ایده خود را به یک اپلیکیشن واقعی تبدیل کنید</p>
+        </div>
+        
+        <div class="highlight">
+            <i class="fas fa-tags"></i> هزینه ساخت: فقط ۱,۰۰۰,۰۰۰ تومان
+        </div>
+        
+        <div class="info-section">
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> توضیحات پروژه</h2>
+            <p>شما می‌توانید با تنها یک میلیون تومان، اپلیکیشن موبایل اختصاصی خود را داشته باشید. این خدمت شامل طراحی رابط کاربری، برنامه‌نویسی، تست و راه‌اندازی اولیه می‌باشد.</p>
+            
+            <p>پس از ثبت سفارش و واریز هزینه، مراحل طراحی و ساخت اپلیکیشن آغاز خواهد شد و در بازه زمانی توافق شده، نسخه اولیه تحویل داده می‌شود.</p>
+        </div>
+        
+        <div class="steps">
+            <h2 class="section-title"><i class="fas fa-list-ol"></i> مراحل سفارش</h2>
+            
+            <div class="step">
+                <div class="step-number">۱</div>
+                <div class="step-content">
+                    <h3>واریز هزینه</h3>
+                    <p>مبلغ ۱,۰۰۰,۰۰۰ تومان را به شماره کارت زیر واریز کنید.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">۲</div>
+                <div class="step-content">
+                    <h3>اطلاع رسانی در تلگرام</h3>
+                    <p>پس از واریز، به آیدی تلگرام زیر مراجعه کرده و فیش واریزی را ارسال کنید.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">۳</div>
+                <div class="step-content">
+                    <h3>شروع پروژه</h3>
+                    <p>پس از تایید پرداخت، جلسه ای برای دریافت جزئیات اپلیکیشن شما برگزار می‌شود و کار آغاز می‌گردد.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-details">
+            <h2 class="section-title"><i class="fas fa-credit-card"></i> اطلاعات واریز</h2>
+            <p>لطفاً مبلغ ۱,۰۰۰,۰۰۰ تومان را به حساب زیر واریز نمایید:</p>
+            
+            <div class="card-number-container">
+                <div class="copy-hint">برای کپی کردن کلیک کنید</div>
+                <div class="card-number" id="cardNumber">5892101187322777</div>
+            </div>
+            
+            <div class="card-name">
+                به نام: <strong>مرتضی نیکخو خنجری</strong>
+                <div class="bank-name">بانک سپه</div>
+            </div>
+        </div>
+        
+        <div class="telegram-section">
+            <div class="telegram-icon">
+                <i class="fab fa-telegram"></i>
+            </div>
+            <h2>پس از واریز حتماً در تلگرام اطلاع دهید</h2>
+            <p>لطفاً بعد از انجام واریز، همراه با فیش پرداخت به آیدی تلگرام زیر پیام دهید تا پروسه ثبت سفارش تکمیل شود.</p>
+            
+            <a href="https://t.me/shahraghee13" class="telegram-link" target="_blank">
+                <i class="fab fa-telegram"></i> t.me/shahraghee13
+            </a>
+        </div>
+        
+        <div class="note-box">
+            <h3><i class="fas fa-exclamation-triangle"></i> توجه مهم</h3>
+            <p>• حتماً پس از واریز، فیش پرداخت را در تلگرام ارسال کنید.</p>
+            <p>• شماره کارت فقط متعلق به شخص "مرتضی نیکخو خنجری" می‌باشد.</p>
+            <p>• در صورت هرگونه سوال، از طریق تلگرام با ما در ارتباط باشید.</p>
+        </div>
+        
+        <footer>
+            <p>© 2023 - طراحی و توسعه اپلیکیشن موبایل</p>
+            <p>تضمین کیفیت و پشتیبانی پس از تحویل</p>
+        </footer>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <span>شماره کارت کپی شد!</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardNumber = document.getElementById('cardNumber');
+            const successMessage = document.getElementById('successMessage');
+            const telegramLink = document.querySelector('.telegram-link');
+            
+            // کپی کردن شماره کارت با کلیک
+            cardNumber.addEventListener('click', function() {
+                const textToCopy = this.textContent;
+                
+                // استفاده از Clipboard API جدید
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showSuccessMessage();
+                    }).catch(err => {
+                        // اگر Clipboard API کار نکرد، از روش قدیمی استفاده کن
+                        copyWithFallback(textToCopy);
+                    });
+                } else {
+                    // روش قدیمی برای مرورگرهای قدیمی
+                    copyWithFallback(textToCopy);
+                }
+            });
+            
+            function copyWithFallback(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        showSuccessMessage();
+                    } else {
+                        alert('کپی انجام نشد. لطفاً شماره کارت را دستی کپی کنید: ' + text);
+                    }
+                } catch (err) {
+                    alert('خطا در کپی کردن. لطفاً شماره کارت را دستی کپی کنید: ' + text);
+                }
+                
+                document.body.removeChild(textArea);
+            }
+            
+            function showSuccessMessage() {
+                successMessage.style.display = 'flex';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            }
+            
+            // تأیید باز شدن لینک تلگرام
+            telegramLink.addEventListener('click', function(e) {
+                if (!confirm('آیا مایلید به تلگرام منتقل شوید؟')) {
+                    e.preventDefault();
+                }
+            });
+            
+            // افزودن انیمیشن به مراحل
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                step.style.opacity = '0';
+                step.style.transform = 'translateX(20px)';
+                
+                setTimeout(() => {
+                    step.style.transition = 'all 0.5s ease';
+                    step.style.opacity = '1';
+                    step.style.transform = 'translateX(0)';
+                }, 300 * (index + 1));
+            });
+        });
+    </script>
+</body>
+</html>
