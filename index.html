@@ -3,970 +3,1023 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>سیستم مدیریت مالی هوشمند</title>
+    <title>داشبورد مدرن - چیدمان هوشمند</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ریست و تنظیمات پایه */
+        :root {
+            /* تم اصلی - آبی-بنفش */
+            --primary-color: #6d28d9;
+            --secondary-color: #8b5cf6;
+            --accent-color: #a78bfa;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --gray-color: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --glass-effect: rgba(255, 255, 255, 0.25);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* تم‌های مختلف */
+        .theme-blue {
+            --primary-color: #3b82f6;
+            --secondary-color: #60a5fa;
+            --accent-color: #93c5fd;
+        }
+        
+        .theme-purple {
+            --primary-color: #8b5cf6;
+            --secondary-color: #a78bfa;
+            --accent-color: #c4b5fd;
+        }
+        
+        .theme-teal {
+            --primary-color: #0d9488;
+            --secondary-color: #14b8a6;
+            --accent-color: #5eead4;
+        }
+        
+        .theme-rose {
+            --primary-color: #e11d48;
+            --secondary-color: #fb7185;
+            --accent-color: #fda4af;
+        }
+        
+        .theme-amber {
+            --primary-color: #d97706;
+            --secondary-color: #f59e0b;
+            --accent-color: #fcd34d;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
         }
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            font-family: 'Segoe UI', 'Vazirmatn', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #000000;
-            touch-action: pan-y;
-            position: fixed;
-            width: 100%;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #e6f0ff);
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
             transition: background 0.5s ease;
         }
-
-        /* تم روشن */
-        body.light-theme {
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
         }
-
-        /* متغیرهای رنگ */
-        :root {
-            --primary: #ff6b6b;
-            --secondary: #4ecdc4;
-            --accent: #ffd166;
-            --surface: rgba(255, 255, 255, 0.15);
-            --glass: rgba(255, 255, 255, 0.2);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-            --radius-sm: 8px;
-            --radius-md: 10px;
-        }
-
-        body.light-theme {
-            --surface: rgba(255, 255, 255, 0.9);
-            --glass: rgba(255, 255, 255, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.4);
-        }
-
-        /* کانتینر اصلی */
-        .app-container {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        /* هدر */
-        .app-header {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            padding: 15px 10px 8px;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            z-index: 100;
-            flex-shrink: 0;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .status-bar {
+        
+        /* هدر و کنترل‌های تم */
+        .header-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 10px;
-            color: #000000;
-            margin-bottom: 6px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-
-        .time-display {
-            font-weight: 600;
-            direction: ltr;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+        
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: transparent;
-            font-size: 11px;
         }
-
-        .date-display {
-            font-size: 9px;
-            color: #000000;
-            opacity: 0.9;
+        
+        .theme-selector {
+            display: flex;
+            gap: 8px;
         }
-
-        .weather-info {
+        
+        .theme-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .theme-btn.active {
+            transform: scale(1.1);
+            border: 2px solid var(--dark-color);
+        }
+        
+        .theme-blue-btn { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .theme-purple-btn { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+        .theme-teal-btn { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+        .theme-rose-btn { background: linear-gradient(135deg, #e11d48, #fb7185); }
+        .theme-amber-btn { background: linear-gradient(135deg, #d97706, #f59e0b); }
+        
+        /* پنل اطلاعات بالا */
+        .info-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .info-item {
             display: flex;
             align-items: center;
-            gap: 3px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 9px;
-            color: #000000;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
         }
-
-        .header-content {
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
-        .app-title {
-            font-size: 14px;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 2px;
-        }
-
-        .app-subtitle {
-            font-size: 10px;
-            color: #000000;
-            opacity: 0.9;
-        }
-
-        /* کنترل تم */
-        .theme-toggle {
-            position: absolute;
-            top: 12px;
-            left: 10px;
-            width: 28px;
-            height: 28px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 6px;
+        
+        .info-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #000000;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .theme-toggle:active {
-            transform: scale(0.95);
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            margin-left: 15px;
+            font-size: 1.3rem;
             color: white;
+            box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.2);
         }
-
-        /* محتوای اصلی با اسکرول */
-        .app-content {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 10px;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
+        
+        .info-text {
+            display: flex;
+            flex-direction: column;
         }
-
-        .app-content::-webkit-scrollbar {
-            width: 4px;
+        
+        .info-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
         }
-
-        .app-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
+        
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            margin-top: 3px;
         }
-
-        .app-content::-webkit-scrollbar-thumb {
-            background: rgba(255, 107, 107, 0.5);
-            border-radius: 2px;
+        
+        /* پیام همگانی - فقط یکبار نمایش داده می‌شود */
+        .announcement-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
         }
-
-        .app-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 107, 107, 0.7);
+        
+        .announcement-modal.active {
+            opacity: 1;
+            visibility: visible;
         }
-
-        /* بخش‌ها */
+        
+        .announcement-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: translateY(30px);
+            transition: transform 0.5s ease;
+        }
+        
+        .announcement-modal.active .announcement-card {
+            transform: translateY(0);
+        }
+        
+        .announcement-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .announcement-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .announcement-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .announcement-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--dark-color);
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-right: 4px solid var(--primary-color);
+        }
+        
+        .close-announcement {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.3);
+        }
+        
+        .close-announcement:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(var(--primary-color-rgb), 0.4);
+        }
+        
+        /* بخش‌های دکمه‌ها */
+        .sections-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
         .section {
-            margin-bottom: 12px;
-            animation: fadeIn 0.4s ease-out;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 5px solid var(--primary-color);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
-
+        
         .section-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f1f5f9;
         }
-
-        .section-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #000000;
+        
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 5px;
-        }
-
-        .section-title i {
-            color: var(--accent);
-            font-size: 11px;
-        }
-
-        .section-badge {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            justify-content: center;
+            margin-left: 15px;
+            font-size: 1.3rem;
             color: white;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 8px;
-            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
-
-        /* شبکه دکمه‌ها */
-        .grid {
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        /* دکمه‌ها - 4 تایی در هر ردیف */
+        .buttons-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 12px;
         }
-
-        /* دکمه‌های اصلی */
-        .main-btn {
-            background: linear-gradient(145deg, rgba(255, 107, 107, 0.9), rgba(255, 107, 107, 0.7));
-            border: 1px solid rgba(255, 107, 107, 0.3);
-            border-radius: var(--radius-sm);
-            padding: 8px 4px;
+        
+        .button-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 10px;
             text-decoration: none;
-            color: #000000;
+            color: var(--dark-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 5px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-            min-height: 65px;
-            backdrop-filter: blur(8px);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .main-btn:nth-child(2) {
-            background: linear-gradient(145deg, rgba(78, 205, 196, 0.9), rgba(78, 205, 196, 0.7));
-            border-color: rgba(78, 205, 196, 0.3);
-        }
-        
-        .main-btn:nth-child(3) {
-            background: linear-gradient(145deg, rgba(255, 209, 102, 0.9), rgba(255, 209, 102, 0.7));
-            border-color: rgba(255, 209, 102, 0.3);
-        }
-        
-        .main-btn:nth-child(4) {
-            background: linear-gradient(145deg, rgba(6, 214, 160, 0.9), rgba(6, 214, 160, 0.7));
-            border-color: rgba(6, 214, 160, 0.3);
-        }
-        
-        .main-btn:nth-child(5) {
-            background: linear-gradient(145deg, rgba(239, 71, 111, 0.9), rgba(239, 71, 111, 0.7));
-            border-color: rgba(239, 71, 111, 0.3);
-        }
-        
-        .main-btn:nth-child(6) {
-            background: linear-gradient(145deg, rgba(118, 171, 174, 0.9), rgba(118, 171, 174, 0.7));
-            border-color: rgba(118, 171, 174, 0.3);
-        }
-
-        /* دکمه‌های ابزار */
-        .tool-btn {
-            background: linear-gradient(145deg, rgba(255, 107, 107, 0.85), rgba(255, 107, 107, 0.65));
-            border: 1px solid rgba(255, 107, 107, 0.25);
-            border-radius: var(--radius-sm);
-            padding: 6px 3px;
-            text-decoration: none;
-            color: #000000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-            min-height: 58px;
-            backdrop-filter: blur(8px);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-btn:nth-child(2) {
-            background: linear-gradient(145deg, rgba(255, 209, 102, 0.85), rgba(255, 209, 102, 0.65));
-            border-color: rgba(255, 209, 102, 0.25);
-        }
-        
-        .tool-btn:nth-child(3) {
-            background: linear-gradient(145deg, rgba(78, 205, 196, 0.85), rgba(78, 205, 196, 0.65));
-            border-color: rgba(78, 205, 196, 0.25);
-        }
-        
-        .tool-btn:nth-child(4) {
-            background: linear-gradient(145deg, rgba(6, 214, 160, 0.85), rgba(6, 214, 160, 0.65));
-            border-color: rgba(6, 214, 160, 0.25);
-        }
-
-        /* افکت کلیک */
-        .main-btn:active, .tool-btn:active {
-            transform: scale(0.97);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* آیکون دکمه‌ها */
-        .btn-icon {
-            width: 26px;
-            height: 26px;
-            border-radius: 7px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            color: white;
-            position: relative;
-            z-index: 1;
-            box-shadow: 
-                inset 0 1px 3px rgba(255, 255, 255, 0.3),
-                0 2px 5px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .tool-btn .btn-icon {
-            width: 24px;
-            height: 24px;
-            font-size: 12px;
-        }
-
-        /* متن دکمه‌ها */
-        .btn-text {
-            font-size: 9px;
-            font-weight: 600;
             text-align: center;
-            color: #000000;
-            line-height: 1.2;
+            border: 1px solid #e2e8f0;
             position: relative;
-            z-index: 1;
-            padding: 0 2px;
+            overflow: hidden;
         }
-
-        .tool-btn .btn-text {
-            font-size: 8px;
-        }
-
-        /* خط بالای دکمه */
-        .main-btn::before, .tool-btn::before {
+        
+        .button-item::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
             right: 0;
-            height: 1.5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-            opacity: 0.8;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: var(--transition);
         }
-
-        /* استایل‌های مخصوص برای بخش‌های مختلف */
-        .ai-tools .tool-btn {
-            background: linear-gradient(145deg, rgba(255, 107, 107, 0.8), rgba(255, 107, 107, 0.6));
+        
+        .button-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
         }
-
-        .websites .tool-btn {
-            background: linear-gradient(145deg, rgba(78, 205, 196, 0.8), rgba(78, 205, 196, 0.6));
+        
+        .button-item:hover::before {
+            height: 100%;
+            opacity: 0.05;
         }
-
-        .programming .tool-btn {
-            background: linear-gradient(145deg, rgba(255, 209, 102, 0.8), rgba(255, 209, 102, 0.6));
+        
+        .button-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            z-index: 1;
         }
-
-        .news .tool-btn {
-            background: linear-gradient(145deg, rgba(6, 214, 160, 0.8), rgba(6, 214, 160, 0.6));
+        
+        .button-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 1;
+            line-height: 1.4;
         }
-
-        /* لودینگ */
-        .loading-screen {
+        
+        /* لودینگ دکمه */
+        .button-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        
+        .button-loading.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .spinner {
+            width: 25px;
+            height: 25px;
+            border: 3px solid #f1f5f9;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* لودینگ صفحه */
+        .page-loading {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.5s ease;
         }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader {
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top: 2px solid white;
+        
+        .page-loader {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 10px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-top: 5px solid white;
+            border-right: 5px solid white;
+            animation: spin 1.5s linear infinite;
+            margin-bottom: 20px;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 12px;
-            font-weight: 600;
+        
+        .page-loading-text {
             color: white;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        /* فوتوتر */
+        .footer {
             text-align: center;
+            color: var(--gray-color);
+            padding: 20px;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
         }
-
-        /* مودال پیام */
-        .announcement-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 15px;
-        }
-
-        .announcement-modal.active {
-            display: flex;
-        }
-
-        .modal-card {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius-md);
-            padding: 15px;
-            max-width: 250px;
-            width: 100%;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--accent);
-        }
-
+        
         /* رسپانسیو */
-        @media (max-width: 380px) {
-            .grid {
+        @media (max-width: 1200px) {
+            .buttons-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 5px;
-            }
-            
-            .main-btn {
-                min-height: 60px;
-                padding: 7px 3px;
-                gap: 4px;
-            }
-            
-            .tool-btn {
-                min-height: 54px;
-                padding: 5px 2px;
-                gap: 3px;
-            }
-            
-            .btn-icon {
-                width: 24px;
-                height: 24px;
-                font-size: 12px;
-            }
-            
-            .tool-btn .btn-icon {
-                width: 22px;
-                height: 22px;
-                font-size: 11px;
-            }
-            
-            .btn-text {
-                font-size: 8px;
-            }
-            
-            .tool-btn .btn-text {
-                font-size: 7px;
-            }
-            
-            .app-content {
-                padding: 8px;
             }
         }
-
-        @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: repeat(6, 1fr);
-                gap: 8px;
+        
+        @media (max-width: 992px) {
+            .sections-container {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
-
-        /* ارتفاع دینامیک برای iOS */
-        @supports (-webkit-touch-callout: none) {
-            .app-container {
-                height: -webkit-fill-available;
+        
+        @media (max-width: 768px) {
+            .buttons-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
+            
+            .sections-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-controls {
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .info-panel {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-panel {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-selector {
+                justify-content: center;
+            }
+        }
+        
+        /* جلوگیری از زوم */
+        body {
+            touch-action: pan-x pan-y;
+        }
+        
+        /* انیمیشن ورود */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        /* استایل برای ویرایش متن دکمه‌ها */
+        .editable-text {
+            cursor: pointer;
+            position: relative;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        .editable-text:hover {
+            background: #f1f5f9;
+        }
+        
+        .editable-text:hover::after {
+            content: '✏️';
+            position: absolute;
+            right: -20px;
+            font-size: 0.7rem;
         }
     </style>
 </head>
-<body>
-    <!-- لودینگ -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loader"></div>
-        <div class="loading-text">در حال بارگذاری...</div>
+<body class="theme-purple">
+    <!-- لودینگ صفحه -->
+    <div class="page-loading" id="pageLoading">
+        <div class="page-loader"></div>
+        <div class="page-loading-text">در حال بارگذاری داشبورد...</div>
     </div>
-
-    <!-- پیام همگانی -->
+    
+    <!-- پیام همگانی - فقط یکبار نمایش داده می‌شود -->
     <div class="announcement-modal" id="announcementModal">
-        <div class="modal-card">
-            <div style="text-align: center; margin-bottom: 12px;">
-                <div style="width: 35px; height: 35px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), var(--primary)); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; color: white; font-size: 14px;">
+        <div class="announcement-card">
+            <div class="announcement-header">
+                <div class="announcement-icon">
                     <i class="fas fa-bullhorn"></i>
                 </div>
-                <h3 style="font-size: 13px; font-weight: 700; margin-bottom: 4px; color: white;">به روزرسانی سیستم</h3>
-                <p style="font-size: 10px; color: rgba(255, 255, 255, 0.9); line-height: 1.3;">
-                    خوش آمدید! امکان گوگل مپ با تنظیمات دقیق در این اپلیکیشن پیاده‌سازی شده است.
-                </p>
+                <div class="announcement-title">پیام همگانی مهم</div>
             </div>
-            <div style="display: flex; gap: 5px;">
-                <button id="announcementLater" style="flex: 1; padding: 5px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.15); color: #000000; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 10px; backdrop-filter: blur(10px);">
-                    بعداً
-                </button>
-                <button id="announcementClose" style="flex: 1; padding: 5px; border-radius: 6px; border: none; background: linear-gradient(135deg, var(--accent), var(--primary)); color: white; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 10px; box-shadow: 0 2px 8px rgba(255, 209, 102, 0.3);">
-                    متوجه شدم
-                </button>
+            <div class="announcement-text" id="announcementText">
+                امروز سرویس‌های پشتیبان‌گیری به مدت ۲ ساعت از ساعت ۲ بامداد غیرفعال خواهند بود. لطفا کارهای خود را قبل از این زمان ذخیره کنید. با تشکر از همکاری شما.
             </div>
+            <button class="close-announcement" id="closeAnnouncement">
+                متوجه شدم، بستن
+            </button>
         </div>
     </div>
-
-    <!-- کانتینر اصلی -->
-    <div class="app-container">
-        <!-- هدر -->
-        <header class="app-header">
-            <div class="status-bar">
-                <div>
-                    <span class="date-display" id="currentDate">سه‌شنبه ۳ دی ۱۴۰۳</span>
-                    <span class="time-display" id="currentTime">۱۴:۳۰</span>
-                </div>
-                <div class="weather-info">
-                    <span class="weather-icon" id="weatherIcon">🌤</span>
-                    <span id="weatherText">آلوده نیست</span>
-                </div>
-                <div style="font-size: 9px;">همه بوم</div>
+    
+    <div class="container">
+        <!-- هدر و کنترل‌های تم -->
+        <div class="header-controls fade-in" style="animation-delay: 0.1s">
+            <div class="header-title">داشبورد هوشمند</div>
+            <div class="theme-selector">
+                <div class="theme-btn theme-blue-btn active" data-theme="theme-blue" title="تم آبی"></div>
+                <div class="theme-btn theme-purple-btn" data-theme="theme-purple" title="تم بنفش"></div>
+                <div class="theme-btn theme-teal-btn" data-theme="theme-teal" title="تم فیروزه‌ای"></div>
+                <div class="theme-btn theme-rose-btn" data-theme="theme-rose" title="تم صورتی"></div>
+                <div class="theme-btn theme-amber-btn" data-theme="theme-amber" title="تم نارنجی"></div>
             </div>
-
-            <!-- دکمه تغییر تم -->
-            <button class="theme-toggle" id="themeToggleBtn">
-                <i class="fas fa-moon"></i>
-            </button>
-
-            <div class="header-content">
-                <h1 class="app-title">مدیریت مالی</h1>
-                <p class="app-subtitle">پلتفرم همه بوم امکانات پیشرفته</p>
+        </div>
+        
+        <!-- پنل اطلاعات بالا -->
+        <div class="info-panel fade-in" style="animation-delay: 0.2s">
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+                <div class="info-text">
+                    <div class="info-value" id="currentDate">--/--/----</div>
+                    <div class="info-label">تاریخ امروز</div>
+                </div>
             </div>
-        </header>
-
-        <!-- محتوای اصلی با اسکرول -->
-        <main class="app-content">
-            <!-- ۶ دکمه اصلی -->
-            <div class="section">
+            
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="far fa-clock"></i>
+                </div>
+                <div class="info-text">
+                    <div class="info-value" id="currentTime">--:--:--</div>
+                    <div class="info-label">ساعت دقیق</div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <div class="info-text">
+                    <div class="info-value" id="airQuality">---</div>
+                    <div class="info-label">کیفیت هوا</div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <div class="info-text">
+                    <div class="info-value" id="temperature">--°C</div>
+                    <div class="info-label">دمای فعلی</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- بخش‌های دکمه‌ها -->
+        <div class="sections-container">
+            <!-- بخش اول: ابزارهای کاربردی -->
+            <div class="section fade-in" style="animation-delay: 0.3s">
                 <div class="section-header">
-                    <div class="section-title">
-                        <i class="fas fa-th-large"></i>
-                        امکانات اصلی
-                    </div>
-                    <div class="section-badge">۶ بخش</div>
-                </div>
-                
-                <div class="grid">
-                    <a href="m4.html" class="main-btn" onclick="handleNavigation(event, 'm4.html')">
-                        <div class="btn-icon">💰</div>
-                        <div class="btn-text">مدیریت مالی</div>
-                    </a>
-                    
-                    <a href="m2.html" class="main-btn" onclick="handleNavigation(event, 'm2.html')">
-                        <div class="btn-icon">⏳️</div>
-                        <div class="btn-text">تولید</div>
-                    </a>
-                    
-                    <a href="m3.html" class="main-btn" onclick="handleNavigation(event, 'm3.html')">
-                        <div class="btn-icon">👥</div>
-                        <div class="btn-text">کارمندان</div>
-                    </a>
-                    
-                    <a href="m5.html" class="main-btn" onclick="handleNavigation(event, 'm5.html')">
-                        <div class="btn-icon">🧮</div>
-                        <div class="btn-text">مالیات</div>
-                    </a>
-                    
-                    <a href="m6.html" class="main-btn" onclick="handleNavigation(event, 'm6.html')">
-                        <div class="btn-icon">📄</div>
-                        <div class="btn-text">فاکتور</div>
-                    </a>
-                    
-                    <a href="m7.html" class="main-btn" onclick="handleNavigation(event, 'm7.html')">
-                        <div class="btn-icon">📝</div>
-                        <div class="btn-text">مدیریت چک</div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- ۴ ابزار کاربردی -->
-            <div class="section">
-                <div class="section-header">
-                    <div class="section-title">
+                    <div class="section-icon">
                         <i class="fas fa-tools"></i>
-                        ابزارهای کاربردی
                     </div>
-                    <div class="section-badge">۴ بخش</div>
+                    <div class="section-title">ابزارهای کاربردی</div>
                 </div>
-                
-                <div class="grid">
-                    <a href="y4.html" class="tool-btn" onclick="handleNavigation(event, 'y4.html')">
-                        <div class="btn-icon">📱</div>
-                        <div class="btn-text">اپلیکیشن سازی</div>
-                    </a>
-                    
-                    <a href="y1.html" class="tool-btn" onclick="handleNavigation(event, 'y1.html')">
-                        <div class="btn-icon">🎨</div>
-                        <div class="btn-text">پالت رنگ</div>
-                    </a>
-                    
-                    <a href="y2.html" class="tool-btn" onclick="handleNavigation(event, 'y2.html')">
-                        <div class="btn-icon">🧮</div>
-                        <div class="btn-text">ماشین حساب</div>
-                    </a>
-                    
-                    <a href="y3.html" class="tool-btn" onclick="handleNavigation(event, 'y3.html')">
-                        <div class="btn-icon">🔄</div>
-                        <div class="btn-text">تقویم</div>
-                    </a>
+                <div class="buttons-grid" id="toolsSection">
+                    <!-- دکمه‌ها اینجا اضافه می‌شوند -->
                 </div>
             </div>
-
-            <!-- ۴ ابزار هوش مصنوعی -->
-            <div class="section ai-tools">
+            
+            <!-- بخش دوم: اخبار و اطلاعات -->
+            <div class="section fade-in" style="animation-delay: 0.4s">
                 <div class="section-header">
-                    <div class="section-title">
-                        <i class="fas fa-brain"></i>
-                        ابزارهای هوش مصنوعی
+                    <div class="section-icon">
+                        <i class="far fa-newspaper"></i>
                     </div>
-                    <div class="section-badge">۴ بخش</div>
+                    <div class="section-title">اخبار و اطلاعات</div>
                 </div>
-                
-                <div class="grid">
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">🤖</div>
-                        <div class="btn-text">هوش مصنوعی ۱</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">🧠</div>
-                        <div class="btn-text">هوش مصنوعی ۲</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">⚡</div>
-                        <div class="btn-text">هوش مصنوعی ۳</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">🔮</div>
-                        <div class="btn-text">هوش مصنوعی ۴</div>
-                    </a>
+                <div class="buttons-grid" id="newsSection">
+                    <!-- دکمه‌ها اینجا اضافه می‌شوند -->
                 </div>
             </div>
-
-            <!-- ۴ سایت های کاربردی -->
-            <div class="section websites">
+            
+            <!-- بخش سوم: برنامه نویسی -->
+            <div class="section fade-in" style="animation-delay: 0.5s">
                 <div class="section-header">
-                    <div class="section-title">
-                        <i class="fas fa-globe"></i>
-                        سایت های کاربردی
-                    </div>
-                    <div class="section-badge">۴ بخش</div>
-                </div>
-                
-                <div class="grid">
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">🌐</div>
-                        <div class="btn-text">سایت کاربردی ۱</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">🔗</div>
-                        <div class="btn-text">سایت کاربردی ۲</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">📊</div>
-                        <div class="btn-text">سایت کاربردی ۳</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">📈</div>
-                        <div class="btn-text">سایت کاربردی ۴</div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- ۴ ابزار برنامه نویسی -->
-            <div class="section programming">
-                <div class="section-header">
-                    <div class="section-title">
+                    <div class="section-icon">
                         <i class="fas fa-code"></i>
-                        ابزارهای برنامه نویسی
                     </div>
-                    <div class="section-badge">۴ بخش</div>
+                    <div class="section-title">برنامه نویسی</div>
                 </div>
-                
-                <div class="grid">
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">💻</div>
-                        <div class="btn-text">برنامه نویسی ۱</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">🔧</div>
-                        <div class="btn-text">برنامه نویسی ۲</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">⚙️</div>
-                        <div class="btn-text">برنامه نویسی ۳</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">🛠️</div>
-                        <div class="btn-text">برنامه نویسی ۴</div>
-                    </a>
+                <div class="buttons-grid" id="programmingSection">
+                    <!-- دکمه‌ها اینجا اضافه می‌شوند -->
                 </div>
             </div>
-
-            <!-- ۴ اخبار کاربردی -->
-            <div class="section news">
+            
+            <!-- بخش چهارم: هوش مصنوعی -->
+            <div class="section fade-in" style="animation-delay: 0.6s">
                 <div class="section-header">
-                    <div class="section-title">
-                        <i class="fas fa-newspaper"></i>
-                        اخبار های کاربردی
+                    <div class="section-icon">
+                        <i class="fas fa-robot"></i>
                     </div>
-                    <div class="section-badge">۴ بخش</div>
+                    <div class="section-title">هوش مصنوعی</div>
                 </div>
-                
-                <div class="grid">
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">📰</div>
-                        <div class="btn-text">اخبار کاربردی ۱</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">🗞️</div>
-                        <div class="btn-text">اخبار کاربردی ۲</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">📑</div>
-                        <div class="btn-text">اخبار کاربردی ۳</div>
-                    </a>
-                    
-                    <a href="mkl.html" class="tool-btn" onclick="handleNavigation(event, 'mkl.html')">
-                        <div class="btn-icon">📋</div>
-                        <div class="btn-text">اخبار کاربردی ۴</div>
-                    </a>
+                <div class="buttons-grid" id="aiSection">
+                    <!-- دکمه‌ها اینجا اضافه می‌شوند -->
                 </div>
             </div>
-        </main>
+            
+            <!-- بخش پنجم: سایت های کاربردی -->
+            <div class="section fade-in" style="animation-delay: 0.7s">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="section-title">سایت های کاربردی</div>
+                </div>
+                <div class="buttons-grid" id="websitesSection">
+                    <!-- دکمه‌ها اینجا اضافه می‌شوند -->
+                </div>
+            </div>
+            
+            <!-- بخش ششم: ابزارهای پیشرفته -->
+            <div class="section fade-in" style="animation-delay: 0.8s">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div class="section-title">ابزارهای پیشرفته</div>
+                </div>
+                <div class="buttons-grid" id="advancedToolsSection">
+                    <!-- دکمه‌ها اینجا اضافه می‌شوند -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- فوتوتر -->
+        <div class="footer fade-in" style="animation-delay: 0.9s">
+            <p>داشبورد مدرن - طراحی شده با جدیدترین استانداردهای رابط کاربری</p>
+            <p>© 2023 - تمامی حقوق محفوظ است</p>
+        </div>
     </div>
-
+    
     <script>
-        // مدیریت لودینگ
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    checkAnnouncement();
-                    updateWeatherStatus();
-                    loadThemePreference();
-                }, 300);
-            }, 1000);
-        });
-
-        // مدیریت تغییر تم
-        let isDarkTheme = true;
-        const themeToggleBtn = document.getElementById('themeToggleBtn');
-        const themeIcon = themeToggleBtn.querySelector('i');
+        // ذخیره تم انتخابی در localStorage
+        const savedTheme = localStorage.getItem('selectedTheme') || 'theme-purple';
+        document.body.className = savedTheme;
         
-        function loadThemePreference() {
-            const savedTheme = localStorage.getItem('themePreference');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-theme');
-                isDarkTheme = false;
-                themeIcon.className = 'fas fa-sun';
-            } else {
-                isDarkTheme = true;
-                themeIcon.className = 'fas fa-moon';
-            }
-        }
-        
-        themeToggleBtn.addEventListener('click', function() {
-            isDarkTheme = !isDarkTheme;
-            document.body.classList.toggle('light-theme', !isDarkTheme);
-            themeIcon.className = isDarkTheme ? 'fas fa-moon' : 'fas fa-sun';
-            localStorage.setItem('themePreference', isDarkTheme ? 'dark' : 'light');
-        });
-
-        // مدیریت ناوبری
-        function handleNavigation(event, targetUrl) {
-            event.preventDefault();
+        // مخفی کردن لودینگ صفحه
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // آپدیت تاریخ و ساعت
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
             
-            const loadingScreen = document.getElementById('loadingScreen');
-            loadingScreen.style.display = 'flex';
-            loadingScreen.classList.remove('hidden');
+            // آپدیت کیفیت هوا و دما
+            updateWeatherInfo();
+            setInterval(updateWeatherInfo, 60000); // هر دقیقه آپدیت شود
             
+            // ایجاد دکمه‌ها برای هر بخش
+            createButtons();
+            
+            // نمایش پیام همگانی (فقط اگر قبلا دیده نشده)
+            showAnnouncementIfNeeded();
+            
+            // مخفی کردن لودینگ پس از ایجاد محتوا
             setTimeout(() => {
-                loadingScreen.classList.add('hidden');
+                document.getElementById('pageLoading').style.opacity = '0';
                 setTimeout(() => {
-                    loadingScreen.style.display = 'none';
+                    document.getElementById('pageLoading').style.display = 'none';
                     
-                    if (targetUrl.startsWith('http')) {
-                        window.open(targetUrl, '_blank');
-                    } else {
-                        window.location.href = targetUrl;
-                    }
-                }, 200);
-            }, 500);
-        }
-
-        // مدیریت زمان و تاریخ
+                    // نمایش انیمیشن ورود المان‌ها
+                    const fadeElements = document.querySelectorAll('.fade-in');
+                    fadeElements.forEach(el => {
+                        el.style.animationPlayState = 'running';
+                    });
+                }, 500);
+            }, 1200);
+        });
+        
+        // تابع آپدیت تاریخ و ساعت
         function updateDateTime() {
             const now = new Date();
             
-            const timeString = now.toLocaleTimeString('fa-IR', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: false 
-            });
-            document.getElementById('currentTime').textContent = timeString;
+            // تاریخ
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const persianDate = now.toLocaleDateString('fa-IR', dateOptions);
+            document.getElementById('currentDate').textContent = persianDate;
             
-            const dateString = now.toLocaleDateString('fa-IR', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            document.getElementById('currentDate').textContent = dateString;
+            // ساعت
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const persianTime = now.toLocaleTimeString('fa-IR', timeOptions);
+            document.getElementById('currentTime').textContent = persianTime;
         }
-
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
-
-        // مدیریت وضعیت هوا
-        function updateWeatherStatus() {
-            const weatherIcon = document.getElementById('weatherIcon');
-            const weatherText = document.getElementById('weatherText');
+        
+        // تابع آپدیت کیفیت هوا و دما
+        function updateWeatherInfo() {
+            // کیفیت هوا (مقدار تصادفی برای نمایش)
+            const airQualityLevels = ['پاک', 'قابل قبول', 'ناسالم', 'بسیار ناسالم'];
+            const randomAirQuality = airQualityLevels[Math.floor(Math.random() * airQualityLevels.length)];
+            document.getElementById('airQuality').textContent = randomAirQuality;
             
-            const airQualityLevel = Math.random();
+            // دما (مقدار تصادفی برای نمایش)
+            const randomTemp = Math.floor(Math.random() * 15) + 15; // بین ۱۵ تا ۳۰ درجه
+            document.getElementById('temperature').textContent = `${randomTemp}°C`;
+        }
+        
+        // تابع ایجاد دکمه‌ها
+        function createButtons() {
+            // داده‌های دکمه‌ها
+            const buttonData = {
+                tools: [
+                    { id: 1, name: 'ماشین حساب', icon: 'fas fa-calculator', link: 'm1.html' },
+                    { id: 2, name: 'تقویم', icon: 'far fa-calendar', link: 'm2.html' },
+                    { id: 3, name: 'تبدیل واحد', icon: 'fas fa-exchange-alt', link: 'm3.html' },
+                    { id: 4, name: 'نوت‌برداری', icon: 'fas fa-sticky-note', link: 'm4.html' }
+                ],
+                news: [
+                    { id: 5, name: 'اخبار فناوری', icon: 'fas fa-microchip', link: 'm5.html' },
+                    { id: 6, name: 'اقتصادی', icon: 'fas fa-chart-line', link: 'm6.html' },
+                    { id: 7, name: 'ورزشی', icon: 'fas fa-futbol', link: 'm7.html' },
+                    { id: 8, name: 'بین‌الملل', icon: 'fas fa-globe-americas', link: 'm8.html' }
+                ],
+                programming: [
+                    { id: 9, name: 'جاوااسکریپت', icon: 'fab fa-js', link: 'm9.html' },
+                    { id: 10, name: 'پایتون', icon: 'fab fa-python', link: 'm10.html' },
+                    { id: 11, name: 'گیت‌هاب', icon: 'fab fa-github', link: 'm11.html' },
+                    { id: 12, name: 'داکر', icon: 'fab fa-docker', link: 'm12.html' }
+                ],
+                ai: [
+                    { id: 13, name: 'چت بات', icon: 'fas fa-comments', link: 'm13.html' },
+                    { id: 14, name: 'پردازش تصویر', icon: 'fas fa-image', link: 'm14.html' },
+                    { id: 15, name: 'تشخیص گفتار', icon: 'fas fa-microphone', link: 'm15.html' },
+                    { id: 16, name: 'یادگیری ماشین', icon: 'fas fa-brain', link: 'm16.html' }
+                ],
+                websites: [
+                    { id: 17, name: 'جستجوگر', icon: 'fas fa-search', link: 'm17.html' },
+                    { id: 18, name: 'ایمیل', icon: 'far fa-envelope', link: 'm18.html' },
+                    { id: 19, name: 'ذخیره ابری', icon: 'fas fa-cloud', link: 'm19.html' },
+                    { id: 20, name: 'ویدیو', icon: 'fas fa-video', link: 'm20.html' }
+                ],
+                advancedTools: [
+                    { id: 21, name: 'آنالیز داده', icon: 'fas fa-chart-bar', link: 'm21.html' },
+                    { id: 22, name: 'رمزگذاری', icon: 'fas fa-lock', link: 'm22.html' },
+                    { id: 23, name: 'دیباگر', icon: 'fas fa-bug', link: 'm23.html' },
+                    { id: 24, name: 'API تستر', icon: 'fas fa-network-wired', link: 'm24.html' },
+                    { id: 25, name: 'برنامه‌ریزی', icon: 'fas fa-tasks', link: 'm25.html' },
+                    { id: 26, name: 'همکاری', icon: 'fas fa-users', link: 'm26.html' },
+                    { id: 27, name: 'پشتیبان', icon: 'fas fa-hdd', link: 'm27.html' },
+                    { id: 28, name: 'تنظیمات', icon: 'fas fa-cog', link: 'm28.html' }
+                ]
+            };
             
-            if (airQualityLevel > 0.7) {
-                weatherIcon.textContent = '🌤';
-                weatherText.textContent = 'آلوده نیست';
-            } else if (airQualityLevel > 0.3) {
-                weatherIcon.textContent = '🌫';
-                weatherText.textContent = 'متوسط';
-            } else {
-                weatherIcon.textContent = '🌪';
-                weatherText.textContent = 'آلوده هست';
+            // ایجاد دکمه‌ها برای هر بخش
+            createSectionButtons('toolsSection', buttonData.tools);
+            createSectionButtons('newsSection', buttonData.news);
+            createSectionButtons('programmingSection', buttonData.programming);
+            createSectionButtons('aiSection', buttonData.ai);
+            createSectionButtons('websitesSection', buttonData.websites);
+            createSectionButtons('advancedToolsSection', buttonData.advancedTools);
+            
+            // فعال‌سازی قابلیت ویرایش متن دکمه‌ها
+            enableButtonTextEditing();
+            
+            // فعال‌سازی انتخاب تم
+            enableThemeSelection();
+        }
+        
+        // تابع ایجاد دکمه‌ها برای هر بخش
+        function createSectionButtons(sectionId, buttons) {
+            const section = document.getElementById(sectionId);
+            
+            buttons.forEach(button => {
+                const buttonElement = document.createElement('a');
+                buttonElement.href = button.link;
+                buttonElement.className = 'button-item';
+                buttonElement.dataset.id = button.id;
+                
+                buttonElement.innerHTML = `
+                    <div class="button-icon">
+                        <i class="${button.icon}"></i>
+                    </div>
+                    <div class="button-text editable-text" data-id="${button.id}">${button.name}</div>
+                    <div class="button-loading">
+                        <div class="spinner"></div>
+                    </div>
+                `;
+                
+                // افزودن رویداد کلیک برای نمایش لودینگ و باز کردن فایل
+                buttonElement.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const loading = this.querySelector('.button-loading');
+                    const fileLink = this.getAttribute('href');
+                    
+                    // نمایش لودینگ
+                    loading.classList.add('active');
+                    
+                    // پس از 500 میلی‌ثانیه مستقیماً فایل را باز کن
+                    setTimeout(() => {
+                        window.location.href = fileLink;
+                    }, 500);
+                });
+                
+                section.appendChild(buttonElement);
+            });
+        }
+        
+        // تابع فعال‌سازی قابلیت ویرایش متن دکمه‌ها
+        function enableButtonTextEditing() {
+            const editableTexts = document.querySelectorAll('.editable-text');
+            
+            editableTexts.forEach(textElement => {
+                textElement.addEventListener('click', function(e) {
+                    e.stopPropagation(); // جلوگیری از اجرای رویداد کلیک دکمه
+                    
+                    const currentText = this.textContent;
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = currentText;
+                    input.style.width = '100%';
+                    input.style.textAlign = 'center';
+                    input.style.fontSize = 'inherit';
+                    input.style.fontWeight = 'inherit';
+                    input.style.border = '1px solid var(--primary-color)';
+                    input.style.borderRadius = '4px';
+                    input.style.padding = '2px';
+                    input.style.background = 'white';
+                    
+                    // جایگزینی متن با فیلد ورودی
+                    this.textContent = '';
+                    this.appendChild(input);
+                    input.focus();
+                    input.select();
+                    
+                    // ذخیره تغییرات هنگام فشار دادن Enter
+                    input.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            const newText = this.value.trim();
+                            if (newText) {
+                                textElement.textContent = newText;
+                                // ذخیره در localStorage
+                                saveButtonText(textElement.dataset.id, newText);
+                            } else {
+                                textElement.textContent = currentText;
+                            }
+                        }
+                        
+                        // لغو تغییرات با Escape
+                        if (e.key === 'Escape') {
+                            textElement.textContent = currentText;
+                        }
+                    });
+                    
+                    // لغو تغییرات هنگام از دست دادن فوکوس
+                    input.addEventListener('blur', function() {
+                        const newText = this.value.trim();
+                        if (newText && newText !== currentText) {
+                            textElement.textContent = newText;
+                            saveButtonText(textElement.dataset.id, newText);
+                        } else {
+                            textElement.textContent = currentText;
+                        }
+                    });
+                });
+            });
+        }
+        
+        // تابع ذخیره متن دکمه در localStorage
+        function saveButtonText(buttonId, text) {
+            const savedButtons = JSON.parse(localStorage.getItem('buttonTexts') || '{}');
+            savedButtons[buttonId] = text;
+            localStorage.setItem('buttonTexts', JSON.stringify(savedButtons));
+            console.log(`متن دکمه ${buttonId} ذخیره شد: ${text}`);
+        }
+        
+        // تابع بارگذاری متن دکمه از localStorage
+        function loadButtonText(buttonId, defaultText) {
+            const savedButtons = JSON.parse(localStorage.getItem('buttonTexts') || '{}');
+            return savedButtons[buttonId] || defaultText;
+        }
+        
+        // تابع فعال‌سازی انتخاب تم
+        function enableThemeSelection() {
+            const themeButtons = document.querySelectorAll('.theme-btn');
+            
+            themeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const theme = this.getAttribute('data-theme');
+                    
+                    // حذف کلاس active از همه دکمه‌ها
+                    themeButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // اضافه کردن کلاس active به دکمه انتخاب شده
+                    this.classList.add('active');
+                    
+                    // اعمال تم انتخاب شده
+                    document.body.className = theme;
+                    
+                    // ذخیره تم در localStorage
+                    localStorage.setItem('selectedTheme', theme);
+                });
+            });
+            
+            // فعال کردن دکمه تم ذخیره شده
+            const activeThemeBtn = document.querySelector(`.theme-btn[data-theme="${savedTheme}"]`);
+            if (activeThemeBtn) {
+                activeThemeBtn.classList.add('active');
             }
         }
-
-        // مدیریت پیام همگانی
-        function checkAnnouncement() {
-            const lastShown = localStorage.getItem('announcementLastShown');
-            const now = new Date().getTime();
-            const oneDay = 24 * 60 * 60 * 1000;
+        
+        // تابع نمایش پیام همگانی (فقط یکبار)
+        function showAnnouncementIfNeeded() {
+            const lastSeen = localStorage.getItem('announcementLastSeen');
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000; // 24 ساعت در میلی‌ثانیه
             
-            if (!lastShown || (now - parseInt(lastShown)) > oneDay) {
+            // اگر پیام قبلا دیده نشده یا بیش از 24 ساعت گذشته
+            if (!lastSeen || (now - parseInt(lastSeen)) > oneDay) {
                 setTimeout(() => {
-                    const modal = document.getElementById('announcementModal');
-                    if (modal) {
-                        modal.classList.add('active');
-                    }
-                }, 800);
+                    document.getElementById('announcementModal').classList.add('active');
+                }, 1500);
             }
+            
+            // رویداد بستن پیام
+            document.getElementById('closeAnnouncement').addEventListener('click', function() {
+                document.getElementById('announcementModal').classList.remove('active');
+                localStorage.setItem('announcementLastSeen', now.toString());
+            });
         }
-
-        // بستن پیام همگانی
-        document.addEventListener('DOMContentLoaded', function() {
-            const closeBtn = document.getElementById('announcementClose');
-            const laterBtn = document.getElementById('announcementLater');
-            const modal = document.getElementById('announcementModal');
-            
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    if (modal) {
-                        modal.classList.remove('active');
-                        localStorage.setItem('announcementLastShown', new Date().getTime().toString());
-                    }
-                });
-            }
-            
-            if (laterBtn) {
-                laterBtn.addEventListener('click', function() {
-                    if (modal) {
-                        modal.classList.remove('active');
-                        localStorage.setItem('announcementLastShown', new Date().getTime().toString());
-                    }
-                });
-            }
+        
+        // جلوگیری از زوم در صفحه‌نمایش‌های لمسی
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
         });
-
-        // جلوگیری از زوم
-        document.addEventListener('touchstart', function(event) {
-            if (event.touches.length > 1) {
+        
+        // جلوگیری از دوبار کلیک برای زوم
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
                 event.preventDefault();
             }
-        }, { passive: false });
-
-        // انیمیشن ورود بخش‌ها
-        setTimeout(() => {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach((section, index) => {
-                setTimeout(() => {
-                    section.style.opacity = '1';
-                    section.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
-        }, 300);
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
